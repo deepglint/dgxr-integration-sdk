@@ -1,18 +1,18 @@
 package main
 
 import (
+	"meta/config"
 	"meta/global"
-	"meta/model"
 	"meta/servers/grpc"
 	"meta/servers/ws"
 )
 
 func main() {
-	q := model.InitQueue(30)
-	model.FrameQ = q
-	global.ActionChan = make(chan global.Action, 10)
+	config.InitConfig("./config")
+	global.InitSources()
+	// TODO vjoy
+	global.InitVjoy()
+	go games.InitGames()
 	go ws.InitServer()
 	grpc.Grpc()
-	// apps.ActionWs2()
-	// apps.ActionWsConductor()
 }

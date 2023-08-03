@@ -3,8 +3,11 @@ package grpc
 import (
 	"context"
 	"encoding/json"
+	"fmt"
+	"math"
 
-	"meta/model"
+	"meta/common/models/sources"
+	"meta/global"
 	pb "meta/servers/grpc/proto"
 
 	"log"
@@ -60,22 +63,32 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 	if data, err := json.Marshal(message); err == nil {
 		go saveRequest(data)
 	}
-
+	if len(req.Result) == 0 {
+		global.Sources = map[string]*sources.Source{}
+	}
 	for k, v := range req.Result {
 		if k == "999001" && len(v.ThreeDim) > 0 {
-			if person == "" {
-				// TODO判断每一个人是否举手，如果举手则作为识别人员
-				for k, _ := range v.ThreeDim {
-					person = k
-					break
+			// 删除离开的人员
+			for id, _ := range global.Sources {
+				if _, ok := v.ThreeDim[id]; !ok {
+					delete(global.Sources, id)
 				}
 			}
-			if _, ok := v.ThreeDim[person]; ok {
-				model.FrameQ.Enqueue(*v.ThreeDim[person])
-				go model.FrameQ.Jump(v.ThreeDim[person], req.FrameId, person, time.Now().UnixMilli())
-			} else {
-				person = ""
-				// TODO未识别到操作人员
+			// 数据添加到数据源
+			for id, data := range v.ThreeDim {
+				obj := sources.SourceData{
+					Objs: [][]float64{},
+				}
+				for _, v := range data.Objs {
+					obj.Objs = append(obj.Objs, []float64{float64(v.Value[0]), float64(v.Value[1]), float64(v.Value[2])})
+				}
+				if value, ok := global.Sources[id]; ok {
+					value.Enqueue(obj)
+				} else {
+					source := *sources.InitSource(global.Config.Source.Cap)
+					source.Enqueue(obj)
+					global.Sources[id] = &source
+				}
 			}
 		}
 	}
@@ -89,9 +102,8 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 }
 
 func Grpc() {
-	// go pb.Client1()
 	// 监听的地址和端口
-	listenAddress := "0.0.0.0:50051" // 替换为实际的监听地址和端口
+	listenAddress := fmt.Sprintf("%s:%s", global.Config.Source.Grpc.Host, global.Config.Source.Grpc.Port) // 替换为实际的监听地址和端口
 
 	// 创建 gRPC 服务器
 	lis, err := net.Listen("tcp", listenAddress)
@@ -110,4 +122,35 @@ func Grpc() {
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("无法启动服务器：%v", err)
 	}
+}
+
+// 高斯滤波器函数
+func gaussianFilter(data []float64, sigma float64) []float64 {
+	size := len(data)
+	filteredData := make([]float64, size)
+
+	// 计算高斯核权重
+	kernel := make([]float64, 2*size-1)
+	sum := 0.0
+	for i := range kernel {
+		x := float64(i - size + 1)
+		kernel[i] = math.Exp(-x*x/(2*sigma*sigma)) / (math.Sqrt(2*math.Pi) * sigma)
+		sum += kernel[i]
+	}
+
+	// 归一化高斯核权重
+	for i := range kernel {
+		kernel[i] /= sum
+	}
+
+	// 应用高斯滤波器
+	for i := range data {
+		for j, k := 0, size-1; j < len(kernel); j, k = j+1, k-1 {
+			if i+k >= 0 && i+k < size {
+				filteredData[i] += data[i+k] * kernel[j]
+			}
+		}
+	}
+
+	return filteredData
 }
