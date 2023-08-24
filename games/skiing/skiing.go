@@ -3,10 +3,9 @@ package skiing
 import (
 	"math"
 
-	"meta/common/models/games"
-	"meta/common/models/sources"
-	"meta/devices/vjoy/joystick"
 	"meta/global"
+	games "meta/model/game"
+	sources "meta/model/source"
 
 	"github.com/sirupsen/logrus"
 )
@@ -22,7 +21,7 @@ func StartGame(source *sources.Source) bool {
 	if angleLeft > global.Config.Games.Skiing.MinElbowAngle && angleRight > global.Config.Games.Skiing.MinElbowAngle && angleLeft < global.Config.Games.Skiing.MaxElbowAngle && angleRight < global.Config.Games.Skiing.MaxElbowAngle && obj.Objs[5][1]-obj.Objs[22][1] > 0.25 && obj.Objs[5][1]-obj.Objs[23][1] > 0.25 {
 		global.Games.SetGamesSource(games.Skiing, obj)
 		// TODO vjoy
-		global.Button(1)
+		// global.Button(1)
 		return true
 	}
 	return false
@@ -61,25 +60,25 @@ func Skiing(personId string) {
 			if LeftShoulder.X-RightShoulder.X > global.Config.Games.Skiing.ShoulderWidth && degree > global.Config.Games.Skiing.TiltAngle {
 				if LeftShoulder.Z < RightShoulder.Z {
 					// TODO vjoy
-					if global.VJoy != nil {
-						global.VJoy.Axis(joystick.AxisX).Setf(-1)
-						global.VJoy.Update()
-					}
+					// if global.VJoy != nil {
+					// 	global.VJoy.Axis(joystick.AxisX).Setf(-1)
+					// 	global.VJoy.Update()
+					// }
 					logrus.Info("========left===========")
 				} else {
 					// TODO vjoy
-					if global.VJoy != nil {
-						global.VJoy.Axis(joystick.AxisX).Setf(1)
-						global.VJoy.Update()
-					}
+					// if global.VJoy != nil {
+					// 	global.VJoy.Axis(joystick.AxisX).Setf(1)
+					// 	global.VJoy.Update()
+					// }
 					logrus.Info("========right===========")
 				}
 			} else {
 				// TODO vjoy
-				if global.VJoy != nil {
-					global.VJoy.Axis(joystick.AxisX).Setf(0)
-					global.VJoy.Update()
-				}
+				// if global.VJoy != nil {
+				// 	global.VJoy.Axis(joystick.AxisX).Setf(0)
+				// 	global.VJoy.Update()
+				// }
 				LeftKneeAngle := personSource.CalculateAngle(obj.Objs[sources.LeftHip], obj.Objs[sources.LeftKnee], obj.Objs[sources.LeftAnkle])
 				RightKneeAngle := personSource.CalculateAngle(obj.Objs[sources.RightHip], obj.Objs[sources.RightKnee], obj.Objs[sources.RightAnkle])
 				if LeftKneeAngle > global.Config.Games.Skiing.JumpKneeAngle && RightKneeAngle > global.Config.Games.Skiing.JumpKneeAngle {
@@ -87,7 +86,7 @@ func Skiing(personId string) {
 				} else {
 					if source.Jump {
 						// TODO vjoy
-						global.Button(2)
+						// global.Button(2)
 						logrus.Info("========jump===========")
 						global.Games.SetGamesJump(games.Skiing, false)
 					}

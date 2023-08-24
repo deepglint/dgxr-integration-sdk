@@ -1,0 +1,56 @@
+package global
+
+import (
+	"fmt"
+	box "meta/model/xbox"
+	"meta/source/output/xbox"
+
+	"sync"
+	"time"
+)
+
+var (
+	Emu        *xbox.Emulator
+	XboxDevice *box.XboxPool
+)
+
+func init() {
+
+	if Emu == nil {
+		Emulator, err := xbox.Open(func(vibration xbox.Vibration) {
+			//device.Vibrate(vibration.LargeMotor, vibration.SmallMotor)
+		})
+		if err != nil {
+			panic(err)
+		}
+		Emu = Emulator
+	}
+}
+
+func Close() {
+	if Emu != nil {
+		Emu.Close()
+	}
+}
+
+func CloseXboxPool() {
+	for _, v := range XboxDevice.Pool {
+		v.Xbox.Close()
+	}
+}
+
+func NewXboxPool(size int) *box.XboxPool {
+	Pool := []*box.Xbox{}
+	for i := 0; i < size; i++ {
+		time.Sleep(10 * time.Millisecond)
+		con, err := Emu.Connect()
+		if err != nil {
+			fmt.Println(err.Error())
+			continue
+		}
+		Pool = append(Pool, &box.Xbox{ID: i, Xbox: con})
+	}
+	PoolInstance := &box.XboxPool{Pool: Pool, Mu: sync.Mutex{}}
+	PoolInstance.PressAllXbox()
+	return PoolInstance
+}

@@ -1,9 +1,9 @@
 package global
 
 import (
-	"meta/common/models/config"
-	"meta/common/models/games"
-	"meta/common/models/sources"
+	"meta/model/config"
+	games "meta/model/game"
+	"meta/model/source"
 	"sync"
 )
 
@@ -11,18 +11,19 @@ type GameData struct {
 	Game           games.GameName `json:"game"`
 	StartEnable    bool           `json:"startEnable"`
 	PersonID       string         `json:"personId"`
-	OriginalSource sources.SourceData
+	OriginalSource source.SourceData
 	Jump           bool
 }
 
 var (
-	Games   GamesData
-	Config  *config.Config
-	Sources map[string]*sources.Source
+	Games    GamesData
+	Config   *config.Config
+	Sources  map[string]*source.Source
+	PersonID string
 )
 
 func InitSources() {
-	Sources = make(map[string]*sources.Source, 0)
+	Sources = make(map[string]*source.Source, 0)
 }
 
 type GamesData struct {
@@ -42,7 +43,7 @@ func (g *GamesData) SetGames(name games.GameName, gameData *GameData) {
 	g.Games[name] = gameData
 }
 
-func (g *GamesData) SetGamesSource(name games.GameName, obj sources.SourceData) {
+func (g *GamesData) SetGamesSource(name games.GameName, obj source.SourceData) {
 	g.Mutex.Lock()
 	defer g.Mutex.Unlock()
 	g.Games[name].OriginalSource = obj

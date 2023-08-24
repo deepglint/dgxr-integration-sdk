@@ -1,8 +1,8 @@
 package config
 
 import (
-	"meta/common/models/config"
 	"meta/global"
+	"meta/model/config"
 
 	logs "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -38,7 +38,7 @@ func InitConfig(path string) {
 
 	viper.WatchConfig()
 
-	logs.Infoln("---------dubhe config list--------")
+	logs.Infoln("---------meta config list--------")
 	for _, key := range viper.AllKeys() {
 		logs.Infoln(key, ":", viper.Get(key))
 	}

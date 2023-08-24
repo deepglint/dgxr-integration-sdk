@@ -5,8 +5,10 @@ go 1.19
 require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/gorilla/websocket v1.5.0
+	github.com/kardianos/service v1.2.2
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.16.0
+	golang.org/x/sys v0.8.0
 	google.golang.org/grpc v1.56.0
 	google.golang.org/protobuf v1.30.0
 )
@@ -42,7 +44,6 @@ require (
 	golang.org/x/arch v0.3.0 // indirect
 	golang.org/x/crypto v0.9.0 // indirect
 	golang.org/x/net v0.10.0 // indirect
-	golang.org/x/sys v0.8.0 // indirect
 	golang.org/x/text v0.9.0 // indirect
 	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
