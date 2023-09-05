@@ -1,0 +1,19 @@
+{
+  "name": "com.deepglint.cave",
+  "displayName": "Cave",
+  "version": "0.2.13",
+  "unity": "2022.3",
+  "description": "碧空如镜映晴天，裸眼3D流光转",
+  "samples": [
+    {
+      "displayName": "Cave Prefabs",
+      "description": "哈哈哈哈我是预制件",
+      "path": "Runtime/Stardust"
+    },
+    {
+      "displayName": "Calibration",
+      "description": "我是标定文件",
+      "path": "Runtime/StreamingAssets"
+    }
+  ]
+}
