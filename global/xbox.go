@@ -52,6 +52,5 @@ func NewXboxPool(size int) *box.XboxPool {
 		Pool = append(Pool, &box.Xbox{ID: i, Xbox: con, Mu: sync.Mutex{}})
 	}
 	PoolInstance := &box.XboxPool{Pool: Pool, Mu: sync.Mutex{}}
-	PoolInstance.PressAllXbox()
 	return PoolInstance
 }

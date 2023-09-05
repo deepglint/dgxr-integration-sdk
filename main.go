@@ -25,8 +25,6 @@ func (p *program) Stop(s service.Service) error {
 }
 
 func main() {
-	// prg := &program{}
-	// prg.run()
 	// 获取当前可执行文件的路径
 	exePath, _ := os.Executable()
 	exeDir := filepath.Dir(exePath)

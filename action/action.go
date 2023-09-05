@@ -28,6 +28,37 @@ const (
 	SquatDown = 26 // 下蹲
 )
 
+func (a Action) String() string {
+	switch a {
+	case A:
+		return "A"
+	case B:
+		return "B"
+	case C:
+		return "C"
+	case D:
+		return "D"
+	case Greet:
+		return "Greet"
+	case LeftSlide:
+		return "LeftSlide"
+	case HandUp:
+		return "HandUp"
+	case SlowRun:
+		return "SlowRun"
+	case FastRun:
+		return "FastRun"
+	case CheerUp:
+		return "CheerUp"
+	case JumpUp:
+		return "JumpUp"
+	case SquatDown:
+		return "SquatDown"
+	default:
+		return "Unknown"
+	}
+}
+
 type ActionRegistry struct {
 	registry map[Action]ActionFunc
 }

@@ -13,7 +13,6 @@ func C(data *source.Source) bool {
 
 		// 左手高于头部一定的距离
 		LeftHandAndHead := pos.Objs[source.LeftHand][2] - pos.Objs[source.HeadTop][2]
-
 		if LeftHandAndHead > global.Config.Rules.C.LeftHandThanHeadZ && pos.Objs[source.LeftHand][0]-pos.Objs[source.HeadTop][0] > 0 && pos.Objs[source.RightHand][0]-pos.Objs[source.HeadTop][0] > 0 {
 			return true
 		}
