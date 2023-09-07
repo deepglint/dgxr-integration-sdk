@@ -34,6 +34,20 @@ type LeftSlide struct {
 	HandToShoulderXZ  float64
 }
 
+type LeftRightTilt struct {
+	TiltAngle     float64
+	ShoulderWidth float64
+}
+
+type ElbowBend struct {
+	MinAngle float64
+	MaxAngle float64
+}
+
+type Squat struct {
+	KneeAngle float64
+}
+
 type Rules struct {
 	A              A
 	B              B
@@ -42,4 +56,7 @@ type Rules struct {
 	Greet          Greet
 	RaiseRightHand RaiseRightHand
 	LeftSlide      LeftSlide
+	LeftRightTilt  LeftRightTilt
+	ElbowBend      ElbowBend
+	Squat          Squat
 }

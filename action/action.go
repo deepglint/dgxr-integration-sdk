@@ -18,6 +18,10 @@ const (
 	D         Action = 3
 	Greet     Action = 4 // 招呼
 	LeftSlide Action = 5 // 左边滑
+	Squat     Action = 6 // 下蹲
+	RightTilt Action = 7 // 右倾斜
+	LeftTilt  Action = 8 // 左倾斜
+	ElbowBend Action = 9 // 弯双肘
 
 	HandUp = 23 //举手
 
@@ -54,6 +58,14 @@ func (a Action) String() string {
 		return "JumpUp"
 	case SquatDown:
 		return "SquatDown"
+	case Squat:
+		return "Squat"
+	case RightTilt:
+		return "RightTilt"
+	case LeftTilt:
+		return "LeftTilt"
+	case ElbowBend:
+		return "ElbowBend"
 	default:
 		return "Unknown"
 	}
@@ -90,6 +102,10 @@ func init() {
 	Registry.Register(HandUp, rule.RaiseHandRight)
 	Registry.Register(Greet, rule.Greet)
 	Registry.Register(LeftSlide, rule.LeftSlide)
+	Registry.Register(Squat, rule.Squat)
+	Registry.Register(RightTilt, rule.RightTilt)
+	Registry.Register(LeftTilt, rule.LeftTilt)
+	Registry.Register(ElbowBend, rule.ElbowBend)
 }
 
 func RuleToXbox(pos *source.Source) {

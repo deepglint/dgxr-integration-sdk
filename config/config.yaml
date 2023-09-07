@@ -31,12 +31,14 @@ rules:
     handThanHeadZ: 0.1 #手（Z方向）高于头的距离，建议 0.1～0.2
   leftSlide:
     handMoveDistanceX: 0 #在X轴的移动距离，建议 0.2
-    HandToShoulderXZ: 0.05 #手和肩膀在XZ上的绝对值距离，建议 0.05
-    
-
-
-    
-    
-
+    handToShoulderXZ: 0.05 #手和肩膀在XZ上的绝对值距离，建议 0.05
+  leftRightTilt:
+    tiltAngle: 20 # 倾斜角度，单位度，建议配置15-25
+    shoulderWidth: 0.2 # 肩膀宽度，单位米，建议配置0.2-0.3
+  elbowBend:
+    minAngle: 80 # 最小手肘角度(用于识别游戏开始动作)，单位度，建议配置>80
+    maxAngle: 130 # 最大手肘角度(用于识别游戏开始动作)，单位度，建议配置<130
+  squat:
+    kneeAngle: 50  # 跳跃的膝盖角度，单位度，建议配置>50
 
     

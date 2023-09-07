@@ -13,20 +13,7 @@ type Config struct {
 	Source Source
 	Action map[int]int
 	Rules  Rules
-	Games  *Games
 	Log    *Log
-}
-
-type Games struct {
-	Skiing *Skiing
-}
-
-type Skiing struct {
-	TiltAngle     float64
-	ShoulderWidth float64
-	MinElbowAngle float64
-	MaxElbowAngle float64
-	JumpKneeAngle float64
 }
 
 type Grpc struct {
@@ -61,21 +48,10 @@ func NewConfig() *Config {
 		panic(err)
 	}
 
-	games := &Games{
-		Skiing: &Skiing{
-			TiltAngle:     viper.GetFloat64("games.skiing.tiltAngle"),
-			ShoulderWidth: viper.GetFloat64("games.skiing.shoulderWidth"),
-			MinElbowAngle: viper.GetFloat64("games.skiing.minElbowAngle"),
-			MaxElbowAngle: viper.GetFloat64("games.skiing.maxElbowAngle"),
-			JumpKneeAngle: viper.GetFloat64("games.skiing.jumpKneeAngle"),
-		},
-	}
-
 	return &Config{
 		Rules:  rules,
 		Action: map[int]int{},
 		Source: *source,
-		Games:  games,
 		Log: &Log{
 			Level: viper.GetString("logLevel"),
 		},
