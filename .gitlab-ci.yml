@@ -127,7 +127,7 @@ get-unity-version:
   variables:
     GIT_DEPTH: 1
   script:
-    - echo UNITY_VERSION=$(cat $UNITY_DIR/ProjectSettings/ProjectVersion.txt | grep "m_EditorVersion:.*" | awk '{ print $2}') | tee prepare.env
+    - echo UNITY_VERSION=$(cat $UNITY_DIR/engine/ProjectSettings/ProjectVersion.txt | grep "m_EditorVersion:.*" | awk '{ print $2}') | tee prepare.env
   artifacts:
     reports:
       dotenv: prepare.env
