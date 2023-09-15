@@ -79,12 +79,12 @@ deploy/test:
     - if: $CI_COMMIT_TAG
     
 
-deploy/production:
-  <<: *deploy
-  variables:
-    CI_ENVIRONMENT_NAME: prod
-  rules:
-    - if: $CI_COMMIT_TAG && '$CI_COMMIT_TAG =~ $PRODUCTION_TAG_REG'
+# deploy/production:
+#   <<: *deploy
+#   variables:
+#     CI_ENVIRONMENT_NAME: prod
+#   rules:
+#     - if: $CI_COMMIT_TAG && '$CI_COMMIT_TAG =~ $PRODUCTION_TAG_REG'
 
 release:
   stage: release

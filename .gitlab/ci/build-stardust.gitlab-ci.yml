@@ -1,6 +1,6 @@
 .build: &build
   stage: build stardust
-  image: golang:1.20.6-bullseye
+  image: ccr.ccs.tencentyun.com/solution/go-gcc-mingw-w64:0.1
   needs: 
     - build:prepare
 
@@ -9,8 +9,6 @@ build:reverie:
   before_script:
     - cd reverie
   script:
-    - apt update
-    - apt-get install -y gcc-mingw-w64-x86-64
     - go env -w GOPROXY=https://goproxy.cn,direct
     - go mod tidy
     - CC=x86_64-w64-mingw32-gcc CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -o main.exe main.go
