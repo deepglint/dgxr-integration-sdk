@@ -14,7 +14,7 @@ build:reverie:
     - CC=x86_64-w64-mingw32-gcc CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -o main.exe main.go
     - chmod +x pack.sh
     - ./pack.sh
-    - mv reverie.tar.gz ../
+    - mv reverie.tar.gz ../reverie.tar.gz
   artifacts:
     paths:
       - reverie.tar.gz
