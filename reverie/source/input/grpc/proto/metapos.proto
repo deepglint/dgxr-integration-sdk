@@ -1,0 +1,80 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+option go_package = ".";
+package dvsn3dframe;
+message RecAction {
+ int32 action = 1;
+ float confidence = 2;
+ uint32 tagnameid = 3;
+}
+message Data {
+ message keypoints {
+ repeated float value = 1;
+ }
+ repeated keypoints objs = 1;
+ repeated RecAction rec_actions = 2;
+ int32 uid = 3;
+}
+message StructData {
+ map<string, Data> threeDim = 2;
+}
+message Types {
+ oneof types {
+ string str= 1;
+ int32 int = 2;
+ }
+}
+message EventData {
+ message matched_inner {
+ repeated Types value = 1;
+ }
+ message goal_inner {
+ repeated Types value = 1;
+ }
+ message throw_inner {
+ repeated Types value = 1;
+ }
+ message score_inner {
+ repeated Types value = 1;
+ }
+ repeated matched_inner matched_info = 1;
+ repeated goal_inner goal_info = 2;
+ repeated throw_inner throw_info = 3;
+ repeated score_inner score_info = 4;
+}
+message Action {
+ bool raisehand = 1;
+ bool pulldown = 2;
+ bool crouch = 3;
+ bool jump = 4;
+ bool cheer = 5;
+}
+message Request {
+ string frame_id = 1;
+ string time_stamp = 2;
+ map<string, StructData> result = 3;
+ EventData event = 4;
+ map<string, Action> action = 5;
+}
+message PlayerInfo
+{
+ int32 uid = 1;
+ int32 pid = 2;
+};
+message Response {
+ int32 msg_code = 1;
+ string message = 2;
+ repeated PlayerInfo players = 3;
+ int32 scene_id = 4;
+}
+enum SceneIDMask {
+ None = 0;
+ AvatarMask = 1; // ⼈形重建
+ BasketBallMask = 2; // 篮球重建
+ ActionMask = 3; // 动作分类
+}
+service ThreeDimSkel {
+ rpc ServiceCheck(google.protobuf.Empty) returns (google.protobuf.Empty)
+{};
+ rpc SendThreeDimSkelData(Request) returns (Response) {};
+}
