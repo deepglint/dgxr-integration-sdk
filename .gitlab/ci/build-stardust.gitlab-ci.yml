@@ -18,6 +18,4 @@ build:reverie:
   artifacts:
     paths:
       - reverie.tar.gz
-    reports:
-      dotenv: reverie.env
 
