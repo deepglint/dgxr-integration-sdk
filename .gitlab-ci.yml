@@ -184,11 +184,11 @@ build_package:
   stage: publish
   <<: *unity_defaults
   script:
-    - cd ci
+    - cd engine/ci
     - chmod +x ./build_package.sh && ./build_package.sh
   artifacts:
     paths:
-      - $UNITY_DIR/Packages/
+      - $UNITY_DIR/engine/Packages/
     name: stardust
   tags:
     - alpha
