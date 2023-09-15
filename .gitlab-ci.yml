@@ -19,6 +19,8 @@ variables:
 
 stages:
   - deploy
+  - prerelease reverie
+  - release
 
 workflow:
   rules:
@@ -76,11 +78,36 @@ deploy/test:
   rules:
     - if: $CI_COMMIT_TAG
     
+prerelease:reverie:
+  stage: prerelease reverie
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  script:
+    - echo 'running release_job'
+    - echo 'Previous Job ID is printed below'
+    - echo $GE_JOB_ID
+    - echo "Publishing artifacts to release ${CI_COMMIT_TAG}..."
+  needs: 
+    - job: build:reverie
+      artifacts: true
+  release:
+    name: '${CI_COMMIT_TAG}'
+    description: 'Created using the release-cli'
+    tag_name: '${CI_COMMIT_TAG}'
+    assets:
+      links:
+        - name: 'stardust-${CI_COMMIT_TAG}'
+          url: 'https://gitlab.deepglint.com/alpha/dipper/-/jobs/${GE_JOB_ID}/artifacts/download'
+  rules:
+    - if: $CI_COMMIT_TAG
 
-# deploy/production:
-#   <<: *deploy
-#   variables:
-#     CI_ENVIRONMENT_NAME: prod
-#   rules:
-#     - if: $CI_COMMIT_TAG && '$CI_COMMIT_TAG =~ $PRODUCTION_TAG_REG'
+release:push:
+  stage: release
+  image: 
+    name: ccr.ccs.tencentyun.com/solution/python-gitlab:v3.15.0
+    entrypoint: [""]
+  script:
+    - pip install --trusted-host package.nemoface.com -i http://package.nemoface.com/repository/pypi/simple gitbot
+    - git-release
+  rules:
+    - if: $CI_COMMIT_TAG
 
