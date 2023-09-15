@@ -22,9 +22,6 @@ stages:
   - test
   - deploy
 
-include:
- - local: .gitlab/ci/merge-request.gitlab-ci.yml
-
 workflow:
   rules:
     # 不处理draft的事件
