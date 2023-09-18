@@ -102,6 +102,7 @@ build_package:
   stage: build stardust
   script:
     - cd engine/ci
+    - ls
     - chmod +x ./build_package.sh && ./build_package.sh
   artifacts:
     paths:
