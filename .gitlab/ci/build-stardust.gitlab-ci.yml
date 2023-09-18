@@ -30,6 +30,7 @@ get-unity-version:
 
 .unity_before_script: &unity_before_script
   before_script:
+    - export UNITY_DIR=$CI_PROJECT_DIR
     - chmod +x ./engine/ci/before_script.sh && ./engine/ci/before_script.sh
   needs:
     - job: get-unity-version
@@ -71,9 +72,7 @@ npm_publish:
   script:
     - ls
     - cd engine/Assets
-    - apt update
     - echo CI_COMMIT_TAG
-    - apt install -y jq
     - new_version="1.0.0"
     - json_file=""
     - jq --arg new_version "$new_version" '.version = $new_version' package.json > tmp.json && mv tmp.json package.json
@@ -87,7 +86,6 @@ build_package:
   <<: *unity_defaults
   stage: build stardust
   script:
-    - export UNITY_DIR=$CI_PROJECT_DIR
     - cd engine/ci
     - ls
     - chmod +x ./build_package.sh && ./build_package.sh
