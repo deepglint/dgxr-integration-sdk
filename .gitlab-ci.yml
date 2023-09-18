@@ -174,7 +174,7 @@ npm_publish:
   image: node:18.12.1-alpine3.15
   script:
     - ls
-    - cd ./engin/Assets
+    - cd engin/Assets
     - npm config set registry http://package.nemoface.com/repository/unity
     - echo "//package.nemoface.com/repository/:_authToken=\${CI_NPM_TOKEN}" >> ~/.npmrc
     - npm publish
