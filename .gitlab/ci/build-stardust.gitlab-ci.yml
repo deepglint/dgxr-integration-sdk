@@ -101,6 +101,8 @@ build_package:
   <<: *unity_defaults
   stage: build stardust
   script:
+    - export $CI_PROJECT_DIR
+    - export $UNITY_DIR
     - cd engine/ci
     - ls
     - chmod +x ./build_package.sh && ./build_package.sh
