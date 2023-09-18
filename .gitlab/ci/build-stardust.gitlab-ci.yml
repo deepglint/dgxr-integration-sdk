@@ -18,3 +18,82 @@ build:reverie:
   artifacts:
     paths:
       - reverie.tar.gz
+get-unity-version:
+  stage: build pre
+  image: alpine
+  variables:
+    GIT_DEPTH: 1
+  script:
+    - echo UNITY_VERSION=$(cat $UNITY_DIR/engine/ProjectSettings/ProjectVersion.txt | grep "m_EditorVersion:.*" | awk '{ print $2}') | tee prepare.env
+  artifacts:
+    reports:
+      dotenv: prepare.env
+
+.unity_before_script: &unity_before_script
+  before_script:
+    - chmod +x ./engine/ci/before_script.sh && ./engine/ci/before_script.sh
+  needs:
+    - job: get-unity-version
+      artifacts: true
+
+.cache: &cache
+  cache:
+    key: "$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-$TEST_PLATFORM"
+    paths:
+      - $UNITY_DIR/Library/
+
+.license: &license
+  rules:
+    - if: '$UNITY_LICENSE != null'
+      when: always
+
+.unity_defaults: &unity_defaults
+  <<:
+    - *unity_before_script
+    - *cache
+    - *license
+
+get-activation-file:
+  <<: *unity_before_script
+  rules:
+    - if: '$UNITY_LICENSE == null'
+      when: manual
+  stage: build pre
+  script:
+    - chmod +x ./engine/ci/get_activation_file.sh && ./engine/ci/get_activation_file.sh
+  artifacts:
+    paths:
+      - $UNITY_ACTIVATION_FILE
+    expire_in: 10 min # Expiring this as artifacts may contain sensitive data and should not be kept public
+
+npm_publish:
+  <<: *build
+  image: node:18.12.1-alpine3.15
+  script:
+    - ls
+    - cd engine/Assets
+    - apt-get update
+    - export CI_COMMIT_TAG
+    - apt-get install -y jq
+    - new_version="1.0.0"
+    - json_file=""
+    - jq --arg new_version "$new_version" '.version = $new_version' package.json > tmp.json && mv tmp.json package.json
+    - npm config set registry http://package.nemoface.com/repository/unity
+    - echo "//package.nemoface.com/repository/:_authToken=\${CI_NPM_TOKEN}" >> ~/.npmrc
+    - npm publish
+  rules:
+    - if: $CI_COMMIT_TAG
+
+build_package:
+  <<: *unity_defaults
+  stage: build stardust
+  script:
+    - cd engine/ci
+    - chmod +x ./build_package.sh && ./build_package.sh
+  artifacts:
+    paths:
+      - $UNITY_DIR/engine/Packages/
+    name: stardust
+  tags:
+    - alpha
+
