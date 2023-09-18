@@ -3,7 +3,7 @@
 set -e
 set -x
 echo "Building unitypackage file"
-
+echo $UNITY_DIR
 export BUILD_PATH=$UNITY_DIR/engine/Packages
 export PROJECT_PATH=$UNITY_DIR/engine
 mkdir -p $BUILD_PATH
