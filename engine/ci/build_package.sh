@@ -4,7 +4,7 @@ set -e
 set -x
 echo "Building unitypackage file"
 
-export BUILD_PATH=$UNITY_DIR/Packages
+export BUILD_PATH=$UNITY_DIR/engine/Packages
 mkdir -p $BUILD_PATH
 
 ${UNITY_EXECUTABLE:-xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' unity-editor} \
