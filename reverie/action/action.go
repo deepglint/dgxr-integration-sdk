@@ -83,7 +83,6 @@ func (fr *ActionRegistry) Run(name Action, pos *source.Source) bool {
 	if fn, exists := fr.registry[name]; exists {
 		return fn(pos)
 	}
-	logrus.Errorf("Action %s is not registered.\n", name)
 	return false
 }
 
@@ -111,6 +110,7 @@ func init() {
 func RuleToXbox(pos *source.Source) {
 	for k, v := range global.Config.Action {
 		if Registry.Run(Action(k), pos) {
+			logrus.Infof("Action: %s", Action(k).String())
 			go pos.Xbox.SetButton(v)
 		}
 	}
@@ -118,6 +118,7 @@ func RuleToXbox(pos *source.Source) {
 
 func ModelToXbox(pos *source.Source, action int32) {
 	if v, ok := global.Config.Action[int(action)]; ok {
+		logrus.Infof("Action: %s", Action(action).String())
 		go pos.Xbox.SetButton(v)
 	}
 }

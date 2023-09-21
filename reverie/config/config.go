@@ -6,6 +6,7 @@ import (
 
 	logs "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 func init() {
@@ -17,13 +18,12 @@ func InitConfig(path string) {
 	viper.AddConfigPath(path)
 	viper.SetConfigType("yaml")
 	viper.SetConfigName("config")
-	// log lever
-	_ = viper.BindEnv("logLevel", "LOG_LEVEL")
+
 	if err := viper.ReadInConfig(); err != nil {
 		logs.Fatal(err)
 	}
 
-	switch viper.GetString("logLevel") {
+	switch viper.GetString("log.level") {
 	case "debug":
 		logs.SetLevel(logs.DebugLevel)
 	case "info":
@@ -35,7 +35,14 @@ func InitConfig(path string) {
 	default:
 		logs.SetLevel(logs.InfoLevel)
 	}
-
+	logger := &lumberjack.Logger{
+		Filename:   "./logrus.log",
+		MaxSize:    500,
+		MaxBackups: 3,
+		MaxAge:     30,
+		Compress:   true,
+	}
+	logs.SetOutput(logger) // logrus 设置日志的输出方式
 	viper.WatchConfig()
 
 	logs.Infoln("---------meta config list--------")
