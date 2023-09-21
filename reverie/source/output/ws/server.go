@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"meta/global"
+	"meta/server/middleware"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -36,19 +37,14 @@ type Message struct {
 	Pose     Pose   `json:"pose"`
 }
 
-// [{"action":0,"key":0}]
 type Action struct {
 	Action int `json:"action"`
 	Key    int `json:"key"`
 }
 
-func InitServer() {
-	r := gin.Default()
-	r.GET("/ws", handleWebSocket)
-	err := r.Run(":8000")
-	if err != nil {
-		logrus.Fatal("Failed to start server: ", err)
-	}
+func InitWsServer(r *gin.Engine) {
+	ws := r.Group("ws", middleware.License())
+	ws.GET("/", handleWebSocket)
 }
 
 var (

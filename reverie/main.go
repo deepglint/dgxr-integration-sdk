@@ -3,8 +3,9 @@ package main
 import (
 	"meta/config"
 	"meta/global"
+	"meta/server"
 	"meta/source/input/grpc"
-	"meta/source/output/ws"
+	"meta/util"
 	"os"
 	"path/filepath"
 
@@ -61,7 +62,8 @@ func main() {
 func (p *program) run() {
 	config.InitConfig("./config")
 	global.InitSources()
-	go ws.InitServer()
+	go util.CheckLicense()
+	go server.InitHttp()
 	global.XboxDevice = global.NewXboxPool(10)
 	defer global.XboxDevice.CloseAllXbox()
 	grpc.Grpc()

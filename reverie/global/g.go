@@ -5,10 +5,17 @@ import (
 	"meta/model/source"
 )
 
+const (
+	LicenseFileApi       = "/x-api/v1/license_nodes/authorize/download"
+	LicenseTimeApi       = "/x-api/v1/license_nodes/authorize"
+	LicenseFileUploadApi = "/x-api/v1/license_nodes/authorize/upload_v2c"
+)
+
 var (
-	Config   *config.Config
-	Sources  map[string]*source.Source
-	PersonID string
+	Config        *config.Config
+	Sources       map[string]*source.Source
+	PersonID      string
+	LicenseStatus bool
 )
 
 func InitSources() {

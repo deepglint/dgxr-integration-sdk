@@ -1,3 +1,8 @@
+log:
+  level: info
+license:
+  host: http://127.0.0.1
+  port: 2244
 source:
   cap: 10
   grpc:
