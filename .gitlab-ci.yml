@@ -86,7 +86,7 @@ prerelease:reverie:
   script:
     - echo 'running release_job'
     - echo 'Previous Job ID is printed below'
-    - echo $GE_JOB_ID
+    - echo $CI_JOB_ID
     - echo "Publishing artifacts to release ${CI_COMMIT_TAG}..."
   release:
     name: '${CI_COMMIT_TAG}'
@@ -95,7 +95,7 @@ prerelease:reverie:
     assets:
       links:
         - name: 'stardust-${CI_COMMIT_TAG}'
-          url: 'https://gitlab.deepglint.com/alpha/stardust_reverie/-/jobs/${GE_JOB_ID}/artifacts/download'
+          url: 'https://gitlab.deepglint.com/alpha/stardust_reverie/-/jobs/${CI_JOB_ID}/artifacts/download'
   rules:
     - if: $CI_COMMIT_TAG
 
