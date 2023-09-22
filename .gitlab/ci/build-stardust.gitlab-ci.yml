@@ -24,6 +24,8 @@ build:reverie:
   <<: *build
   before_script:
     - cd reverie
+    - echo $CI_JOB_ID
+    - echo GE_REVERIE_ID=$CI_JOB_ID >> reverie.env
   script:
     - go env -w GOPROXY=https://goproxy.cn,direct
     - go mod tidy
@@ -35,6 +37,9 @@ build:reverie:
     paths:
       - reverie.tar.gz
     name: reverie
+  reports:
+      dotenv: reverie/reverie.env
+  
 get-unity-version:
   stage: build pre
   image: alpine
@@ -106,6 +111,8 @@ build_package:
   <<: *unity_defaults
   stage: build stardust
   script:
+    - echo $CI_JOB_ID
+    - echo GE_ENGINE_ID=$CI_JOB_ID >> engine.env
     - cd engine/ci
     - ls
     - chmod +x ./build_package.sh && ./build_package.sh
@@ -113,6 +120,8 @@ build_package:
     paths:
       - $UNITY_DIR/engine/Packages/
     name: engine
+  reports:
+      dotenv: engine.env
   tags:
     - alpha
 
