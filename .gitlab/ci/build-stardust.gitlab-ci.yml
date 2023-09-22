@@ -93,9 +93,10 @@ npm_publish:
     - new_version="1.0.0"
     - json_file=""
     - jq --arg new_version "$new_version" '.version = $new_version' package.json > tmp.json && mv tmp.json package.json
-    - npm config set registry http://package.nemoface.com/repository/unity
-    - echo "//package.nemoface.com/repository/:_authToken=\${CI_NPM_TOKEN}" >> ~/.npmrc
-    - npm publish
+    - cat package.json
+    # - npm config set registry http://package.nemoface.com/repository/unity
+    # - echo "//package.nemoface.com/repository/:_authToken=\${CI_NPM_TOKEN}" >> ~/.npmrc
+    # - npm publish
   rules:
     - if: $CI_COMMIT_TAG
 
