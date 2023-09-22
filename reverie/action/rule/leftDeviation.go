@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"math"
 
-	"meta/global"
-	"meta/model/source"
+	"reverie/global"
+	"reverie/model/source"
 )
 
 // LeftDeviation

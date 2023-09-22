@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"meta/global"
-	"meta/server/middleware"
+	"reverie/global"
+	"reverie/server/middleware"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"

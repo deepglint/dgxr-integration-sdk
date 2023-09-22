@@ -1,13 +1,14 @@
 package main
 
 import (
-	"meta/config"
-	"meta/global"
-	"meta/server"
-	"meta/source/input/grpc"
-	"meta/util"
 	"os"
 	"path/filepath"
+
+	"reverie/config"
+	"reverie/global"
+	"reverie/server"
+	"reverie/source/input/grpc"
+	"reverie/util"
 
 	"github.com/kardianos/service"
 	"github.com/sirupsen/logrus"

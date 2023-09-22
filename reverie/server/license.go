@@ -3,13 +3,13 @@ package server
 import (
 	"encoding/json"
 	"fmt"
-	"time"
-
-	"meta/global"
-	"meta/model/license"
-	"meta/util"
 	"net/http"
 	"path"
+	"time"
+
+	"reverie/global"
+	"reverie/model/license"
+	"reverie/util"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"

@@ -1,6 +1,6 @@
 package rule
 
-import "meta/model/source"
+import "reverie/model/source"
 
 func RaiseHandRight(data *source.Source) bool {
 	if pos, err := data.LastData(); err != nil {

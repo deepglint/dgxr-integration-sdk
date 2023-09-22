@@ -1,9 +1,9 @@
 package action
 
 import (
-	"meta/action/rule"
-	"meta/global"
-	"meta/model/source"
+	"reverie/action/rule"
+	"reverie/global"
+	"reverie/model/source"
 
 	"github.com/sirupsen/logrus"
 )

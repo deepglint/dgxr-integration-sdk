@@ -1,4 +1,4 @@
-module meta
+module reverie
 
 go 1.19
 

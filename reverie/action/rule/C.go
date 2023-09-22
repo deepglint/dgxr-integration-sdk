@@ -1,8 +1,8 @@
 package rule
 
 import (
-	"meta/global"
-	"meta/model/source"
+	"reverie/global"
+	"reverie/model/source"
 )
 
 func C(data *source.Source) bool {

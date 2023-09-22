@@ -6,13 +6,14 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"meta/global"
-	"meta/model/license"
 	"mime/multipart"
 	"net/http"
 	"os"
 	"path/filepath"
 	"time"
+
+	"reverie/global"
+	"reverie/model/license"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"

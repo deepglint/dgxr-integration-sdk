@@ -1,7 +1,7 @@
 package server
 
 import (
-	"meta/source/output/ws"
+	"reverie/source/output/ws"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"

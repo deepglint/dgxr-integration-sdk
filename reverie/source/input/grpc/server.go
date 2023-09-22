@@ -8,10 +8,10 @@ import (
 	"os"
 	"time"
 
-	"meta/action"
-	"meta/global"
-	sources "meta/model/source"
-	pb "meta/source/input/grpc/proto"
+	"reverie/action"
+	"reverie/global"
+	sources "reverie/model/source"
+	pb "reverie/source/input/grpc/proto"
 
 	"google.golang.org/grpc"
 )

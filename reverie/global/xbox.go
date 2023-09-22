@@ -1,11 +1,11 @@
 package global
 
 import (
-	box "meta/model/xbox"
-	"meta/source/output/xbox"
-
 	"sync"
 	"time"
+
+	box "reverie/model/xbox"
+	"reverie/source/output/xbox"
 
 	"github.com/sirupsen/logrus"
 )

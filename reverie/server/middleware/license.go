@@ -1,8 +1,9 @@
 package middleware
 
 import (
-	"meta/global"
 	"net/http"
+
+	"reverie/global"
 
 	"github.com/gin-gonic/gin"
 )

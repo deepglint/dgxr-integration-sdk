@@ -4,10 +4,10 @@ import (
 	"bufio"
 	"context"
 	"encoding/json"
-
-	pb "meta/source/input/grpc/proto"
 	"os"
 	"time"
+
+	pb "reverie/source/input/grpc/proto"
 
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"

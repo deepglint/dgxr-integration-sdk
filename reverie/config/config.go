@@ -1,8 +1,8 @@
 package config
 
 import (
-	"meta/global"
-	"meta/model/config"
+	"reverie/global"
+	"reverie/model/config"
 
 	logs "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"

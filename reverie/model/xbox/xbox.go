@@ -1,9 +1,10 @@
 package xbox
 
 import (
-	"meta/source/output/xbox"
 	"sync"
 	"time"
+
+	"reverie/source/output/xbox"
 )
 
 type Xbox struct {

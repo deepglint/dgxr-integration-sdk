@@ -1,8 +1,8 @@
 package global
 
 import (
-	"meta/model/config"
-	"meta/model/source"
+	"reverie/model/config"
+	"reverie/model/source"
 )
 
 const (
