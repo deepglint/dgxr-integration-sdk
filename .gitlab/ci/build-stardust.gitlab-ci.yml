@@ -37,7 +37,7 @@ build:reverie:
     paths:
       - reverie.tar.gz
     name: reverie
-  reports:
+    reports:
       dotenv: reverie/reverie.env
   
 get-unity-version:
@@ -120,7 +120,7 @@ build_package:
     paths:
       - $UNITY_DIR/engine/Packages/
     name: engine
-  reports:
+    reports:
       dotenv: engine.env
   tags:
     - alpha
