@@ -73,10 +73,10 @@ test:summary:
       when: manual
   allow_failure: true
 
-deploy/test:
+deploy:
   <<: *deploy
   variables:
-    CI_ENVIRONMENT_NAME: test
+    CI_ENVIRONMENT_NAME: prod
   rules:
     - if: $CI_COMMIT_TAG
     

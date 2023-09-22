@@ -44,8 +44,6 @@ build:prepare:
 
     - echo $TAG
     - echo "TAG=$TAG" >> .env
-    # TODO 判断CI_ENVIRONMENT_NAME是test，则CI_COMMIT_BRANCH="pre-release" else release
-    - if [ $CI_ENVIRONMENT_NAME == "prod" ]; then  echo "CI_COMMIT_BRANCH=release" >> .env; else echo "CI_COMMIT_BRANCH=pre-release" >> .env; fi
   artifacts:
     reports:
       dotenv: .env
