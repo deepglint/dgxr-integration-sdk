@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# 检查是否存在 main.exe 文件
 if [ -f "main.exe" ]; then
     # 创建一个临时目录用于存放文件
     temp_dir=$(mktemp -d)
@@ -13,6 +12,11 @@ if [ -f "main.exe" ]; then
         cp -r config "$temp_dir"
     fi
     
+    dll="$temp_dir/source/output/xbox"
+
+    mkdir -p "$dll"
+    cp source/output/xbox/ViGEmClient.dll "$dll"
+
     # 压缩文件并包含日期后缀
     archive_filename="reverie.tar.gz" # 或者 .zip
     
@@ -25,4 +29,5 @@ if [ -f "main.exe" ]; then
     echo "打包完成：$archive_filename"
 else
     echo "错误：main.exe 文件不存在"
+    exit 1
 fi

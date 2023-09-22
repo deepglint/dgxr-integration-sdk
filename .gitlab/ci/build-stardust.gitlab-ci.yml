@@ -92,9 +92,9 @@ npm_publish:
     - apk update
     - apk add jq
     - cd engine/Assets
-    - echo $CI_COMMIT_TAG
-    - new_version="1.0.0"
-    - jq --arg new_version "$new_version" '.version = $new_version' package.json > tmp.json && mv tmp.json package.json
+    - version=`echo $CI_COMMIT_TAG | sed 's/^v//g'`
+    - echo $version
+    - jq --arg new_version "$version" '.version = $new_version' package.json > tmp.json && mv tmp.json package.json
     - cat package.json
     # - npm config set registry http://package.nemoface.com/repository/unity
     # - echo "//package.nemoface.com/repository/:_authToken=\${CI_NPM_TOKEN}" >> ~/.npmrc
