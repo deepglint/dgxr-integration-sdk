@@ -7,7 +7,7 @@ require (
 	github.com/gorilla/websocket v1.5.0
 	github.com/kardianos/service v1.2.2
 	github.com/sirupsen/logrus v1.9.3
-	github.com/spf13/viper v1.16.0
+	github.com/spf13/viper v1.17.0
 	golang.org/x/sys v0.12.0
 	google.golang.org/grpc v1.58.2
 	google.golang.org/protobuf v1.31.0
