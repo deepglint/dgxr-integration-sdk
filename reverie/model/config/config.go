@@ -9,9 +9,14 @@ func init() {
 	viper.AutomaticEnv()
 }
 
+type ActionData struct {
+	Type  int `json:"type"`
+	Value int `json:"value"`
+}
+
 type Config struct {
 	Source Source
-	Action map[int]int
+	Action map[int]ActionData
 	Rules  Rules
 	Log    *Log
 }
@@ -50,7 +55,7 @@ func NewConfig() *Config {
 
 	return &Config{
 		Rules:  rules,
-		Action: map[int]int{},
+		Action: map[int]ActionData{},
 		Source: *source,
 		Log: &Log{
 			Level: viper.GetString("logLevel"),

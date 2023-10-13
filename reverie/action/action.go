@@ -4,8 +4,6 @@ import (
 	"reverie/action/rule"
 	"reverie/global"
 	"reverie/model/source"
-
-	"github.com/sirupsen/logrus"
 )
 
 type Action int
@@ -16,12 +14,13 @@ const (
 	B         Action = 1
 	C         Action = 2
 	D         Action = 3
-	Greet     Action = 4 // 招呼
-	LeftSlide Action = 5 // 左边滑
-	Squat     Action = 6 // 下蹲
-	RightTilt Action = 7 // 右倾斜
-	LeftTilt  Action = 8 // 左倾斜
-	ElbowBend Action = 9 // 弯双肘
+	Greet     Action = 4  // 招呼
+	LeftSlide Action = 5  // 左边滑
+	Squat     Action = 6  // 下蹲
+	RightTilt Action = 7  // 右倾斜
+	LeftTilt  Action = 8  // 左倾斜
+	ElbowBend Action = 9  // 弯双肘
+	Stand     Action = 10 // 站立
 
 	HandUp = 23 //举手
 
@@ -105,20 +104,20 @@ func init() {
 	Registry.Register(RightTilt, rule.RightTilt)
 	Registry.Register(LeftTilt, rule.LeftTilt)
 	Registry.Register(ElbowBend, rule.ElbowBend)
+	Registry.Register(Stand, rule.Stand)
 }
 
 func RuleToXbox(pos *source.Source) {
 	for k, v := range global.Config.Action {
+		// TODO 判断动作类型，是按键还是值类型
 		if Registry.Run(Action(k), pos) {
-			logrus.Infof("Action: %s", Action(k).String())
-			go pos.Xbox.SetButton(v)
+			go pos.Xbox.SetXbox(v)
 		}
 	}
 }
 
 func ModelToXbox(pos *source.Source, action int32) {
 	if v, ok := global.Config.Action[int(action)]; ok {
-		logrus.Infof("Action: %s", Action(action).String())
-		go pos.Xbox.SetButton(v)
+		go pos.Xbox.SetXbox(v)
 	}
 }

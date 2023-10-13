@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"reverie/global"
+	"reverie/model/config"
 	"reverie/server/middleware"
 
 	"github.com/gin-gonic/gin"
@@ -40,10 +41,12 @@ type Message struct {
 type Action struct {
 	Action int `json:"action"`
 	Key    int `json:"key"`
+	Type   int `json:"type"`
 }
 
 func InitWsServer(r *gin.Engine) {
 	ws := r.Group("ws", middleware.License())
+	// ws := r.Group("ws")
 	ws.GET("/", handleWebSocket)
 }
 
@@ -75,9 +78,12 @@ func handleWebSocket(c *gin.Context) {
 				continue
 			}
 			logrus.Info("receive message: ", data)
-			recAction := map[int]int{}
+			recAction := map[int]config.ActionData{}
 			for _, v := range data {
-				recAction[v.Action] = v.Key
+				recAction[v.Action] = config.ActionData{
+					Type:  v.Type,
+					Value: v.Key,
+				}
 			}
 			global.Config.Action = recAction
 		}
@@ -88,7 +94,6 @@ func handleWebSocket(c *gin.Context) {
 	for {
 		// 等待定时器触发的事件
 		<-ticker.C
-
 		msg := PoseData{
 			Ts: time.Now().UnixMilli(),
 		}
@@ -109,30 +114,5 @@ func handleWebSocket(c *gin.Context) {
 			logrus.Errorf("Failed to send message to WebSocket: %v", err)
 			break
 		}
-		// if _, ok := global.Games[games.Skiing]; ok && global.Games[games.Skiing].PersonID != "" {
-		// 	if personSource, ok := global.Sources[global.Games[games.Skiing].PersonID]; ok {
-		// 		obj, err := personSource.LastData()
-		// 		if err != nil {
-		// 			logrus.Errorf("Skiing person source error: %v", err)
-		// 			return
-		// 		}
-
-		// 		msg := Message{
-		// 			FrameId:  0,
-		// 			PersonId: global.Games[games.Skiing].PersonID,
-		// 			TsEngine: time.Now().UnixMilli(),
-		// 			TsWS:     time.Now().UnixMilli(),
-		// 			Pose: Pose{
-		// 				KeyPoints: obj.Objs,
-		// 			},
-		// 		}
-		// 		message, _ := json.Marshal(msg)
-		// 		err = conn.WriteMessage(websocket.TextMessage, message)
-		// 		if err != nil {
-		// 			log.Println("Failed to send message to WebSocket:", err)
-		// 			break
-		// 		}
-		// 	}
-		// }
 	}
 }

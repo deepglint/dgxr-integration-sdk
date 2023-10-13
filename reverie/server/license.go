@@ -20,7 +20,7 @@ func InitLicense(r *gin.Engine) {
 	system := r.Group("system")
 	system.POST("/license", UploadLicense)
 	system.GET("/license/fingerprint", LicenseFile)
-	system.GET("/license/due", GetLicenseTime)
+	system.POST("/license/status", GetLicenseTime)
 }
 
 func UploadLicense(c *gin.Context) {
@@ -64,7 +64,16 @@ func LicenseFile(c *gin.Context) {
 }
 
 func GetLicenseTime(c *gin.Context) {
-	data, err := GetLicenseFile()
+	game := new(license.LicenseGameReq)
+	if err := c.ShouldBindJSON(game); err != nil {
+		log.Error(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"msg": err.Error(),
+		})
+		return
+	}
+
+	data, err := GetLicenseFile(game.Game)
 	if err != nil {
 		log.Error(err)
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -94,7 +103,7 @@ func GetLicense() (data []byte, err error) {
 }
 
 // GetLicenseFile 获取授权文件时间
-func GetLicenseFile() (data *license.LicenseInfoRep, err error) {
+func GetLicenseFile(game string) (data *license.LicenseInfoRep, err error) {
 	endpoint := fmt.Sprintf("%s:%s", viper.GetString("license.host"), viper.GetString("license.port"))
 	reqData, err := util.Get(endpoint + global.LicenseTimeApi)
 	if err != nil {
@@ -111,8 +120,10 @@ func GetLicenseFile() (data *license.LicenseInfoRep, err error) {
 	data = &license.LicenseInfoRep{
 		Expire: time.Unix(rep.ExpireAt, 0).In(loc).Format("2006-01-02 15:04:05"),
 	}
-	if rep.Status == "已授权" {
+	gameId := license.GameToFeatureID[game]
+	if v, ok := rep.Features[gameId]; ok && v == "" && rep.Status == "已授权" {
 		data.Status = license.Authorized
+		return
 	} else {
 		data.Status = license.Unauthorized
 	}

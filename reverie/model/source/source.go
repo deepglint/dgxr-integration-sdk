@@ -5,7 +5,7 @@ import (
 	"math"
 	"sync"
 
-	"reverie/model/xbox"
+	"reverie/source/output/xbox"
 )
 
 // source

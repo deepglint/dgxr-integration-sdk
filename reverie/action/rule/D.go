@@ -1,7 +1,6 @@
 package rule
 
 import (
-	"math"
 	"reverie/global"
 	"reverie/model/source"
 )
@@ -15,7 +14,7 @@ func D(data *source.Source) bool {
 		// 手和脚在三维空间中的距离
 		HandAndTipToeDistance := (source.XYZSum(pos.Objs[source.LeftHand]) + source.XYZSum(pos.Objs[source.RightHand])) - (source.XYZSum(pos.Objs[source.LeftTiptoe]) + source.XYZSum(pos.Objs[source.RightTiptoe]))
 		// 头和胯部的高度再一定范围内
-		HeadAndHipDistance := math.Abs(pos.Objs[source.HeadTop][2] - pos.Objs[source.LeftHip][2])
+		HeadAndHipDistance := pos.Objs[source.HeadTop][2] - pos.Objs[source.LeftHip][2]
 		if HandAndTipToeDistance < global.Config.Rules.D.HandAndTipToeDistance && HeadAndHipDistance < global.Config.Rules.D.HeadAndHipDistanceZ {
 			return true
 		}

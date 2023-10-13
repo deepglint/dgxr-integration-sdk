@@ -4,8 +4,8 @@ import (
 	"sync"
 	"time"
 
-	box "reverie/model/xbox"
 	"reverie/source/output/xbox"
+	box "reverie/source/output/xbox"
 
 	"github.com/sirupsen/logrus"
 )

@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net"
@@ -13,6 +14,7 @@ import (
 	sources "reverie/model/source"
 	pb "reverie/source/input/grpc/proto"
 
+	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
 
@@ -53,13 +55,14 @@ type ReqDataInfo struct {
 
 // 实现 SendThreeDimSkelData 方法
 func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb.Response, error) {
-	// message := ReqDataInfo{
-	// 	ReqInfo:  req,
-	// 	RecvTime: time.Now(),
-	// }
-	// if data, err := json.Marshal(message); err == nil {
-	// 	go saveRequest(data)
-	// }
+	message := ReqDataInfo{
+		ReqInfo:  req,
+		RecvTime: time.Now(),
+	}
+
+	if data, err := json.Marshal(message); err == nil {
+		go saveRequest(data)
+	}
 	if len(req.Result) == 0 {
 		for id, val := range global.Sources {
 			if val.Xbox != nil {
@@ -103,6 +106,7 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 				action.RuleToXbox(global.Sources[id])
 				for _, v := range data.RecActions {
 					if v.Confidence > 0.7 {
+						logrus.Debugf("model action: %s", action.Action(v.Action).String())
 						action.ModelToXbox(global.Sources[id], v.Action)
 					}
 				}

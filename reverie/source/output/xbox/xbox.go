@@ -4,14 +4,14 @@ import (
 	"sync"
 	"time"
 
-	"reverie/source/output/xbox"
+	"reverie/model/config"
 )
 
 type Xbox struct {
 	ID     int
 	IsUsed bool
 	Mu     sync.Mutex
-	Xbox   *xbox.Controller
+	Xbox   *Controller
 }
 
 type XboxPool struct {
@@ -49,7 +49,7 @@ func (xp *XboxPool) PressAllXbox() {
 		return
 	}
 	for _, v := range xp.Pool {
-		report := xbox.Report{}
+		report := Report{}
 		report.SetButton(true, 1)
 		v.Xbox.Send(&report)
 	}
@@ -67,7 +67,7 @@ func (xp *XboxPool) CloseAllXbox() {
 }
 
 // 按键
-func (xp *Xbox) SetButton(button int) {
+func (xp *Xbox) SetXbox(action config.ActionData) {
 	if xp == nil {
 		return
 	}
@@ -75,11 +75,11 @@ func (xp *Xbox) SetButton(button int) {
 		return
 	}
 	defer xp.Mu.Unlock()
-	report := xbox.Report{}
-	if button < 16 {
-		report.SetButton(true, button)
+	report := Report{}
+	if action.Value < 16 {
+		report.SetButton(true, action.Value)
 	} else {
-		switch button {
+		switch action.Value {
 		case 16:
 			// LeftStickUp
 			report.SetStick(false, 0, 32767)
@@ -110,10 +110,18 @@ func (xp *Xbox) SetButton(button int) {
 		case 25:
 			// RightTrigger
 			report.SetTrigger(true, 250)
+		case 26:
+			// LeftStickZero
+			report.SetStick(false, 0, 0)
+		case 27:
+			// RightStickZero
+			report.SetStick(true, 0, 0)
 		}
 	}
 	xp.Xbox.Send(&report)
-	time.Sleep(10 * time.Millisecond)
-	report = xbox.Report{}
-	xp.Xbox.Send(&report)
+	if action.Type == 0 {
+		time.Sleep(10 * time.Millisecond)
+		report = Report{}
+		xp.Xbox.Send(&report)
+	}
 }

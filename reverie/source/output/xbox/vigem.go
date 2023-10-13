@@ -161,4 +161,6 @@ const (
 	RightStickRight = 23
 	LeftTrigger     = 24
 	RightTrigger    = 25
+	LeftStickZero   = 26
+	RightStickZero  = 27
 )

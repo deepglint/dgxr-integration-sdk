@@ -90,3 +90,10 @@ func Squat(data *source.Source) bool {
 	}
 	return false
 }
+
+func Stand(data *source.Source) bool {
+	if !RightTilt(data) && !LeftTilt(data) {
+		return true
+	}
+	return false
+}
