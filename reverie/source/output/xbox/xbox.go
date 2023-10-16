@@ -112,10 +112,14 @@ func (xp *Xbox) SetXbox(action config.ActionData) {
 			report.SetTrigger(true, 250)
 		case 26:
 			// LeftStickZero
-			report.SetStick(false, 0, 0)
+			// report.SetStick(false, 0, 0)
+			report = Report{}
+			xp.Xbox.Send(&report)
 		case 27:
 			// RightStickZero
-			report.SetStick(true, 0, 0)
+			// report.SetStick(true, 0, 0)
+			report = Report{}
+			xp.Xbox.Send(&report)
 		}
 	}
 	xp.Xbox.Send(&report)

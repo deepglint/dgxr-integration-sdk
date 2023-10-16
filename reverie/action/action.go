@@ -67,6 +67,8 @@ func (a Action) String() string {
 		return "LeftTilt"
 	case ElbowBend:
 		return "ElbowBend"
+	case Stand:
+		return "Stand"
 	default:
 		return "Unknown"
 	}
