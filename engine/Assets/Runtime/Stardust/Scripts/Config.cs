@@ -20,6 +20,7 @@ namespace BodySource
             LeftTilt = 8,// 左倾斜
             ElbowBend = 9, // 弯双肘
             Stand = 10,// 站立
+            Jump = 11,//跳跃
 
 
             SlowRun = 19, // 慢跑

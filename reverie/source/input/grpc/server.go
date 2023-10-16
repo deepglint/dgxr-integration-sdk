@@ -15,6 +15,7 @@ import (
 	pb "reverie/source/input/grpc/proto"
 
 	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 )
 
@@ -55,13 +56,14 @@ type ReqDataInfo struct {
 
 // 实现 SendThreeDimSkelData 方法
 func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb.Response, error) {
-	message := ReqDataInfo{
-		ReqInfo:  req,
-		RecvTime: time.Now(),
-	}
-
-	if data, err := json.Marshal(message); err == nil {
-		go saveRequest(data)
+	if viper.GetBool("record") {
+		message := ReqDataInfo{
+			ReqInfo:  req,
+			RecvTime: time.Now(),
+		}
+		if data, err := json.Marshal(message); err == nil {
+			go saveRequest(data)
+		}
 	}
 	if len(req.Result) == 0 {
 		for id, val := range global.Sources {

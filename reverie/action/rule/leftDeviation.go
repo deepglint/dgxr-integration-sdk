@@ -77,7 +77,6 @@ func RightTilt(data *source.Source) bool {
 	return false
 }
 
-// 正常人默认左肩膀和右肩膀就是水平的
 func Squat(data *source.Source) bool {
 	if pose, err := data.LastData(); err != nil {
 		return false
@@ -85,6 +84,17 @@ func Squat(data *source.Source) bool {
 		LeftKneeAngle := data.CalculateAngle(pose.Objs[source.LeftHip], pose.Objs[source.LeftKnee], pose.Objs[source.LeftAnkle])
 		RightKneeAngle := data.CalculateAngle(pose.Objs[source.RightHip], pose.Objs[source.RightKnee], pose.Objs[source.RightAnkle])
 		if LeftKneeAngle > global.Config.Rules.Squat.KneeAngle && RightKneeAngle > global.Config.Rules.Squat.KneeAngle {
+			return true
+		}
+	}
+	return false
+}
+
+func Jump(data *source.Source) bool {
+	if pose, err := data.LastData(); err != nil {
+		return false
+	} else {
+		if pose.Objs[source.LeftAnkle][2] > global.Config.Rules.Jump.KneeHeight && pose.Objs[source.RightAnkle][2] > global.Config.Rules.Jump.KneeHeight {
 			return true
 		}
 	}

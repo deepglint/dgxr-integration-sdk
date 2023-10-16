@@ -113,12 +113,9 @@ func GetLicenseFile(game string) (data *license.LicenseInfoRep, err error) {
 	if err = json.Unmarshal(reqData, rep); err != nil {
 		return nil, err
 	}
-	loc, err := time.LoadLocation("Asia/Shanghai")
-	if err != nil {
-		return nil, err
-	}
+
 	data = &license.LicenseInfoRep{
-		Expire: time.Unix(rep.ExpireAt, 0).In(loc).Format("2006-01-02 15:04:05"),
+		Expire: time.Unix(rep.ExpireAt, 0).Format("2006-01-02 15:04:05"),
 	}
 	gameId := license.GameToFeatureID[game]
 	if v, ok := rep.Features[gameId]; ok && v == "" && rep.Status == "已授权" {

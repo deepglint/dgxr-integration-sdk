@@ -47,6 +47,9 @@ type ElbowBend struct {
 type Squat struct {
 	KneeAngle float64
 }
+type Jump struct {
+	KneeHeight float64
+}
 
 type Rules struct {
 	A              A
@@ -59,4 +62,5 @@ type Rules struct {
 	LeftRightTilt  LeftRightTilt
 	ElbowBend      ElbowBend
 	Squat          Squat
+	Jump           Jump
 }

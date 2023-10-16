@@ -1,5 +1,6 @@
 log:
   level: info
+record: true
 license:
   host: http://127.0.0.1
   port: 2244
@@ -8,7 +9,6 @@ source:
   grpc:
     host: 0.0.0.0
     port: 50051
-
 games:
   skiing:
     tiltAngle: 20 # 倾斜角度，单位度，建议配置15-25
@@ -44,6 +44,8 @@ rules:
     minAngle: 80 # 最小手肘角度(用于识别游戏开始动作)，单位度，建议配置>80
     maxAngle: 130 # 最大手肘角度(用于识别游戏开始动作)，单位度，建议配置<130
   squat:
-    kneeAngle: 50  # 跳跃的膝盖角度，单位度，建议配置>50
+    kneeAngle: 100  # 跳跃的膝盖角度，单位度，建议配置>50
+  jump:
+    kneeHeight: 0.05  # 双脚离地高度，建议配置>0.05
 
     
