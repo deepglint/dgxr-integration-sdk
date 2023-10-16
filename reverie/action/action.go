@@ -4,6 +4,8 @@ import (
 	"reverie/action/rule"
 	"reverie/global"
 	"reverie/model/source"
+
+	"github.com/sirupsen/logrus"
 )
 
 type Action int
@@ -111,6 +113,7 @@ func RuleToXbox(pos *source.Source) {
 	for k, v := range global.Config.Action {
 		// TODO 判断动作类型，是按键还是值类型
 		if Registry.Run(Action(k), pos) {
+			logrus.Infof("动作: %s", Action(k).String())
 			go pos.Xbox.SetXbox(v)
 		}
 	}
@@ -118,6 +121,7 @@ func RuleToXbox(pos *source.Source) {
 
 func ModelToXbox(pos *source.Source, action int32) {
 	if v, ok := global.Config.Action[int(action)]; ok {
+		logrus.Infof("动作: %s", Action(action).String())
 		go pos.Xbox.SetXbox(v)
 	}
 }
