@@ -27,8 +27,8 @@ rules:
   C:
     leftHandThanHeadZ: 0.2 #左手和头的高度距离，建议 0.2
   D:
-    handAndTipToeDistance: 0.2 #双手和双脚三维空间的距离，建议 0.2
-    headAndHipDistanceZ: 0 #头和臀部在Z 轴上的空间距离，建议 0.1
+    handAndTipToeDistance: 0.4 #双手和双脚三维空间的距离，建议 0.2
+    headAndHipDistanceZ: 0.3 #头和臀部在Z 轴上的空间距离，建议 0.1
   greet:
     elbowAngle: 100 #手肘的角度，建议 100
     handMoveDistanceXZ: 0.15 #手在 XZ 二维平面的移动距离，建议 0.15

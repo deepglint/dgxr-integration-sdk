@@ -8,7 +8,6 @@ import (
 
 	"reverie/global"
 	"reverie/model/config"
-	"reverie/server/middleware"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -45,8 +44,8 @@ type Action struct {
 }
 
 func InitWsServer(r *gin.Engine) {
-	ws := r.Group("ws", middleware.License())
-	// ws := r.Group("ws")
+	// ws := r.Group("ws", middleware.License())
+	ws := r.Group("ws")
 	ws.GET("/", handleWebSocket)
 }
 
