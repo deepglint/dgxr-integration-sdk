@@ -108,7 +108,7 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 				action.RuleToXbox(global.Sources[id])
 				for _, v := range data.RecActions {
 					if v.Confidence > 0.7 {
-						logrus.Debugf("model action: %s", action.Action(v.Action).String())
+						logrus.Debugf("model action %v: %s", v.Action, action.Action(v.Action).String())
 						action.ModelToXbox(global.Sources[id], v.Action)
 					}
 				}
