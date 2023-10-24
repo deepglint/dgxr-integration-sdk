@@ -24,13 +24,14 @@ const (
 	ElbowBend Action = 9  // 弯双肘
 	Stand     Action = 10 // 站立
 
-	HandUp = 23 //举手
+	HandUp = 10000 //举手
 
 	SlowRun   = 19 // 慢跑
 	FastRun   = 20 // 快跑
 	CheerUp   = 24 // 欢呼
 	JumpUp    = 25 // 起跳
 	SquatDown = 26 // 下蹲
+
 )
 
 func (a Action) String() string {
@@ -101,7 +102,7 @@ func init() {
 	Registry.Register(B, rule.B)
 	Registry.Register(C, rule.C)
 	Registry.Register(D, rule.D)
-	Registry.Register(HandUp, rule.RaiseHandRight)
+	// Registry.Register(HandUp, rule.RaiseHandRight)
 	Registry.Register(Greet, rule.Greet)
 	Registry.Register(LeftSlide, rule.LeftSlide)
 	Registry.Register(Squat, rule.Squat)
@@ -113,7 +114,6 @@ func init() {
 
 func RuleToXbox(pos *source.Source) {
 	for k, v := range global.Config.Action {
-		// TODO 判断动作类型，是按键还是值类型
 		if Registry.Run(Action(k), pos) {
 			logrus.Infof("rule action: %s", Action(k).String())
 			go pos.Xbox.SetXbox(v)

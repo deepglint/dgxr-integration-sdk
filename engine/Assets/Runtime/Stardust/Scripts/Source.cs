@@ -126,9 +126,9 @@ namespace BodySource
 
         void Start()
         {
-            //WsUri = "ws://127.0.0.1:8000/ws";
-            WsUri = "ws://192.168.8.7:8000/ws";
-            //WsUri = "ws://10.211.55.3:8000/ws";
+            if(WsUri == ""){
+                WsUri = "ws://127.0.0.1:8000/ws";
+            }
             HasConnectSuccess = false;
             AutoReconnect = true;
             ReconnectCount = 0;

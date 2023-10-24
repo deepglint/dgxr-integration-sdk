@@ -25,7 +25,7 @@ namespace BodySource
 
             SlowRun = 19, // 慢跑
             FastRun = 20, // 快跑
-            HandUp = 23, // 举手
+            HandUp = 10000, // 举手
             CheerUp = 24,// 欢呼
             JumpUp = 25, // 起跳
             SquatDown = 26, // 下蹲
@@ -81,11 +81,6 @@ namespace BodySource
         public List<Action> actions;
 
         private bool isSent = false;
-
-        void Start()
-        {
-
-        }
 
         // Update is called once per frame
         void Update()

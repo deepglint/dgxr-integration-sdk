@@ -104,7 +104,6 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 					source.Enqueue(obj)
 					global.Sources[id] = &source
 				}
-				// TODO 按按键
 				action.RuleToXbox(global.Sources[id])
 				for _, v := range data.RecActions {
 					if v.Confidence > 0.7 {
