@@ -7,7 +7,7 @@ import (
 
 const (
 	LicenseFileApi       = "/x-api/v1/license_nodes/authorize/download"
-	LicenseTimeApi       = "/x-api/v1/license_nodes/authorize"
+	LicenseTimeApi       = "/x-api/v1/license_nodes/authenticate/licenses"
 	LicenseFileUploadApi = "/x-api/v1/license_nodes/authorize/upload_v2c"
 )
 
