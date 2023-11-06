@@ -29,9 +29,23 @@ type RaiseRightHand struct {
 	HandThanHeadZ float64
 }
 
-type LeftSlide struct {
+type LeftRightSlide struct {
 	HandMoveDistanceX float64
 	HandToShoulderXZ  float64
+}
+
+type UpSlide struct {
+	HandMoveDistanceY float64
+	HandMoveDistanceZ float64
+	ElbowAngle        float64
+	HandToShoulderZ   float64
+}
+
+type DownSlide struct {
+	HandMoveDistanceY float64
+	HandMoveDistanceZ float64
+	ElbowAngle        float64
+	HandToHipZ        float64
 }
 
 type LeftRightTilt struct {
@@ -51,6 +65,11 @@ type Jump struct {
 	KneeHeight float64
 }
 
+type HandsCross struct {
+	LeftCalculate  float64
+	RightCalculate float64
+}
+
 type Rules struct {
 	A              A
 	B              B
@@ -58,9 +77,12 @@ type Rules struct {
 	D              D
 	Greet          Greet
 	RaiseRightHand RaiseRightHand
-	LeftSlide      LeftSlide
+	LeftRightSlide LeftRightSlide
+	UpSlide        UpSlide
+	DownSlide      DownSlide
 	LeftRightTilt  LeftRightTilt
 	ElbowBend      ElbowBend
 	Squat          Squat
 	Jump           Jump
+	HandsCross     HandsCross
 }

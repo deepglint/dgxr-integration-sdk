@@ -9,27 +9,48 @@ namespace BodySource
     {
         public enum ActionType : int
         {
-            A = 0,
-            B = 1,
-            C = 2,
-            D = 3,
-            Greet = 4, // 招呼
-            LeftSlide = 5, // 左边滑
-            Squat = 6, // 下蹲
-            RightTilt = 7, // 右倾斜
-            LeftTilt = 8,// 左倾斜
-            ElbowBend = 9, // 弯双肘
-            Stand = 10,// 站立
-            Jump = 11,//跳跃
+            RightHandDrawCircle = 1,  //左手画圈
+            LeftHandDrawCircle = 2,   //右手画圈
+            Kick = 10,   //踢腿
+            CombineHandsStraight = 17,   //双手伸直合并
+            ThrowBoulder = 18,   //举手投掷巨物
+            SlowRun = 19,   //慢跑
+            FastRun = 20,   //快跑
+            Butterfly = 21,   //蝶泳
+            Freestyle = 22,   //自由泳
+            KeepRaisingHand = 23,   //持续举手
+            Applaud = 24,   //拍掌
+            Jump = 25,   //起跳
+            DeepSquat = 26,   //下蹲
+            RaiseOnHand = 10000, //举单手
+            RaiseBothHand = 10001, //举双手
+            ArmFlat = 10002, //手臂平展
+            ArmFlatIsL = 10003, //手臂平展为 L
+            ArmVerticalIsL = 10004, //手臂垂直为 L
 
+            SlideLeft = 2001,// 左滑
+            SlideRight = 2002,// 右滑
+            SlideUp = 2003,// 上滑
+            SlideDown = 2004,// 下滑
+            HandsAway = 2005,// 双手远离
+            HandsClose = 2006,// 双手靠近
+            Waving = 2007,// 挥手
+            ArmToForward = 2008,// 手臂向前
+            ArmToBack = 2009,// 手臂向后
+            ArmToLeft = 2010,// 手臂向左
+            ArmToRight = 2011,// 手臂向右
+            BendBothElbows = 2012,// 弯双肘
+            HandsCross = 2013,// 双手交叉
 
-            SlowRun = 19, // 慢跑
-            FastRun = 20, // 快跑
-            HandUp = 10000, // 举手
-            CheerUp = 24,// 欢呼
-            JumpUp = 25, // 起跳
-            SquatDown = 26, // 下蹲
-                            // 添加其他可能的动作
+            PoseA = 3001, // 姿势 A
+            PoseB = 3002, // 姿势 B
+            PoseC = 3003, // 姿势 C
+            PoseD = 3004, // 姿势 D
+            LeanToLeft = 3005, // 左倾斜
+            LeanToRight = 3006, // 右倾斜
+            Stand = 3007, // 站立
+
+            SmallSquat = 4001,// 浅蹲
         }
 
         public enum Key : int

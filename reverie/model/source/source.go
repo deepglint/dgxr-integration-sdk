@@ -133,6 +133,28 @@ func (q *Source) AverageAX(a int) float64 {
 	return sum / float64(len(q.items))
 }
 
+// 获取指定关节点的Y的平均值
+func (q *Source) AverageAY(a int) float64 {
+	q.mutex.Lock()
+	defer q.mutex.Unlock()
+	var sum float64
+	for _, value := range q.items {
+		sum += float64(value.Objs[a][1])
+	}
+	return sum / float64(len(q.items))
+}
+
+// 获取指定关节点的Z的平均值
+func (q *Source) AverageAZ(a int) float64 {
+	q.mutex.Lock()
+	defer q.mutex.Unlock()
+	var sum float64
+	for _, value := range q.items {
+		sum += float64(value.Objs[a][2])
+	}
+	return sum / float64(len(q.items))
+}
+
 // 计算两个骨骼点的中心点A的x坐标加y坐标的平均值
 func (q *Source) CalculateAverageAXY(a, b int) float64 {
 	q.mutex.Lock()
