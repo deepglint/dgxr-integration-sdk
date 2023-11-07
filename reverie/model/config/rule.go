@@ -42,6 +42,7 @@ type UpSlide struct {
 }
 
 type DownSlide struct {
+	HandMoveDistanceX float64
 	HandMoveDistanceY float64
 	HandMoveDistanceZ float64
 	ElbowAngle        float64
@@ -66,8 +67,10 @@ type Jump struct {
 }
 
 type HandsCross struct {
-	LeftCalculate  float64
-	RightCalculate float64
+	LeftMinCalculate  float64
+	LeftMaxCalculate  float64
+	RightMinCalculate float64
+	RightMaxCalculate float64
 }
 
 type Rules struct {

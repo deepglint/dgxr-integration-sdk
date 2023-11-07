@@ -1,7 +1,6 @@
 package rule
 
 import (
-	"fmt"
 	"math"
 	"reverie/global"
 	"reverie/model/source"
@@ -19,8 +18,7 @@ func HandsCross(data *source.Source) bool {
 		rightCalculate := data.CalculateAngle(pose.Objs[source.RightShoulder], pose.Objs[source.RightElbow], pose.Objs[source.RightWrist])
 		HandHight := (pose.Objs[source.LeftHand][2] + pose.Objs[source.RightHand][2]) / 2
 		HandShoulderDistance := math.Abs(pose.Objs[source.LeftHand][0]+pose.Objs[source.LeftHand][1]-pose.Objs[source.RightHand][0]-pose.Objs[source.RightHand][1]) - math.Abs((pose.Objs[source.LeftShoulder][0]+pose.Objs[source.LeftShoulder][1])-pose.Objs[source.RightShoulder][0]-pose.Objs[source.RightShoulder][1])
-		fmt.Println("左手肘", leftCalculate, "右手肘", rightCalculate, "双手高度", HandHight, "双手距离", HandShoulderDistance)
-		if leftCalculate > global.Config.Rules.HandsCross.LeftCalculate && rightCalculate > global.Config.Rules.HandsCross.RightCalculate && HandShoulderDistance < 0 && HandHight > pose.Objs[source.LeftHip][2] && HandHight < pose.Objs[source.LeftShoulder][2] {
+		if leftCalculate > global.Config.Rules.HandsCross.LeftMinCalculate && leftCalculate < global.Config.Rules.HandsCross.LeftMaxCalculate && rightCalculate < global.Config.Rules.HandsCross.RightMaxCalculate && rightCalculate > global.Config.Rules.HandsCross.RightMaxCalculate && HandShoulderDistance < 0 && HandHight > pose.Objs[source.LeftHip][2] && HandHight < pose.Objs[source.LeftShoulder][2] {
 			return true
 		}
 	}

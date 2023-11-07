@@ -12,7 +12,7 @@ func License() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if !global.LicenseStatus {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"msg": "license is not authorized",
+				"msg": "license is unauthorized",
 			})
 			return
 		}

@@ -46,7 +46,7 @@ type Action struct {
 func InitWsServer(r *gin.Engine) {
 	// ws := r.Group("ws", middleware.License())
 	ws := r.Group("/ws")
-	ws.GET("/ws", handleWebSocket)
+	ws.GET("", handleWebSocket)
 }
 
 var (
@@ -100,13 +100,12 @@ func handleWebSocket(c *gin.Context) {
 		}
 		pose := map[string][][]float64{}
 		for _, v := range global.Sources {
-			// if data, err := v.LastData(); err != nil {
-			if _, err := v.LastData(); err != nil {
+			if data, err := v.LastData(); err != nil {
 				logrus.Error(err)
 			} else {
-				// if v.Xbox != nil {
-				// 	pose[fmt.Sprintf("%v", v.Xbox.ID)] = data.Objs
-				// }
+				if v.Xbox != nil {
+					pose[fmt.Sprintf("%v", v.Xbox.ID)] = data.Objs
+				}
 			}
 		}
 		msg.Pose = pose

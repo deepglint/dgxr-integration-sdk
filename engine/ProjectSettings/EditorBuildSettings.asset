@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Runtime/Stardust/Scenes/MetaSpace.unity
     guid: d60fa8cdac80b0640b3d8e7e45969c08
   - enabled: 1
