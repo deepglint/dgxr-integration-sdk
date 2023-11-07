@@ -135,21 +135,21 @@ func (r *Report) SetTrigger(dir bool, value byte) {
 }
 
 const (
-	DPadUp      = 0
-	DPadDown    = 1
-	DPadLeft    = 2
-	DPadRight   = 3
-	ButtonStart = 4
-	ButtonBack  = 5
-	StickLeft   = 6
-	StickRight  = 7
-	BumperLeft  = 8
-	BumperRight = 9
-	ButtonGuide = 10
-	ButtonA     = 12
-	ButtonB     = 13
-	ButtonX     = 14
-	ButtonY     = 15
+	DPadUp          = 0
+	DPadDown        = 1
+	DPadLeft        = 2
+	DPadRight       = 3
+	Start           = 4
+	Select          = 5
+	StickLeftPress  = 6
+	StickRightPress = 7
+	LeftBumper      = 8
+	RightBumper     = 9
+	ButtonGuide     = 10
+	ButtonEast      = 12
+	ButtonSouth     = 13
+	ButtonNorth     = 14
+	ButtonWest      = 15
 
 	LeftStickUp     = 16
 	LeftStickDown   = 17

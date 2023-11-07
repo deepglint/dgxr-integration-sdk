@@ -3,7 +3,6 @@ package main
 import (
 	"os"
 	"path/filepath"
-
 	"reverie/config"
 	"reverie/global"
 	"reverie/server"

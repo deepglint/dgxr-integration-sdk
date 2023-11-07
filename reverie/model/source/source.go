@@ -3,9 +3,8 @@ package source
 import (
 	"fmt"
 	"math"
-	"sync"
-
 	"reverie/source/output/xbox"
+	"sync"
 )
 
 // source

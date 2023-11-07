@@ -35,18 +35,18 @@ rules:
   raiseRightHand:
     handThanHeadZ: 0.1 #手（Z方向）高于头的距离，建议 0.1～0.2
   leftRightSlide:
-    handMoveDistanceX: 0 #在X轴的移动距离，建议 0.2
-    handToShoulderXZ: 0.05 #手和肩膀在XZ上的绝对值距离，建议 0.05
+    handMoveDistanceX: 0.1 #在X轴的移动距离，建议 0.2
+    handToShoulderXZ: 0.1 #手和肩膀在XZ上的绝对值距离，建议 0.05
   upSlide:
-    handMoveDistanceY: 0.1 #在Y轴的移动距离，建议 0.1
-    handMoveDistanceZ: 0.2 #在Z轴的移动距离，建议 0.2
-    elbowAngle: 100   #手肘的角度，建议 100
-    handToShoulderZ: 0.05 #手和肩膀在YZ上的绝对值距离，建议 0.05
+    handMoveDistanceY: 0.02 #在Y轴的移动距离，建议 0.1
+    handMoveDistanceZ: 0.03 #在Z轴的移动距离，建议 0.2
+    elbowAngle: 110   #手肘的角度，建议 130
+    handToShoulderZ: 0.05 #手和肩膀在YZ上的绝对值距离，建议 0.2
   downSlide:
-    handMoveDistanceY: 0.1 #在Y轴的移动距离，建议 0.1
+    handMoveDistanceY: 0.15 #在Y轴的移动距离，建议 0.1
     handMoveDistanceZ: 0.2 #在Z轴的移动距离，建议 0.2
-    elbowAngle: 40   #手肘的角度，建议 100
-    handToHipZ: 0.05 #手和肩膀在YZ上的绝对值距离，建议 0.05
+    elbowAngle: 20   #手肘的角度，建议 100
+    handToHipZ: 0.2 #手和肩膀在YZ上的绝对值距离，建议 0.05
   leftRightTilt:
     tiltAngle: 20 # 倾斜角度，单位度，建议配置15-25
     shoulderWidth: 0.2 # 肩膀宽度，单位米，建议配置0.2-0.3

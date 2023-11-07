@@ -1,6 +1,8 @@
 package config
 
 import (
+	"io"
+	"os"
 	"reverie/global"
 	"reverie/model/config"
 
@@ -42,7 +44,8 @@ func InitConfig(path string) {
 		MaxAge:     30,
 		Compress:   true,
 	}
-	logs.SetOutput(logger) // logrus 设置日志的输出方式
+	logs.SetOutput(io.MultiWriter(os.Stdout, logger))
+	// logs.SetOutput(logger, os.Stdout) // logrus 设置日志的输出方式
 	viper.WatchConfig()
 
 	logs.Infoln("---------meta config list--------")
