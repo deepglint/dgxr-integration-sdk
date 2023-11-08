@@ -7,7 +7,6 @@ import (
 	"reverie/global"
 	"reverie/server"
 	"reverie/source/input/grpc"
-	"reverie/util"
 
 	"github.com/kardianos/service"
 	"github.com/sirupsen/logrus"
@@ -62,7 +61,7 @@ func main() {
 func (p *program) run() {
 	config.InitConfig("./config")
 	global.InitSources()
-	go util.CheckLicense()
+	go global.CheckLicense()
 	go server.InitHttp()
 	global.XboxDevice = global.NewXboxPool(10)
 	defer global.XboxDevice.CloseAllXbox()
