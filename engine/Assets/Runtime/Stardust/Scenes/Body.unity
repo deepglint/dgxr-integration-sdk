@@ -2191,7 +2191,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1187668116823712881, guid: 41563c2f25f7740d1a129cb22a928821, type: 3}
       propertyPath: WsUri
-      value: ws://192.168.8.7:8000/ws
+      value: ws://192.168.12.1:8000/ws
       objectReference: {fileID: 0}
     - target: {fileID: 3522114571120007156, guid: 41563c2f25f7740d1a129cb22a928821, type: 3}
       propertyPath: m_RootOrder
@@ -5721,7 +5721,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actions:
+  - action: 2013
+    key: 0
+    type: 0
+  - action: 2001
+    key: 0
+    type: 0
+  - action: 2002
+    key: 0
+    type: 0
+  - action: 2003
+    key: 0
+    type: 0
   - action: 2005
+    key: 0
+    type: 0
+  - action: 2004
     key: 0
     type: 0
   - action: 2006
