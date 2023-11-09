@@ -91,8 +91,17 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 					Objs: [][]float64{},
 				}
 				for _, v := range data.Objs {
+					// 三楼临时添加的过滤条件
+					// if v.Value[0] == 0 || v.Value[1] == 0 || v.Value[2] == 0 {
+					// 	obj.Objs = [][]float64{}
+					// 	break
+					// }
 					obj.Objs = append(obj.Objs, []float64{float64(v.Value[0]), float64(v.Value[1]), float64(v.Value[2])})
 				}
+				// 三楼临时添加的过滤条件
+				// if len(obj.Objs) == 0 {
+				// 	continue
+				// }
 				if value, ok := global.Sources[id]; ok {
 					if value.Xbox == nil {
 						value.Xbox = global.XboxDevice.GetDevice()

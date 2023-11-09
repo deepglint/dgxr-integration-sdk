@@ -5721,20 +5721,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actions:
-  - action: 2013
+  - action: 2005
     key: 0
     type: 0
-  - action: 2001
-    key: 1
-    type: 0
-  - action: 2002
-    key: 1
-    type: 0
-  - action: 2003
-    key: 1
-    type: 0
-  - action: 2004
-    key: 1
+  - action: 2006
+    key: 0
     type: 0
 --- !u!1 &2092244545
 GameObject:
