@@ -181,6 +181,8 @@ func init() {
 	Registry.Register(BendBothElbows, rule.ElbowBend)
 	Registry.Register(Stand, rule.Stand)
 	Registry.Register(HandsCross, rule.HandsCross)
+	Registry.Register(HandsAway, rule.HandsAway)
+	Registry.Register(HandsClose, rule.HandsClose)
 }
 
 func RuleToXbox(pos *source.Source) {
