@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using CGC;
 
 namespace BodySource
 {
@@ -103,6 +104,22 @@ namespace BodySource
 
         private bool isSent = false;
 
+        private void Start()
+        {
+            EventManager.RegisterListener(GameEvent.WsconnectSuccess, OnOpen);
+            EventManager.RegisterListener(GameEvent.OnOpen, OnOpen);
+        }
+    
+        void OnOpen(EventCallBack evt)
+        {
+            isSent = false;
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.RemoveListener(GameEvent.WsconnectSuccess, OnOpen);
+        }
+        
         // Update is called once per frame
         void Update()
         {
