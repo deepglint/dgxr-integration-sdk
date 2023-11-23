@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading;
 using BodySource;
+using CGC;
 
 
 public class MoveJoints : MonoBehaviour

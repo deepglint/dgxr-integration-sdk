@@ -4,6 +4,8 @@ using BestHTTP.WebSocket;
 using System;
 using System.Threading;
 using Newtonsoft.Json;
+using CGC;
+
 namespace BodySource
 {
     public class Options
@@ -248,6 +250,7 @@ namespace BodySource
             if (!HasConnectSuccess)
             {
                 HasConnectSuccess = true;
+                EventManager.Send(GameEvent.WsconnectSuccess);
                 if (OptionType.GetMethod("onOpened") != null)
                 {
                     options.onOpened();
@@ -268,6 +271,7 @@ namespace BodySource
         {
             Debug.LogError("失败Error: " + error);
             HasConnectSuccess = false;
+            EventManager.Send(GameEvent.WsconnectError);
             if (OptionType.GetMethod("onError") != null)
             {
                 options.onError();
