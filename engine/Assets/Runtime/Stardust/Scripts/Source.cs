@@ -37,6 +37,7 @@ namespace BodySource
                 //VRDGBodySource.Instance.Floor = ;
                
                 SourceData info = JsonConvert.DeserializeObject<SourceData>(res);
+               // Debug.Log("返回的message----------" + VRDGBodySource.Instance.Data.Count );
                 if (info.pose.Count != VRDGBodySource.Instance.Data.Count) {
                     foreach (var person in VRDGBodySource.Instance.Data)
                     {
@@ -59,6 +60,7 @@ namespace BodySource
                         body.Joints.Add(jointType, joint);
                     }
                     VRDGBodySource.Instance.Data[person.Key] = body;
+                     
                 }
 
                 //BodyDataSource data;

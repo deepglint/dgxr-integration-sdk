@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"context"
 	"encoding/json"
+	"fmt"
 	"os"
 	"time"
 
@@ -52,12 +53,16 @@ func Grpc() {
 	// 循环读取每一行
 	for scanner.Scan() {
 		n++
-		time.Sleep(40 * time.Millisecond)
+		// time.Sleep(1 * time.Second)
+		time.Sleep(30 * time.Millisecond)
 		line := scanner.Text()
 		data := &ReqDataInfo{}
 		err = json.Unmarshal([]byte(line), data)
 		if err != nil {
-			logrus.Info("解析失败", err, n, data)
+			// logrus.Info("解析失败", err, n, data)
+		}
+		if data.ReqInfo == nil || data.ReqInfo.FrameId == "" {
+			continue
 		}
 		// 发送请求到服务器
 		sentMsg := &pb.Request{
@@ -65,6 +70,7 @@ func Grpc() {
 			Result:    data.ReqInfo.Result,
 			TimeStamp: data.ReqInfo.TimeStamp,
 		}
+		fmt.Println(data.ReqInfo.FrameId)
 		_, err := client.SendThreeDimSkelData(context.Background(), sentMsg)
 		if err != nil {
 			logrus.Fatal("发送请求失败：", err)

@@ -54,20 +54,68 @@ type SourceData struct {
 	Objs [][]float64
 }
 
+// Window 维护一个滑动窗口
+type Window struct {
+	mu      sync.Mutex
+	data    []int
+	size    int
+	index   int
+	counter map[int]int
+}
+
+func NewWindow(size int) *Window {
+	return &Window{
+		data:    make([]int, size),
+		size:    size,
+		index:   0,
+		counter: make(map[int]int),
+	}
+}
+
+func (w *Window) Add(value int) {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	oldValue := w.data[w.index]
+	w.counter[oldValue]--
+	w.data[w.index] = value
+	w.counter[value]++
+	w.index = (w.index + 1) % w.size
+}
+
+func (w *Window) MaxCount() int {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	maxIndex := 0
+	max := -1
+	for k, v := range w.counter {
+		if k == 0 {
+			continue
+		}
+		if v > max && v > w.size/4 {
+			max = v
+			maxIndex = k
+		}
+	}
+	return maxIndex
+}
+
 // TODO source结构体单独定义，与grpc数据解耦
 type Source struct {
-	items    []SourceData
-	PersonId string
-	cap      int
-	Xbox     *xbox.Xbox
-	mutex    sync.RWMutex // 读写锁
+	items        []SourceData
+	PersonId     string
+	ActionWindow *Window
+	cap          int
+	Xbox         *xbox.Xbox
+	mutex        sync.RWMutex // 读写锁
 }
 
 func InitSource(cap int) *Source {
+	win := NewWindow(20)
 	return &Source{
-		items: []SourceData{},
-		mutex: sync.RWMutex{},
-		cap:   cap,
+		items:        []SourceData{},
+		mutex:        sync.RWMutex{},
+		ActionWindow: win,
+		cap:          cap,
 	}
 }
 
@@ -93,6 +141,13 @@ func (q *Source) Dequeue() (SourceData, error) {
 	return item, nil
 }
 
+// 取出source所有数据
+func (q *Source) All() []SourceData {
+	q.mutex.Lock()
+	defer q.mutex.Unlock()
+	return q.items
+}
+
 // 获取数据源的大小
 func (q *Source) Size() int {
 	q.mutex.Lock()
@@ -102,6 +157,8 @@ func (q *Source) Size() int {
 
 // 取出source第最后一个数据（注意队列的先进先出）
 func (q *Source) LastData() (SourceData, error) {
+	// q.mutex.Lock()
+	// defer q.mutex.Unlock()
 	if len(q.items) == 0 {
 		return SourceData{}, fmt.Errorf("Source is empty")
 	}

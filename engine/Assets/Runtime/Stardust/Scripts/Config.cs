@@ -66,10 +66,11 @@ namespace BodySource
             LeftBumper = 8,
             RightBumper = 9,
             ButtonGuide = 10,
-            ButtonEast = 12,
-            ButtonSouth = 13,
-            ButtonNorth = 14,
-            ButtonWest = 15,
+
+            ButtonSouth     = 12,
+	        ButtonEast      = 13,
+	        ButtonWest      = 14,
+	        ButtonNorth     = 15,
 
             LeftStickUp = 16,
             LeftStickDown = 17,

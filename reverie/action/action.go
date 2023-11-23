@@ -1,9 +1,12 @@
 package action
 
 import (
+	"fmt"
 	"reverie/action/rule"
 	"reverie/global"
+	"reverie/model/config"
 	"reverie/model/source"
+	"time"
 
 	"github.com/sirupsen/logrus"
 )
@@ -171,22 +174,43 @@ func init() {
 	Registry.Register(PoseD, rule.D)
 	// Registry.Register(, rule.RaiseHandRight)
 	Registry.Register(Waving, rule.Greet)
-	Registry.Register(SlideLeft, rule.SlideLeft)
-	Registry.Register(SlideRight, rule.SlideRight)
-	Registry.Register(SlideUp, rule.SlideUp)
-	Registry.Register(SlideDown, rule.SlideDown)
+	// Registry.Register(SlideLeft, rule.SlideLeft)
+	// Registry.Register(SlideRight, rule.SlideRight)
+	// Registry.Register(SlideUp, rule.SlideUp)
+	// Registry.Register(SlideDown, rule.SlideDown)
 	Registry.Register(SmallSquat, rule.Squat)
 	Registry.Register(LeanToRight, rule.RightTilt)
 	Registry.Register(LeanToLeft, rule.LeftTilt)
 	Registry.Register(BendBothElbows, rule.ElbowBend)
 	Registry.Register(Stand, rule.Stand)
-	Registry.Register(HandsCross, rule.HandsCross)
-	Registry.Register(HandsAway, rule.HandsAway)
-	Registry.Register(HandsClose, rule.HandsClose)
+	// Registry.Register(HandsCross, rule.HandsCross)
+	// Registry.Register(HandsAway, rule.HandsAway)
+	// Registry.Register(HandsClose, rule.HandsClose)
+}
+
+func ActionToXbox() {
+	global.Sources.Range(func(key, value interface{}) bool {
+		poser := value.(*source.Source)
+		go func(pos *source.Source) {
+			for key, actionData := range global.Config.Action {
+				// 遍历每一个注册进来的动作
+				if _, ok := Registry.registry[Action(key)]; ok {
+					if Registry.Run(Action(key), pos) {
+						logrus.Infof("rule action: %s", Action(key).String())
+						go pos.Xbox.SetXbox(actionData)
+					}
+				} else {
+					go TemplateMatch(pos, key, actionData)
+				}
+			}
+		}(poser)
+		return true
+	})
 }
 
 func RuleToXbox(pos *source.Source) {
 	for k, v := range global.Config.Action {
+		// 收到数据入库
 		if Registry.Run(Action(k), pos) {
 			logrus.Infof("rule action: %s", Action(k).String())
 			go pos.Xbox.SetXbox(v)
@@ -199,4 +223,69 @@ func ModelToXbox(pos *source.Source, action int32) {
 		logrus.Infof("model action: %s", Action(action).String())
 		go pos.Xbox.SetXbox(v)
 	}
+}
+
+func TemplateMatch(pos *source.Source, k int, action config.ActionData) {
+	if val, ok := global.GetTemplatesByID(k); ok {
+		var disScore float64
+		pathLen := 100
+		temNormP3d := KeyNodePos(val.Tem.NormP3d, val.KeyNode)
+		// 增加单帧字段，根据数据库字段判断是否是单帧，单帧就匹配 for 遍历每一帧进行计算匹配
+		if val.SingleFrame == 1 {
+			// 单帧
+			if pos, err := pos.LastData(); err != nil {
+				logrus.Error(err)
+			} else {
+				input := [][][]float64{}
+				input = append(input, pos.Objs)
+				normP3d := global.NormalizeSeqPose3D(input)
+				keyNormP3d := KeyNodePos(normP3d, val.KeyNode)
+
+				// TODO 处理val.Tem.NormP3d,匹配个别关节点，此处匹配多个人的单帧模板，需要增加 for 循环遍历val.Tem.NormP3d，去除每一个作为三维数组
+				for _, tem := range temNormP3d {
+					distMat := global.ComputeDistMatrix([][][]float64{tem}, keyNormP3d)
+					disScore = distMat.At(0, 0)
+					if disScore < float64(val.Score) {
+						break
+					}
+				}
+			}
+		} else {
+			// 多帧
+			pos := pos.All()
+			input := [][][]float64{}
+			is := len(pos) - len(val.Tem.NormP3d)
+			if is < 0 {
+				return
+			}
+			for i := is; i < len(pos); i++ {
+				input = append(input, pos[i].Objs)
+			}
+			normP3d := global.NormalizeSeqPose3D(input)
+			keyNormP3d := KeyNodePos(normP3d, val.KeyNode)
+			distMat := global.ComputeDistMatrix(temNormP3d, keyNormP3d)
+			atrousDMat := global.ComputeAccumulatedCostMatrix(distMat)
+			_, pathLen, disScore = global.FindBestPath(atrousDMat, distMat)
+		}
+
+		if disScore < float64(val.Score) && ((pathLen+1) > int(float32(len(val.Tem.NormP3d))*val.PathLen) || pathLen == 100) {
+			pos.ActionWindow.Add(k)
+			if pos.ActionWindow.MaxCount() == k {
+				fmt.Println("success", time.Now().UnixMilli(), action.Value, disScore, (pathLen + 1), len(val.Tem.NormP3d), val.PathLen, int(float32(len(val.Tem.NormP3d))*val.PathLen))
+				logrus.Infof("rule action: %s", Action(k).String())
+				go pos.Xbox.SetXbox(action)
+			}
+		}
+	}
+}
+
+func KeyNodePos(inputPos [][][]float64, keyNode []int) (outputPos [][][]float64) {
+	for _, val := range inputPos {
+		pos := [][]float64{}
+		for _, v := range keyNode {
+			pos = append(pos, val[v])
+		}
+		outputPos = append(outputPos, pos)
+	}
+	return
 }

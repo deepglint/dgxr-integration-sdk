@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"reverie/config"
+	"reverie/db"
 	"reverie/global"
 	"reverie/server"
 	"reverie/source/input/grpc"
@@ -25,6 +26,8 @@ func (p *program) Stop(s service.Service) error {
 }
 
 func main() {
+	// prg := &program{}
+	// prg.run()
 	// 获取当前可执行文件的路径
 	exePath, _ := os.Executable()
 	exeDir := filepath.Dir(exePath)
@@ -60,10 +63,11 @@ func main() {
 
 func (p *program) run() {
 	config.InitConfig("./config")
-	global.InitSources()
+	db.InitDB()
 	go global.CheckLicense()
 	go server.InitHttp()
 	global.XboxDevice = global.NewXboxPool(10)
+	go global.UpdateTemplate()
 	defer global.XboxDevice.CloseAllXbox()
 	grpc.Grpc()
 }

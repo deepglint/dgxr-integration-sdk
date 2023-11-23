@@ -8,6 +8,7 @@ import (
 
 	"reverie/global"
 	"reverie/model/config"
+	"reverie/model/source"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -99,15 +100,17 @@ func handleWebSocket(c *gin.Context) {
 			Ts: time.Now().UnixMilli(),
 		}
 		pose := map[string][][]float64{}
-		for _, v := range global.Sources {
-			if data, err := v.LastData(); err != nil {
+		global.Sources.Range(func(key, value interface{}) bool {
+			pos := value.(*source.Source)
+			if data, err := pos.LastData(); err != nil {
 				logrus.Error(err)
 			} else {
-				if v.Xbox != nil {
-					pose[fmt.Sprintf("%v", v.Xbox.ID)] = data.Objs
+				if pos.Xbox != nil {
+					pose[fmt.Sprintf("%v", pos.Xbox.ID)] = data.Objs
 				}
 			}
-		}
+			return true
+		})
 		msg.Pose = pose
 		message, _ := json.Marshal(msg)
 		err = conn.WriteMessage(websocket.TextMessage, message)

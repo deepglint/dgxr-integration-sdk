@@ -1,11 +1,11 @@
 log:
   level: info
-record: true
+record: false
 license:
   host: http://127.0.0.1
   port: 2244
 source:
-  cap: 10
+  cap: 20
   grpc:
     host: 0.0.0.0
     port: 50051
@@ -21,14 +21,14 @@ rules:
     handHightHead: 0 #手高于头的距离，建议 0～0.1
     feetThanHip: 0   #双脚大于胯部的距离，建议 0～0.1
   B:
-    feetHeight: 0.2 #双脚之间的高度差，建议 0.2
-    leftAndRightFeetXY: 0.2 #左右脚之间的XY 上的位移，建议 0.2
+    feetHeight: 0.1 #双脚之间的高度差，建议 0.2
+    leftAndRightFeetXY: 0.3 #左右脚之间的XY 上的位移，建议 0.2
     rightHandThanHeadXYZ: 0.3 #右手和头的三维空间距离，建议 0.3
   C:
-    leftHandThanHeadZ: 0.2 #左手和头的高度距离，建议 0.2
+    leftHandThanHeadZ: 0.15 #左手和头的高度距离，建议 0.2
   D:
     handAndTipToeDistance: 0.4 #双手和双脚三维空间的距离，建议 0.2
-    headAndHipDistanceZ: 0.3 #头和臀部在Z 轴上的空间距离，建议 0.1
+    headAndHipDistanceZ: 0.5 #头和臀部在Z 轴上的空间距离，建议 0.1
   greet:
     elbowAngle: 100 #手肘的角度，建议 100
     handMoveDistanceXZ: 0.15 #手在 XZ 二维平面的移动距离，建议 0.15

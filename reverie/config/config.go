@@ -45,6 +45,7 @@ func InitConfig(path string) {
 		Compress:   true,
 	}
 	logs.SetOutput(io.MultiWriter(os.Stdout, logger))
+	logs.Trace("trace")
 	// logs.SetOutput(logger, os.Stdout) // logrus 设置日志的输出方式
 	viper.WatchConfig()
 
