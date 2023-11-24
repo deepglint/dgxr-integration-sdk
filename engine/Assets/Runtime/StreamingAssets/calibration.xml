@@ -76,8 +76,8 @@
       <Display>4</Display>
     </Surface>
     <Surface>
-      <Pos.X>5</Pos.X>
-      <Pos.Y>1.6</Pos.Y>
+      <Pos.X>0</Pos.X>
+      <Pos.Y>1.4</Pos.Y>
       <Pos.Z>-2.55</Pos.Z>
       <Rot.X>270</Rot.X>
       <Rot.Y>180</Rot.Y>
