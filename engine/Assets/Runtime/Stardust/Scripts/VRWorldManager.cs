@@ -71,7 +71,6 @@ namespace VRKave
                 Screen.SetResolution(display.systemWidth - 1, display.systemHeight - 1, false);
                 display.Activate(display.systemWidth - 1, display.systemHeight - 1, 60);
             }
-               
         }
 
         public Camera[] GetCameras()
@@ -152,6 +151,8 @@ namespace VRKave
 
             //Instantiate the screens:
             index = 0;
+            
+            Debug.Log("_configuration.Screens.Length: " + _configuration.Screens.Length);
             _screens = new GameObject[_configuration.Screens.Length];
             foreach (var screen in _configuration.Screens)
             {
