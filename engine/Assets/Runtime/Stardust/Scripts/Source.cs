@@ -109,6 +109,7 @@ namespace BodySource
     public class Source : MonoBehaviour
     {
         public string WsUri = "";
+        public bool allowConnect = true;
         private bool AutoReconnect = true;
         private bool HasConnectSuccess;
         public WebSocket webSocket;
@@ -118,7 +119,6 @@ namespace BodySource
         private Options options;
         private Type OptionType;
         private Timer timer;
-        
 
         class TimerState
         {
@@ -134,7 +134,11 @@ namespace BodySource
             HasConnectSuccess = false;
             AutoReconnect = true;
             ReconnectCount = 0;
-            init(new Options());
+
+            if (allowConnect)
+            {
+                init(new Options()); 
+            }
         }
 
         public void init(Options arg)
@@ -283,6 +287,7 @@ namespace BodySource
 
         void OnDestroy()
         {
+            if (webSocket == null) return; 
             webSocket.Close();
             timer.Dispose();
             AutoReconnect = false;
