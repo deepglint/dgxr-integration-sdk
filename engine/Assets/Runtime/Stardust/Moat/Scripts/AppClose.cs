@@ -20,6 +20,7 @@ namespace CGC
 
         public Action OnCloseCallback;
         public bool isOpen = false;
+        public bool isTest = true;
 
         private void Awake()
         {
@@ -30,6 +31,22 @@ namespace CGC
         void Start()
         {
             closeGameObject?.SetActive(false);
+        }
+
+        private void Update()
+        {
+            if (isTest)
+            {
+                if (Input.GetKey(KeyCode.Z))
+                {
+                    Open();
+                }
+
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    CloseApp();
+                }
+            }
         }
 
         public void CloseApp()

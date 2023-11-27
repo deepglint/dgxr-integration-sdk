@@ -102,7 +102,7 @@ namespace BodySource
 
         public List<Action> actions;
 
-        public bool isSent = false;
+        [HideInInspector] public bool isSent = false;
 
         // Update is called once per frame
         void Update()

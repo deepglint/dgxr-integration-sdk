@@ -111,8 +111,8 @@ namespace BodySource
         public string WsUri = "";
         public bool allowConnect = true;
         private bool AutoReconnect = true;
-        private bool HasConnectSuccess;
-        public WebSocket webSocket;
+        [HideInInspector] public bool HasConnectSuccess;
+        [HideInInspector] public WebSocket webSocket;
         private int ReconnectCount;
         private int ReconnectMaxCount = -1;
         private long LastConnect;
@@ -183,21 +183,6 @@ namespace BodySource
         public void Connect(string url)
         {
             LastConnect = getNowTime();
-            // todo判断设备是否在线
-            // if(UrlExistsUsingSockets("https://www.baidu.com")) {
-            //     webSocket = new WebSocket(new Uri(url));
-            //     webSocket.OnOpen += OnWebSocketOpen;
-            //     webSocket.OnMessage += OnMessageReceived;
-            //     webSocket.OnClosed += OnWebSocketClosed;
-            //     webSocket.OnError += OnError;
-
-            //     webSocket.Open();
-            // } else {
-            //     UnityEngine.Debug.Log("无网络");
-            //     if(OptionType.GetMethod("onError") != null) {
-            //         options.onError();
-            //     }
-            // }
 
             webSocket = new WebSocket(new Uri(url));
             webSocket.OnOpen += OnWebSocketOpen;
@@ -209,6 +194,12 @@ namespace BodySource
 
         private void smartReconnect(object timerState)
         {
+            if (!allowConnect)
+            {
+                timer.Dispose(); 
+                return;
+            }
+
             var state = timerState as TimerState;
             Interlocked.Increment(ref state.Counter);
 
@@ -265,7 +256,6 @@ namespace BodySource
             if (OptionType.GetMethod("onMessage") != null)
             {
                 options.onMessage(message);
-                // send();
             }
         }
 
