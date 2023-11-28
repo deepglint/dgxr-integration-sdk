@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4cc6faa5da68f3c41b00285c704d3e06
+timeCreated: 1533918993
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 32647
+  packageName: SteamVR Plugin
+  packageVersion: 2.7.3 (sdk 1.14.15)
+  assetPath: Assets/SteamVR/InteractionSystem/Samples/Models/Materials/Buggy.mat
+  uploadId: 419664

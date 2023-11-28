@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b41d1116a101a84499296ce28d16e6b9
+timeCreated: 1532714163
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 32647
+  packageName: SteamVR Plugin
+  packageVersion: 2.7.3 (sdk 1.14.15)
+  assetPath: Assets/SteamVR/InteractionSystem/Samples/Models/floor.mat
+  uploadId: 419664

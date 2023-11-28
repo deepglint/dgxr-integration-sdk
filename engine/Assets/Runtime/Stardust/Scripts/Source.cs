@@ -6,6 +6,8 @@ using System.Threading;
 using Newtonsoft.Json;
 using CGC;
 
+// yq: ws://192.168.12.1:8000/ws
+// sl: ws://192.168.7.8:8000/ws
 namespace BodySource
 {
     public class Options

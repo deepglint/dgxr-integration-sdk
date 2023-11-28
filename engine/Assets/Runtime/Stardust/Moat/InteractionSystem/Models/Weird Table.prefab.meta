@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 57e966daf1b02b746ac71933c6ef56b7
+timeCreated: 1532722276
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 32647
+  packageName: SteamVR Plugin
+  packageVersion: 2.7.3 (sdk 1.14.15)
+  assetPath: Assets/SteamVR/InteractionSystem/Samples/Models/Weird Table.prefab
+  uploadId: 419664

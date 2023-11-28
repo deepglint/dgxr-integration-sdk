@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e7af05fa230061c4da07e8ceda602506
+timeCreated: 1532714324
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 32647
+  packageName: SteamVR Plugin
+  packageVersion: 2.7.3 (sdk 1.14.15)
+  assetPath: Assets/SteamVR/InteractionSystem/Samples/Models/Table_Round.prefab
+  uploadId: 419664
