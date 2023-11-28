@@ -15,7 +15,10 @@ namespace VRKave
         public GameObject ScreenPrefab;
         public Boolean LockAll;
         public Boolean LockXZ;
-
+        public Camera[] _uiCameras;
+        [Header("是否使用UI叠加渲染")]
+        public bool isUIRender = false;
+        
         private VRLoadCalibration _configuration = new VRLoadCalibration();
 
         private GameObject _sensor;
@@ -71,6 +74,7 @@ namespace VRKave
                 Screen.SetResolution(display.systemWidth - 1, display.systemHeight - 1, false);
                 display.Activate(display.systemWidth - 1, display.systemHeight - 1, 60);
             }
+               
         }
 
         public Camera[] GetCameras()
@@ -115,6 +119,7 @@ namespace VRKave
                 index++;
             }
 
+
             //Instantiate the CAVE projectors:
             index = 0;
             _projectors = new Camera[_configuration.Projectors.Length];
@@ -151,8 +156,6 @@ namespace VRKave
 
             //Instantiate the screens:
             index = 0;
-            
-            Debug.Log("_configuration.Screens.Length: " + _configuration.Screens.Length);
             _screens = new GameObject[_configuration.Screens.Length];
             foreach (var screen in _configuration.Screens)
             {
@@ -185,6 +188,30 @@ namespace VRKave
                 _userScreenViewCameras[index].gameObject.layer = _caveLayer;
                 //_userScreenViewCameras[index].cullingMask = 1 << ();      //The user is set to only see the default layer. Change this culling mask if you want the camera to see different layers (like water).
                 _userScreenViewCameras[index].targetDisplay = _configuration.Screens[index].Display - 1;
+            }
+
+            if (isUIRender)
+            {
+                index = 0;
+                foreach (var uicamera in _uiCameras)
+                {
+                    var texture = new RenderTexture(1920, 1200, 24, RenderTextureFormat.ARGB32);
+
+                    texture.antiAliasing = 2;
+                    texture.Create();
+                    uicamera.targetTexture = texture;
+                    foreach (var projector in _projectors)
+                    {
+                        if (projector.gameObject.GetComponent<QuadWarp>().DisplayIndex == uicamera.targetDisplay)
+                        {
+                            projector.gameObject.GetComponent<QuadWarp>()._tex.Add(texture);
+                            projector.gameObject.GetComponent<QuadWarp>()._vertices
+                                .Add(projector.gameObject.GetComponent<QuadWarp>()._vertices[0]);
+                        }
+                    }
+
+                    index++;
+                }
             }
         }
         
@@ -303,6 +330,48 @@ namespace VRKave
             mat[0, 2] = horizObl;
             mat[1, 2] = vertObl;
             cam.projectionMatrix = mat;
+        }
+        
+        private void LateUpdate()
+        {
+            // if (Input.GetKeyDown(KeyCode.O))
+            // {
+            //     SaveImage();
+            // }
+        }
+        
+        public int width = 1920;
+        public int height = 1200;
+        public int displayCount = 1;
+        public string savePath = "MultipleDisplays.png";
+        
+        private void SaveImage()
+        {
+            int index = 0;
+            foreach (var projector in _projectors)
+            {
+                // RenderTexture texture1 = (RenderTexture)projector.gameObject.GetComponent<QuadWarp>()._tex[1];
+                
+                var texture0 = new RenderTexture(1920, 1200, 24, RenderTextureFormat.ARGB32);
+                texture0.antiAliasing = 2;
+                texture0.Create();
+                projector.GetComponent<Camera>().targetTexture = texture0;
+                projector.GetComponent<Camera>().Render();
+                RenderTexture texture1 = projector.GetComponent<Camera>().targetTexture;
+                
+                Texture2D texture2d = new Texture2D(texture1.width, texture1.height);
+                RenderTexture.active = texture1;
+                texture2d.ReadPixels(new Rect(0, 0, texture1.width, texture1.height), 0, 0);
+                texture2d.Apply();
+                byte[] bytes2 = texture2d.EncodeToPNG();
+                System.IO.File.WriteAllBytes(index + savePath, bytes2);
+        
+                // 清理资源
+                RenderTexture.active = null;
+                Destroy(texture1);
+                Destroy(texture2d);
+                index++;
+            }
         }
     }
 }

@@ -59,14 +59,20 @@ namespace VRKave
             Graphics.SetRenderTarget(destination);
             GL.Clear(true, true, Color.clear);
 
-            for (int surfaceIndex = 0; surfaceIndex < _tex.Count; surfaceIndex++)
+            for (int surfaceIndex = 0; surfaceIndex < 1; surfaceIndex++)
             {
                 GL.PushMatrix();
                 GL.LoadOrtho();
                 var homographyVtx = CalcHomography(_vertices[surfaceIndex][0], _vertices[surfaceIndex][3],
                     _vertices[surfaceIndex][2], _vertices[surfaceIndex][1]);
                 var homography = homographyUV * homographyVtx.inverse;
+                
                 _mat.mainTexture = _tex[surfaceIndex];
+                if (_tex.Count > 1)
+                {
+                    _mat.SetTexture("_OverlayTex",_tex[1]);
+                }
+                
                 _mat.SetMatrix("_Homography", homography);
                 _mat.SetPass(0);
 
@@ -88,6 +94,34 @@ new Rect(0f, 0f, Display.displays[DisplayIndex].renderingWidth, Display.displays
 
                 GL.End();
                 GL.PopMatrix();
+            }
+
+        }
+        private void LateUpdate()
+        {
+            // if (Input.GetKeyDown(KeyCode.O))
+            // {
+            //     SaveImage();
+            // }
+        }
+        public string savePath = "MultipleDisplays.png";
+        private void SaveImage()
+        {
+            {
+                // RenderTexture texture1 = (RenderTexture)projector.gameObject.GetComponent<QuadWarp>()._tex[1];
+                RenderTexture texture1 = gameObject.GetComponent<Camera>().targetTexture;
+
+                Texture2D texture2d = new Texture2D(texture1.width, texture1.height);
+                RenderTexture.active = texture1;
+                texture2d.ReadPixels(new Rect(0, 0, texture1.width, texture1.height), 0, 0);
+                texture2d.Apply();
+                byte[] bytes2 = texture2d.EncodeToPNG();
+                System.IO.File.WriteAllBytes(DisplayIndex + savePath, bytes2);
+
+                // 清理资源
+                RenderTexture.active = null;
+                Destroy(texture1);
+                Destroy(texture2d);
             }
         }
     }
