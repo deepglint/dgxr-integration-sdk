@@ -147,6 +147,7 @@ namespace BodySource
         {
             options = arg;
             OptionType = options.GetType();
+            Debug.Log("WsUri 连接地址: " + WsUri);
             Connect(WsUri);
             // keep alive heartbeat
             var timerState = new TimerState { Counter = 0 };
