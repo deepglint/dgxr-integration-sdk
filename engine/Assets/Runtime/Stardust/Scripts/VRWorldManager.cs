@@ -15,6 +15,7 @@ namespace VRKave
         public GameObject ScreenPrefab;
         public Boolean LockAll;
         public Boolean LockXZ;
+        public LayerMask cameraLayer;
         public Camera[] _uiCameras;
         [Header("是否使用UI叠加渲染")]
         public bool isUIRender = false;
@@ -176,7 +177,8 @@ namespace VRKave
                 _userProjectorViewCameras[index].gameObject.layer = _caveLayer;
                 // _userProjectorViewCameras[index].clearFlags = CameraClearFlags.SolidColor;
                 _userProjectorViewCameras[index].targetTexture = _surfaceTextures[index];
-                _userProjectorViewCameras[index].cullingMask = -1;      //The user is set to only see the default layer. Change this culling mask if you want the camera to see different layers (like water).
+                // _userProjectorViewCameras[index].cullingMask = -1; //The user is set to only see the default layer. Change this culling mask if you want the camera to see different layers (like water).
+                _userProjectorViewCameras[index].cullingMask = cameraLayer;
             }
 
             //Instantiate the user view cameras (cameras attached to the user head in the virtual world) for the screens:

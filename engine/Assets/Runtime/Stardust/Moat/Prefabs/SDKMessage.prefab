@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 4717617114416241813}
   - component: {fileID: 197382569147368632}
   m_Layer: 5
-  m_Name: TopWindowMessage
+  m_Name: SDKMessage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

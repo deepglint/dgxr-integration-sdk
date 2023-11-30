@@ -28,6 +28,21 @@ public class CameraRoamControl : MonoBehaviour
         // 获取按键输入
         float verticalInput = Input.GetAxis("Vertical"); // W和S键
         float horizontalInput = Input.GetAxis("Horizontal"); // A和D键
+        
+        if (isKave)
+        {
+            if (camera3D != null)
+            {
+                camera3D?.SetActive(false);
+            }
+        }
+        else
+        {
+            if (cameraKave)
+            {
+                cameraKave?.SetActive(false);
+            }
+        }
 
         if (verticalInput != 0 || horizontalInput != 0)
         {
@@ -39,20 +54,10 @@ public class CameraRoamControl : MonoBehaviour
 
             if (isKave)
             {
-                if (camera3D != null)
-                {
-                    camera3D?.SetActive(false);
-                }
-
                 UpdateVRCamera(transform.position);
             }
             else
             {
-                if (cameraKave)
-                {
-                    cameraKave?.SetActive(false);
-                }
-
                 Update3DCamera(transform.position);
             }
         }
