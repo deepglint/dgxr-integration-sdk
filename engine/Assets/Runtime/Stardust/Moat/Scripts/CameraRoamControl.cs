@@ -9,14 +9,14 @@ public class CameraRoamControl : MonoBehaviour
     public float rotationSpeed = 30f; // 旋转速度
     public bool isCave;
     public GameObject camera3D;
-    public GameObject cameraKave;
+    public GameObject cameraCave;
 
-    public Camera camera1;
-    public Camera camera2;
-    public Camera camera3;
-    public Camera camera4;
-    public Camera camera5;
-    public Camera camera6;
+    private Camera camera1;
+    private Camera camera2;
+    private Camera camera3;
+    private Camera camera4;
+    private Camera camera5;
+    private Camera camera6;
 
     public bool isRoam = true;
     private float verticalInput;
@@ -25,6 +25,41 @@ public class CameraRoamControl : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        if (!isCave && camera3D != null)
+        {
+            Camera[] cameras = camera3D.GetComponentsInChildren<Camera>();
+
+            // 遍历相机数组，访问每一个相机对象
+            for (int i = 0; i < cameras.Length; i++)
+            {
+                Camera camera = cameras[i];
+                switch (camera.name)
+                {
+                    case "Left":
+                        camera1 = camera; 
+                        break;
+                    case "Front":
+                        camera2 = camera;
+                        break;
+                    case "Right":
+                        camera3 = camera;
+                        break;
+                    case "Back":
+                        camera4 = camera;
+                        break;
+                    case "Bottom1":
+                        camera5 = camera;
+                        break;
+                    case "Bottom2":
+                        camera6 = camera;
+                        break;
+                } 
+            } 
+        }
     }
 
     void Update()
@@ -45,9 +80,9 @@ public class CameraRoamControl : MonoBehaviour
         }
         else
         {
-            if (cameraKave)
+            if (cameraCave)
             {
-                cameraKave?.SetActive(false);
+                cameraCave?.SetActive(false);
             }
         }
 

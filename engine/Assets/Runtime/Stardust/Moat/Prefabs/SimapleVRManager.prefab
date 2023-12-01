@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2297869817130997504}
-  - component: {fileID: 7384564727513004284}
   m_Layer: 0
   m_Name: SimapleVRManager
   m_TagString: Untagged
@@ -38,29 +37,6 @@ Transform:
   - {fileID: 3390931316567564379}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7384564727513004284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1251785741412016396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5abae4114a9a14fa0a142d1f07e94a62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  rotationSpeed: 30
-  isKave: 0
-  camera3D: {fileID: 1251785741412016396}
-  cameraKave: {fileID: 0}
-  camera1: {fileID: 5005621966997940017}
-  camera2: {fileID: 7897100152496358245}
-  camera3: {fileID: 2190966785876509539}
-  camera4: {fileID: 8524211113871265347}
-  camera5: {fileID: 897802611367429032}
-  camera6: {fileID: 8047704359994649003}
 --- !u!1 &2182248925403751499
 GameObject:
   m_ObjectHideFlags: 0
