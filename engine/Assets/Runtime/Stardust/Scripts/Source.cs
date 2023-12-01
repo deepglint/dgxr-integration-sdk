@@ -116,7 +116,7 @@ namespace BodySource
         [HideInInspector] public bool HasConnectSuccess;
         [HideInInspector] public WebSocket webSocket;
         private int ReconnectCount;
-        private int ReconnectMaxCount = -1;
+        [HideInInspector] public int ReconnectMaxCount = -1;
         private long LastConnect;
         private Options options;
         private Type OptionType;
