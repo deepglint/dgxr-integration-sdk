@@ -4,13 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CGC
+namespace Moat
 {
-    public class GameEvent
+    public class MoatGameEvent
     {
-        public static string WsconnectSuccess = "WsconnectSuccess";
-        public static string WsconnectError = "WsconnectError";
-        public static string OnOpen = "OnOpen";
+        public static string WsConnectSuccess = "WsconnectSuccess";
+        public static string WsConnectError = "WsconnectError";
+        public static string OnOpenApp = "OnOpenApp";
     }
 
     public class EventCallBack

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CGC
+namespace Moat 
 {
     public class GameAppManager
     {
@@ -31,7 +31,7 @@ namespace CGC
             if (Application.isFocused && !isEnterApp)
             {
                 isEnterApp = true;
-                EventManager.Send(GameEvent.OnOpen);
+                EventManager.Send(MoatGameEvent.OnOpenApp);
                 EnteredAppCallback?.Invoke();
             }
             else if (isEnterApp)

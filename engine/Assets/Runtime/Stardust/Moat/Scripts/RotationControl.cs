@@ -1,60 +1,63 @@
 using System;
 using UnityEngine;
 
-public class RotationControl : MonoBehaviour
+namespace Moat
 {
-    public float rotationSpeed = 5f; // 旋转速度
-    public float rotationThreshold = 10f; // 角度阈值
-
-    private Quaternion targetRotation; // 目标旋转角度
-    
-    public float maxThreshold =500f; //最大可视旋转距离
-
-    private GameObject[] leftCloseShotGo;
-    private GameObject[] rightCloseShotGo;
-
-
-    private void Start()
+    public class RotationControl : MonoBehaviour
     {
-        leftCloseShotGo = GameObject.FindGameObjectsWithTag("LeftCloseShot");
-        rightCloseShotGo = GameObject.FindGameObjectsWithTag("RightCloseShot");
-    }
+        public float rotationSpeed = 5f; // 旋转速度
+        public float rotationThreshold = 10f; // 角度阈值
 
-    void Update()
-    {
-        Rotate();
-    }
+        private Quaternion targetRotation; // 目标旋转角度
 
-    void Rotate()
-    {
-        foreach (var leftGO in leftCloseShotGo)
+        public float maxThreshold = 500f; //最大可视旋转距离
+
+        private GameObject[] leftCloseShotGo;
+        private GameObject[] rightCloseShotGo;
+
+
+        private void Start()
         {
-            RectTransform leftGoRectTransform = leftGO.GetComponent<RectTransform>();
-            Vector3 leftGOWorldPosition = leftGoRectTransform.TransformPoint(Vector3.zero);
-            float distance = leftGOWorldPosition.z - transform.position.z;
-            if (distance < maxThreshold)
-            {
-                // 朝向相机
-                Vector3 targetDirection = leftGO.transform.position - transform.position;
-                targetRotation = Quaternion.LookRotation(targetDirection);
-                // 平滑旋转
-                leftGO.transform.rotation =
-                    Quaternion.Lerp(leftGO.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            }
+            leftCloseShotGo = GameObject.FindGameObjectsWithTag("LeftCloseShot");
+            rightCloseShotGo = GameObject.FindGameObjectsWithTag("RightCloseShot");
         }
 
-        foreach (var rightGO in rightCloseShotGo)
+        void Update()
         {
-            float distance = Vector3.Distance(rightGO.transform.position, transform.position);
+            Rotate();
+        }
 
-            if (distance < maxThreshold)
+        void Rotate()
+        {
+            foreach (var leftGO in leftCloseShotGo)
             {
-                // 朝向相机
-                Vector3 targetDirection = rightGO.transform.position - transform.position;
-                targetRotation = Quaternion.LookRotation(targetDirection);
-                // 平滑旋转
-                rightGO.transform.rotation =
-                    Quaternion.Lerp(rightGO.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                RectTransform leftGoRectTransform = leftGO.GetComponent<RectTransform>();
+                Vector3 leftGOWorldPosition = leftGoRectTransform.TransformPoint(Vector3.zero);
+                float distance = leftGOWorldPosition.z - transform.position.z;
+                if (distance < maxThreshold)
+                {
+                    // 朝向相机
+                    Vector3 targetDirection = leftGO.transform.position - transform.position;
+                    targetRotation = Quaternion.LookRotation(targetDirection);
+                    // 平滑旋转
+                    leftGO.transform.rotation =
+                        Quaternion.Lerp(leftGO.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                }
+            }
+
+            foreach (var rightGO in rightCloseShotGo)
+            {
+                float distance = Vector3.Distance(rightGO.transform.position, transform.position);
+
+                if (distance < maxThreshold)
+                {
+                    // 朝向相机
+                    Vector3 targetDirection = rightGO.transform.position - transform.position;
+                    targetRotation = Quaternion.LookRotation(targetDirection);
+                    // 平滑旋转
+                    rightGO.transform.rotation =
+                        Quaternion.Lerp(rightGO.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                }
             }
         }
     }

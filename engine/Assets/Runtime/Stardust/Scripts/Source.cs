@@ -4,7 +4,7 @@ using BestHTTP.WebSocket;
 using System;
 using System.Threading;
 using Newtonsoft.Json;
-using CGC;
+using Moat;
 
 // yq: ws://192.168.12.1:8000/ws
 // sl: ws://192.168.7.8:8000/ws
@@ -242,11 +242,12 @@ namespace BodySource
 
         private void OnWebSocketOpen(WebSocket webSocket)
         {
+            Debug.Log("WS：连接成功");
             LastConnect = getNowTime();
             if (!HasConnectSuccess)
             {
                 HasConnectSuccess = true;
-                EventManager.Send(GameEvent.WsconnectSuccess);
+                EventManager.Send(MoatGameEvent.WsConnectSuccess);
                 if (OptionType.GetMethod("onOpened") != null)
                 {
                     options.onOpened();
@@ -266,7 +267,7 @@ namespace BodySource
         {
             Debug.LogError("失败Error: " + error);
             HasConnectSuccess = false;
-            EventManager.Send(GameEvent.WsconnectError);
+            EventManager.Send(MoatGameEvent.WsConnectError);
             if (OptionType.GetMethod("onError") != null)
             {
                 options.onError();

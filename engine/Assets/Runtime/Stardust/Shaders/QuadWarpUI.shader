@@ -1,4 +1,4 @@
-﻿Shader "Custom/QuadWarp2"
+﻿Shader "Custom/QuadWarpUI"
 {
 	Properties
 	{

@@ -10,6 +10,7 @@ public class CameraRoamControl : MonoBehaviour
     public bool isCave;
     public GameObject camera3D;
     public GameObject cameraCave;
+    private Transform currentCameraObj;
 
     private Camera camera1;
     private Camera camera2;
@@ -25,6 +26,22 @@ public class CameraRoamControl : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        if (isCave)
+        {
+            currentCameraObj = cameraCave.GetComponent<Transform>();
+            if (camera3D != null)
+            {
+                camera3D?.SetActive(false);
+            }
+        }
+        else
+        {
+            currentCameraObj = camera3D.GetComponent<Transform>();
+            if (cameraCave != null)
+            {
+                cameraCave?.SetActive(false);
+            }
+        }
     }
 
     private void Start()
@@ -71,36 +88,21 @@ public class CameraRoamControl : MonoBehaviour
             horizontalInput = Input.GetAxis("Horizontal"); // A和D键 
         }
         
-        if (isCave)
-        {
-            if (camera3D != null)
-            {
-                camera3D?.SetActive(false);
-            }
-        }
-        else
-        {
-            if (cameraCave)
-            {
-                cameraCave?.SetActive(false);
-            }
-        }
-
-        if (verticalInput != 0 || horizontalInput != 0)
+        if (verticalInput != 0 || horizontalInput != 0 && currentCameraObj != null)
         {
             // 根据输入和速度移动物体
-            transform.Translate(Vector3.forward * verticalInput * speed * Time.deltaTime);
+            currentCameraObj.Translate(Vector3.forward * verticalInput * speed * Time.deltaTime);
 
             // 根据水平输入旋转物体
-            transform.Rotate(Vector3.up * horizontalInput * rotationSpeed * Time.deltaTime);
+            currentCameraObj.Rotate(Vector3.up * horizontalInput * rotationSpeed * Time.deltaTime);
 
             if (isCave)
             {
-                UpdateVRCamera(transform.position);
+                UpdateVRCamera(currentCameraObj.position);
             }
             else
             {
-                Update3DCamera(transform.position);
+                Update3DCamera(currentCameraObj.position);
             }
         }
     }

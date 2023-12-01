@@ -5,7 +5,7 @@ using BodySource;
 using System.Collections.Concurrent;
 using System.Linq;
 
-namespace CGC
+namespace Moat 
 {
     public class PersonBody
     {

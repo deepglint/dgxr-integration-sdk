@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
-using CGC;
+using Moat;
 
 namespace BodySource
 {
@@ -121,7 +121,7 @@ namespace BodySource
 
             if (sourceConnect != null && sourceConnect.webSocket != null)
             {
-                Debug.Log(jsonString);
+                // Debug.Log(jsonString);
                 if (sourceConnect.webSocket.IsOpen)
                 {
                     sourceConnect.webSocket.Send(jsonString);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BodySource;
 
-namespace CGC 
+namespace Moat 
 {
     public class WsError : MonoBehaviour
     {

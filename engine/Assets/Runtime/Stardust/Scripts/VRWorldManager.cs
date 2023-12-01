@@ -1,5 +1,5 @@
 ﻿using System;
-using CGC;
+using Moat;
 using UnityEngine;
 using Matrix4x4 = UnityEngine.Matrix4x4;
 using Quaternion = UnityEngine.Quaternion;
@@ -17,10 +17,7 @@ namespace VRKave
         public Boolean LockAll;
         public Boolean LockXZ;
         public LayerMask cameraLayer;
-        public Camera[] _uiCameras;
-        [Header("是否使用UI叠加渲染")]
-        public bool isUIRender = false;
-        
+       
         private VRLoadCalibration _configuration = new VRLoadCalibration();
 
         private GameObject _sensor;
@@ -45,6 +42,9 @@ namespace VRKave
         private int _textureWidth = 2800;
         private int _textureHeight = 1050;
         public float KaveScale = 1; //Scale of the real world KAVE units used in calibration relative to the Unity project units. Ex: A KAVE with 2 meter tall wall and a scale of 3 will have walls of 2*3 Unity units tall when instantiated.
+        [Header("是否使用UI叠加渲染")]
+        public bool isUIRender = false;
+        public Camera[] _uiCameras; 
 
         // 受Lock影响的头的位置
         private Vector3 headLockPosition;
@@ -198,8 +198,8 @@ namespace VRKave
                 index = 0;
                 foreach (var uicamera in _uiCameras)
                 {
+                    uicamera.clearFlags = CameraClearFlags.SolidColor;
                     var texture = new RenderTexture(1920, 1200, 24, RenderTextureFormat.ARGB32);
-
                     texture.antiAliasing = 2;
                     texture.Create();
                     uicamera.targetTexture = texture;
