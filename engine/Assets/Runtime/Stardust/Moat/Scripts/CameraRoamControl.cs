@@ -5,9 +5,9 @@ using VRKave;
 public class CameraRoamControl : MonoBehaviour
 {
     public static CameraRoamControl Instance;
-    public float speed = 80f; // 移动速度
+    public float speed = 10f; // 移动速度
     public float rotationSpeed = 30f; // 旋转速度
-    public bool isKave;
+    public bool isCave;
     public GameObject camera3D;
     public GameObject cameraKave;
 
@@ -18,6 +18,10 @@ public class CameraRoamControl : MonoBehaviour
     public Camera camera5;
     public Camera camera6;
 
+    public bool isRoam = true;
+    private float verticalInput;
+    private float horizontalInput;
+
     private void Awake()
     {
         Instance = this;
@@ -26,10 +30,13 @@ public class CameraRoamControl : MonoBehaviour
     void Update()
     {
         // 获取按键输入
-        float verticalInput = Input.GetAxis("Vertical"); // W和S键
-        float horizontalInput = Input.GetAxis("Horizontal"); // A和D键
+        if (isRoam)
+        {
+            verticalInput = Input.GetAxis("Vertical"); // W和S键
+            horizontalInput = Input.GetAxis("Horizontal"); // A和D键 
+        }
         
-        if (isKave)
+        if (isCave)
         {
             if (camera3D != null)
             {
@@ -52,7 +59,7 @@ public class CameraRoamControl : MonoBehaviour
             // 根据水平输入旋转物体
             transform.Rotate(Vector3.up * horizontalInput * rotationSpeed * Time.deltaTime);
 
-            if (isKave)
+            if (isCave)
             {
                 UpdateVRCamera(transform.position);
             }

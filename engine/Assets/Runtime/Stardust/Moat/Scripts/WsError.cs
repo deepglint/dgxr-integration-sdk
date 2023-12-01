@@ -23,6 +23,7 @@ namespace CGC
         private void Update()
         {
             GameObject source = GameObject.Find("Source");
+            if (source == null) return;
             Source sourceConnect = source.GetComponent<Source>();
 
             if (sourceConnect != null && wsStatus != sourceConnect.HasConnectSuccess)

@@ -1,4 +1,5 @@
 ﻿using System;
+using CGC;
 using UnityEngine;
 using Matrix4x4 = UnityEngine.Matrix4x4;
 using Quaternion = UnityEngine.Quaternion;
@@ -293,7 +294,8 @@ namespace VRKave
             if (LockAll)
             {
                 headLockPosition = centerViewPoint;
-            } else if (LockXZ)
+            }
+            else if (LockXZ)
             {
                 LockValue = _head.transform.position;
                 headLockPosition = new Vector3(transform.position.x, _head.transform.position.y, transform.position.z);
@@ -302,8 +304,7 @@ namespace VRKave
             foreach (var userCamera in _userProjectorViewCameras) {
                 userCamera.transform.position = headLockPosition;
             }
-                
-
+            
             foreach (var userCamera in _userScreenViewCameras)
                 userCamera.transform.position = headLockPosition;
            
@@ -323,7 +324,7 @@ namespace VRKave
 
         private void Quit()
         {
-            Application.Quit();
+            GameAppManager.Instance.CloseApp(); 
         }
 
         void SetObliqueness(float horizObl, float vertObl, Camera cam)
