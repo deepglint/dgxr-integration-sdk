@@ -21,6 +21,9 @@ namespace Moat
         public Action OnCloseCallback;
         public bool isOpen = false;
         public bool isTest = true;
+        
+        private int closeCount = 0;
+        private float startTime = 0;
 
         private void Awake()
         {
@@ -65,6 +68,47 @@ namespace Moat
                 closeGameTime.text = currentTime.ToString();
                 currentTime--;
             }
+        }
+
+        public void OpenThrottle(int interval = 5)
+        {
+            Debug.Log("pae - 关闭: " + closeCount + " " + AppClose.Instance.isOpen);
+            if (AppClose.Instance.isOpen)
+            {
+                closeCount = 0;
+                return;
+            }
+
+            if (startTime == 0)
+            {
+                startTime = Time.time;
+                Invoke("CheckCloseCount2", (float)(interval + 2));
+            }
+            CheckCloseCount1(interval); 
+        }
+
+        void CheckCloseCount1(int interval = 5)
+        {
+            if (startTime != 0 && (Time.time - startTime) > 1)
+            {
+                startTime = Time.time;
+                Debug.Log("close 1s 递增: " + closeCount);
+                closeCount++; 
+            }
+
+            if (closeCount >= interval)
+            {
+                Open();
+                closeCount = 0;
+                startTime = 0;
+            }
+        }
+
+        void CheckCloseCount2()
+        {
+            CancelInvoke("CheckCloseCount2"); 
+            closeCount = 0;
+            startTime = 0;
         }
 
         public void Open()
