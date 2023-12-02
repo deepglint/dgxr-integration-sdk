@@ -11,6 +11,10 @@ public class CameraRoamControl : MonoBehaviour
     public GameObject camera3D;
     public GameObject cameraCave;
     private Transform currentCameraObj;
+    public float width = 16;
+    public float height = 10;
+    public float viewHeight = 5f;
+    public float humanEye = 1.4f;
 
     private Camera camera1;
     private Camera camera2;
@@ -28,7 +32,6 @@ public class CameraRoamControl : MonoBehaviour
         Instance = this;
         if (isCave)
         {
-            currentCameraObj = cameraCave.GetComponent<Transform>();
             if (camera3D != null)
             {
                 camera3D?.SetActive(false);
@@ -36,7 +39,6 @@ public class CameraRoamControl : MonoBehaviour
         }
         else
         {
-            currentCameraObj = camera3D.GetComponent<Transform>();
             if (cameraCave != null)
             {
                 cameraCave?.SetActive(false);
@@ -46,6 +48,25 @@ public class CameraRoamControl : MonoBehaviour
 
     private void Start()
     {
+        if (isCave)
+        {
+            currentCameraObj = cameraCave.GetComponent<Transform>();
+            currentCameraObj.position = new Vector3(0, (float)(viewHeight - humanEye), 0);
+            if (camera3D != null)
+            {
+                camera3D?.SetActive(false);
+            }
+        }
+        else
+        {
+            currentCameraObj = camera3D.GetComponent<Transform>();
+            currentCameraObj.position = new Vector3(0, viewHeight, 0);
+            if (cameraCave != null)
+            {
+                cameraCave?.SetActive(false);
+            }
+        }
+
         if (!isCave && camera3D != null)
         {
             Camera[] cameras = camera3D.GetComponentsInChildren<Camera>();
@@ -110,7 +131,7 @@ public class CameraRoamControl : MonoBehaviour
     public void UpdateVRCamera(Vector3 headLockPosition)
     {
         VRWorldManager.instance.centerViewPoint =
-        new Vector3(transform.position.x, transform.position.y + 1.4f, transform.position.z);
+        new Vector3(headLockPosition.x, headLockPosition.y + humanEye, headLockPosition.z);
     }
 
     public void Update3DCamera(Vector3 headLockPosition)
@@ -119,11 +140,8 @@ public class CameraRoamControl : MonoBehaviour
         camera2.transform.position = headLockPosition;
         camera3.transform.position = headLockPosition;
         camera4.transform.position = headLockPosition;
-        // 84
-        // camera5.transform.position = headLockPosition + new Vector3(0, 0, 77f);
-        // camera6.transform.position = headLockPosition + new Vector3(0, 0, -77f);
-        // 5
-        camera5.transform.position = headLockPosition + new Vector3(0, 0, 2.5f);
-        camera6.transform.position = headLockPosition + new Vector3(0, 0, -2.5f);
+        float diff = (width - height) / 2;
+        camera5.transform.position = headLockPosition + new Vector3(0, 0, diff);
+        camera6.transform.position = headLockPosition + new Vector3(0, 0, -diff);
     }
 }
