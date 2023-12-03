@@ -12,7 +12,21 @@ namespace BodySource
         {
             RightHandDrawCircle = 1,  //左手画圈
             LeftHandDrawCircle = 2,   //右手画圈
-            Kick = 10,   //踢腿
+            HandBevelCut = 3, // 手斜切
+            HandParry = 4, // 手挡开
+            HandStraightCut = 5, // 手直切
+            HandTransversal = 6, // 手横切
+            StraightPunch = 7, // 直拳
+            ReadyStraightPunch = 8, // 蓄力直拳
+            Uppercut = 9, // 上勾拳
+            Kick = 10, //踢腿
+            ThrowOneHandInFists = 11, // 单手握拳投掷
+            ReadyThrowOneHandInFists = 12, // 蓄力单手握拳投掷
+            ReadyThrowBothHandInFists = 13, // 蓄力双手握拳投掷
+            ReadyHandObliqueCut = 14, // 蓄力手斜切
+            WavingOneHand = 15, // 单手挥舞
+            ReadyWavingOneHand = 16, // 蓄力单手挥舞
+            
             CombineHandsStraight = 17,   //双手伸直合并
             ThrowBoulder = 18,   //举手投掷巨物
             SlowRun = 19,   //慢跑

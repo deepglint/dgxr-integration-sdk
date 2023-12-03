@@ -16,12 +16,12 @@ public class CameraRoamControl : MonoBehaviour
     public float viewHeight = 5f;
     public float humanEye = 1.4f;
 
-    private Camera camera1;
-    private Camera camera2;
-    private Camera camera3;
-    private Camera camera4;
-    private Camera camera5;
-    private Camera camera6;
+    private Camera cameraLeft;
+    private Camera cameraFront;
+    private Camera cameraRight;
+    private Camera cameraBack;
+    private Camera cameraBottom1;
+    private Camera cameraBottom2;
 
     public bool isRoam = true;
     private float verticalInput;
@@ -78,22 +78,22 @@ public class CameraRoamControl : MonoBehaviour
                 switch (camera.name)
                 {
                     case "Left":
-                        camera1 = camera; 
+                        cameraLeft = camera; 
                         break;
                     case "Front":
-                        camera2 = camera;
+                        cameraFront = camera;
                         break;
                     case "Right":
-                        camera3 = camera;
+                        cameraRight = camera;
                         break;
                     case "Back":
-                        camera4 = camera;
+                        cameraBack = camera;
                         break;
                     case "Bottom1":
-                        camera5 = camera;
+                        cameraBottom1 = camera;
                         break;
                     case "Bottom2":
-                        camera6 = camera;
+                        cameraBottom2 = camera;
                         break;
                 } 
             } 
@@ -136,12 +136,12 @@ public class CameraRoamControl : MonoBehaviour
 
     public void Update3DCamera(Vector3 headLockPosition)
     {
-        camera1.transform.position = headLockPosition;
-        camera2.transform.position = headLockPosition;
-        camera3.transform.position = headLockPosition;
-        camera4.transform.position = headLockPosition;
+        cameraLeft.transform.position = headLockPosition;
+        cameraFront.transform.position = headLockPosition;
+        cameraRight.transform.position = headLockPosition;
+        cameraBack.transform.position = headLockPosition;
         float diff = (width - height) / 2;
-        camera5.transform.position = headLockPosition + new Vector3(0, 0, diff);
-        camera6.transform.position = headLockPosition + new Vector3(0, 0, -diff);
+        cameraBottom1.transform.position = headLockPosition + new Vector3(0, 0, diff);
+        cameraBottom2.transform.position = headLockPosition + new Vector3(0, 0, -diff);
     }
 }

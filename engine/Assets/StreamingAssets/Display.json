@@ -1,0 +1,44 @@
+{
+  "circleArea": {
+    "roiRadius": 137,
+    "playerRadius": 137,
+    "roiCircleBoundary":137,
+    "groundSelectorRadius": 137
+  },
+  "interactionArea": [
+  ],
+  "resolution": {
+    "realResolution": "5.1",
+    "cameraRoi": "3.5",
+    "fullScreen": false,
+    "projectionFusion": true,
+    "systemWidth": 1920,
+    "systemHeight": 1200
+  },
+  "uiCameraPos":
+  {
+    "bottom1Y": "-1215",
+    "bottom2Y": "-1905"
+  },
+  "~uiCameraPos":
+  {
+    "bottom1Y": "-1200",
+    "bottom2Y": "-1920"
+  },
+  "targetDisplay": {
+    "left": 4,
+    "front": 1,
+    "right": 2,
+    "back": 3,
+    "bottom1": 5,
+    "bottom2": 6
+  },
+  "~targetDisplay": {
+    "left": 4,
+    "front": 1,
+    "right": 2,
+    "back": 3,
+    "bottom1": 5,
+    "bottom2": 6
+  }
+}

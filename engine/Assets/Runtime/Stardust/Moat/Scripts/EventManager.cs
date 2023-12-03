@@ -11,6 +11,8 @@ namespace Moat
         public static string WsConnectSuccess = "WsconnectSuccess";
         public static string WsConnectError = "WsconnectError";
         public static string OnOpenApp = "OnOpenApp";
+        public static string PlayerRemove = "PlayerRemove";
+        public static string PlayerAdd = "PlayerAdd";
     }
 
     public class EventCallBack

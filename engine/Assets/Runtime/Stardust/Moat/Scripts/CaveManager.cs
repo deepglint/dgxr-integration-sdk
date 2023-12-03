@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Moat 
 {
-    public class PersonBody
+    public class OnePersonBody
     {
         public Vector2 movementInput;
     }
@@ -31,7 +31,7 @@ namespace Moat
         public ConcurrentDictionary<string, BodyDataSource> personBodySource =
             new ConcurrentDictionary<string, BodyDataSource> { };
         //处理后数据
-        public Dictionary<string, PersonBody> personBodyInfo = new Dictionary<string, PersonBody>();
+        public Dictionary<string, OnePersonBody> personBodyInfo = new Dictionary<string, OnePersonBody>();
 
         // 当前主玩家
         private string mainPlayerId;
@@ -54,7 +54,7 @@ namespace Moat
         {
             personBodySource = VRDGBodySource.Instance.GetData(); 
 
-            Dictionary<string, PersonBody> personBodyInfoTmp = new Dictionary<string, PersonBody>();
+            Dictionary<string, OnePersonBody> personBodyInfoTmp = new Dictionary<string, OnePersonBody>();
             string txt = "";
             foreach (KeyValuePair<string, BodyDataSource> person in personBodySource)
             {
@@ -65,7 +65,7 @@ namespace Moat
                 JointData RightHipData = personData.Joints[JointType.RightHip];
                 Vector2 HipPos = new Vector2((LeftHipData.X + RightHipData.X) / 2,
                     (LeftHipData.Y + RightHipData.Y) / 2);
-                PersonBody personInfo = new PersonBody();
+                OnePersonBody personInfo = new OnePersonBody();
                 personInfo.movementInput = HipPos;
 
                 // 解决骨骼数据抖的问题
