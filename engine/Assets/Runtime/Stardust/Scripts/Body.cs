@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading;
 using BodySource;
-using CGC;
-
+using Moat;
 
 public class MoveJoints : MonoBehaviour
 {
@@ -18,6 +17,7 @@ public class MoveJoints : MonoBehaviour
     private LineRenderer lineRenderer4;
     private VRDGBodySource _bodyManager;
     private int lineLength = 300;
+    public Source WsSource;
 
     Transform Nose;
     Transform LeftEye;
@@ -52,7 +52,6 @@ public class MoveJoints : MonoBehaviour
     //将场景的物体关联到该脚本中
     void InitObject()
     {
-        
         Nose = parentObject.Find("Nose");
         LeftEye = parentObject.Find("LeftEye");
         RightEye = parentObject.Find("RightEye");
@@ -92,6 +91,10 @@ public class MoveJoints : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        if (WsSource == null) return;
+        WsSource.allowConnect = true;
+        WsSource.init(new Options()); 
+        
         _bodyManager = VRDGBodySource.Instance;
 
         InitObject();
@@ -117,6 +120,7 @@ public class MoveJoints : MonoBehaviour
         {
             return;
         }
+        MDebug.Log(body.BodyID + "_bodyManager.GetData().Count: " + _bodyManager.GetData().Count);
         Nose.transform.localPosition = new Vector3(body.Joints[JointType.Nose].X, body.Joints[JointType.Nose].Z, body.Joints[JointType.Nose].Y);
         LeftEye.transform.localPosition = new Vector3(body.Joints[JointType.LeftEye].X, body.Joints[JointType.LeftEye].Z, body.Joints[JointType.LeftEye].Y);
         RightEye.transform.localPosition = new Vector3(body.Joints[JointType.RightEye].X, body.Joints[JointType.RightEye].Z, body.Joints[JointType.RightEye].Y);
@@ -186,13 +190,25 @@ public class MoveJoints : MonoBehaviour
 
     }
 
+    private string PersonId;
+
     private BodyDataSource Body(System.Collections.Concurrent.ConcurrentDictionary<string, BodyDataSource> data)
     {
+        int i = 0;
         foreach (var person in _bodyManager.Data)
         {
-            Debug.Log(person.Key);
+            if (i == 0)
+            {
+                PersonId = person.Key;
+            }
+
+            i += 1;
         }
-        if (_bodyManager.cavePersonId != "" && data.ContainsKey(_bodyManager.cavePersonId))
+        if (PersonId != "" && data.ContainsKey(PersonId))
+        {
+            return data[PersonId];
+        }
+        else if (_bodyManager.cavePersonId != "" && data.ContainsKey(_bodyManager.cavePersonId))
         {
             return data[_bodyManager.cavePersonId];
         }
