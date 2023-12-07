@@ -4,8 +4,11 @@ using BestHTTP.WebSocket;
 using System;
 using System.Threading;
 using Newtonsoft.Json;
-using CGC;
+using Moat;
+using Moat.Model;
 
+// yq: ws://192.168.12.1:8000/ws
+// sl: ws://192.168.7.8:8000/ws
 namespace BodySource
 {
     public class Options
@@ -33,12 +36,13 @@ namespace BodySource
 
         public void onMessage(string res)
         {
-            // Debug.Log("返回的message " + res);
+            MDebug.LogTest("返回的message " + res);
             if (res != null)
             {
-                //VRDGBodySource.Instance.Floor = ;
+                // VRDGBodySource.Instance.Floor = ;
                
                 SourceData info = JsonConvert.DeserializeObject<SourceData>(res);
+                
                 if (info.pose.Count != VRDGBodySource.Instance.Data.Count) {
                     foreach (var person in VRDGBodySource.Instance.Data)
                     {
@@ -86,7 +90,7 @@ namespace BodySource
         {
             var state = timerState as TimerObject;
             Interlocked.Increment(ref state.Counter);
-            // Debug.Log("倒计时" + state.Counter);
+            // MDebug.Log("倒计时" + state.Counter);
             if (state.Counter == 20)
             {
                 //GameManager.instance.GameOver();
@@ -97,11 +101,11 @@ namespace BodySource
 
         public void onOpened()
         {
-            Debug.Log("数据源接入～～～");
+            MDebug.Log("数据源接入～～～");
         }
         public void onError()
         {
-             Debug.Log("数据源接入失败～～～");
+             MDebug.Log("数据源接入失败～～～");
 
         }
     }
@@ -109,22 +113,21 @@ namespace BodySource
     public class Source : MonoBehaviour
     {
         public string WsUri = "";
+        [HideInInspector] public bool allowConnect;
         private bool AutoReconnect = true;
-        private bool HasConnectSuccess;
-        public WebSocket webSocket;
+        [HideInInspector] public bool HasConnectSuccess;
+        [HideInInspector] public WebSocket webSocket;
         private int ReconnectCount;
         private int ReconnectMaxCount = -1;
         private long LastConnect;
         private Options options;
         private Type OptionType;
         private Timer timer;
-        
 
         class TimerState
         {
             public int Counter;
         }
-
 
         void Start()
         {
@@ -134,13 +137,22 @@ namespace BodySource
             HasConnectSuccess = false;
             AutoReconnect = true;
             ReconnectCount = 0;
-            init(new Options());
+            DisplayData.ReadConfig();
+            allowConnect = DisplayData.configDisplay.wsConnect;
+            ReconnectMaxCount = DisplayData.configDisplay.ReconnectMaxCount;
+
+            if (allowConnect)
+            {
+                MDebug.Log("allowConnect: 允许连接");
+                init(new Options()); 
+            }
         }
 
         public void init(Options arg)
         {
             options = arg;
             OptionType = options.GetType();
+            MDebug.Log("WsUri 连接地址: " + WsUri);
             Connect(WsUri);
             // keep alive heartbeat
             var timerState = new TimerState { Counter = 0 };
@@ -169,7 +181,7 @@ namespace BodySource
             }
             catch (System.Net.Sockets.SocketException se)
             {
-                Debug.Log("未联网error" + se.Message);
+                MDebug.Log("未联网error" + se.Message);
                 System.Diagnostics.Trace.Write(se.Message);
                 return false;
             }
@@ -179,21 +191,6 @@ namespace BodySource
         public void Connect(string url)
         {
             LastConnect = getNowTime();
-            // todo判断设备是否在线
-            // if(UrlExistsUsingSockets("https://www.baidu.com")) {
-            //     webSocket = new WebSocket(new Uri(url));
-            //     webSocket.OnOpen += OnWebSocketOpen;
-            //     webSocket.OnMessage += OnMessageReceived;
-            //     webSocket.OnClosed += OnWebSocketClosed;
-            //     webSocket.OnError += OnError;
-
-            //     webSocket.Open();
-            // } else {
-            //     UnityEngine.Debug.Log("无网络");
-            //     if(OptionType.GetMethod("onError") != null) {
-            //         options.onError();
-            //     }
-            // }
 
             webSocket = new WebSocket(new Uri(url));
             webSocket.OnOpen += OnWebSocketOpen;
@@ -205,11 +202,17 @@ namespace BodySource
 
         private void smartReconnect(object timerState)
         {
+            if (!allowConnect)
+            {
+                timer.Dispose(); 
+                return;
+            }
+
             var state = timerState as TimerState;
             Interlocked.Increment(ref state.Counter);
 
             int maxWait = 15000;
-            // Debug.Log("当前状态:"+ webSocket.State);
+            // MDebug.Log("当前状态:"+ webSocket.State);
 
 
             if (AutoReconnect && !this.HasConnectSuccess)
@@ -218,7 +221,7 @@ namespace BodySource
                 {
                     maxWait = 3000;
                 }
-                // Debug.Log("重连等待时间:" + (getNowTime() - LastConnect) * 1000);
+                // MDebug.Log("重连等待时间:" + (getNowTime() - LastConnect) * 1000);
                 if ((getNowTime() - LastConnect) * 1000 > maxWait)
                 {
                     if (ReconnectCount < ReconnectMaxCount || ReconnectMaxCount == -1)
@@ -229,14 +232,14 @@ namespace BodySource
                             // AutoReconnect = false;
                             webSocket.Close();
                         }
-                        Debug.Log("重连次数:" + ReconnectCount);
+                        MDebug.Log("重连次数:" + ReconnectCount);
                         Connect(WsUri);
                     }
                     else
                     {
                         timer.Dispose();
                         AutoReconnect = false;
-                        Debug.Log("重连" + ReconnectCount + "次，重连次数过多，不再继续重连，请联系后端服务人员处理");
+                        MDebug.Log("重连" + ReconnectCount + "次，重连次数过多，不再继续重连，请联系后端服务人员处理");
                     }
                 }
             }
@@ -244,11 +247,12 @@ namespace BodySource
 
         private void OnWebSocketOpen(WebSocket webSocket)
         {
+            MDebug.Log("WS：连接成功");
             LastConnect = getNowTime();
             if (!HasConnectSuccess)
             {
                 HasConnectSuccess = true;
-                EventManager.Send(GameEvent.WsconnectSuccess);
+                EventManager.Send(MoatGameEvent.WsConnectSuccess);
                 if (OptionType.GetMethod("onOpened") != null)
                 {
                     options.onOpened();
@@ -261,15 +265,14 @@ namespace BodySource
             if (OptionType.GetMethod("onMessage") != null)
             {
                 options.onMessage(message);
-                // send();
             }
         }
 
         private void OnError(WebSocket ws, string error)
         {
-            Debug.LogError("失败Error: " + error);
+            MDebug.LogError("失败Error: " + error);
             HasConnectSuccess = false;
-            EventManager.Send(GameEvent.WsconnectError);
+            EventManager.Send(MoatGameEvent.WsConnectError);
             if (OptionType.GetMethod("onError") != null)
             {
                 options.onError();
@@ -278,11 +281,12 @@ namespace BodySource
 
         private void OnWebSocketClosed(WebSocket webSocket, UInt16 code, string message)
         {
-            Debug.Log("WebSocket 关闭!");
+            MDebug.Log("WebSocket 关闭!");
         }
 
         void OnDestroy()
         {
+            if (webSocket == null) return; 
             webSocket.Close();
             timer.Dispose();
             AutoReconnect = false;
