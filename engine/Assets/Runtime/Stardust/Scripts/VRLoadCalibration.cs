@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
+using Moat;
 using UnityEngine;
 
 namespace VRKave
@@ -72,7 +73,7 @@ namespace VRKave
             }
             else
             {
-                Debug.Log("Error loading the calibration file, calibration.xml file not found. Using default.");
+                MDebug.Log("Error loading the calibration file, calibration.xml file not found. Using default.");
                 LoadDefaultSensorConfiguration(out Sensors);
                 Projectors = new Projector[0];
                 Surfaces = new Surface[0];
@@ -145,7 +146,7 @@ namespace VRKave
                                 sensor.Type = SensorType.ArtTrack;
                                 break;
                             default:
-                                Debug.Log("Loading the sensor type value: " + parameter.Name + " is an unknown type");
+                                MDebug.Log("Loading the sensor type value: " + parameter.Name + " is an unknown type");
                                 break;
                         }
                         break;
@@ -179,7 +180,7 @@ namespace VRKave
                     case "#comment":
                         break;
                     default:
-                        Debug.Log("Loading the sensor calibration values: " + parameter.Name + " is an unknown parameter");
+                        MDebug.Log("Loading the sensor calibration values: " + parameter.Name + " is an unknown parameter");
                         break;
                 }
             }
@@ -229,7 +230,7 @@ namespace VRKave
                         case "#comment":
                             break;
                         default:
-                            Debug.Log("Loading the projector calibration values: " + parameter.Name + " is an unknown parameter");
+                            MDebug.Log("Loading the projector calibration values: " + parameter.Name + " is an unknown parameter");
                             break;
                     }
                 }
@@ -308,7 +309,7 @@ namespace VRKave
                                         surfaces[i].Vertices[3].y = float.Parse(vertice.InnerText);
                                         break;
                                     default:
-                                        Debug.Log("Loading the surface vertices values: " + vertice.Name + " is an unknown parameter");
+                                        MDebug.Log("Loading the surface vertices values: " + vertice.Name + " is an unknown parameter");
                                         break;
                                 }
                             }
@@ -319,7 +320,7 @@ namespace VRKave
                         case "#comment":
                             break;
                         default:
-                            Debug.Log("Loading the surface calibration values: " + parameter.Name + " is an unknown parameter");
+                            MDebug.Log("Loading the surface calibration values: " + parameter.Name + " is an unknown parameter");
                             break;
                     }
                 }
@@ -373,7 +374,7 @@ namespace VRKave
                         case "#comment":
                             break;
                         default:
-                            Debug.Log("Loading the surface calibration values: " + parameter.Name + " is an unknown parameter");
+                            MDebug.Log("Loading the surface calibration values: " + parameter.Name + " is an unknown parameter");
                             break;
                     }
                 }
