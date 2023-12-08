@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"context"
 	"encoding/json"
-	"fmt"
 	"os"
 	"time"
 
@@ -70,7 +69,7 @@ func Grpc() {
 			Result:    data.ReqInfo.Result,
 			TimeStamp: data.ReqInfo.TimeStamp,
 		}
-		fmt.Println(data.ReqInfo.FrameId)
+		logrus.Info("帧ID：", data.ReqInfo.FrameId)
 		_, err := client.SendThreeDimSkelData(context.Background(), sentMsg)
 		if err != nil {
 			logrus.Fatal("发送请求失败：", err)

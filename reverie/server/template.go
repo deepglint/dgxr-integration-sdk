@@ -64,9 +64,9 @@ func BuildTemplate(tem *template.AddTemplateReq) error {
 		Score:       tem.Score,
 		PathLen:     tem.PathLen,
 	}
-	global.UpdateTemplateMap(tem.Id, &template)
 	if err := t.AddTemplate(global.DbEngine); err != nil {
 		return err
 	}
+	global.UpdateTemplateMap(tem.Id, &template)
 	return nil
 }
