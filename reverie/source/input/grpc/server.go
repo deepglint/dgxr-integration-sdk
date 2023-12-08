@@ -7,6 +7,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"sync"
 	"time"
 
 	"reverie/action"
@@ -65,24 +66,33 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 			go saveRequest(data)
 		}
 	}
+	sourcesMap := make(map[string]*sources.Source)
+	global.Sources.Range(func(key, value interface{}) bool {
+		id := key.(string)
+		val := value.(*sources.Source)
+		sourcesMap[id] = val
+		return true
+	})
 	if len(req.Result) == 0 {
-		for id, val := range global.Sources {
+		// Convert global.Sources to a map type
+
+		for id, val := range sourcesMap {
 			if val.Xbox != nil {
 				global.XboxDevice.ReturnDevice(val.Xbox)
 			}
-			delete(global.Sources, id)
+			global.Sources.Delete(id)
 		}
-		global.Sources = map[string]*sources.Source{}
+		global.Sources = sync.Map{}
 	}
 	for k, v := range req.Result {
 		if k == "999001" && len(v.ThreeDim) > 0 {
 			// 删除离开的人员
-			for id, val := range global.Sources {
+			for id, val := range sourcesMap {
 				if _, ok := v.ThreeDim[id]; !ok {
 					if val.Xbox != nil {
 						global.XboxDevice.ReturnDevice(val.Xbox)
 					}
-					delete(global.Sources, id)
+					global.Sources.Delete(id)
 				}
 			}
 			// 数据添加到数据源
@@ -91,18 +101,9 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 					Objs: [][]float64{},
 				}
 				for _, v := range data.Objs {
-					// 三楼临时添加的过滤条件
-					// if v.Value[0] == 0 || v.Value[1] == 0 || v.Value[2] == 0 {
-					// 	obj.Objs = [][]float64{}
-					// 	break
-					// }
 					obj.Objs = append(obj.Objs, []float64{float64(v.Value[0]), float64(v.Value[1]), float64(v.Value[2])})
 				}
-				// 三楼临时添加的过滤条件
-				// if len(obj.Objs) == 0 {
-				// 	continue
-				// }
-				if value, ok := global.Sources[id]; ok {
+				if value, ok := sourcesMap[id]; ok {
 					if value.Xbox == nil {
 						value.Xbox = global.XboxDevice.GetDevice()
 					}
@@ -111,22 +112,26 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 					source := *sources.InitSource(global.Config.Source.Cap)
 					source.Xbox = global.XboxDevice.GetDevice()
 					source.Enqueue(obj)
-					global.Sources[id] = &source
+					global.Sources.Store(id, &source)
 				}
-				action.RuleToXbox(global.Sources[id])
+
 				for _, v := range data.RecActions {
 					if v.Confidence > 0.7 {
 						logrus.Debugf("model action %v: %s", v.Action, action.Action(v.Action).String())
-						action.ModelToXbox(global.Sources[id], v.Action)
+						if val, ok := global.Sources.Load(id); ok {
+							pos := val.(*sources.Source)
+							action.ModelToXbox(pos, v.Action)
+						}
 					}
 				}
 			}
+			go action.ActionToXbox()
 		} else {
-			for id, val := range global.Sources {
+			for id, val := range sourcesMap {
 				if val.Xbox != nil {
 					global.XboxDevice.ReturnDevice(val.Xbox)
 				}
-				delete(global.Sources, id)
+				global.Sources.Delete(id)
 			}
 		}
 	}
