@@ -227,6 +227,7 @@ func ModelToXbox(pos *source.Source, action int32) {
 
 func TemplateMatch(pos *source.Source, k int, action config.ActionData) {
 	if val, ok := global.GetTemplatesByID(k); ok {
+		startTime := time.Now().UnixMilli()
 		var disScore float64
 		pathLen := 100
 		temNormP3d := KeyNodePos(val.Tem.NormP3d, val.KeyNode)
@@ -266,12 +267,13 @@ func TemplateMatch(pos *source.Source, k int, action config.ActionData) {
 			distMat := global.ComputeDistMatrix(temNormP3d, keyNormP3d)
 			atrousDMat := global.ComputeAccumulatedCostMatrix(distMat)
 			_, pathLen, disScore = global.FindBestPath(atrousDMat, distMat)
+			fmt.Println(time.Now().UnixMilli() - startTime)
 		}
 
 		if disScore < float64(val.Score) && ((pathLen+1) > int(float32(len(val.Tem.NormP3d))*val.PathLen) || pathLen == 100) {
 			pos.ActionWindow.Add(k)
 			if pos.ActionWindow.MaxCount() == k {
-				fmt.Println("success", time.Now().UnixMilli(), action.Value, disScore, (pathLen + 1), len(val.Tem.NormP3d), val.PathLen, int(float32(len(val.Tem.NormP3d))*val.PathLen))
+				fmt.Println("success", time.Now().UnixMilli()-startTime, action.Value, disScore, (pathLen + 1), len(val.Tem.NormP3d), val.PathLen, int(float32(len(val.Tem.NormP3d))*val.PathLen))
 				logrus.Infof("rule action: %s", Action(k).String())
 				go pos.Xbox.SetXbox(action)
 			}

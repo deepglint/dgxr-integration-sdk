@@ -17,6 +17,7 @@ import "C"
 
 import (
 	"errors"
+	"fmt"
 	"unsafe"
 
 	"golang.org/x/sys/windows"
@@ -51,6 +52,7 @@ func Open(onVibration func(vibration Vibration)) (*Emulator, error) {
 
 func (e *Emulator) Connect() (*Controller, error) {
 	target, _, err := procTargetX360Alloc.Call()
+	fmt.Println(target, "====================")
 	if !errors.Is(err, windows.ERROR_SUCCESS) {
 		return nil, err
 	}
