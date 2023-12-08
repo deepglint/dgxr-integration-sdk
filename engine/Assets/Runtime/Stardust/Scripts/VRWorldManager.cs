@@ -44,8 +44,8 @@ namespace VRKave
         public float KaveScale = 1; //Scale of the real world KAVE units used in calibration relative to the Unity project units. Ex: A KAVE with 2 meter tall wall and a scale of 3 will have walls of 2*3 Unity units tall when instantiated.
         [Header("是否使用UI叠加渲染")]
         public bool isUIRender = false;
-        public Camera[] _uiCameras; 
-
+        public Camera[] _uiCameras;
+        
         // 受Lock影响的头的位置
         private Vector3 headLockPosition;
         private void Awake()

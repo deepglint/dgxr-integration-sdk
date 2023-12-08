@@ -1480,9 +1480,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4327372929063035902}
   - component: {fileID: 848940067225842801}
+  - component: {fileID: 4154273601376458547}
   m_Layer: 0
   m_Name: SimpleBody
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1495,7 +1496,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2713054098970628225}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1542,7 +1543,64 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentObject: {fileID: 4327372929063035902}
   speed: 5
-  WsSource: {fileID: 0}
+  PersonId: 
+  PersonStatus: 0
+--- !u!114 &4154273601376458547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2713054098970628225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a70e525c82ce9413fa4d940ad7fcf1db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fixTransforms: 1
+  references:
+    root: {fileID: 4327372929063035902}
+    pelvis: {fileID: 4327372929063035902}
+    leftThigh: {fileID: 6372509795197006866}
+    leftCalf: {fileID: 2471570074606014179}
+    leftFoot: {fileID: 1990892438860058195}
+    rightThigh: {fileID: 4776709376816766440}
+    rightCalf: {fileID: 8482800892759180480}
+    rightFoot: {fileID: 2263979039176886890}
+    leftUpperArm: {fileID: 817812959930235070}
+    leftForearm: {fileID: 4669145852710269096}
+    leftHand: {fileID: 6251174712059743947}
+    rightUpperArm: {fileID: 491051430652405661}
+    rightForearm: {fileID: 1540322924139694360}
+    rightHand: {fileID: 7900052728536570301}
+    head: {fileID: 5835108524095109118}
+    spine: []
+    eyes:
+    - {fileID: 5438332238133273371}
+    - {fileID: 2440222155291293538}
+  solver:
+    executedInEditor: 0
+    IKPosition: {x: 0, y: 0, z: 0}
+    IKPositionWeight: 1
+    root: {fileID: 0}
+    iterations: 4
+    chain: []
+    effectors: []
+    spineMapping:
+      spineBones: []
+      leftUpperArmBone: {fileID: 0}
+      rightUpperArmBone: {fileID: 0}
+      leftThighBone: {fileID: 0}
+      rightThighBone: {fileID: 0}
+      iterations: 3
+      twistWeight: 1
+    boneMappings: []
+    limbMappings: []
+    FABRIKPass: 1
+    rootNode: {fileID: 1790937713978610248}
+    spineStiffness: 0.5
+    pullBodyVertical: 0.5
+    pullBodyHorizontal: 0
 --- !u!1 &2957408831251735262
 GameObject:
   m_ObjectHideFlags: 0
