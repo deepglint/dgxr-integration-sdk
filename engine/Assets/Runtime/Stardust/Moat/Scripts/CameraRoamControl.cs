@@ -56,7 +56,7 @@ public class CameraRoamControl : MonoBehaviour
         if (isCave)
         {
             _currentCameraObj = cameraCave.GetComponent<Transform>();
-            _currentCameraObj.position = new Vector3(0, (float)(viewHeight - humanEye), 0);
+            _currentCameraObj.position = new Vector3(_currentCameraObj.position.x, (float)(viewHeight - humanEye), _currentCameraObj.position.z);
             if (camera3D != null)
             {
                 camera3D?.SetActive(false);
@@ -65,7 +65,7 @@ public class CameraRoamControl : MonoBehaviour
         else
         {
             _currentCameraObj = camera3D.GetComponent<Transform>();
-            _currentCameraObj.position = new Vector3(0, viewHeight, 0);
+            _currentCameraObj.position = new Vector3(_currentCameraObj.position.x, viewHeight, _currentCameraObj.position.y);
             if (cameraCave != null)
             {
                 cameraCave?.SetActive(false);
