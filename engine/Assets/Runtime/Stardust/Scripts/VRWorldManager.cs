@@ -1,4 +1,5 @@
 ﻿using System;
+using Moat;
 using UnityEngine;
 using Matrix4x4 = UnityEngine.Matrix4x4;
 using Quaternion = UnityEngine.Quaternion;
@@ -15,7 +16,8 @@ namespace VRKave
         public GameObject ScreenPrefab;
         public Boolean LockAll;
         public Boolean LockXZ;
-
+        public LayerMask cameraLayer;
+       
         private VRLoadCalibration _configuration = new VRLoadCalibration();
 
         private GameObject _sensor;
@@ -40,6 +42,9 @@ namespace VRKave
         private int _textureWidth = 2800;
         private int _textureHeight = 1050;
         public float KaveScale = 1; //Scale of the real world KAVE units used in calibration relative to the Unity project units. Ex: A KAVE with 2 meter tall wall and a scale of 3 will have walls of 2*3 Unity units tall when instantiated.
+        [Header("是否使用UI叠加渲染")]
+        public bool isUIRender = false;
+        public Camera[] _uiCameras; 
 
         // 受Lock影响的头的位置
         private Vector3 headLockPosition;
@@ -116,6 +121,7 @@ namespace VRKave
                 index++;
             }
 
+
             //Instantiate the CAVE projectors:
             index = 0;
             _projectors = new Camera[_configuration.Projectors.Length];
@@ -130,6 +136,7 @@ namespace VRKave
                 _projectors[index].targetDisplay = projector.Display - 1;
                 _projectors[index].farClipPlane = (_projectors[index].transform.position - _surfaces[_projectors[index].targetDisplay].transform.position).magnitude * KaveScale * 2;
                 _projectors[index].fieldOfView = projector.FOV;
+                _projectors[index].name = "projector" + projector.Display;
                 SetObliqueness(0, projector.Fy, _projectors[index]);
                 _projectors[index].gameObject.layer = _caveLayer;
                 //_projectors[index].cullingMask = 1 << (_caveLayer - projector.Display);
@@ -172,7 +179,8 @@ namespace VRKave
                 _userProjectorViewCameras[index].gameObject.layer = _caveLayer;
                 // _userProjectorViewCameras[index].clearFlags = CameraClearFlags.SolidColor;
                 _userProjectorViewCameras[index].targetTexture = _surfaceTextures[index];
-                _userProjectorViewCameras[index].cullingMask = -1;      //The user is set to only see the default layer. Change this culling mask if you want the camera to see different layers (like water).
+                // _userProjectorViewCameras[index].cullingMask = -1; //The user is set to only see the default layer. Change this culling mask if you want the camera to see different layers (like water).
+                _userProjectorViewCameras[index].cullingMask = cameraLayer;
             }
 
             //Instantiate the user view cameras (cameras attached to the user head in the virtual world) for the screens:
@@ -184,6 +192,30 @@ namespace VRKave
                 _userScreenViewCameras[index].gameObject.layer = _caveLayer;
                 //_userScreenViewCameras[index].cullingMask = 1 << ();      //The user is set to only see the default layer. Change this culling mask if you want the camera to see different layers (like water).
                 _userScreenViewCameras[index].targetDisplay = _configuration.Screens[index].Display - 1;
+            }
+
+            if (isUIRender)
+            {
+                index = 0;
+                foreach (var uicamera in _uiCameras)
+                {
+                    uicamera.clearFlags = CameraClearFlags.SolidColor;
+                    var texture = new RenderTexture(1920, 1200, 24, RenderTextureFormat.ARGB32);
+                    texture.antiAliasing = 2;
+                    texture.Create();
+                    uicamera.targetTexture = texture;
+                    foreach (var projector in _projectors)
+                    {
+                        if (projector.gameObject.GetComponent<QuadWarp>().DisplayIndex == uicamera.targetDisplay)
+                        {
+                            projector.gameObject.GetComponent<QuadWarp>()._tex.Add(texture);
+                            projector.gameObject.GetComponent<QuadWarp>()._vertices
+                                .Add(projector.gameObject.GetComponent<QuadWarp>()._vertices[0]);
+                        }
+                    }
+
+                    index++;
+                }
             }
         }
         
@@ -260,10 +292,16 @@ namespace VRKave
         private void SetHeadPosition()
         {
             headLockPosition = _head.transform.position;
+            if (headLockPosition == Vector3.zero)
+            {
+                headLockPosition = centerViewPoint; 
+            }
+
             if (LockAll)
             {
                 headLockPosition = centerViewPoint;
-            } else if (LockXZ)
+            }
+            else if (LockXZ)
             {
                 LockValue = _head.transform.position;
                 headLockPosition = new Vector3(transform.position.x, _head.transform.position.y, transform.position.z);
@@ -272,8 +310,7 @@ namespace VRKave
             foreach (var userCamera in _userProjectorViewCameras) {
                 userCamera.transform.position = headLockPosition;
             }
-                
-
+            
             foreach (var userCamera in _userScreenViewCameras)
                 userCamera.transform.position = headLockPosition;
            
@@ -286,14 +323,14 @@ namespace VRKave
 
         private bool Load()
         {
-            var path = Application.streamingAssetsPath + "/calibration.xml";
+            var path = Application.streamingAssetsPath + "/stardust/calibration.xml";
             _configuration.LoadConfiguration(path);
             return true;
         }
 
         private void Quit()
         {
-            Application.Quit();
+            GameAppManager.Instance.CloseApp(); 
         }
 
         void SetObliqueness(float horizObl, float vertObl, Camera cam)
@@ -302,6 +339,48 @@ namespace VRKave
             mat[0, 2] = horizObl;
             mat[1, 2] = vertObl;
             cam.projectionMatrix = mat;
+        }
+        
+        private void LateUpdate()
+        {
+            // if (Input.GetKeyDown(KeyCode.O))
+            // {
+            //     SaveImage();
+            // }
+        }
+        
+        public int width = 1920;
+        public int height = 1200;
+        public int displayCount = 1;
+        public string savePath = "MultipleDisplays.png";
+        
+        private void SaveImage()
+        {
+            int index = 0;
+            foreach (var projector in _projectors)
+            {
+                // RenderTexture texture1 = (RenderTexture)projector.gameObject.GetComponent<QuadWarp>()._tex[1];
+                
+                var texture0 = new RenderTexture(1920, 1200, 24, RenderTextureFormat.ARGB32);
+                texture0.antiAliasing = 2;
+                texture0.Create();
+                projector.GetComponent<Camera>().targetTexture = texture0;
+                projector.GetComponent<Camera>().Render();
+                RenderTexture texture1 = projector.GetComponent<Camera>().targetTexture;
+                
+                Texture2D texture2d = new Texture2D(texture1.width, texture1.height);
+                RenderTexture.active = texture1;
+                texture2d.ReadPixels(new Rect(0, 0, texture1.width, texture1.height), 0, 0);
+                texture2d.Apply();
+                byte[] bytes2 = texture2d.EncodeToPNG();
+                System.IO.File.WriteAllBytes(index + savePath, bytes2);
+        
+                // 清理资源
+                RenderTexture.active = null;
+                Destroy(texture1);
+                Destroy(texture2d);
+                index++;
+            }
         }
     }
 }
