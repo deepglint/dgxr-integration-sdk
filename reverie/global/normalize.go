@@ -235,11 +235,6 @@ func NormalizeSeqPose3D(p3dSeq [][][]float64) [][][]float64 {
 }
 
 func BuildTemplate(frames [][][]float64) (template.Template, error) {
-	// newP3DSeq := make([][][]float64, len(frames))
-	// // 24 to 15 start
-	// for _, val := range frames {
-	// 	newP3DSeq = append(newP3DSeq, ConvertKeyPoints(val))
-	// }
 	normP3d := NormalizeSeqPose3D(frames)
 	template := template.Template{
 		P3d:     frames,

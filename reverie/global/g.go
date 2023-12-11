@@ -26,7 +26,6 @@ type HeadXYZ struct {
 }
 
 func UpdateHead(A []float32, B []float32) {
-	// fmt.Println("Start UpdateHead", A, B)
 	if len(Head) == 0 {
 		Head <- HeadXYZ{X: (A[0] + B[0]) / 2, Y: (A[1] + B[1]) / 2, Z: (A[2] + B[2]) / 2}
 		return
