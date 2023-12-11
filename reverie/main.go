@@ -72,7 +72,7 @@ func (p *program) run() {
 	go server.InitHttp()
 	global.XboxDevice = global.NewXboxPool(10)
 	go global.UpdateTemplate()
-	go Client("192.168.30.147:16666", "", "test")
+	// go Client("192.168.30.147:16666", "", "test")
 	defer global.XboxDevice.CloseAllXbox()
 	grpc.Grpc()
 }
@@ -88,6 +88,14 @@ func Client(address, path, clientName string) {
 			continue
 		}
 		defer c.Close()
+		go func() {
+			for {
+				_, p, err := c.ReadMessage()
+				if err == nil && len(p) > 0 {
+					fmt.Println(int(p[0]))
+				}
+			}
+		}()
 		for v := range global.Head {
 			b, _ := json.Marshal(v)
 			log.Println(string(b))
