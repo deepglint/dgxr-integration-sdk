@@ -1,6 +1,10 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/url"
 	"os"
 	"path/filepath"
 	"reverie/config"
@@ -8,7 +12,9 @@ import (
 	"reverie/global"
 	"reverie/server"
 	"reverie/source/input/grpc"
+	"time"
 
+	"github.com/gorilla/websocket"
 	"github.com/kardianos/service"
 	"github.com/sirupsen/logrus"
 )
@@ -26,6 +32,8 @@ func (p *program) Stop(s service.Service) error {
 }
 
 func main() {
+	// prg := &program{}
+	// prg.run()
 	// 获取当前可执行文件的路径
 	exePath, _ := os.Executable()
 	exeDir := filepath.Dir(exePath)
@@ -66,6 +74,41 @@ func (p *program) run() {
 	go server.InitHttp()
 	global.XboxDevice = global.NewXboxPool(10)
 	go global.UpdateTemplate()
+	go Client("192.168.12.113:16666", "", "test")
 	defer global.XboxDevice.CloseAllXbox()
 	grpc.Grpc()
+}
+
+func Client(address, path, clientName string) {
+	for {
+		time.Sleep(1 * time.Second)
+		u := url.URL{Scheme: "ws", Host: address, Path: path}
+		log.Printf("connecting to %s", u.String())
+		c, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
+		if err != nil {
+			log.Println("dial:", err)
+			continue
+		}
+		defer c.Close()
+		// go func() {
+		// 	for {
+		// 		_, _, err := c.ReadMessage()
+		// 		if err != nil {
+		// 			break
+		// 		}
+		// 		// if err == nil && len(p) > 0 {
+		// 		// 	fmt.Println(int(p[0]))
+		// 		// }
+		// 	}
+		// }()
+		for v := range global.Head {
+			b, _ := json.Marshal(v)
+			err2 := c.WriteMessage(websocket.TextMessage, b)
+			if err2 != nil {
+				fmt.Println(err2)
+				break
+			}
+		}
+		fmt.Println("send over")
+	}
 }
