@@ -1,7 +1,6 @@
 package global
 
 import (
-	"fmt"
 	"math"
 
 	"gonum.org/v1/gonum/mat"
@@ -245,7 +244,6 @@ func computePathScore(path [][2]int, distMatrix *mat.Dense) float64 {
 }
 
 func argMin(vec mat.Vector) int {
-	fmt.Println(vec)
 	_, c := vec.Dims()
 	minIndex := 0
 	minValue := vec.At(0, 0)

@@ -31,7 +31,8 @@ func main() {
 func Grpc(fileName string) {
 	// time.Sleep(1 * time.Second)
 	// gRPC 服务器地址
-	serverAddress := "127.0.0.1:50051" // 替换为实际的服务器地址
+	// serverAddress := "127.0.0.1:50051" // 替换为实际的服务器地址
+	serverAddress := "192.168.8.7:50051" // 替换为实际的服务器地址
 
 	// 创建与服务器的连接
 	conn, err := grpc.Dial(serverAddress, grpc.WithInsecure())
@@ -55,7 +56,7 @@ func Grpc(fileName string) {
 	// 循环读取每一行
 	for scanner.Scan() {
 		n++
-		time.Sleep(3 * time.Second)
+		// time.Sleep(3 * time.Second)
 		time.Sleep(30 * time.Millisecond)
 		line := scanner.Text()
 		data := &ReqDataInfo{}
@@ -82,5 +83,4 @@ func Grpc(fileName string) {
 	if err := scanner.Err(); err != nil {
 		logrus.Fatal(err)
 	}
-
 }

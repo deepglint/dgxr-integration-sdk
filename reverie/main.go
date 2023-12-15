@@ -26,6 +26,8 @@ func (p *program) Stop(s service.Service) error {
 }
 
 func main() {
+	// prg := &program{}
+	// prg.run()
 	// 获取当前可执行文件的路径
 	exePath, _ := os.Executable()
 	exeDir := filepath.Dir(exePath)
@@ -66,7 +68,6 @@ func (p *program) run() {
 	go server.InitHttp()
 	global.XboxDevice = global.NewXboxPool(10)
 	go global.UpdateTemplate()
-
 	defer global.XboxDevice.CloseAllXbox()
 	grpc.Grpc()
 }

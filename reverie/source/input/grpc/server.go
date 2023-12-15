@@ -86,11 +86,6 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 	}
 	for k, v := range req.Result {
 		if k == "999001" && len(v.ThreeDim) > 0 {
-			for _, v := range v.ThreeDim {
-				global.UpdateHead(v.Objs[1].Value, v.Objs[2].Value)
-				break
-			}
-
 			// 删除离开的人员
 			for id, val := range sourcesMap {
 				if _, ok := v.ThreeDim[id]; !ok {
