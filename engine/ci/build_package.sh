@@ -13,7 +13,7 @@ ${UNITY_EXECUTABLE:-xvfb-run --auto-servernum --server-args='-screen 0 640x480x2
   -quit \
   -batchmode \
   -nographics \
-  -exportPackage "Assets" $BUILD_PATH/stardust.unitypackage
+  -exportPackage 'Assets/Runtime' 'Assets/Stardust' 'Assets/StreamingAssets' $BUILD_PATH/stardust.unitypackage
  
 UNITY_EXIT_CODE=$?
 
