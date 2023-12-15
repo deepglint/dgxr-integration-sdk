@@ -30,8 +30,8 @@ ExportedObj/
 *.booproj
 *.svd
 *.log
-# *.db
-# *.exe
+*.db
+*.exe
 
 # Unity3D generated meta files
 *.pidb.meta
