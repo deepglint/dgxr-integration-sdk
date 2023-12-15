@@ -17,21 +17,6 @@ const (
 	LicenseFileUploadApi = "/x-api/v1/license_nodes/authorize/upload_v2c"
 )
 
-var Head = make(chan HeadXYZ)
-
-type HeadXYZ struct {
-	X float32 `json:"x"`
-	Y float32 `json:"y"`
-	Z float32 `json:"z"`
-}
-
-func UpdateHead(A []float32, B []float32) {
-	if len(Head) == 0 {
-		Head <- HeadXYZ{X: (A[0] + B[0]) / 2, Y: (A[1] + B[1]) / 2, Z: (A[2] + B[2]) / 2}
-		return
-	}
-}
-
 var (
 	Rw       sync.RWMutex
 	Config   *config.Config
