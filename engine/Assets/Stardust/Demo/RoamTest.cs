@@ -18,5 +18,7 @@ public class RoamTest : MonoBehaviour
         {
             DebugPanel.Instance.BeControlledUserID = ((Int32.Parse("1001")) % 1000).ToString(); 
         }
+        
+        CameraRoamControl.Instance.isRoam = true;
     }
 }
