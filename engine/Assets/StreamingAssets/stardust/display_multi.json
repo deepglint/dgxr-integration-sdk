@@ -44,7 +44,7 @@
     "bottom2": 6,
     "debug": 4
   },
-  "wsConnect": false,
+  "wsConnect": true,
   "~wsConnect": "是否允许连接ws",
   "ReconnectMaxCount": -1,
   "~ReconnectMaxCount": "设置最大重连次数",
