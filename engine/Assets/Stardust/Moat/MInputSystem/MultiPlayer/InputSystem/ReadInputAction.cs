@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 using BodySource;
 using Moat;
 
-namespace MInputSystem.MultiPlayer.InputSystem
+namespace Moat 
 {
     // TODO: Consider renaming this class to follow naming conventions
     public class ReadInputAction: MonoBehaviour

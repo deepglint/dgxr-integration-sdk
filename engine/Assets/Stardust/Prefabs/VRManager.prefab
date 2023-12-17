@@ -24,6 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1791488749721130}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,7 +32,6 @@ Transform:
   m_Children:
   - {fileID: 134542969439203080}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114378994835440410
 MonoBehaviour:
@@ -52,7 +52,17 @@ MonoBehaviour:
   ScreenPrefab: {fileID: 1077914194066044, guid: d35616d3d084270428e03dae06597a89, type: 3}
   LockAll: 0
   LockXZ: 0
+  cameraLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  centerViewPoint: {x: 0, y: 0, z: 0}
   KaveScale: 1
+  isUIRender: 0
+  _uiCameras: []
+  width: 1920
+  height: 1200
+  displayCount: 1
+  savePath: MultipleDisplays.png
 --- !u!1001 &3547972928864188668
 PrefabInstance:
   m_ObjectHideFlags: 0
