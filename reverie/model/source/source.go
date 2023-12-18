@@ -91,7 +91,7 @@ func (w *Window) MaxCount() int {
 		if k == 0 {
 			continue
 		}
-		if v > max && v > w.size/4 {
+		if v > max && v > w.size/7 {
 			max = v
 			maxIndex = k
 		}

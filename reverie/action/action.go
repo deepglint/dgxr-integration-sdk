@@ -1,12 +1,10 @@
 package action
 
 import (
-	"fmt"
 	"reverie/action/rule"
 	"reverie/global"
 	"reverie/model/config"
 	"reverie/model/source"
-	"time"
 
 	"github.com/sirupsen/logrus"
 )
@@ -241,7 +239,6 @@ func TemplateMatch(pos *source.Source, k int, action config.ActionData) {
 				normP3d := global.NormalizeSeqPose3D(input)
 				keyNormP3d := KeyNodePos(normP3d, val.KeyNode)
 
-				// TODO 处理val.Tem.NormP3d,匹配个别关节点，此处匹配多个人的单帧模板，需要增加 for 循环遍历val.Tem.NormP3d，去除每一个作为三维数组
 				for _, tem := range temNormP3d {
 					distMat := global.ComputeDistMatrix([][][]float64{tem}, keyNormP3d)
 					disScore = distMat.At(0, 0)
@@ -271,8 +268,7 @@ func TemplateMatch(pos *source.Source, k int, action config.ActionData) {
 		if disScore < float64(val.Score) && ((pathLen+1) > int(float32(len(val.Tem.NormP3d))*val.PathLen) || pathLen == 100) {
 			pos.ActionWindow.Add(k)
 			if pos.ActionWindow.MaxCount() == k {
-				fmt.Println("success", time.Now().UnixMilli(), action.Value, disScore, (pathLen + 1), len(val.Tem.NormP3d), val.PathLen, int(float32(len(val.Tem.NormP3d))*val.PathLen))
-				logrus.Infof("rule action: %s", Action(k).String())
+				logrus.Infof("rule action: %s, %v", Action(k).String(), disScore, pathLen+1, int(float32(len(val.Tem.NormP3d))*val.PathLen))
 				go pos.Xbox.SetXbox(action)
 			}
 		}

@@ -62,12 +62,13 @@ func UpdateTemplate() {
 		tem := template.Template{}
 		keyNode := []int{}
 		if err := json.Unmarshal([]byte(v.Pos), &tem); err != nil {
-			logrus.Error(err)
+			logrus.Errorf("template id: %d, err: %v", v.Id, err)
 			continue
 		}
 
 		if err := json.Unmarshal([]byte(v.KeyNode), &keyNode); err != nil {
 			logrus.Error(err)
+			logrus.Errorf("template id: %d,json unMarshal keyNode err: %v", v.Id, err)
 			continue
 		}
 		data := template.TemplateData{
