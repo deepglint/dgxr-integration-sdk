@@ -1,7 +1,6 @@
 package global
 
 import (
-	"fmt"
 	"math"
 
 	"gonum.org/v1/gonum/mat"
@@ -37,7 +36,7 @@ func KabschWeighted(P, Q *mat.Dense, W *mat.Dense) (*mat.Dense, *mat.VecDense, f
 	for i := 0; i < d; i++ {
 		for j := 0; j < rows; j++ {
 			for k := 0; k < d; k++ {
-				C.Set(i, k, C.At(i, k)+(P.At(j, i)*Q.At(j, k)*W.At(j, i)*iw))
+				C.Set(i, k, C.At(i, k)+(P.At(j, i)*Q.At(j, k)*W.At(j, i)))
 			}
 		}
 	}
@@ -71,8 +70,8 @@ func KabschWeighted(P, Q *mat.Dense, W *mat.Dense) (*mat.Dense, *mat.VecDense, f
 	QW.MulElem(Q, Q)
 	QW.MulElem(QW, W)
 
-	PSQ := mat.Sum(PW) - mat.Dot(CMP, CMP)*iw
-	QSQ := mat.Sum(QW) - mat.Dot(CMQ, CMQ)*iw
+	PSQ := mat.Sum(PW) - mat.Dot(CMP, CMP)
+	QSQ := mat.Sum(QW) - mat.Dot(CMQ, CMQ)
 
 	outerProduct := mat.NewDense(d, d, nil)
 	outerProduct.Mul(CMP, CMQ.T())
@@ -201,25 +200,30 @@ func FindBestPath(accumulatedDistMat *mat.Dense, distMat *mat.Dense) ([][2]int, 
 }
 
 func computeOptimalWarpingPathSubsequenceDTW(D *mat.Dense) [][2]int {
-	N, _ := D.Dims()
+	N, M := D.Dims()
 	n := N - 1
-	m := 0
-	minValue := D.At(N-1, 0)
-	for j := 1; j < N; j++ {
-		v := D.At(N-1, j)
-		if minValue > v {
-			minValue = v
-			m = j
+	m := -1
+	if m < 0 {
+		// 如果 m 小于 0，则设置 m 为最后一行的最小值所在的列
+		minVal := D.At(N-1, 0)
+		for i := 1; i < M; i++ {
+			if val := D.At(N-1, i); val < minVal {
+				minVal = val
+				m = i
+			}
 		}
 	}
-	var P [][2]int
-	P = append(P, [2]int{n, m})
+
+	P := [][2]int{{n, m}}
+
 	for n > 0 {
 		var cell [2]int
+
 		if m == 0 {
 			cell = [2]int{n - 1, 0}
 		} else {
 			val := min(D.At(n-1, m-1), D.At(n-1, m), D.At(n, m-1))
+
 			if val == D.At(n-1, m-1) {
 				cell = [2]int{n - 1, m - 1}
 			} else if val == D.At(n-1, m) {
@@ -228,11 +232,16 @@ func computeOptimalWarpingPathSubsequenceDTW(D *mat.Dense) [][2]int {
 				cell = [2]int{n, m - 1}
 			}
 		}
+
 		P = append(P, cell)
 		n, m = cell[0], cell[1]
 	}
 
-	reversePath(P)
+	// 反转切片
+	for i, j := 0, len(P)-1; i < j; i, j = i+1, j-1 {
+		P[i], P[j] = P[j], P[i]
+	}
+
 	return P
 }
 
@@ -245,7 +254,6 @@ func computePathScore(path [][2]int, distMatrix *mat.Dense) float64 {
 }
 
 func argMin(vec mat.Vector) int {
-	fmt.Println(vec)
 	_, c := vec.Dims()
 	minIndex := 0
 	minValue := vec.At(0, 0)

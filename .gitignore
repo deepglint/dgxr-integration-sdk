@@ -12,8 +12,6 @@
 .idea
 *.tgz
 .vscode
-dubhe/file/token.json
-dubhe/dubhe
 containers/vse/mdmt
 containers/vse/model
 __pycache__
@@ -32,6 +30,8 @@ ExportedObj/
 *.booproj
 *.svd
 *.log
+*.db
+*.exe
 
 # Unity3D generated meta files
 *.pidb.meta

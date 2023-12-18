@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"context"
 	"encoding/json"
+	"flag"
 	"os"
 	"time"
 
@@ -18,17 +19,26 @@ type ReqDataInfo struct {
 	RecvTime time.Time   `json:"recvTime"`
 }
 
-func main() {
-	//解析保存的grpc数据进行分析
-	Grpc()
-	// 通过grpc client进行推送
+var fileName string
+var ip string
+var qps int
 
+func main() {
+
+	flag.StringVar(&fileName, "f", "./walk.txt", "your file name")
+	flag.StringVar(&ip, "i", "127.0.0.1:50051", "your ip")
+	flag.IntVar(&qps, "q", 30, "your qps")
+	flag.Parse()
+	//解析保存的grpc数据进行分析
+	Grpc(fileName)
+	// 通过grpc client进行推送·
 }
 
-func Grpc() {
-	time.Sleep(1 * time.Second)
+func Grpc(fileName string) {
+	// time.Sleep(1 * time.Second)
 	// gRPC 服务器地址
-	serverAddress := "127.0.0.1:50051" // 替换为实际的服务器地址
+	serverAddress := ip // 替换为实际的服务器地址
+	// serverAddress := "192.168.8.7:50051" // 替换为实际的服务器地址
 
 	// 创建与服务器的连接
 	conn, err := grpc.Dial(serverAddress, grpc.WithInsecure())
@@ -40,7 +50,7 @@ func Grpc() {
 	// 创建 gRPC 客户端
 	client := pb.NewThreeDimSkelClient(conn)
 	// 打开文件
-	file, err := os.Open("./walk.txt") // 替换为你要读取的文件路径
+	file, err := os.Open(fileName) // 替换为你要读取的文件路径
 	if err != nil {
 		logrus.Fatal(err)
 	}
@@ -52,13 +62,11 @@ func Grpc() {
 	// 循环读取每一行
 	for scanner.Scan() {
 		n++
-		// time.Sleep(1 * time.Second)
-		time.Sleep(30 * time.Millisecond)
+		time.Sleep(time.Duration(1000/qps) * time.Millisecond)
 		line := scanner.Text()
 		data := &ReqDataInfo{}
 		err = json.Unmarshal([]byte(line), data)
 		if err != nil {
-			// logrus.Info("解析失败", err, n, data)
 		}
 		if data.ReqInfo == nil || data.ReqInfo.FrameId == "" {
 			continue
@@ -80,5 +88,4 @@ func Grpc() {
 	if err := scanner.Err(); err != nil {
 		logrus.Fatal(err)
 	}
-
 }

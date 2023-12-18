@@ -1,7 +1,6 @@
 package rule
 
 import (
-	"fmt"
 	"math"
 
 	"reverie/global"
@@ -16,7 +15,6 @@ func ElbowBend(data *source.Source) bool {
 	}
 	angleLeft := data.CalculateAngle(obj.Objs[source.LeftShoulder], obj.Objs[source.LeftElbow], obj.Objs[source.LeftWrist])
 	angleRight := data.CalculateAngle(obj.Objs[source.RightShoulder], obj.Objs[source.RightElbow], obj.Objs[source.RightWrist])
-	fmt.Println(angleLeft, angleRight, global.Config.Rules.ElbowBend.MinAngle, global.Config.Rules.ElbowBend.MaxAngle)
 	if angleLeft > global.Config.Rules.ElbowBend.MinAngle && angleRight > global.Config.Rules.ElbowBend.MinAngle && angleLeft < global.Config.Rules.ElbowBend.MaxAngle && angleRight < global.Config.Rules.ElbowBend.MaxAngle && math.Abs(obj.Objs[5][1]-obj.Objs[22][1]) > 0.25 && math.Abs(obj.Objs[5][1]-obj.Objs[23][1]) > 0.25 {
 		return true
 	}

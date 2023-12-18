@@ -72,7 +72,6 @@ func handleWebSocket(c *gin.Context) {
 				logrus.Errorf("ws read message error: %v", err)
 				return
 			}
-			fmt.Println(string(msg))
 			var data []Action
 			if err := json.Unmarshal(msg, &data); err != nil {
 				logrus.Errorf("ws unmarshal fail, error: %v", err)

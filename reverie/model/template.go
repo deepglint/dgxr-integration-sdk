@@ -42,6 +42,14 @@ func GetTemplatesByIDArray(engine *xorm.Engine, ids []int) ([]*Template, error) 
 	return templates, nil
 }
 
+func (t *Template) Get(engine *xorm.Engine) (bool, error) {
+	ok, err := engine.Get(t)
+	if err != nil {
+		return ok, err
+	}
+	return ok, nil
+}
+
 func FindTemplates(engine *xorm.Engine) ([]*Template, error) {
 	templates := make([]*Template, 0)
 	err := engine.Find(&templates)
