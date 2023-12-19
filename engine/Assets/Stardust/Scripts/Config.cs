@@ -141,7 +141,7 @@ namespace BodySource
             Source sourceConnect = source.GetComponent<Source>();
             if (!sourceConnect.allowConnect)
             {
-                return true;
+                return false;
             }
 
             if (sourceConnect != null && sourceConnect.webSocket != null)
