@@ -19,16 +19,11 @@ namespace Moat
         public List<string> EmptyIds = new List<string> { };
         public List<GameObject> PlayerObjs = new List<GameObject> { };
 
-        public Source WsSource;
-
         // Start is called before the first frame update
         void Start()
         {
             DisplayData.ReadConfig();
             PersonIds = new List<string> { };
-            if (WsSource == null) return;
-            WsSource.allowConnect = true;
-            WsSource.init(new Options());
 
             for (int i = 0; i < DisplayData.configDisplay.playerCount; i++)
             {

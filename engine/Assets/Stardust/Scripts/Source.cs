@@ -21,6 +21,7 @@ namespace BodySource
         }
 
         public Timer activeTimer = null;
+
         public class TimerObject
         {
             public int Counter;
@@ -33,26 +34,29 @@ namespace BodySource
             return time;
         }
 
-
         public void onMessage(string res)
         {
             MDebug.LogTest("返回的message " + res);
             if (res != null)
             {
                 // VRDGBodySource.Instance.Floor = ;
-               
+
                 SourceData info = JsonConvert.DeserializeObject<SourceData>(res);
-                
-                if (info.pose.Count != VRDGBodySource.Instance.Data.Count) {
+
+                if (info.pose.Count != VRDGBodySource.Instance.Data.Count)
+                {
                     foreach (var person in VRDGBodySource.Instance.Data)
                     {
-                        if (!info.pose.ContainsKey(person.Key)) {
-                            bool removed = VRDGBodySource.Instance.Data.TryRemove(person.Key, out BodyDataSource removedValue);
+                        if (!info.pose.ContainsKey(person.Key))
+                        {
+                            bool removed =
+                                VRDGBodySource.Instance.Data.TryRemove(person.Key, out BodyDataSource removedValue);
                         }
                     }
-                 }
+                }
 
-                foreach (var person in info.pose) {
+                foreach (var person in info.pose)
+                {
                     BodyDataSource body = new BodyDataSource { };
                     body.IsTracked = true;
                     body.BodyID = person.Key;
@@ -64,11 +68,12 @@ namespace BodySource
                         JointType jointType = (JointType)i;
                         body.Joints.Add(jointType, joint);
                     }
+
                     VRDGBodySource.Instance.Data[person.Key] = body;
                 }
 
                 //BodyDataSource data;
-                
+
 
                 // 20s活体检测
                 if (activeTimer != null)
@@ -103,17 +108,18 @@ namespace BodySource
         {
             MDebug.Log("数据源接入～～～");
         }
+
         public void onError()
         {
-             MDebug.Log("数据源接入失败～～～");
-
+            MDebug.Log("数据源接入失败～～～");
         }
     }
 
     public class Source : MonoBehaviour
     {
         public string WsUri = "";
-        [HideInInspector] public bool allowConnect;
+        public bool readConfig;
+        public bool allowConnect;
         private bool AutoReconnect = true;
         [HideInInspector] public bool HasConnectSuccess;
         [HideInInspector] public WebSocket webSocket;
@@ -131,20 +137,26 @@ namespace BodySource
 
         void Start()
         {
-            if(WsUri == ""){
+            if (WsUri == "")
+            {
                 WsUri = "ws://127.0.0.1:8000/ws";
             }
+
             HasConnectSuccess = false;
             AutoReconnect = true;
             ReconnectCount = 0;
-            DisplayData.ReadConfig();
-            allowConnect = DisplayData.configDisplay.wsConnect;
-            ReconnectMaxCount = DisplayData.configDisplay.ReconnectMaxCount;
-
+            
+            if (readConfig)
+            {
+                DisplayData.ReadConfig();
+                allowConnect = DisplayData.configDisplay.wsConnect; 
+                ReconnectMaxCount = DisplayData.configDisplay.ReconnectMaxCount;
+            }
+            
             if (allowConnect)
             {
                 MDebug.Log("allowConnect: 允许连接");
-                init(new Options()); 
+                init(new Options());
             }
         }
 
@@ -176,7 +188,7 @@ namespace BodySource
             if (url.StartsWith("https://")) url = url.Remove(0, "https://".Length);
             try
             {
-                System.Net.IPHostEntry ipHost = System.Net.Dns.GetHostEntry(url);// System.Net.Dns.Resolve(url);
+                System.Net.IPHostEntry ipHost = System.Net.Dns.GetHostEntry(url); // System.Net.Dns.Resolve(url);
                 return true;
             }
             catch (System.Net.Sockets.SocketException se)
@@ -204,7 +216,7 @@ namespace BodySource
         {
             if (!allowConnect)
             {
-                timer.Dispose(); 
+                timer.Dispose();
                 return;
             }
 
@@ -221,6 +233,7 @@ namespace BodySource
                 {
                     maxWait = 3000;
                 }
+
                 // MDebug.LogTest("重连等待时间:" + (getNowTime() - LastConnect) * 1000);
                 if ((getNowTime() - LastConnect) * 1000 > maxWait)
                 {
@@ -232,6 +245,7 @@ namespace BodySource
                             // AutoReconnect = false;
                             webSocket.Close();
                         }
+
                         MDebug.LogTest("重连次数:" + ReconnectCount);
                         Connect(WsUri);
                     }
@@ -257,9 +271,11 @@ namespace BodySource
                 {
                     options.onOpened();
                 }
+
                 ReconnectCount = 0;
             }
         }
+
         private void OnMessageReceived(WebSocket webSocket, string message)
         {
             if (OptionType.GetMethod("onMessage") != null)
@@ -286,7 +302,7 @@ namespace BodySource
 
         void OnDestroy()
         {
-            if (webSocket == null) return; 
+            if (webSocket == null) return;
             webSocket.Close();
             timer.Dispose();
             AutoReconnect = false;
