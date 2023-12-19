@@ -70,7 +70,14 @@ namespace Moat
             if (DebugCanvas != null)
             {
                 DebugCanvas.targetDisplay = DisplayData.configDisplay.targetDisplay.debug - 1;
-                DebugCanvas.gameObject.SetActive(DisplayData.configDisplay.showMultiDebugCanvas);
+                if (DisplayData.configDisplay.showMultiDebugCanvas && DevicePlayerManager.Instance.IsGlobalTest)
+                {
+                    DebugCanvas.gameObject.SetActive(true);
+                }
+                else
+                {
+                    DebugCanvas.gameObject.SetActive(false);
+                }
             }
 
             if(IsGlobalTest || DisplayData.configDisplay.supportGamepad)
