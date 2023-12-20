@@ -22,9 +22,15 @@ namespace Moat
         // Start is called before the first frame update
         void Start()
         {
+            if (!(DisplayData.configDisplay.wsConnect && DisplayData.configDisplay.debugLevel > 2))
+            {
+                transform.gameObject.SetActive(false);
+                return;
+            }
+
             DisplayData.ReadConfig();
             PersonIds = new List<string> { };
-
+            
             for (int i = 0; i < DisplayData.configDisplay.playerCount; i++)
             {
                 PersonIds.Add(i.ToString());
@@ -74,7 +80,7 @@ namespace Moat
                 else if (EmptyIds.Count > 0 && PersonIds.Count > 0)
                 {
                     int index = PersonIds.IndexOf(EmptyIds[0]);
-                    if (PersonIds[index] != null)
+                    if (index > -1 && PersonIds[index] != null)
                     {
                         PersonIds[index] = personData.BodyID;
                         GameObject current = PlayerObjs[index];
