@@ -38,7 +38,7 @@ namespace Moat
         public Dictionary<string, PersonBody> PersonBodyInfo = new Dictionary<string, PersonBody>();
 
         // private GameObject parentGameObject;
-        public GameObject source;
+        [HideInInspector] public GameObject source;
         public Canvas DebugCanvas;
         public DebugPanel debugPanel;
         private float ratio = 1f;
