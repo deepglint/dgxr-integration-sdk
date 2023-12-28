@@ -746,6 +746,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BodyManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6056580998270977492, guid: f515b581b4a8849d4be7ed0ecb1db8f8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7874095751377114991, guid: f515b581b4a8849d4be7ed0ecb1db8f8, type: 3}
+      propertyPath: SpaceCameraPos
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
