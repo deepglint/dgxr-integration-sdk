@@ -71,7 +71,7 @@ namespace Moat
             {
                 _currentCameraObj = camera3D.GetComponent<Transform>();
                 _currentCameraObj.position =
-                    new Vector3(_currentCameraObj.position.x, ViewHeight, _currentCameraObj.position.y);
+                    new Vector3(_currentCameraObj.position.x, ViewHeight, _currentCameraObj.position.z);
                 if (cameraCave != null)
                 {
                     cameraCave?.SetActive(false);
