@@ -25,6 +25,16 @@ namespace Moat
             }
         }
 
+        public static void Log(string value, string value1)
+        {
+            DisplayData.ReadConfig();
+            int _debugLevel = DisplayData.configDisplay.debugLevel;
+            if (_debugLevel >= 4)
+            {
+                Debug.Log(value + value1); 
+            } 
+        }
+
         public static void LogFlow(string value)
         {
             DisplayData.ReadConfig();

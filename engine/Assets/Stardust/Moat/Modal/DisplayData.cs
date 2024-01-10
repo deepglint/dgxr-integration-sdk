@@ -23,7 +23,8 @@ namespace Moat.Model
         public bool allowCave { get; set; }
         public float moveSpeed { get; set; }
         public bool showMultiDebugCanvas { get; set; }
-        public bool allowFollowing { get; set; }
+        public bool allowFollowingInSinglePlayer { get; set; }
+        public bool forcedSubstitutionsInSinglePlayer { get; set; }
     }
 
     [System.Serializable]

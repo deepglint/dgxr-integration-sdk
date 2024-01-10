@@ -11,7 +11,7 @@
   <Surfaces>
     <Surface>
       <Pos.X>0</Pos.X>
-      <Pos.Y>1.4</Pos.Y>
+      <Pos.Y>0</Pos.Y>
       <Pos.Z>2.55</Pos.Z>
       <Rot.X>270</Rot.X>
       <Rot.Y>0</Rot.Y>
@@ -33,7 +33,7 @@
     </Surface>
     <Surface>
       <Pos.X>2.55</Pos.X>
-      <Pos.Y>1.4</Pos.Y>
+      <Pos.Y>0</Pos.Y>
       <Pos.Z>0</Pos.Z>
       <Rot.X>270</Rot.X>
       <Rot.Y>90</Rot.Y>
@@ -55,7 +55,7 @@
     </Surface>
     <Surface>
       <Pos.X>-2.55</Pos.X>
-      <Pos.Y>1.4</Pos.Y>
+      <Pos.Y>0</Pos.Y>
       <Pos.Z>0</Pos.Z>
       <Rot.X>270</Rot.X>
       <Rot.Y>270</Rot.Y>
@@ -77,7 +77,7 @@
     </Surface>
     <Surface>
       <Pos.X>0</Pos.X>
-      <Pos.Y>1.4</Pos.Y>
+      <Pos.Y>0</Pos.Y>
       <Pos.Z>-2.55</Pos.Z>
       <Rot.X>270</Rot.X>
       <Rot.Y>180</Rot.Y>
@@ -99,7 +99,7 @@
     </Surface>
     <Surface>
       <Pos.X>0</Pos.X>
-      <Pos.Y>-0.2</Pos.Y>
+      <Pos.Y>-1.6</Pos.Y>
       <Pos.Z>-0.92</Pos.Z>
       <Rot.X>-0</Rot.X>
       <Rot.Y>0</Rot.Y>
@@ -121,7 +121,7 @@
     </Surface>
     <Surface>
       <Pos.X>0</Pos.X>
-      <Pos.Y>-0.2</Pos.Y>
+      <Pos.Y>-1.6</Pos.Y>
       <Pos.Z>1.63</Pos.Z>
       <Rot.X>-0</Rot.X>
       <Rot.Y>0</Rot.Y>

@@ -69,7 +69,7 @@ namespace Moat
 
         public bool OnRoam(Vector2 move)
         {
-            if (CameraRoamControl.Instance.isRoam)
+            if (DisplayData.configDisplay.allowRoam)
             {
                 _cameraRoamControl?.Start(move);
                 return true;

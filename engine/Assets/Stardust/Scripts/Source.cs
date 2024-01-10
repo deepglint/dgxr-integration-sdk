@@ -43,14 +43,14 @@ namespace BodySource
 
                 SourceData info = JsonConvert.DeserializeObject<SourceData>(res);
 
-                if (info.pose.Count != VRDGBodySource.Instance.Data.Count)
+                if (info.pose.Count != XRDGBodySource.Instance.Data.Count)
                 {
-                    foreach (var person in VRDGBodySource.Instance.Data)
+                    foreach (var person in XRDGBodySource.Instance.Data)
                     {
                         if (!info.pose.ContainsKey(person.Key))
                         {
                             bool removed =
-                                VRDGBodySource.Instance.Data.TryRemove(person.Key, out BodyDataSource removedValue);
+                                XRDGBodySource.Instance.Data.TryRemove(person.Key, out BodyDataSource removedValue);
                         }
                     }
                 }
@@ -69,7 +69,7 @@ namespace BodySource
                         body.Joints.Add(jointType, joint);
                     }
 
-                    VRDGBodySource.Instance.Data[person.Key] = body;
+                    XRDGBodySource.Instance.Data[person.Key] = body;
                 }
 
                 //BodyDataSource data;
@@ -118,10 +118,10 @@ namespace BodySource
     public class Source : MonoBehaviour
     {
         public string WsUri = "";
-        public bool readConfig;
+        
         public bool allowConnect;
         private bool AutoReconnect = true;
-        [HideInInspector] public bool HasConnectSuccess;
+        public bool HasConnectSuccess;
         [HideInInspector] public WebSocket webSocket;
         private int ReconnectCount;
         private int ReconnectMaxCount = -1;
@@ -146,7 +146,7 @@ namespace BodySource
             AutoReconnect = true;
             ReconnectCount = 0;
             
-            if (readConfig)
+            if (DGXRConfig.Instance.AllowReadConfig)
             {
                 DisplayData.ReadConfig();
                 allowConnect = DisplayData.configDisplay.wsConnect; 

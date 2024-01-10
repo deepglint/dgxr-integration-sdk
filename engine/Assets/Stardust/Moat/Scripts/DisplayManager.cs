@@ -50,30 +50,21 @@ namespace Moat
 
         void SetDisplay()
         {
-            GameObject roam = GameObject.Find("Roam");
-            if (roam != null)
+            if (DGXRConfig.Instance.isCave)
             {
-                CameraRoamControl roamControl = roam.GetComponent<CameraRoamControl>();
-                if (roamControl.isCave)
-                {
-                    Set3DVRCamera();
-                }
-                else
-                {
-                    Set3DCamera();
-                    // SetUICamera();
-                }
+                Set3DXRCamera();
             }
             else
             {
-                Set3DVRCamera(); 
+                Set3DCamera();
+                // SetUICamera();
             }
             SetUICamera();
         }
 
         void Set3DCamera()
         {
-            GameObject camera3D = GameObject.Find("SimpleVRManager");
+            GameObject camera3D = GameObject.Find("3DCameraGroup");
             if (camera3D == null) return;
             Camera[] cameras = camera3D.GetComponentsInChildren<Camera>();
 
@@ -92,11 +83,11 @@ namespace Moat
             InitDisplay();  
         }
 
-        void Set3DVRCamera()
+        void Set3DXRCamera()
         {
-            GameObject cameraVR3D = GameObject.Find("VRManager");
-            if (cameraVR3D == null) return;
-            Camera[] cameras = cameraVR3D.GetComponentsInChildren<Camera>();
+            GameObject cameraXR3D = GameObject.Find("XRManager");
+            if (cameraXR3D == null) return;
+            Camera[] cameras = cameraXR3D.GetComponentsInChildren<Camera>();
 
             // 遍历相机数组，访问每一个相机对象
             for (int i = 0; i < cameras.Length; i++)

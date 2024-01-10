@@ -18,7 +18,17 @@ namespace Moat
                 EventManager.Send(MoatGameEvent.PlayerRemove, new object[1]{ player.id });
             }
         }
-        
+
+        public void RemovePlayerByIndex(int index)
+        {
+            if (players.Count > index && players[index] != null)
+            {
+                VirtualPlayer player = players[index];
+                players.Remove(player);
+                EventManager.Send(MoatGameEvent.PlayerRemove, new object[1]{ player.id });
+            }
+        }
+
         public void RemovePlayerById(string playerID)
         {
             MDebug.LogTest("RemovePlayerById::"+playerID + "   Lenght:"+ players.Count);

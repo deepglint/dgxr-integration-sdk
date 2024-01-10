@@ -15,7 +15,7 @@ public class MoveJoints : MonoBehaviour
     private LineRenderer lineRenderer2;
     private LineRenderer lineRenderer3;
     private LineRenderer lineRenderer4;
-    private VRDGBodySource _bodyManager;
+    private XRDGBodySource _bodyManager;
     private int lineLength = 300;
     public Source WsSource;
 
@@ -95,7 +95,7 @@ public class MoveJoints : MonoBehaviour
         WsSource.allowConnect = true;
         WsSource.init(new Options()); 
         
-        _bodyManager = VRDGBodySource.Instance;
+        _bodyManager = XRDGBodySource.Instance;
 
         InitObject();
         lineRenderer1.positionCount = lineLength;

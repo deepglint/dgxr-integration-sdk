@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BodySource;
 using Moat.Model;
 using UnityEngine;
@@ -13,16 +14,24 @@ namespace Moat
         private ConcurrentDictionary<string, BodyDataSource> personBodySource =
             new ConcurrentDictionary<string, BodyDataSource> { };
 
+        public Camera DebugCamera;
         public GameObject PlayerPrefab;
+        
         public List<string> PersonIds = new List<string> { };
         public List<string> CurrentIds = new List<string> { };
         public List<string> EmptyIds = new List<string> { };
         public List<GameObject> PlayerObjs = new List<GameObject> { };
 
         // Start is called before the first frame update
-        void Start()
+        async void Start()
         {
-            if (!(DisplayData.configDisplay.wsConnect && DisplayData.configDisplay.debugLevel > 2))
+            await Task.Delay(3000);
+            if (DebugCamera != null) DebugCamera.targetDisplay = DisplayData.configDisplay.targetDisplay.debug - 1;
+            
+            GameObject source = GameObject.Find("Source");
+            if (source == null) return;
+            Source sourceConnect = source.GetComponent<Source>();
+            if (!(sourceConnect.HasConnectSuccess && DisplayData.configDisplay.debugLevel > 2))
             {
                 transform.gameObject.SetActive(false);
                 return;
@@ -44,7 +53,7 @@ namespace Moat
         // Update is called once per frame
         void Update()
         {
-            personBodySource = VRDGBodySource.Instance.GetData();
+            personBodySource = XRDGBodySource.Instance.GetData();
             EmptyIds = new List<string>(); 
             CurrentIds = new List<string> { };
             

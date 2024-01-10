@@ -6,8 +6,8 @@ DGCAVE是一款高度定制化的插件，基于格灵深瞳M2硬件相机和先
 
 ## 引用方式
 
-- 在Unity中导入DGCAVE插件并将VRWorldManager预制体拖放到场景中。
-- 调整VRWorldManager预制体中HEAD对象的位置，以确保主视角屏幕拼接处的实时变换。
+- 在Unity中导入DGCAVE插件并将XRWorldManager预制体拖放到场景中。
+- 调整XRWorldManager预制体中HEAD对象的位置，以确保主视角屏幕拼接处的实时变换。
 
 ## 功能
 
@@ -18,8 +18,8 @@ DGCAVE是一款高度定制化的插件，基于格灵深瞳M2硬件相机和先
 
 ## 使用方法
 
-1. 在Unity中导入DGCAVE插件，将VRWorldManager预制体拖放到场景中的合适位置。
-2. 调整VRWorldManager预制体中HEAD对象的位置，确保画面拼接处变换时的效果最佳。
+1. 在Unity中导入DGCAVE插件，将XRWorldManager预制体拖放到场景中的合适位置。
+2. 调整XRWorldManager预制体中HEAD对象的位置，确保画面拼接处变换时的效果最佳。
 3. 在项目中设置适合您的游戏类型和交互方式，享受沉浸式裸眼3D的全新体验！
 
 ### 空间中人员的3dPose数据获取
@@ -33,7 +33,7 @@ using BodySource;
 2.引入_bodyManager实例（为单例，可放心引用）
 
 ``` 
- _bodyManager = VRDGBodySource.Instance;
+ _bodyManager = XRDGBodySource.Instance;
 ```
 
 3.获取数据
@@ -54,7 +54,7 @@ using BodySource;
 2.引入_bodyManager实例（为单例，可放心引用）
 
 ``` 
- _bodyManager = VRDGBodySource.Instance;
+ _bodyManager = XRDGBodySource.Instance;
 ```
 
 3.设置cavePersonId的视角
@@ -74,7 +74,7 @@ using BodySource;
 2.引入_bodyManager实例（为单例，可放心引用）
 
 ``` 
- _bodyManager = VRDGBodySource.Instance;
+ _bodyManager = XRDGBodySource.Instance;
 ```
 
 3.设置运行的游戏和识别人的ID

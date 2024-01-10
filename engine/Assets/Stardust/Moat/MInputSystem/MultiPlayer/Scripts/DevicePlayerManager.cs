@@ -150,7 +150,7 @@ namespace Moat
         {
             if (!IsGlobalTest)
             {
-                personBodySource = VRDGBodySource.Instance.GetData();
+                personBodySource = XRDGBodySource.Instance.GetData();
             }
 
             Dictionary<string, PersonBody> PersonBodyInfoTmp = new Dictionary<string, PersonBody>();

@@ -3369,7 +3369,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2863729770913848285}
-  - component: {fileID: 7986643994255103566}
+  - component: {fileID: 1429850398682868740}
   m_Layer: 20
   m_Name: BodyManager
   m_TagString: Untagged
@@ -3395,7 +3395,7 @@ Transform:
   - {fileID: 560729062562539045}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7986643994255103566
+--- !u!114 &1429850398682868740
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3407,6 +3407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 612734387587d4a339eee278b0819f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DebugCamera: {fileID: 8222743776589032425}
   PlayerPrefab: {fileID: 7374230096629105651}
   PersonIds: []
   CurrentIds: []
@@ -5227,8 +5228,8 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0
+    x: 0.5
+    y: -0.5
     width: 1
     height: 1
   near clip plane: 0.3

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace VRKave
+namespace DGXR
 {
     [ExecuteInEditMode]
     public class QuadWarp : MonoBehaviour
@@ -68,7 +68,7 @@ namespace VRKave
                     _vertices[surfaceIndex][2], _vertices[surfaceIndex][1]);
                 var homography = homographyUV * homographyVtx.inverse;
 
-                if (!VRWorldManager.instance.isUIRender)
+                if (!XRWorldManager.instance.isUIRender)
                 {
                     _mat.mainTexture = _tex[surfaceIndex];
                     if (_tex.Count > 1)

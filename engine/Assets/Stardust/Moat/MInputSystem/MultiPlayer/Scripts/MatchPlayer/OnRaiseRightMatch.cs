@@ -2,11 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BodySource;
-using UnityEngine;
-using Moat;
 using Moat.Model;
-using VRKave;
+using DGXR;
 
 namespace Moat
 {
@@ -22,7 +21,7 @@ namespace Moat
             EventManager.RegisterListener(ActionEvent.OnRaiseOnHand,OnRaiseOnHand);
         }
 
-        private void OnRaiseOnHand(EventCallBack evt)
+        private async void OnRaiseOnHand(EventCallBack evt)
         {
             MDebug.Log("OnRaiseOnHand:"+(string)evt.Params[0]+"--"+_player.id + "  " + DevicePlayerManager.Instance.IsGlobalTest + "-" + !DisplayData.configDisplay.supportGamepad);
             if(DevicePlayerManager.Instance.IsGlobalTest && !DisplayData.configDisplay.supportGamepad) return;
@@ -31,14 +30,24 @@ namespace Moat
                 PlayerGroup.Instance.AddPlayer(_player);
                 
                 if (DisplayData.configDisplay.playerCount > 1) return;
-                if (DisplayData.configDisplay.allowFollowing)
+                if (DisplayData.configDisplay.forcedSubstitutionsInSinglePlayer)
                 {
-                    VRDGBodySource.Instance.SetCavePersonId(_player.id);
-                    VRWorldManager.instance.LockAll = false;
+                    MDebug.LogTest("PlayerGroup.Instance1: " + PlayerGroup.Instance.players.Count);
+                    PlayerGroup.Instance.RemovePlayerByIndex(0);
+                    MDebug.LogTest("PlayerGroup.Instance2: " + PlayerGroup.Instance.players.Count);
+                    await Task.Delay(100);
+                    PlayerGroup.Instance.AddPlayer(_player);
+                    MDebug.LogTest("PlayerGroup.Instance3: " + PlayerGroup.Instance.players.Count);
+                }
+
+                if (DisplayData.configDisplay.allowFollowingInSinglePlayer)
+                {
+                    XRDGBodySource.Instance.SetCavePersonId(_player.id);
+                    XRWorldManager.instance.LockAll = false;
                 }
                 else
                 {
-                    VRWorldManager.instance.LockAll = true;
+                    XRWorldManager.instance.LockAll = true;
                 }
             }
         }
