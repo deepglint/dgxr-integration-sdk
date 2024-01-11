@@ -17,12 +17,14 @@ namespace Moat
             {
                 isEnterApp = true;
                 OnEntered?.Invoke();
+                MDebug.LogFlow("Application.isFocused: 进入主焦点" + Application.isFocused);
             }
-            else if (isEnterApp)
+            else if (!Application.isFocused && isEnterApp)
             {
                 isEnterApp = false;
                 OnLeft?.Invoke();
-            } 
+                MDebug.LogFlow("Application.isFocused: 离开主焦点" + Application.isFocused);
+            }  
         }
 
         public void OpenUrl(string name)
