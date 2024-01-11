@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using Moat;
+using Moat.Model;
 
 namespace BodySource
 {
@@ -139,16 +140,18 @@ namespace BodySource
         {
             GameObject source = GameObject.Find("Source");
             Source sourceConnect = source.GetComponent<Source>();
-            if (!sourceConnect.allowConnect)
+            MDebug.LogFlow("2. 动作配置 - 2.0 权限 " + sourceConnect.HasConnectSuccess);
+            if (!sourceConnect.HasConnectSuccess)
             {
-                return true;
+                return false;
             }
 
             if (sourceConnect != null && sourceConnect.webSocket != null)
             {
                 string jsonString = JsonConvert.SerializeObject(conf);
-                MDebug.LogFlow("send ActionConfig：" + jsonString);
                 sourceConnect.webSocket.Send(jsonString);
+                MDebug.LogFlow("2. 动作配置 - 2.1 发送成功");
+                MDebug.LogFlow("2. 动作配置 - 2.2 动作数量：" + conf.Count);
                 return true;
             }
 

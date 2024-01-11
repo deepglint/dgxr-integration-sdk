@@ -20,6 +20,7 @@ namespace Moat
         
         private float _closeCount = 0;
         private float _startTime = 0;
+        private float _preTime = 0;
 
         private void Awake()
         {
@@ -36,7 +37,7 @@ namespace Moat
         {
             if (IsOpen)
             {
-                MDebug.LogFlow("====== 关闭当前应用 =====");
+                // MDebug.LogFlow("====== 关闭当前应用 =====");
                 GameAppManager.Instance.CloseApp();
             }
         }
@@ -55,40 +56,26 @@ namespace Moat
             if (IsOpen)
             {
                 _closeCount = 0;
-                _startTime = 0;
                 return;
             }
 
-            if (_startTime == 0)
+            if (_closeCount == 0)
             {
                 _startTime = Time.time;
-                Invoke("CheckCloseCount2", (float)(interval + 2));
+                Invoke("OpenAppClose", (float)(interval));
             }
-            CheckCloseCount1(interval); 
+
+            _closeCount += 1;
         }
 
-        private void CheckCloseCount1(int interval = 5)
+        private void OpenAppClose()
         {
-            if (_startTime != 0 && (Time.time - _startTime) > 1)
-            {
-                _closeCount += (Time.time - _startTime);
-                _startTime = Time.time;
-            }
-
-            Debug.Log("_closeCount >= interval: " + _closeCount + " " + interval);
-            if (_closeCount >= interval)
+            _preTime = Time.time; 
+            if (_closeCount > 5 && (_preTime - _startTime) > 4)
             {
                 Open();
                 _closeCount = 0;
-                _startTime = 0;
             }
-        }
-
-        private void CheckCloseCount2()
-        {
-            CancelInvoke("CheckCloseCount2"); 
-            _closeCount = 0;
-            _startTime = 0;
         }
 
         public void Open()
@@ -97,7 +84,7 @@ namespace Moat
             IsOpen = true;
             _currentTime = _timeMax;
             Invoke("Close", _timeMax);
-            MDebug.LogFlow("------ 打开[关闭弹窗] ------" + _currentTime);
+            // MDebug.LogFlow("------ 打开[关闭弹窗] ------" + _currentTime);
             CloseGameObject?.SetActive(true);
             InvokeRepeating("UpdateTime", 0f, 1f);
         }
@@ -108,7 +95,7 @@ namespace Moat
             IsOpen = false;
             CancelInvoke("Close");
             CancelInvoke("UpdateTime");
-            MDebug.Log("close AppClose dialog" + _currentTime);
+            // MDebug.Log("close AppClose dialog" + _currentTime);
             CloseGameObject?.SetActive(false);
             CancelInvoke("UpdateTime");
             OnClose?.Invoke();

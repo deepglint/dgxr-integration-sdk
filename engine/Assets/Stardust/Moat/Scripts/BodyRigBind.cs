@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Threading;
+﻿using UnityEngine;
 using BodySource;
 
 namespace Moat
@@ -19,7 +16,7 @@ namespace Moat
         private LineRenderer lineRenderer2;
         private LineRenderer lineRenderer3;
         private LineRenderer lineRenderer4;
-        private VRDGBodySource _bodyManager;
+        private XRDGBodySource _bodyManager;
         private int lineLength = 300;
         public string PersonId;
         public bool PersonStatus;
@@ -86,7 +83,7 @@ namespace Moat
             Neck = parentObject.Find("Neck");
             Root = parentObject.Find("Root");
 
-            //   Line1 = GameObject.Find("Line1");
+            // Line1 = GameObject.Find("Line1");
 
             lineRenderer1 = (LineRenderer)Nose.GetComponent("LineRenderer");
             lineRenderer2 = (LineRenderer)LeftHip.GetComponent("LineRenderer");
@@ -97,7 +94,7 @@ namespace Moat
         // Use this for initialization
         void Start()
         {
-            _bodyManager = VRDGBodySource.Instance;
+            _bodyManager = XRDGBodySource.Instance;
 
             InitObject();
             lineRenderer1.positionCount = lineLength;
@@ -219,7 +216,8 @@ namespace Moat
 
         private BodyDataSource Body(System.Collections.Concurrent.ConcurrentDictionary<string, BodyDataSource> data)
         {
-            if (PersonId != "" && data.ContainsKey(PersonId))
+            // Debug.Log("PersonId: " + PersonId + " >> " + data.ContainsKey(PersonId));
+            if (data.ContainsKey(PersonId))
             {
                 PersonStatus = true;
                 transform.gameObject.SetActive(PersonStatus);

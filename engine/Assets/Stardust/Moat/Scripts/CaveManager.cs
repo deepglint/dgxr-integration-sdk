@@ -52,7 +52,7 @@ namespace Moat
         // Update is called once per frame
         public void Update()
         {
-            personBodySource = VRDGBodySource.Instance.GetData(); 
+            personBodySource = XRDGBodySource.Instance.GetData(); 
 
             Dictionary<string, OnePersonBody> personBodyInfoTmp = new Dictionary<string, OnePersonBody>();
             string txt = "";
@@ -115,7 +115,7 @@ namespace Moat
         {
             if (personBodyInfo.Keys.Contains(playerId))
             {
-                VRDGBodySource.Instance.SetCavePersonId((int.Parse(playerId) - 1).ToString());
+                XRDGBodySource.Instance.SetCavePersonId((int.Parse(playerId) - 1).ToString());
             }
         }
 
@@ -180,7 +180,7 @@ namespace Moat
                     if (mainPlayerId != person.BodyID)
                     {
                         mainPlayerId = person.BodyID;
-                        VRDGBodySource.Instance.SetCavePersonId(person.BodyID);
+                        XRDGBodySource.Instance.SetCavePersonId(person.BodyID);
                         break;
                     }
                 }

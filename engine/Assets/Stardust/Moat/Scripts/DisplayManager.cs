@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Moat.Model;
 // using Moat.Model;
 using UnityEngine;
@@ -25,7 +26,7 @@ namespace Moat
     
         private DisplayConfigData _displayConfigData;
         // Start is called before the first frame update
-        void Start()
+        async void Start()
         {
             // DisplayConfigData displayConfig = MReadData.ReadJsonFile<DisplayConfigData>(Application.streamingAssetsPath + "/display.json");
             DisplayData.ReadConfig();
@@ -37,45 +38,27 @@ namespace Moat
             projectionFusion = _displayConfigData.resolution.projectionFusion;
             bottom1Y = _displayConfigData.uiCameraPos.bottom1Y;
             bottom2Y = _displayConfigData.uiCameraPos.bottom2Y;
-            
-            SetViewport();
-            // 如果是 isUIRender = false，执行此方法
-            // SetUICamera();
-            Invoke("SetDisplay", 0);
+
+            await Task.Delay(100); 
+            SetDisplay();
         }
     
-        void SetViewport()
-        {
-        }
-
         void SetDisplay()
         {
-            GameObject roam = GameObject.Find("Roam");
-            if (roam != null)
+            if (DisplayData.allowCave)
             {
-                CameraRoamControl roamControl = roam.GetComponent<CameraRoamControl>();
-                if (roamControl.isCave)
-                {
-                    Set3DVRCamera();
-                }
-                else
-                {
-                    Set3DCamera();
-                    // SetUICamera();
-                }
+                Set3DXRCamera();
             }
             else
             {
-                Set3DVRCamera(); 
+                Set3DCamera();
             }
             SetUICamera();
         }
 
         void Set3DCamera()
         {
-            GameObject camera3D = GameObject.Find("SimpleVRManager");
-            if (camera3D == null) return;
-            Camera[] cameras = camera3D.GetComponentsInChildren<Camera>();
+            Camera[] cameras = transform.GetComponentsInChildren<Camera>();
 
             // 遍历相机数组，访问每一个相机对象
             for (int i = 0; i < cameras.Length; i++)
@@ -92,11 +75,9 @@ namespace Moat
             InitDisplay();  
         }
 
-        void Set3DVRCamera()
+        void Set3DXRCamera()
         {
-            GameObject cameraVR3D = GameObject.Find("VRManager");
-            if (cameraVR3D == null) return;
-            Camera[] cameras = cameraVR3D.GetComponentsInChildren<Camera>();
+            Camera[] cameras = transform.GetComponentsInChildren<Camera>();
 
             // 遍历相机数组，访问每一个相机对象
             for (int i = 0; i < cameras.Length; i++)

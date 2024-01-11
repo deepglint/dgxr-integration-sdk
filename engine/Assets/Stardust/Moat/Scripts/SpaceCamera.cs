@@ -25,6 +25,7 @@ namespace Moat
         // Start is called before the first frame update
         void Start()
         {
+            
             SpaceCameraPos = SpaceCameraPosition.Front;
             _spaceCameraPos = SpaceCameraPosition.Front;
             SetSpaceCamera();

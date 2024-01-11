@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Threading;
 using BodySource;
 using Moat;
+using Moat.Model;
 
 public class MoveJoints : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class MoveJoints : MonoBehaviour
     private LineRenderer lineRenderer2;
     private LineRenderer lineRenderer3;
     private LineRenderer lineRenderer4;
-    private VRDGBodySource _bodyManager;
+    private XRDGBodySource _bodyManager;
     private int lineLength = 300;
     public Source WsSource;
 
@@ -92,10 +93,10 @@ public class MoveJoints : MonoBehaviour
     void Start()
     {
         if (WsSource == null) return;
-        WsSource.allowConnect = true;
-        WsSource.init(new Options()); 
+        DisplayData.wsConnect = true;
+        WsSource.init(new Options());
         
-        _bodyManager = VRDGBodySource.Instance;
+        _bodyManager = XRDGBodySource.Instance;
 
         InitObject();
         lineRenderer1.positionCount = lineLength;
@@ -110,7 +111,6 @@ public class MoveJoints : MonoBehaviour
     }
 
     // Update is called once per frame
-
     void Update()
     {
         float step = speed * Time.deltaTime;

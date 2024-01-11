@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2877448909163948994}
-  - component: {fileID: 9214403552873725930}
+  - component: {fileID: 8728664518361400226}
   m_Layer: 0
   m_Name: Roam
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9214403552873725930
+--- !u!114 &8728664518361400226
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,13 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 10
   RotationSpeed: 30
-  Width: 16
-  Height: 10
-  ViewHeight: 5
-  HumanEye: 1.4
+  Width: 5
+  Height: 3.2
   camera3D: {fileID: 0}
   cameraCave: {fileID: 0}
-  isCave: 1
-  isRoam: 0
   verticalInput: 0
   horizontalInput: 0
