@@ -42,40 +42,51 @@ namespace BodySource
             if (res != null)
             {
                 SourceData info = JsonConvert.DeserializeObject<SourceData>(res);
-
-                if (info.pose.Count != XRDGBodySource.Instance.Data.Count)
+                MDebug.LogFlow("1. WS 连接 - 1.3 骨骼人数：" + info.pose.Count);
+                foreach (var person in XRDGBodySource.Instance.Data)
                 {
-                    MDebug.LogFlow("1. WS 连接 - 1.3 骨骼人数：" + info.pose.Count);
-                    foreach (var person in XRDGBodySource.Instance.Data)
+                    if (!info.pose.ContainsKey(person.Key))
                     {
-                        if (!info.pose.ContainsKey(person.Key))
-                        {
-                            bool removed =
-                                XRDGBodySource.Instance.Data.TryRemove(person.Key, out BodyDataSource removedValue);
-                        }
+                        bool removed = XRDGBodySource.Instance.Data.TryRemove(person.Key, out BodyDataSource removedValue);
                     }
                 }
 
                 foreach (var person in info.pose)
                 {
-                    BodyDataSource body = new BodyDataSource { };
-                    body.IsTracked = true;
-                    body.BodyID = person.Key;
-                    body.Joints = new Dictionary<JointType, JointData> { };
-                    int rows = person.Value.GetLength(0); // 获取行数
-                    for (int i = 0; i < rows; i++)
+                    if (XRDGBodySource.Instance.Data.ContainsKey(person.Key))
                     {
-                        JointData joint = new JointData(person.Value[i, 0], person.Value[i, 1], person.Value[i, 2]);
-                        JointType jointType = (JointType)i;
-                        body.Joints.Add(jointType, joint);
+                        //存在则更新
+                        BodyDataSource body = XRDGBodySource.Instance.Data[person.Key];
+                        int rows = person.Value.GetLength(0); // 获取行数
+                        for (int i = 0; i < rows; i++)
+                        {
+                            JointData joint = new JointData(person.Value[i, 0], person.Value[i, 1], person.Value[i, 2]);
+                            JointType jointType = (JointType)i;
+                            body.Joints[jointType] = joint; 
+                        }
+                        XRDGBodySource.Instance.Data[person.Key] = body;
                     }
-
-                    XRDGBodySource.Instance.Data[person.Key] = body;
+                    else
+                    {
+                        //新增
+                        BodyDataSource body = new BodyDataSource { };
+                        body.IsTracked = true;
+                        body.BodyID = person.Key;
+                        body.Joints = new Dictionary<JointType, JointData> { };
+                        body.LeftRay = new Ray();
+                        body.RightRay = new Ray();
+                        body.LeftHit = new RaycastHit();
+                        body.RightHit = new RaycastHit();
+                        int rows = person.Value.GetLength(0); // 获取行数
+                        for (int i = 0; i < rows; i++)
+                        {
+                            JointData joint = new JointData(person.Value[i, 0], person.Value[i, 1], person.Value[i, 2]);
+                            JointType jointType = (JointType)i;
+                            body.Joints.Add(jointType, joint);
+                        }
+                        XRDGBodySource.Instance.Data[person.Key] = body;
+                    }
                 }
-
-                //BodyDataSource data;
-
-
                 // 20s活体检测
                 if (activeTimer != null)
                 {
