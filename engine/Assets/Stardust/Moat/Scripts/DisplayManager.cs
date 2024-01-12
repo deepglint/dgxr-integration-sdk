@@ -28,6 +28,7 @@ namespace Moat
         // Start is called before the first frame update
         async void Start()
         {
+            
             // DisplayConfigData displayConfig = MReadData.ReadJsonFile<DisplayConfigData>(Application.streamingAssetsPath + "/display.json");
             DisplayData.ReadConfig();
             _displayConfigData = DisplayData.configDisplay;
@@ -128,6 +129,7 @@ namespace Moat
 
         void InitDisplay()
         {
+            if (cameraLeft == null) return;
             if (_displayConfigData.targetDisplay.left != null) cameraLeft.targetDisplay = _displayConfigData.targetDisplay.left - 1;
             if (_displayConfigData.targetDisplay.front != null) cameraFront.targetDisplay = _displayConfigData.targetDisplay.front - 1;
             if (_displayConfigData.targetDisplay.right != null) cameraRight.targetDisplay = _displayConfigData.targetDisplay.right - 1;
