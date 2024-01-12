@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace BodySource
 {
@@ -6,6 +7,11 @@ namespace BodySource
     {
         public bool IsTracked;
         public string BodyID { get; set; }
+        
+        public Ray LeftRay;
+        public Ray RightRay;
+        public RaycastHit LeftHit;
+        public RaycastHit RightHit;
         public Dictionary<JointType, JointData> Joints { get; set; }
         //public Dictionary<JointType, OrientationData> Orientations { get; set; }
     }
