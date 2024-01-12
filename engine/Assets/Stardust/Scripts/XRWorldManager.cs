@@ -235,7 +235,7 @@ namespace DGXR
            
             // 基于空间点的移动偏移
             float y = scaleHead.z + (scaleHead.z - DisplayData.HumanEye) * DisplayData.SpaceFollowSpeed;
-            return new Vector3(_head.transform.localPosition.x, y < 0 ? DisplayData.HumanEye : y, _head.transform.localPosition.y);
+            return new Vector3(_head.transform.localPosition.x, y < 0 ? DisplayData.HumanEye : y, _head.transform.localPosition.y * -1);
         }
 
         void Update()
