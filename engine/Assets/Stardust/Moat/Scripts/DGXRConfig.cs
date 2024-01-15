@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DGXR;
 using Moat.Model;
 using UnityEngine;
+using VRKave;
 
 namespace Moat
 {
@@ -80,7 +81,7 @@ namespace Moat
 
         void SetCamera()
         {
-            GameObject cameraXR = GameObject.Find("XRManager");
+            GameObject cameraXR = GameObject.Find("XRManager_URP");
             GameObject camera3D = GameObject.Find("3DCameraGroup");
             
             if (DisplayData.allowCave)
@@ -88,7 +89,7 @@ namespace Moat
                 if (cameraXR != null)
                 {
                     Transform _currentCameraObj = cameraXR.GetComponent<Transform>();
-                    XRWorldManager.instance.SetCameraPosition(new Vector3(_currentCameraObj.position.x, DisplayData.HumanEye, _currentCameraObj.position.z));
+                    XRWorldManagerURP.instance.SetCameraPosition(new Vector3(_currentCameraObj.position.x, DisplayData.HumanEye, _currentCameraObj.position.z));
                     if (camera3D != null) camera3D?.SetActive(false);
                 }
             }

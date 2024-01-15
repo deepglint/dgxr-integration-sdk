@@ -53,6 +53,17 @@ namespace DGXR
 
             return mtx;
         }
+        
+        public Matrix4x4 GetMatrix4x4()
+        {
+            int surfaceIndex = 0;
+            var homographyUV = CalcHomography(_uvs[0], _uvs[3], _uvs[2], _uvs[1]);
+            var homographyVtx = CalcHomography(_vertices[surfaceIndex][0], _vertices[surfaceIndex][3],
+                _vertices[surfaceIndex][2], _vertices[surfaceIndex][1]);
+            var homography = homographyUV * homographyVtx.inverse;
+            return homography;
+
+        }
 
         public void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
