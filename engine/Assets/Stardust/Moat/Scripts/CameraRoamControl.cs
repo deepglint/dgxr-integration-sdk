@@ -36,7 +36,7 @@ namespace Moat
                 if (cameraXR != null)
                 {
                     _currentCameraObj = cameraXR.GetComponent<Transform>();
-                    XRWorldManager.instance.SetCameraPosition(new Vector3(_currentCameraObj.position.x, DisplayData.HumanEye, _currentCameraObj.position.z));
+                    XRWorldManagerURP.instance.SetCameraPosition(new Vector3(_currentCameraObj.position.x, DisplayData.HumanEye, _currentCameraObj.position.z));
                     if (camera3D != null) camera3D?.SetActive(false);
                 }
             }
@@ -91,8 +91,8 @@ namespace Moat
 
         private void UpdateXRCamera(Vector3 headLockPosition)
         {
-            XRWorldManager.instance.centerViewPoint =
-                new Vector3(headLockPosition.x, XRWorldManager.instance.centerViewPoint.y, headLockPosition.z);
+            XRWorldManagerURP.instance.centerViewPoint =
+                new Vector3(headLockPosition.x, XRWorldManagerURP.instance.centerViewPoint.y, headLockPosition.z);
         }
 
         public void Update3DCamera(Vector3 headLockPosition)

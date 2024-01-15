@@ -8,7 +8,7 @@ using Matrix4x4 = UnityEngine.Matrix4x4;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
-namespace VRKave
+namespace DGXR
 {
     public class XRWorldManagerURP : MonoBehaviour
     {

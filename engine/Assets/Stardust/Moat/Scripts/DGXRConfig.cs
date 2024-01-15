@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using DGXR;
 using Moat.Model;
 using UnityEngine;
-using VRKave;
 
 namespace Moat
 {

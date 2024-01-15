@@ -39,12 +39,12 @@ namespace Moat
                     MDebug.LogFlow("4. 视角跟随 - 1.0 权限 " + DisplayData.allowFollowingInSinglePlayer);
                     if (DisplayData.allowFollowingInSinglePlayer)
                     {
-                        XRWorldManager.instance.LockAll = false;
+                        XRWorldManagerURP.instance.LockAll = false;
                         XRDGBodySource.Instance.SetCavePersonId(_player.id);
                     }
                     else
                     {
-                        XRWorldManager.instance.LockAll = true;
+                        XRWorldManagerURP.instance.LockAll = true;
                     } 
                 }
                 else
