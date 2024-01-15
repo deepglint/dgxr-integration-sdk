@@ -36,6 +36,7 @@ namespace Moat
                 if (cameraXR != null)
                 {
                     _currentCameraObj = cameraXR.GetComponent<Transform>();
+                    Debug.Log("_currentCameraObj: " + _currentCameraObj == null);
                     XRWorldManager.instance.SetCameraPosition(new Vector3(_currentCameraObj.position.x, DisplayData.HumanEye, _currentCameraObj.position.z));
                     if (camera3D != null) camera3D?.SetActive(false);
                 }

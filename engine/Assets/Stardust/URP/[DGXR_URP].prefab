@@ -1081,7 +1081,7 @@ PrefabInstance:
       objectReference: {fileID: 6406051171221471887}
     - target: {fileID: 1791488749721130, guid: 873fe93c200a1bb4fb14ed9399c4b175, type: 3}
       propertyPath: m_Name
-      value: XRManager_URP
+      value: XRManager
       objectReference: {fileID: 0}
     - target: {fileID: 4713917693847640, guid: 873fe93c200a1bb4fb14ed9399c4b175, type: 3}
       propertyPath: m_LocalPosition.x
