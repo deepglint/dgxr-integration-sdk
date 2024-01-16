@@ -38,18 +38,20 @@ using UnityEngine.Serialization;
 [HelpURL("https://developer.oculus.com/reference/unity/latest/class_o_v_r_controller_driven_hand_poses_sample")]
 public class OVRControllerDrivenHandPosesSample : MonoBehaviour
 {
-    [SerializeField]
-    private Button buttonOff;
-    [SerializeField]
-    private Button buttonConforming;
-    [SerializeField]
-    private Button buttonNatural;
+    // [SerializeField]
+    // private Button buttonOff;
+    // [SerializeField]
+    // private Button buttonConforming;
+    // [SerializeField]
+    // private Button buttonNatural;
     [SerializeField]
     private LineRenderer leftLinePointer;
     [SerializeField]
     private LineRenderer rightLinePointer;
 
     public OVRCameraRig cameraRig;
+    private GameObject LhitMarker;
+    private GameObject RhitMarker;
 
     // Unity event functions
     void Awake()
@@ -129,30 +131,88 @@ public class OVRControllerDrivenHandPosesSample : MonoBehaviour
 
         linePointer.enabled = true;
         linePointer.SetPosition(0, inputTransform.position + ray.direction * 0.05f);
-        linePointer.SetPosition(1, inputPosition + ray.direction * 2.5f);
+        linePointer.SetPosition(1, inputPosition + ray.direction * 10f);
+        if (Physics.Raycast(ray, out RaycastHit hit, float.MaxValue))
+        {
+            ShowHitMarker(hit.point, isLeft);
+            
+        }
+        else
+        {
+            DestroyHitMarker(isLeft);
+        }
+    }
+    
+    private void ShowHitMarker(Vector3 position,Boolean isLeft)
+    {
+        if (isLeft)
+        {
+            if (LhitMarker != null)
+            {
+                Destroy(LhitMarker);
+                LhitMarker = null;
+            }
+            // 在击中点生成红色标记
+            LhitMarker = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            LhitMarker.transform.position = position;
+            LhitMarker.GetComponent<Renderer>().material.color = Color.red; 
+        }
+        else
+        {
+            if (RhitMarker != null)
+            {
+                Destroy(RhitMarker);
+                RhitMarker = null;
+            }
+            // 在击中点生成红色标记
+            RhitMarker = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            RhitMarker.transform.position = position;
+            RhitMarker.GetComponent<Renderer>().material.color = Color.red;  
+        }
+
     }
 
+    private void DestroyHitMarker(Boolean isLeft)
+    {
+        if (isLeft)
+        {
+            // 销毁红色标记
+            if (LhitMarker != null)
+            {
+                Destroy(LhitMarker);
+                LhitMarker = null;
+            }
+        }
+        else
+        {
+            if (RhitMarker != null)
+            {
+                Destroy(RhitMarker);
+                RhitMarker = null;
+            }
+        }
+    }
     public void SetControllerDrivenHandPosesTypeToNone()
     {
         OVRManager.instance.controllerDrivenHandPosesType = OVRManager.ControllerDrivenHandPosesType.None;
-        buttonOff.interactable = false;
-        buttonConforming.interactable = true;
-        buttonNatural.interactable = true;
+        // buttonOff.interactable = false;
+        // buttonConforming.interactable = true;
+        // buttonNatural.interactable = true;
     }
 
     public void SetControllerDrivenHandPosesTypeToControllerConforming()
     {
         OVRManager.instance.controllerDrivenHandPosesType = OVRManager.ControllerDrivenHandPosesType.ConformingToController;
-        buttonOff.interactable = true;
-        buttonConforming.interactable = false;
-        buttonNatural.interactable = true;
+        // buttonOff.interactable = true;
+        // buttonConforming.interactable = false;
+        // buttonNatural.interactable = true;
     }
 
     public void SetControllerDrivenHandPosesTypeToNatural()
     {
         OVRManager.instance.controllerDrivenHandPosesType = OVRManager.ControllerDrivenHandPosesType.Natural;
-        buttonOff.interactable = true;
-        buttonConforming.interactable = true;
-        buttonNatural.interactable = false;
+        // buttonOff.interactable = true;
+        // buttonConforming.interactable = true;
+        // buttonNatural.interactable = false;
     }
 }

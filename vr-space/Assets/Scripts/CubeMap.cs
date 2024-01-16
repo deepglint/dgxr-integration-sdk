@@ -56,42 +56,27 @@ public class CubeMap : MonoBehaviour
             meries.Add(_material03);
             meries.Add(_material04);
             meries.Add(_material05);
+            StartCoroutine(MyTask());
+    }   
+    
+    IEnumerator MyTask()
+    {  
+        while(true)// or for(i;i;i)
+        {
             foreach (var screen in screens) 
             {
                 string direction = screen.name;
                 int index = screens.ToList().IndexOf(screen);
-               
-                string dir = "https://static-1253924368.cos.ap-beijing.myqcloud.com/test/lingjing/" + direction+".jpeg";
-               
+                string dir = "https://static-1253924368.cos.ap-beijing.myqcloud.com/test/lingjing/" + direction+".png";
                 StartCoroutine(LoadTexture(dir, meries[index], meshes[index]));
-            }
-
-
-    }
-    void Update(){
-       
-       
+            } 
+            yield return new WaitForSeconds(10.0f); // first
+        }
     }
     IEnumerator LoadTexture(string path, Material material, MeshRenderer meshRenderer)
     {
-        // Texture2D newTexture = new Texture2D(1920, 1200);
-        // // Assuming path is a byte array
-        // newTexture.LoadImage(path);
-        // if (material.mainTexture != null && material.mainTexture is Texture2D)
-        // {
-        //     Texture2D oldTexture = (Texture2D)material.mainTexture;
-        //     Destroy(oldTexture);
-        // }
-        // // 将新的 Texture2D 对象赋给 material.mainTexture
-        // material.mainTexture = newTexture;
-        //
-        // // 更新 meshRenderer 的材质
-        // meshRenderer.material = material;
-        //
-        // // if (material.mainTexture != null) Destroy(material.mainTexture);
-        // // material.mainTexture = texture;
-        // // meshRenderer.material = material;
-        // yield return null;
+        Texture2D newTexture = null;
+
         if (path.Contains("://") || path.Contains(":///"))
         {
             using (WWW www = new WWW(path))
@@ -99,8 +84,8 @@ public class CubeMap : MonoBehaviour
                 yield return www;
                 if (www.error == null)
                 {
-                    material.mainTexture = www.texture;
-                    meshRenderer.material = material;
+                    // 加载新纹理
+                    newTexture = www.texture;
                 }
                 else
                 {
@@ -108,6 +93,21 @@ public class CubeMap : MonoBehaviour
                 }
             }
         }
+
+        if (newTexture != null)
+        {
+            Texture2D oldTexture = (Texture2D)material.mainTexture;
+            // 替换新纹理
+            material.mainTexture = newTexture;
+            meshRenderer.material = material;
+
+            // 销毁旧纹理
+            if ( oldTexture != null && oldTexture is Texture2D)
+            {
+                Destroy(oldTexture);
+            }
+        }
+
         yield return null;
     }
 }
