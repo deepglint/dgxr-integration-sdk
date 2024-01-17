@@ -42,7 +42,10 @@ namespace BodySource
             if (res != null)
             {
                 SourceData info = JsonConvert.DeserializeObject<SourceData>(res);
-                MDebug.LogFlow("1. WS 连接 - 1.3 骨骼人数：" + info.pose.Count);
+                if (info.pose.Count != XRDGBodySource.Instance.Data.Count)
+                {
+                    MDebug.LogFlow("1. WS 连接 - 1.3 骨骼人数：" + info.pose.Count);
+                }
                 foreach (var person in XRDGBodySource.Instance.Data)
                 {
                     if (!info.pose.ContainsKey(person.Key))
