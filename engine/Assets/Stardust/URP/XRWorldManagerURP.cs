@@ -32,6 +32,7 @@ namespace DGXR
         private Camera[] _userScreenViewCameras;
         private RenderTexture[] _surfaceTextures;
 
+        public LayerMask cameraLayer;
         public static XRWorldManagerURP instance;
 
         private int _caveLayer = 31;
@@ -189,6 +190,7 @@ namespace DGXR
                 // _userProjectorViewCameras[index].clearFlags = CameraClearFlags.SolidColor;
                 _userProjectorViewCameras[index].targetTexture = _surfaceTextures[index];
                 _userProjectorViewCameras[index].cullingMask = -1;      //The user is set to only see the default layer. Change this culling mask if you want the camera to see different layers (like water).
+                _userProjectorViewCameras[index].cullingMask = cameraLayer;
             }
 
             //Instantiate the user view cameras (cameras attached to the user head in the virtual world) for the screens:
