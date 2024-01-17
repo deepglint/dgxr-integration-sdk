@@ -40,7 +40,7 @@ namespace Moat
                     if (DisplayData.allowFollowingInSinglePlayer)
                     {
                         XRWorldManagerURP.instance.LockAll = false;
-                        XRDGBodySource.Instance.SetCavePersonId(_player.id);
+                        XRDGBodySource.Instance.SetCavePersonId((Int32.Parse(_player.id) - 1).ToString()); 
                     }
                     else
                     {
