@@ -115,15 +115,26 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 					global.Sources.Store(id, &source)
 				}
 
+				var pos *sources.Source
+				if val, ok := global.Sources.Load(id); ok {
+					pos = val.(*sources.Source)
+				} else {
+					break
+				}
+				//设置个临时的空值map
+				temMap := map[int32]bool{}
 				for _, v := range data.RecActions {
+					// map 有值，且值为不存在或者为 false 的时候且 >0.8 出发计数
 					if v.Confidence > 0.7 {
+						temMap[v.Action] = true
 						logrus.Debugf("model action %v: %s", v.Action, action.Action(v.Action).String())
-						if val, ok := global.Sources.Load(id); ok {
-							pos := val.(*sources.Source)
+						actionStatus := pos.GetActionStatus()
+						if actionVal, ok := actionStatus[v.Action]; ok && !actionVal {
 							action.ModelToXbox(pos, v.Action)
 						}
 					}
 				}
+				pos.ReplaceActionStatus(temMap)
 			}
 			go action.ActionToXbox()
 		} else {

@@ -104,19 +104,37 @@ type Source struct {
 	items        []SourceData
 	PersonId     string
 	ActionWindow *Window
-	cap          int
-	Xbox         *xbox.Xbox
-	mutex        sync.RWMutex // 读写锁
+	// 动作状态：map [id]:bool, 存在动作设置为且为 false，则大于 0.8出发按钮
+	// 不存在动作，且大于 0.8出发按钮，添加动作到 map
+	// 存在动作，为 true，且大于 0.8不触发按钮
+	// 推出的帧当前任何动作，设置为 false，
+	actionStatusMap map[int32]bool
+	cap             int
+	Xbox            *xbox.Xbox
+	mutex           sync.RWMutex // 读写锁
 }
 
 func InitSource(cap int) *Source {
 	win := NewWindow(20)
 	return &Source{
-		items:        []SourceData{},
-		mutex:        sync.RWMutex{},
-		ActionWindow: win,
-		cap:          cap,
+		items:           []SourceData{},
+		mutex:           sync.RWMutex{},
+		actionStatusMap: map[int32]bool{},
+		ActionWindow:    win,
+		cap:             cap,
 	}
+}
+
+func (q *Source) ReplaceActionStatus(m map[int32]bool) {
+	q.mutex.Lock()
+	defer q.mutex.Unlock()
+	q.actionStatusMap = m
+}
+
+func (q *Source) GetActionStatus() map[int32]bool {
+	q.mutex.Lock()
+	defer q.mutex.Unlock()
+	return q.actionStatusMap
 }
 
 // 存放source数据
