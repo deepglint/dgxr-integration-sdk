@@ -1,6 +1,7 @@
 package action
 
 import (
+	"fmt"
 	"reverie/action/rule"
 	"reverie/global"
 	"reverie/model/config"
@@ -198,6 +199,7 @@ func ActionToXbox() {
 						go pos.Xbox.SetXbox(actionData)
 					}
 				} else {
+
 					go TemplateMatch(pos, key, actionData)
 				}
 			}
@@ -250,6 +252,7 @@ func TemplateMatch(pos *source.Source, k int, action config.ActionData) {
 		} else {
 			// 多帧
 			pos := pos.All()
+			fmt.Println(pos)
 			input := [][][]float64{}
 			is := len(pos) - len(val.Tem.NormP3d)
 			if is < 0 {
