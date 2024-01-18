@@ -130,6 +130,7 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 						logrus.Debugf("model action %v: %s", v.Action, action.Action(v.Action).String())
 						actionStatus := pos.GetActionStatus()
 						if actionVal, ok := actionStatus[v.Action]; ok && !actionVal {
+							fmt.Println("---", string(v.Action))
 							action.ModelToXbox(pos, v.Action)
 						}
 					}
