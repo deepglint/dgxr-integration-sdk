@@ -88,6 +88,24 @@ func Squat(data *source.Source) bool {
 	return false
 }
 
+func DafuWongSquat(data *source.Source) bool {
+	if pose, err := data.LastData(); err != nil {
+		return false
+	} else {
+		LeftKneeAngle := data.CalculateAngle(pose.Objs[source.LeftHip], pose.Objs[source.LeftKnee], pose.Objs[source.LeftAnkle])
+		RightKneeAngle := data.CalculateAngle(pose.Objs[source.RightHip], pose.Objs[source.RightKnee], pose.Objs[source.RightAnkle])
+
+		if LeftKneeAngle > 130 && RightKneeAngle > 130 && !data.Squat {
+			data.Squat = true
+			return true
+		}
+		if LeftKneeAngle < 90 && RightKneeAngle < 90 {
+			data.Squat = false
+		}
+	}
+	return false
+}
+
 func Jump(data *source.Source) bool {
 	if pose, err := data.LastData(); err != nil {
 		return false

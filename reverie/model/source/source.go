@@ -105,6 +105,10 @@ type Source struct {
 	PersonId     string
 	ActionWindow *Window
 	cap          int
+	FastRun      bool
+	Squat        bool
+	FreeStyle    bool
+	Butterfly    bool
 	Xbox         *xbox.Xbox
 	mutex        sync.RWMutex // 读写锁
 }

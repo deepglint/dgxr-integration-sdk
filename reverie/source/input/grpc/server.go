@@ -116,12 +116,21 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 				}
 
 				for _, v := range data.RecActions {
-					if v.Confidence > 0.7 {
+					if v.Confidence > 0.6 {
 						logrus.Debugf("model action %v: %s", v.Action, action.Action(v.Action).String())
 						if val, ok := global.Sources.Load(id); ok {
 							pos := val.(*sources.Source)
 							action.ModelToXbox(pos, v.Action)
 						}
+					}
+				}
+				if len(data.RecActions) == 0 {
+					if val, ok := global.Sources.Load(id); ok {
+						pos := val.(*sources.Source)
+						pos.FastRun = false
+						pos.Butterfly = false
+						pos.FreeStyle = false
+						// pos.Squat = false
 					}
 				}
 			}
