@@ -1,9 +1,7 @@
 ﻿using System;
-using DGXR;
 using Moat.Model;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.Serialization;
 using Matrix4x4 = UnityEngine.Matrix4x4;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
@@ -12,14 +10,15 @@ namespace DGXR
 {
     public class XRWorldManagerURP : MonoBehaviour
     {
-        public GameObject KinectSensorPrefab;
+        public GameObject SensorPrefab;
         public Camera ProjectorPrefab;
         public GameObject SurfacePrefab;
         public Camera UserViewCameraPrefab;
         public GameObject ScreenPrefab;
-        public Boolean LockAll;
-        public Boolean LockXZ;
-        public Camera[] stackCameras;
+        
+        public LayerMask cameraLayer;
+        private int _caveLayer = 31;
+       
         private XRLoadCalibration _configuration = new XRLoadCalibration();
 
         private GameObject _sensor;
@@ -32,22 +31,24 @@ namespace DGXR
         private Camera[] _userScreenViewCameras;
         private RenderTexture[] _surfaceTextures;
 
-        public LayerMask cameraLayer;
         public static XRWorldManagerURP instance;
 
-        private int _caveLayer = 31;
+        [Header("视角跟随相关设置")]
+        public Boolean LockAll;
+        public Boolean LockXZ;
         public Vector3 centerViewPoint;
+        // 受Lock影响的头的位置
+        public Vector3 headLockPosition;
+        public float SpaceScale = 1; //Scale of the real world KAVE units used in calibration relative to the Unity project units. Ex: A KAVE with 2 meter tall wall and a scale of 3 will have walls of 2*3 Unity units tall when instantiated.
 
         private GameObject _head;
         private int _numberScreens;
         private int _numberSurfaces;
-        private Vector3 LockValue;
+        
         private int _textureWidth = 2800;
         private int _textureHeight = 1050;
-        public float KaveScale = 1; //Scale of the real world KAVE units used in calibration relative to the Unity project units. Ex: A KAVE with 2 meter tall wall and a scale of 3 will have walls of 2*3 Unity units tall when instantiated.
-
-        // 受Lock影响的头的位置
-        private Vector3 headLockPosition;
+        public Camera[] stackCameras;
+        
         private void Awake()
         {
             instance = this;
@@ -93,7 +94,7 @@ namespace DGXR
             switch (_configuration.Sensors.Type)
             {
                 case XRLoadCalibration.SensorType.DG:
-                    _sensor = Instantiate(KinectSensorPrefab, transform);
+                    _sensor = Instantiate(SensorPrefab, transform);
                     break;
                 case XRLoadCalibration.SensorType.ArtTrack:
                     break;
@@ -135,7 +136,7 @@ namespace DGXR
                     _projectors[index].aspect = (float)Display.displays[projector.Display - 1].renderingWidth / Display.displays[projector.Display - 1].renderingHeight;
 #endif
                 _projectors[index].targetDisplay = projector.Display - 1;
-                _projectors[index].farClipPlane = (_projectors[index].transform.position - _surfaces[_projectors[index].targetDisplay].transform.position).magnitude * KaveScale * 2;
+                _projectors[index].farClipPlane = (_projectors[index].transform.position - _surfaces[_projectors[index].targetDisplay].transform.position).magnitude * SpaceScale * 2;
                 _projectors[index].fieldOfView = projector.FOV;
                 SetObliqueness(0, projector.Fy, _projectors[index]);
                 _projectors[index].gameObject.layer = _caveLayer;
@@ -204,7 +205,30 @@ namespace DGXR
                 _userScreenViewCameras[index].targetDisplay = _configuration.Screens[index].Display - 1;
             }
         }
-        
+       
+        public void SetCameraPosition(Vector3 _cameraPos)
+        {
+            if (_cameraPos == Vector3.zero)
+            {
+                transform.localPosition = new Vector3(_cameraPos.x, DisplayData.HumanEye + DisplayData.spaceUpperOrLowerOffset, _cameraPos.z);
+                centerViewPoint = new Vector3(_cameraPos.x, DisplayData.HumanEye, _cameraPos.z);
+            }
+            else
+            {
+                transform.localPosition = new Vector3(transform.localPosition.x, DisplayData.HumanEye + DisplayData.spaceUpperOrLowerOffset, transform.localPosition.z);
+                centerViewPoint = new Vector3(centerViewPoint.x, DisplayData.HumanEye, centerViewPoint.z); 
+            }
+        }
+
+        public Vector3 GetHeadPosition()
+        {
+            if (_head == null) return Vector3.zero;
+            Vector3 scaleHead = _head.transform.localPosition * DisplayData.SpatialProportion;
+           
+            // 基于空间点的移动偏移
+            float y = DisplayData.HumanEye + (DisplayData.HumanEye - scaleHead.z) * DisplayData.SpaceFollowSpeed;
+            return new Vector3(_head.transform.localPosition.x * DisplayData.SpatialProportion, y, _head.transform.localPosition.y * -1 * DisplayData.SpaceFollowSpeed);
+        }
 
         void Update()
         {
@@ -214,25 +238,20 @@ namespace DGXR
             }
 
             SetScale();
-            SetHead();
+            SetHead(GetHeadPosition());
         }
 
         private void SetScale()
         {
-            gameObject.transform.localScale = new Vector3(KaveScale, KaveScale, KaveScale);
+            gameObject.transform.localScale = new Vector3(SpaceScale, SpaceScale, SpaceScale);
         }
 
-        public void SetCameraPosition(Vector3 _cameraPos)
+        public void SetHead(Vector3 _headPos)
         {
-            float y = _cameraPos.z + (_cameraPos.z - DisplayData.HumanEye) * DisplayData.SpaceFollowSpeed;
-            transform.localPosition = new Vector3(_cameraPos.x, _cameraPos.y * (1 + DisplayData.SpaceUpperOrLowerOffsetProportion), _cameraPos.z);
-            centerViewPoint = _cameraPos;
-        }
-        
-        private void SetHead()
-        {
+            // 处理坐标的比例关系
+            
             //Set the position
-            SetHeadPosition();
+            SetHeadPosition(_headPos);
 
             //Set the FOV & Orientation
             for (int cameraIndex = 0; cameraIndex < _numberSurfaces; cameraIndex++)
@@ -282,31 +301,32 @@ namespace DGXR
             SetObliqueness(-obH, -obV, cameras[index]);
         }
 
-        private void SetHeadPosition()
+        private void SetHeadPosition(Vector3 _headPos)
         {
-            headLockPosition = _head.transform.position;
             if (LockAll)
             {
                 headLockPosition = centerViewPoint;
-            } else if (LockXZ)
+            }
+            else if (LockXZ)
             {
-                LockValue = _head.transform.position;
-                headLockPosition = new Vector3(transform.position.x, _head.transform.position.y, transform.position.z);
+                headLockPosition = new Vector3(transform.position.x, _headPos.y, transform.position.z);
+            }
+            else
+            {
+                headLockPosition = _headPos;
+                if (headLockPosition == Vector3.zero)
+                {
+                    headLockPosition = centerViewPoint;
+                }
+                // SetCameraPosition(Vector3.zero);
             }
             
             foreach (var userCamera in _userProjectorViewCameras) {
                 userCamera.transform.position = headLockPosition;
             }
-                
-
+            
             foreach (var userCamera in _userScreenViewCameras)
                 userCamera.transform.position = headLockPosition;
-           
-        }
-
-        public Vector3 GetHeadPosition()
-        {
-            return headLockPosition;
         }
 
         private bool Load()

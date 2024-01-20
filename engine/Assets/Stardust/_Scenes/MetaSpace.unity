@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44970942, g: 0.49977702, b: 0.57563454, a: 1}
+  m_IndirectSpecularColor: {r: 0.44970918, g: 0.49977678, b: 0.57563424, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -526,6 +526,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2331710730578373542, guid: 8b0c639ca3d7c5743adf8ba90e98dd17, type: 3}
+      propertyPath: stackCameras.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5330120064022900637, guid: 8b0c639ca3d7c5743adf8ba90e98dd17, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.219

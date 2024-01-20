@@ -23,7 +23,7 @@ namespace Moat
         public int interactionPermissionLevel;
         public float moveSpeed;
         public float SpaceFollowSpeed;
-        public float SpaceUpperOrLowerOffsetProportion;
+        public float spaceUpperOrLowerOffset;
         public float roamSpeed;
         public float roamRotationSpeed;
        
@@ -64,7 +64,8 @@ namespace Moat
 
         private void Update()
         {
-            // XRWorldManager.instance.SetCameraPosition(SimulatedHumanEye);
+            // XRWorldManagerURP.instance.SetCameraPosition(SimulatedHumanEye);
+            // DisplayData.spaceUpperOrLowerOffset = spaceUpperOrLowerOffset;
             
             // CaveManager.Instance.Update();
             // CaveManager.Instance.CheckPerson();
@@ -134,7 +135,7 @@ namespace Moat
             forcedSubstitutionsInSinglePlayer = DisplayData.forcedSubstitutionsInSinglePlayer;
             
             SpaceFollowSpeed = DisplayData.SpaceFollowSpeed;
-            SpaceUpperOrLowerOffsetProportion = DisplayData.SpaceUpperOrLowerOffsetProportion;
+            spaceUpperOrLowerOffset = DisplayData.spaceUpperOrLowerOffset;
             roamSpeed = DisplayData.roamSpeed;
             roamRotationSpeed = DisplayData.roamRotationSpeed; 
         }
