@@ -225,7 +225,7 @@ namespace DGXR
         public void SetCameraPosition(Vector3 _cameraPos)
         {
             float y = _cameraPos.z + (_cameraPos.z - DisplayData.HumanEye) * DisplayData.SpaceFollowSpeed;
-            transform.localPosition = new Vector3(_cameraPos.x, _cameraPos.y * (1 + DisplayData.SpaceUpperOrLowerOffsetProportion), _cameraPos.z);
+            transform.localPosition = new Vector3(_cameraPos.x, _cameraPos.y * (1 + DisplayData.spaceUpperOrLowerOffset), _cameraPos.z);
             centerViewPoint = _cameraPos;
         }
 

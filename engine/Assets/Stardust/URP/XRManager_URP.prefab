@@ -46,16 +46,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd0784ad3c2663145976e0386d0c7e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KinectSensorPrefab: {fileID: 0}
-  ProjectorPrefab: {fileID: 0}
-  SurfacePrefab: {fileID: 0}
-  UserViewCameraPrefab: {fileID: 0}
-  ScreenPrefab: {fileID: 0}
+  SensorPrefab: {fileID: 1021609273284732, guid: 21e86989c438fa94ab2a40b51a4afd84, type: 3}
+  ProjectorPrefab: {fileID: 20080656150439906, guid: 4f0d110e658543646bea068daae9bf2d, type: 3}
+  SurfacePrefab: {fileID: 1185365392610628, guid: 81c5334aa2818e448a47f75104da5c70, type: 3}
+  UserViewCameraPrefab: {fileID: 20058526624896774, guid: bd93b82f28959454294334753de9dfd9, type: 3}
+  ScreenPrefab: {fileID: 1077914194066044, guid: d35616d3d084270428e03dae06597a89, type: 3}
+  cameraLayer:
+    serializedVersion: 2
+    m_Bits: 129
   LockAll: 1
   LockXZ: 0
-  stackCameras: []
-  centerViewPoint: {x: 0, y: 0, z: 0}
-  KaveScale: 1
+  centerViewPoint: {x: 0, y: 1.6, z: 0}
+  headLockPosition: {x: 0, y: 0, z: 0}
+  SpaceScale: 1
+  stackCameras:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1907760845383084710
 MonoBehaviour:
   m_ObjectHideFlags: 0

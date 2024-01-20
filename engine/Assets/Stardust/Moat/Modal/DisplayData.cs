@@ -23,7 +23,7 @@ namespace Moat.Model
         public bool allowCave { get; set; }
         public float moveSpeed { get; set; }
         public float spaceFollowSpeed { get; set; }
-        public float spaceUpperOrLowerOffsetProportion { get; set; }
+        public float spaceUpperOrLowerOffset { get; set; }
         public bool allowFollowingInSinglePlayer { get; set; }
         public bool forcedSubstitutionsInSinglePlayer { get; set; }
         public float roamSpeed { get; set; }
@@ -104,7 +104,7 @@ namespace Moat.Model
         
         // 空间定义 - 走配置
         public static float SpaceFollowSpeed = 1;
-        public static float SpaceUpperOrLowerOffsetProportion = 0.3f;
+        public static float spaceUpperOrLowerOffset = 0f;
         public static float roamSpeed;
         public static float roamRotationSpeed;
 
@@ -121,7 +121,7 @@ namespace Moat.Model
 
             SpaceSize = 5f;
             SpatialProportion = 1;
-            SpaceUpperOrLowerOffsetProportion = 0.3f;
+            spaceUpperOrLowerOffset = 0f;
             Init();
         }
 
@@ -152,7 +152,7 @@ namespace Moat.Model
                 forcedSubstitutionsInSinglePlayer = configDisplay.forcedSubstitutionsInSinglePlayer;
 
                 SpaceFollowSpeed = configDisplay.spaceFollowSpeed;
-                SpaceUpperOrLowerOffsetProportion = configDisplay.spaceUpperOrLowerOffsetProportion;
+                spaceUpperOrLowerOffset = configDisplay.spaceUpperOrLowerOffset;
                 roamSpeed = configDisplay.roamSpeed;
                 roamRotationSpeed = configDisplay.roamRotationSpeed; 
 

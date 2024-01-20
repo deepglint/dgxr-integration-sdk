@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311924, g: 0.38073963, b: 0.3587269, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -252,6 +252,10 @@ PrefabInstance:
     - target: {fileID: 239304858882157814, guid: 6a98bc5ca2d944c49bf678b91539ee76, type: 3}
       propertyPath: m_Name
       value: '[DGXR_URP]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7001082797774402380, guid: 6a98bc5ca2d944c49bf678b91539ee76, type: 3}
+      propertyPath: cameraLayer.m_Bits
+      value: 129
       objectReference: {fileID: 0}
     - target: {fileID: 8383757742163282323, guid: 6a98bc5ca2d944c49bf678b91539ee76, type: 3}
       propertyPath: m_LocalPosition.x
