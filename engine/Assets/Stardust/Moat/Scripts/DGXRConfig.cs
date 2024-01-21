@@ -81,7 +81,7 @@ namespace Moat
 
         void SetCamera()
         {
-            GameObject cameraXR = GameObject.Find("XRManager_URP");
+            GameObject cameraXR = GameObject.Find("XRManager");
             GameObject camera3D = GameObject.Find("3DCameraGroup");
             
             if (DisplayData.allowCave)
