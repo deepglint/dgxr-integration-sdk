@@ -232,6 +232,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: '[DGRoamXR_URP]'
       objectReference: {fileID: 0}
+    - target: {fileID: 4685296842267743281, guid: b35b02bea877be24ab54fd58af2a67ba, type: 3}
+      propertyPath: wsConnect
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5612159086284112694, guid: b35b02bea877be24ab54fd58af2a67ba, type: 3}
       propertyPath: stackCameras.Array.size
       value: 0

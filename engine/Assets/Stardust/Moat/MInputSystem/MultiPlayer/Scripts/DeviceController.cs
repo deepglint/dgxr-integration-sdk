@@ -13,8 +13,7 @@ namespace Moat
     {
         private VirtualPlayer _player;
         private IMatchRule _matchRule;
-        public GameObject PlayerBody;
-        public Canvas PlayerCircle;
+        public PlayerMove playerCircle;
 
         [SerializeField] private int userId;
         private CameraRoamControl _cameraRoamControl;
@@ -23,12 +22,12 @@ namespace Moat
         private bool _sKeyStatus = false;
         private bool _aKeyStatus = false;
         private bool _dKeyStatus = false;
+        private float verticalInput;
+        private float horizontalInput;
         
         private void Awake()
         {
             keyboard = Keyboard.current;
-            if (PlayerBody != null) PlayerBody.SetActive(false);
-            if (PlayerCircle != null) PlayerCircle.gameObject.SetActive(false);
             GameObject roam = GameObject.Find("Roam");
             if (roam != null)
             {
@@ -47,22 +46,39 @@ namespace Moat
         
         private void Update()
         {
-            _matchRule.Update();
+            _matchRule?.Update();
+            if (verticalInput != 0 || horizontalInput != 0)
+            {
+                _player.Move(new Vector2(
+                    _player.movementInput.x + horizontalInput * Time.deltaTime,
+                    _player.movementInput.y + verticalInput * Time.deltaTime));
+                // Vector3.up * horizontalInput * DisplayData.roamRotationSpeed * Time.deltaTime
+            }
+
+            if (gameObject.GetComponent<PlayerInput>().name == "Keyboard" && playerCircle != null)
+            {
+                playerCircle.Move(_player.movementInput, true);
+            }
+            
             if (!keyboard.wKey.isPressed && _wKeyStatus)
             {
                 _wKeyStatus = false;
+                verticalInput = 0;
                 _cameraRoamControl?.Stop();
             } else if (!keyboard.sKey.isPressed && _sKeyStatus)
             {
                 _sKeyStatus = false;
+                verticalInput = 0;
                 _cameraRoamControl?.Stop();
             } else if (!keyboard.aKey.isPressed && _aKeyStatus)
             {
                 _aKeyStatus = false;
+                horizontalInput = 0;
                 _cameraRoamControl?.Stop();
             } else if (!keyboard.dKey.isPressed && _dKeyStatus)
             {
                 _dKeyStatus = false;
+                horizontalInput = 0;
                 _cameraRoamControl?.Stop();
             }
         }
@@ -102,8 +118,12 @@ namespace Moat
         public void OnMove(InputValue context)
         {
             Vector2 moveVec = context.Get<Vector2>();
+            verticalInput = moveVec.y;
+            horizontalInput = moveVec.x;
             if (moveVec == Vector2.zero)
             {
+                verticalInput = 0;
+                horizontalInput = 0; 
                 _cameraRoamControl?.Stop();
                 return;
             }
@@ -115,6 +135,7 @@ namespace Moat
             {
                 if (!ROITools.Instance.CheckBoundary(_player.movementInput + moveVec)) return;
             }
+
             _player.movementInput += moveVec * DisplayData.configDisplay.moveSpeed;
             _player.leftFootInput += moveVec * DisplayData.configDisplay.moveSpeed;
             _player.rightFootInput += moveVec * DisplayData.configDisplay.moveSpeed;
@@ -233,6 +254,7 @@ namespace Moat
         public void OnArmToForward(InputValue context)
         {
             _wKeyStatus = true;
+            verticalInput = 1;
             if (!CheckKeyboardPressed(context)) return;
             string playerID = _player.id;
             if (DevicePlayerManager.Instance.IsGlobalTest) playerID = DevicePlayerManager.Instance.BeControlledUserID;
@@ -245,6 +267,7 @@ namespace Moat
         public void OnArmToBack(InputValue context)
         {
             _sKeyStatus = true;
+            verticalInput = -1;
             if (!CheckKeyboardPressed(context)) return;
             string playerID = _player.id;
             if (DevicePlayerManager.Instance.IsGlobalTest) playerID = DevicePlayerManager.Instance.BeControlledUserID;
@@ -257,6 +280,7 @@ namespace Moat
         public void OnArmToLeft(InputValue context)
         {
             _aKeyStatus = true;
+            horizontalInput = -1;
             if (!CheckKeyboardPressed(context)) return;
             string playerID = _player.id;
             if (DevicePlayerManager.Instance.IsGlobalTest) playerID = DevicePlayerManager.Instance.BeControlledUserID;
@@ -269,6 +293,7 @@ namespace Moat
         public void OnArmToRight(InputValue context)
         {
             _dKeyStatus = true;
+            horizontalInput = 1;
             if (!CheckKeyboardPressed(context)) return;
             string playerID = _player.id;
             if (DevicePlayerManager.Instance.IsGlobalTest) playerID = DevicePlayerManager.Instance.BeControlledUserID;

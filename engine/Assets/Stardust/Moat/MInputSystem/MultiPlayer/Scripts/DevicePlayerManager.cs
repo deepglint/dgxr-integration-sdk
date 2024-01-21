@@ -8,6 +8,12 @@ using Moat.Model;
 
 namespace Moat
 {
+    public enum DeviceType
+    {
+        Keyboard,
+        Xbox, 
+    }
+
     public class PersonBody
     {
         public int moveArea;
@@ -108,24 +114,22 @@ namespace Moat
             foreach (InputDevice device in inputDevices)
             {
                 // Helper.Instance.Log("device.displayName---" + device.displayName + "-" + device.name, "C");
-                if (device.displayName.Contains("Xbox"))
+                if (device.displayName.Contains(DeviceType.Xbox.ToString()))
                 {
                     // PlayerPrefab.name = "Player" + device.name;
                     PlayerInput clone = PlayerInput.Instantiate(PlayerPrefab, pairWithDevice: device);
-                    clone.name = "Player";
+                    clone.name = device.name;
                     GameObject.DontDestroyOnLoad(clone);
-                    // clone.transform.SetParent(parentGameObject.transform);
                 }
             }
 
             foreach (InputDevice device in inputDevices)
             {
-                if (device.displayName.Contains("Keyboard"))
+                if (device.displayName.Contains(DeviceType.Keyboard.ToString()))
                 {
                     PlayerInput clone = PlayerInput.Instantiate(PlayerPrefab, pairWithDevice: device);
-                    clone.name = "Player" + device.name;
+                    clone.name = device.name;
                     GameObject.DontDestroyOnLoad(clone);
-                    // clone.transform.SetParent(parentGameObject.transform);
                 }
             }
         }

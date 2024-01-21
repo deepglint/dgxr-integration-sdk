@@ -59,7 +59,7 @@ MonoBehaviour:
   interactionPermissionLevel: 0
   moveSpeed: 0
   SpaceFollowSpeed: 0
-  SpaceUpperOrLowerOffsetProportion: 0
+  spaceUpperOrLowerOffset: 0
   roamSpeed: 0
   roamRotationSpeed: 0
   allowReadConfig: 1
@@ -592,7 +592,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2297869817130997504, guid: db45e01699bc74569b37c616d7ec7c71, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 2297869817130997504, guid: db45e01699bc74569b37c616d7ec7c71, type: 3}
       propertyPath: m_LocalPosition.z
@@ -988,7 +988,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4713917693847640, guid: 873fe93c200a1bb4fb14ed9399c4b175, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 4713917693847640, guid: 873fe93c200a1bb4fb14ed9399c4b175, type: 3}
       propertyPath: m_LocalPosition.z

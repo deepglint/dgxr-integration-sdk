@@ -24,9 +24,9 @@ namespace Moat
         {
             id = playerId;
             state = PlayerInteractionState.NoEnter;
-            movementInput = new Vector2(1.5f, 1.5f);
-            leftFootInput = new Vector2(1.5f, 1.5f);
-            rightFootInput = new Vector2(1.5f, 1.5f);
+            movementInput = new Vector2(0f, 0f);
+            leftFootInput = new Vector2(0f, 0f);
+            rightFootInput = new Vector2(0f, 0f);
         }
 
         public void Ready()
@@ -47,6 +47,13 @@ namespace Moat
         public void Leave()
         {
             isReady = true;
+        }
+
+        public void Move(Vector2 position)
+        {
+            movementInput = position;
+            leftFootInput = position;
+            rightFootInput = position;
         }
     }
 }
