@@ -1,8 +1,6 @@
 package main
 
 import (
-	"os"
-	"path/filepath"
 	"reverie/config"
 	"reverie/db"
 	"reverie/global"
@@ -26,39 +24,39 @@ func (p *program) Stop(s service.Service) error {
 }
 
 func main() {
-	// prg := &program{}
-	// prg.run()
-	// 获取当前可执行文件的路径
-	exePath, _ := os.Executable()
-	exeDir := filepath.Dir(exePath)
-	if err := os.Chdir(exeDir); err != nil {
-		logrus.Fatal(err)
-	}
-
-	svcConfig := &service.Config{
-		Name:        "Alpha-DGMeta",
-		DisplayName: "alpha meta Service",
-		Description: "Integrated meta space action recognition, 3dpos, virtual controller and other services",
-	}
-
 	prg := &program{}
-	s, err := service.New(prg, svcConfig)
-	if err != nil {
-		logrus.Fatal(err)
-	}
+	prg.run()
+	// 获取当前可执行文件的路径
+	// exePath, _ := os.Executable()
+	// exeDir := filepath.Dir(exePath)
+	// if err := os.Chdir(exeDir); err != nil {
+	// 	logrus.Fatal(err)
+	// }
 
-	if len(os.Args) > 1 {
-		err = service.Control(s, os.Args[1])
-		if err != nil {
-			logrus.Fatal(err)
-		}
-		return
-	}
+	// svcConfig := &service.Config{
+	// 	Name:        "Alpha-DGMeta",
+	// 	DisplayName: "alpha meta Service",
+	// 	Description: "Integrated meta space action recognition, 3dpos, virtual controller and other services",
+	// }
 
-	err = s.Run()
-	if err != nil {
-		logrus.Fatal(err)
-	}
+	// prg := &program{}
+	// s, err := service.New(prg, svcConfig)
+	// if err != nil {
+	// 	logrus.Fatal(err)
+	// }
+
+	// if len(os.Args) > 1 {
+	// 	err = service.Control(s, os.Args[1])
+	// 	if err != nil {
+	// 		logrus.Fatal(err)
+	// 	}
+	// 	return
+	// }
+
+	// err = s.Run()
+	// if err != nil {
+	// 	logrus.Fatal(err)
+	// }
 }
 
 func (p *program) run() {
