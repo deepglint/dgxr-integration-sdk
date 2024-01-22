@@ -114,9 +114,10 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 					source.Enqueue(obj)
 					global.Sources.Store(id, &source)
 				}
-
+				temMap := map[int32]bool{}
 				for _, v := range data.RecActions {
 					if v.Confidence > 0.6 {
+						temMap[v.Action] = true
 						logrus.Debugf("model action %v: %s", v.Action, action.Action(v.Action).String())
 						if val, ok := global.Sources.Load(id); ok {
 							pos := val.(*sources.Source)
@@ -124,13 +125,23 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 						}
 					}
 				}
-				if len(data.RecActions) == 0 {
-					if val, ok := global.Sources.Load(id); ok {
+				// TODO 单独判断是否含有这几个动作在data.RecActions，如果没有设置为false
+				if _, ok := temMap[20]; !ok {
+					if val, ok := global.Sources.Load(id); !ok {
 						pos := val.(*sources.Source)
 						pos.FastRun = false
+					}
+				}
+				if _, ok := temMap[21]; !ok {
+					if val, ok := global.Sources.Load(id); !ok {
+						pos := val.(*sources.Source)
 						pos.Butterfly = false
+					}
+				}
+				if _, ok := temMap[22]; !ok {
+					if val, ok := global.Sources.Load(id); !ok {
+						pos := val.(*sources.Source)
 						pos.FreeStyle = false
-						// pos.Squat = false
 					}
 				}
 			}

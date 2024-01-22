@@ -237,7 +237,7 @@ func ModelToXbox(pos *source.Source, action int32) {
 				if leftStatue > 0 {
 					pos.Butterfly = true
 				}
-				break
+				return
 			case 22:
 				// if body.Objs[source.LeftHand][2]-body.Objs[source.LeftHip][2] < 0 {
 				// 	pos.FreeStyle = false
@@ -248,14 +248,14 @@ func ModelToXbox(pos *source.Source, action int32) {
 				}
 				if leftStatue > 0 && !pos.FreeStyle {
 					// 按下按键并且计数
-					logrus.Infof("model action: %s", Action(action).String())
+					logrus.Infof("sum model action: %s", Action(action).String())
 					go pos.Xbox.SetXbox(v)
 					pos.FreeStyle = true
 				}
 				if leftStatue > 0 {
 					pos.FreeStyle = true
 				}
-				break
+				return
 			case 20:
 				// 低于跨的的1/3的时候，设置为false,左边腿高于右边腿和跨的的1/3的时候设置为true，且当为false的时候，计数+1
 				// 快跑
@@ -270,11 +270,11 @@ func ModelToXbox(pos *source.Source, action int32) {
 				if body.Objs[source.LeftKnee][2]-hight-body.Objs[source.RightKnee][2] > 0 {
 					pos.FastRun = true
 				}
-				break
-			default:
-				pos.FastRun = false
-				pos.Butterfly = false
-				pos.FreeStyle = false
+				return
+				// default:
+				// 	pos.FastRun = false
+				// 	pos.Butterfly = false
+				// 	pos.FreeStyle = false
 			}
 			logrus.Infof("model action: %s", Action(action).String())
 			go pos.Xbox.SetXbox(v)
