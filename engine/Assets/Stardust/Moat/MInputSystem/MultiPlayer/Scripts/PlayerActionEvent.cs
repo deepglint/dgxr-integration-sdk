@@ -67,15 +67,11 @@ namespace Moat
         private void OnHandsCross(EventCallBack evt)
         {
             MDebug.Log("交互 - OnHandsCross - 双手交叉:" + DisplayData.allowClose);
-            if (!DisplayData.allowClose) return;
-            AppClose.Instance.OpenThrottle();
         }
         
         private void OnRaiseOnHand(EventCallBack evt)
         {
             MDebug.Log("交互 - OnRaiseOnHand - 举单手");
-            if (!DisplayData.allowClose) return;
-            AppClose.Instance.CloseApp(); 
         }
 
         private void OnRightHandDrawCircle(EventCallBack evt)

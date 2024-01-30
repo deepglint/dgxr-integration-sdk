@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using Moat.Model;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,45 +8,88 @@ namespace Moat
 {
     public class AppClose : MonoBehaviour
     {
-        public static AppClose Instance;
-        [HideInInspector]public bool IsOpen = false;
+        private static AppClose _instance;
+        public static AppClose Instance 
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = FindObjectOfType<AppClose>();
+                    if (_instance == null)
+                    {
+                        Debug.LogError("AppClose instance not found!");
+                    }
+                }
+                return _instance;
+            }
+        }
+
+        public bool IsOpen { get; private set; }
+
         public Action OnClose;
-        
-        public GameObject CloseGameObject;
-        public Text CloseGameTime;
-        
-        private int _timeMax = 5;
+
+        [SerializeField]  GameObject closeButtonObject; // Use SerializeField to expose private fields in the editor
+        [SerializeField] private Text countdownText;
+
+        private const int TimeMax = 5;
         private int _currentTime;
+        private float _closeCountdown;
+        private float _startTime;
+        private int closeActionCount = 0;
         
-        private float _closeCount = 0;
-        private float _startTime = 0;
-        private float _preTime = 0;
+        private Coroutine openCoroutine;
+        private Coroutine countdownCoroutine;
 
         private void Awake()
         {
-            _currentTime = _timeMax;
-            Instance = this;
+            EventManager.RegisterListener(ActionEvent.OnHandsCross, OnHandsCross);
+            EventManager.RegisterListener(ActionEvent.OnRaiseOnHand, OnRaiseOnHand);
+            _currentTime = TimeMax;
+            if (_instance != null && _instance != this)
+            {
+                Debug.LogError("Another instance of AppClose exists!");
+            }
+            else
+            {
+                _instance = this;
+            }
         }
 
         private void Start()
         {
-            CloseGameObject?.SetActive(false);
+            closeButtonObject.SetActive(false);
+        }
+        
+        private void OnHandsCross(EventCallBack evt)
+        {
+            MDebug.Log("交互 - OnHandsCross - 双手交叉:" + DisplayData.configDisplay.allowClose);
+            if (!DisplayData.configDisplay.allowClose) return;
+            AppClose.Instance.OpenThrottle();
+        }
+        
+        private void OnRaiseOnHand(EventCallBack evt)
+        {
+            MDebug.Log("交互 - OnRaiseOnHand - 举单手");
+            if (!DisplayData.configDisplay.allowClose) return;
+            AppClose.Instance.CloseApp();
         }
 
         public void CloseApp()
         {
             if (IsOpen)
             {
-                // MDebug.LogFlow("====== 关闭当前应用 =====");
-                GameAppManager.Instance.CloseApp();
+                MDebug.LogFlow("====== Closing current application =====");
+                GameAppManager.Instance.CloseApp(); // Placeholder for actual close logic
+                CloseDialog();
             }
         }
 
-        private void UpdateTime()
+        private void DecrementTimer()
         {
-            if (CloseGameTime != null)
+            if (countdownText != null && _currentTime > 0)
             {
-                CloseGameTime.text = _currentTime.ToString();
+                countdownText.text = _currentTime.ToString();
                 _currentTime--;
             }
         }
@@ -55,50 +98,89 @@ namespace Moat
         {
             if (IsOpen)
             {
-                _closeCount = 0;
+                ResetCountdown();
                 return;
             }
 
-            if (_closeCount == 0)
+            if (_startTime == 0)
             {
                 _startTime = Time.time;
-                Invoke("OpenAppClose", (float)(interval));
+                openCoroutine = StartCoroutine(CheckCloseCount(interval));
             }
-
-            _closeCount += 1;
+            closeActionCount++; 
+            // Debug.LogError(Mathf.Ceil(Time.time - _startTime));
         }
 
-        private void OpenAppClose()
+        private IEnumerator CheckCloseCount(int interval)
         {
-            _preTime = Time.time; 
-            if (_closeCount > 5 && (_preTime - _startTime) > 4)
+            while (Time.time - _startTime < interval)
             {
-                Open();
-                _closeCount = 0;
+                _closeCountdown = Mathf.Ceil(Time.time - _startTime);
+                yield return null;
             }
+
+            MDebug.LogFlow($"_closeCountdown >= interval: {_closeCountdown} {interval} {closeActionCount}");
+            if (_closeCountdown >= interval && closeActionCount >= interval)
+            {
+                OpenDialog();
+            }
+            ResetCountdown();
         }
 
-        public void Open()
+        public void OpenDialog()
         {
             if (IsOpen) return;
+
             IsOpen = true;
-            _currentTime = _timeMax;
-            Invoke("Close", _timeMax);
-            // MDebug.LogFlow("------ 打开[关闭弹窗] ------" + _currentTime);
-            CloseGameObject?.SetActive(true);
-            InvokeRepeating("UpdateTime", 0f, 1f);
+            _currentTime = TimeMax;
+            StartCoroutine(CloseDialogAfterDelay(TimeMax));
+            MDebug.LogFlow("------ Opening [Close Dialog] ------ " + _currentTime);
+            closeButtonObject.SetActive(true);
+            countdownCoroutine = StartCoroutine(CountdownCoroutine());
         }
 
-        private void Close()
+        private IEnumerator CountdownCoroutine()
+        {
+            while (_currentTime > 0)
+            {
+                DecrementTimer();
+                yield return new WaitForSeconds(1f);
+            }
+        }
+
+        private IEnumerator CloseDialogAfterDelay(int delaySeconds)
+        {
+            yield return new WaitForSeconds(delaySeconds);
+            CloseDialog();
+        }
+
+        private void CloseDialog()
         {
             if (!IsOpen) return;
+
             IsOpen = false;
-            CancelInvoke("Close");
-            CancelInvoke("UpdateTime");
-            // MDebug.Log("close AppClose dialog" + _currentTime);
-            CloseGameObject?.SetActive(false);
-            CancelInvoke("UpdateTime");
+            MDebug.LogFlow("Closing AppClose dialog " + _currentTime);
+            closeButtonObject.SetActive(false);
             OnClose?.Invoke();
+        }
+
+        private void ResetCountdown()
+        {
+            _closeCountdown = 0;
+            _startTime = 0;
+            closeActionCount = 0;
+            if (openCoroutine != null)
+            {
+                StopCoroutine(openCoroutine);
+                openCoroutine = null; 
+            }
+        }
+
+        private void OnDestroy()
+        {
+            ResetCountdown();
+            EventManager.RemoveListener(ActionEvent.OnHandsCross, OnHandsCross);
+            EventManager.RemoveListener(ActionEvent.OnRaiseOnHand, OnRaiseOnHand);
         }
     }
 }
