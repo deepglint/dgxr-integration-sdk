@@ -252,14 +252,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -1911748295096789825, guid: 6a98bc5ca2d944c49bf678b91539ee76, type: 3}
-      propertyPath: allowCave
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -1911748295096789825, guid: 6a98bc5ca2d944c49bf678b91539ee76, type: 3}
-      propertyPath: allowReadConfig
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 239304858882157814, guid: 6a98bc5ca2d944c49bf678b91539ee76, type: 3}
       propertyPath: m_Name
       value: '[DGXR_URP]'
