@@ -49,9 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b539c5120c03448f98832587532df45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsOpen: 0
-  CloseGameObject: {fileID: 8120445560011349733}
-  CloseGameTime: {fileID: 6535678250057152419}
+  closeButtonObject: {fileID: 8120445560011349733}
+  countdownText: {fileID: 6535678250057152419}
 --- !u!1 &2213560499170138940
 GameObject:
   m_ObjectHideFlags: 0

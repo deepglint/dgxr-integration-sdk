@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Moat.Model;
 // using Moat.Model;
 using UnityEngine;
@@ -23,43 +22,42 @@ namespace Moat
         private bool projectionFusion = false;
         private float bottom1Y = -1200f;
         private float bottom2Y = -1920f;
+
+        private bool hasCamera3D = false;
+        private bool hasCameraVR = false;
+        private bool hasCameraUI = false;
     
         private DisplayConfigData _displayConfigData;
         // Start is called before the first frame update
-        async void Start()
+        void Start()
         {
-            
-            // DisplayConfigData displayConfig = MReadData.ReadJsonFile<DisplayConfigData>(Application.streamingAssetsPath + "/display.json");
             DisplayData.ReadConfig();
+            
             _displayConfigData = DisplayData.configDisplay;
-            float resolution = _displayConfigData.resolution.systemWidth;
             systemWidth = _displayConfigData.resolution.systemWidth;
             systemHeight = _displayConfigData.resolution.systemHeight;
             fullScreen = _displayConfigData.resolution.fullScreen;
             projectionFusion = _displayConfigData.resolution.projectionFusion;
             bottom1Y = _displayConfigData.uiCameraPos.bottom1Y;
             bottom2Y = _displayConfigData.uiCameraPos.bottom2Y;
-
-            await Task.Delay(100); 
-            SetDisplay();
         }
-    
-        void SetDisplay()
+
+        void Update()
         {
-            if (DisplayData.allowCave)
-            {
-                Set3DXRCamera();
-            }
-            else
-            {
-                Set3DCamera();
-            }
+            Set3DVRCamera();
+            Set3DCamera();
             SetUICamera();
         }
 
         void Set3DCamera()
         {
+            if (DisplayData.configDisplay.allowCave || hasCamera3D) return;
+            if (transform.name != "3DCameraGroup") return;
             Camera[] cameras = transform.GetComponentsInChildren<Camera>();
+            if (cameras.Length > 0)
+            {
+                hasCamera3D = true;
+            }
 
             // 遍历相机数组，访问每一个相机对象
             for (int i = 0; i < cameras.Length; i++)
@@ -76,20 +74,26 @@ namespace Moat
             InitDisplay();  
         }
 
-        void Set3DXRCamera()
+        void Set3DVRCamera()
         {
+            if (!DisplayData.configDisplay.allowCave || hasCameraVR) return;
+            if (transform.name != "XRManager") return;
             Camera[] cameras = transform.GetComponentsInChildren<Camera>();
+            if (cameras.Length > 0)
+            {
+                hasCameraVR = true;
+            }
 
             // 遍历相机数组，访问每一个相机对象
             for (int i = 0; i < cameras.Length; i++)
             {
                 Camera camera = cameras[i];
-                if (camera.name == "projector4") cameraLeft = camera; 
-                if (camera.name == "projector1") cameraFront = camera; 
-                if (camera.name == "projector2") cameraRight = camera; 
-                if (camera.name == "projector3") cameraBack = camera; 
-                if (camera.name == "projector5") cameraBottom1 = camera; 
-                if (camera.name == "projector6") cameraBottom2 = camera; 
+                if (camera.targetDisplay == 0) cameraFront = camera;
+                if (camera.targetDisplay == 1) cameraRight = camera; 
+                if (camera.targetDisplay == 2) cameraBack = camera;
+                if (camera.targetDisplay == 3) cameraLeft = camera;   
+                if (camera.targetDisplay == 4) cameraBottom1 = camera; 
+                if (camera.targetDisplay == 5) cameraBottom2 = camera;
             }
             
             InitDisplay(); 
@@ -97,10 +101,13 @@ namespace Moat
 
         void SetUICamera()
         {
-            GameObject cameraUi = GameObject.Find("2DCameraGroup");
-            if (cameraUi == null) return;
-            Camera[] cameras = cameraUi.GetComponentsInChildren<Camera>();
-
+            if (hasCameraUI) return;
+            if (transform.name != "2DCameraGroup") return;
+            Camera[] cameras = transform.GetComponentsInChildren<Camera>();
+            if (cameras.Length > 0)
+            {
+                hasCameraUI = true;
+            }
             // 遍历相机数组，访问每一个相机对象
             for (int i = 0; i < cameras.Length; i++)
             {
@@ -129,7 +136,6 @@ namespace Moat
 
         void InitDisplay()
         {
-            if (cameraLeft == null) return;
             if (_displayConfigData.targetDisplay.left != null) cameraLeft.targetDisplay = _displayConfigData.targetDisplay.left - 1;
             if (_displayConfigData.targetDisplay.front != null) cameraFront.targetDisplay = _displayConfigData.targetDisplay.front - 1;
             if (_displayConfigData.targetDisplay.right != null) cameraRight.targetDisplay = _displayConfigData.targetDisplay.right - 1;
