@@ -326,10 +326,10 @@ func TemplateMatch(pos *source.Source, k int, action config.ActionData) {
 
 		if disScore < float64(val.Score) && ((pathLen+1) > int(float32(len(val.Tem.NormP3d))*val.PathLen) || pathLen == 100) {
 			pos.ActionWindow.Add(k)
-			if pos.ActionWindow.MaxCount() == k {
-				logrus.Infof("rule action: %s, %v", Action(k).String(), disScore, pathLen+1, int(float32(len(val.Tem.NormP3d))*val.PathLen))
-				go pos.Xbox.SetXbox(action)
-			}
+			// if pos.ActionWindow.MaxCount() == k {
+			logrus.Infof("rule action: %s, %v", Action(k).String(), disScore, pathLen+1, int(float32(len(val.Tem.NormP3d))*val.PathLen))
+			go pos.Xbox.SetXbox(action)
+			// }
 		}
 	}
 }
