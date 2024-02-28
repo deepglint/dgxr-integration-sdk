@@ -172,8 +172,8 @@ func init() {
 	Registry.Register(PoseD, rule.D)
 	// Registry.Register(, rule.RaiseHandRight)
 	Registry.Register(Waving, rule.Greet)
-	// Registry.Register(SlideLeft, rule.SlideLeft)
-	// Registry.Register(SlideRight, rule.SlideRight)
+	Registry.Register(SlideLeft, rule.SlideLeft)
+	Registry.Register(SlideRight, rule.SlideRight)
 	// Registry.Register(SlideUp, rule.SlideUp)
 	// Registry.Register(SlideDown, rule.SlideDown)
 	// Registry.Register(SmallSquat, rule.Squat)
@@ -323,7 +323,6 @@ func TemplateMatch(pos *source.Source, k int, action config.ActionData) {
 			atrousDMat := global.ComputeAccumulatedCostMatrix(distMat)
 			_, pathLen, disScore = global.FindBestPath(atrousDMat, distMat)
 		}
-
 		if disScore < float64(val.Score) && ((pathLen+1) > int(float32(len(val.Tem.NormP3d))*val.PathLen) || pathLen == 100) {
 			pos.ActionWindow.Add(k)
 			// if pos.ActionWindow.MaxCount() == k {
