@@ -198,32 +198,26 @@ func FindBestPath(accumulatedDistMat *mat.Dense, distMat *mat.Dense) ([][2]int, 
 	pathLen := bestPath[len(bestPath)-1][1] - bestPath[0][1] + 1
 	return bestPath, pathLen, pathScore
 }
-
 func computeOptimalWarpingPathSubsequenceDTW(D *mat.Dense) [][2]int {
-	N, M := D.Dims()
+	N, _ := D.Dims()
 	n := N - 1
-	m := -1
-	if m < 0 {
-		// 如果 m 小于 0，则设置 m 为最后一行的最小值所在的列
-		minVal := D.At(N-1, 0)
-		for i := 1; i < M; i++ {
-			if val := D.At(N-1, i); val < minVal {
-				minVal = val
-				m = i
-			}
+	m := 0
+	minValue := D.At(N-1, 0)
+	for j := 1; j < N; j++ {
+		v := D.At(N-1, j)
+		if minValue > v {
+			minValue = v
+			m = j
 		}
 	}
-
-	P := [][2]int{{n, m}}
-
+	var P [][2]int
+	P = append(P, [2]int{n, m})
 	for n > 0 {
 		var cell [2]int
-
 		if m == 0 {
 			cell = [2]int{n - 1, 0}
 		} else {
 			val := min(D.At(n-1, m-1), D.At(n-1, m), D.At(n, m-1))
-
 			if val == D.At(n-1, m-1) {
 				cell = [2]int{n - 1, m - 1}
 			} else if val == D.At(n-1, m) {
@@ -232,18 +226,61 @@ func computeOptimalWarpingPathSubsequenceDTW(D *mat.Dense) [][2]int {
 				cell = [2]int{n, m - 1}
 			}
 		}
-
 		P = append(P, cell)
 		n, m = cell[0], cell[1]
 	}
 
-	// 反转切片
-	for i, j := 0, len(P)-1; i < j; i, j = i+1, j-1 {
-		P[i], P[j] = P[j], P[i]
-	}
-
+	reversePath(P)
 	return P
 }
+
+// func computeOptimalWarpingPathSubsequenceDTW(D *mat.Dense) [][2]int {
+// 	N, M := D.Dims()
+// 	n := N - 1
+// 	m := -1
+// 	if m < 0 {
+// 		// 如果 m 小于 0，则设置 m 为最后一行的最小值所在的列
+// 		minVal := D.At(N-1, 0)
+// 		for i := 1; i < M; i++ {
+// 			if val := D.At(N-1, i); val < minVal {
+// 				minVal = val
+// 				m = i
+// 			}
+// 		}
+// 	}
+
+// 	P := [][2]int{{n, m}}
+
+// 	for n > 0 {
+// 		var cell [2]int
+
+// 		if m == 0 {
+// 			cell = [2]int{n - 1, 0}
+// 		} else {
+// 			r, c := D.Dims()
+// 			fmt.Println(n, m, r, c)
+// 			val := min(D.At(n-1, m-1), D.At(n-1, m), D.At(n, m-1))
+
+// 			if val == D.At(n-1, m-1) {
+// 				cell = [2]int{n - 1, m - 1}
+// 			} else if val == D.At(n-1, m) {
+// 				cell = [2]int{n - 1, m}
+// 			} else {
+// 				cell = [2]int{n, m - 1}
+// 			}
+// 		}
+
+// 		P = append(P, cell)
+// 		n, m = cell[0], cell[1]
+// 	}
+
+// 	// 反转切片
+// 	for i, j := 0, len(P)-1; i < j; i, j = i+1, j-1 {
+// 		P[i], P[j] = P[j], P[i]
+// 	}
+
+// 	return P
+// }
 
 func computePathScore(path [][2]int, distMatrix *mat.Dense) float64 {
 	var scores []float64

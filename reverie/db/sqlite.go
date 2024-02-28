@@ -62,8 +62,8 @@ type ReqDataInfo struct {
 }
 
 func InitTemplate() {
-	buildTemplate(2001, "db/template/slidLeft.txt", "SlidLeft", 0.2, 0.4, []int{5, 6, 8, 10, 11, 12, 13, 14, 21, 23}, 0)
-	buildTemplate(2002, "db/template/slidRight.txt", "SlidRight", 0.3, 0.4, []int{5, 6, 7, 9, 11, 12, 13, 14, 21, 22}, 0)
+	// buildTemplate(2001, "db/template/slidLeft.txt", "SlidLeft", 0.15, 0.2, []int{5, 6, 8, 10, 11, 12, 13, 14, 21, 23}, 0)
+	// buildTemplate(2002, "db/template/slidRight.txt", "SlidRight", 0.15, 0.2, []int{5, 6, 7, 9, 11, 12, 13, 14, 21, 22}, 0)
 	buildTemplate(2003, "db/template/slidUp.txt", "SlidUp", 0.4, 0.4, []int{5, 6, 7, 9, 11, 12, 13, 14, 21, 22}, 0)
 	buildTemplate(2004, "db/template/slidDown.txt", "SlidDown", 0.25, 0.6, []int{5, 6, 8, 10, 11, 12, 13, 14, 21, 23}, 0)
 	buildTemplate(2005, "db/template/handAlway.txt", "HandAlway", 0.3, 0.7, []int{5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 21, 22, 23}, 0)

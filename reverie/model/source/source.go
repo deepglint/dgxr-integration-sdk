@@ -91,7 +91,7 @@ func (w *Window) MaxCount() int {
 		if k == 0 {
 			continue
 		}
-		if v > max && v > w.size/7 {
+		if v > max && v >= w.size/10 {
 			max = v
 			maxIndex = k
 		}
@@ -105,6 +105,10 @@ type Source struct {
 	PersonId     string
 	ActionWindow *Window
 	cap          int
+	FastRun      bool
+	Squat        bool
+	FreeStyle    bool
+	Butterfly    bool
 	Xbox         *xbox.Xbox
 	mutex        sync.RWMutex // 读写锁
 }

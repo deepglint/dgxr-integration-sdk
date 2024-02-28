@@ -172,11 +172,12 @@ func init() {
 	Registry.Register(PoseD, rule.D)
 	// Registry.Register(, rule.RaiseHandRight)
 	Registry.Register(Waving, rule.Greet)
-	// Registry.Register(SlideLeft, rule.SlideLeft)
-	// Registry.Register(SlideRight, rule.SlideRight)
+	Registry.Register(SlideLeft, rule.SlideLeft)
+	Registry.Register(SlideRight, rule.SlideRight)
 	// Registry.Register(SlideUp, rule.SlideUp)
 	// Registry.Register(SlideDown, rule.SlideDown)
-	Registry.Register(SmallSquat, rule.Squat)
+	// Registry.Register(SmallSquat, rule.Squat)
+	Registry.Register(SmallSquat, rule.DafuWongSquat)
 	Registry.Register(LeanToRight, rule.RightTilt)
 	Registry.Register(LeanToLeft, rule.LeftTilt)
 	Registry.Register(BendBothElbows, rule.ElbowBend)
@@ -218,8 +219,66 @@ func RuleToXbox(pos *source.Source) {
 
 func ModelToXbox(pos *source.Source, action int32) {
 	if v, ok := global.Config.Action[int(action)]; ok {
-		logrus.Infof("model action: %s", Action(action).String())
-		go pos.Xbox.SetXbox(v)
+
+		if body, err := pos.LastData(); err == nil {
+			switch action {
+			case 21:
+				// 状态定义 false
+				// 当手的关节点低于胯部的时候设置为false，高于左肩位置设置为true，当为false且高于左边肩膀的时候计数一次
+				if body.Objs[source.LeftHand][2]-0.2-body.Objs[source.LeftHip][2] < 0 {
+					pos.Butterfly = false
+				}
+				leftStatue := body.Objs[source.LeftHand][2] - body.Objs[source.LeftShoulder][2]
+				if leftStatue > 0 && !pos.Butterfly {
+					// 按下按键并且计数
+					logrus.Infof("model action: %s", Action(action).String())
+					go pos.Xbox.SetXbox(v)
+				}
+				if leftStatue > 0 {
+					pos.Butterfly = true
+				}
+				return
+			case 22:
+				// if body.Objs[source.LeftHand][2]-body.Objs[source.LeftHip][2] < 0 {
+				// 	pos.FreeStyle = false
+				// }
+				leftStatue := body.Objs[source.LeftHand][2] - body.Objs[source.LeftShoulder][2]
+				if leftStatue < 0 {
+					pos.FreeStyle = false
+				}
+				if leftStatue > 0 && !pos.FreeStyle {
+					// 按下按键并且计数
+					logrus.Infof("sum model action: %s", Action(action).String())
+					go pos.Xbox.SetXbox(v)
+					pos.FreeStyle = true
+				}
+				if leftStatue > 0 {
+					pos.FreeStyle = true
+				}
+				return
+			case 20:
+				// 低于跨的的1/3的时候，设置为false,左边腿高于右边腿和跨的的1/3的时候设置为true，且当为false的时候，计数+1
+				// 快跑
+				hight := (body.Objs[source.RightHip][2] - body.Objs[source.RightKnee][2]) / 3
+				if body.Objs[source.LeftKnee][2]-hight-body.Objs[source.RightKnee][2] < 0 {
+					pos.FastRun = false
+				}
+				if body.Objs[source.LeftKnee][2]-hight-body.Objs[source.RightKnee][2] > 0 && !pos.FastRun {
+					logrus.Infof("model action: %s", Action(action).String())
+					go pos.Xbox.SetXbox(v)
+				}
+				if body.Objs[source.LeftKnee][2]-hight-body.Objs[source.RightKnee][2] > 0 {
+					pos.FastRun = true
+				}
+				return
+				// default:
+				// 	pos.FastRun = false
+				// 	pos.Butterfly = false
+				// 	pos.FreeStyle = false
+			}
+			logrus.Infof("model action: %s", Action(action).String())
+			go pos.Xbox.SetXbox(v)
+		}
 	}
 }
 
@@ -264,13 +323,12 @@ func TemplateMatch(pos *source.Source, k int, action config.ActionData) {
 			atrousDMat := global.ComputeAccumulatedCostMatrix(distMat)
 			_, pathLen, disScore = global.FindBestPath(atrousDMat, distMat)
 		}
-
 		if disScore < float64(val.Score) && ((pathLen+1) > int(float32(len(val.Tem.NormP3d))*val.PathLen) || pathLen == 100) {
 			pos.ActionWindow.Add(k)
-			if pos.ActionWindow.MaxCount() == k {
-				logrus.Infof("rule action: %s, %v", Action(k).String(), disScore, pathLen+1, int(float32(len(val.Tem.NormP3d))*val.PathLen))
-				go pos.Xbox.SetXbox(action)
-			}
+			// if pos.ActionWindow.MaxCount() == k {
+			logrus.Infof("rule action: %s, %v", Action(k).String(), disScore, pathLen+1, int(float32(len(val.Tem.NormP3d))*val.PathLen))
+			go pos.Xbox.SetXbox(action)
+			// }
 		}
 	}
 }

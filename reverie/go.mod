@@ -7,7 +7,6 @@ require (
 	github.com/gorilla/websocket v1.5.0
 	github.com/kardianos/service v1.2.2
 	github.com/mattn/go-sqlite3 v1.14.16
-	github.com/orandin/lumberjackrus v1.0.1
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.16.0
 	golang.org/x/sys v0.12.0
