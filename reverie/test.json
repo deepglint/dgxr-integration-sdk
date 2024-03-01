@@ -1,0 +1,379 @@
+{
+	"RegioInfo" : 
+	[
+		{
+			"ip" : "192.168.12.10",
+			"is_fuse" : false,
+			"sn" : "DESF2330300178"
+		}
+	],
+	"Ros2Config" : 
+	{
+		"fastdds_server" : 
+		[
+			{
+				"fastdds_ip" : "0.0.0.0",
+				"fastdds_port" : "11811"
+			}
+		],
+		"fastdds_xml_path" : "/home/deepglint/AppData/MetaServer/participant_profile_ros2.xml"
+	},
+	"common" : 
+	{
+		"enable_algorithm" : true,
+		"enable_ros2" : false,
+		"iot_passwd" : "yanqing!@#$",
+		"iot_server" : "dgiot.nemoface.com:1883",
+		"iot_service" : true,
+		"iot_topic" : "topic/yanqing",
+		"iot_user" : "yanqing",
+		"jrtp_method" : 1,
+		"max_dev_num" : 4,
+		"max_jrtp_port" : 6690,
+		"metafuse" : false,
+		"metapose" : true,
+		"min_jrtp_port" : 6660,
+		"work_mode" : 1
+	},
+	"iot" : 
+	{
+		"enable" : true,
+		"password" : "yanqing!@#$",
+		"server" : "dgiot.nemoface.com:1883",
+		"topic" : "topic/yanqing",
+		"username" : "yanqing"
+	},
+	"metafuse" : 
+	{
+		"action_confidence" : 0.70000000000000007,
+		"action_objs_perframe" : 4,
+		"brpc_port" : 9400,
+		"calibration" : "/home/deepglint/AppData/MetaServer/calibration.json",
+		"camera_order" : 
+		[
+			"DCSF12316600145L",
+			"DCSF12316000132L",
+			"DCSF12316000133L",
+			"DCSF12316000138L",
+			"DCSF12316000131L",
+			"DCSF12316000118L",
+			"DCSF12316000130L"
+		],
+		"crowding_dist_thresh1" : 1.0,
+		"crowding_dist_thresh2" : 2.0,
+		"dvsn_port" : 60010,
+		"grpc_timeout" : 16,
+		"lsc_controller" : "",
+		"lsc_model" : 1,
+		"lsc_threshold" : 0.80000000000000004,
+		"max_lose_device_num" : 0,
+		"max_lose_device_waittime" : 150,
+		"modelpath" : "/models/SkeletonActionRec16",
+		"person_kpt_reconstruct_num_threads" : 0,
+		"person_reconstruct_num_threads" : 0,
+		"unity_conn" : 
+		[
+			{
+				"buse" : 1,
+				"ip" : "192.168.50.121",
+				"port" : 6000
+			},
+			{
+				"buse" : 1,
+				"ip" : "192.168.12.1",
+				"port" : 50051
+			},
+			{
+				"buse" : 1,
+				"ip" : "172.29.249.150",
+				"port" : 50050
+			}
+		],
+		"use_action_lowcheck" : 0,
+		"use_newaction" : 1,
+		"use_trackfilter" : 0
+	},
+	"metapose" : 
+	{
+		"algo_cam_index" : -1,
+		"brpc_port" : 9100,
+		"camlist" : 
+		[
+			{
+				"ip" : "192.168.12.102",
+				"jrtp_port" : 6664,
+				"masterroi" : 
+				[
+					{
+						"x" : 0,
+						"y" : 1
+					},
+					{
+						"x" : 290,
+						"y" : 1009
+					},
+					{
+						"x" : 781,
+						"y" : 1433
+					},
+					{
+						"x" : 2556,
+						"y" : 1438
+					},
+					{
+						"x" : 2558,
+						"y" : 4
+					}
+				],
+				"name" : "DELinux",
+				"priority" : 1,
+				"sn" : "DCSF12316000133"
+			},
+			{
+				"ip" : "192.168.12.104",
+				"jrtp_port" : 6668,
+				"masterroi" : 
+				[
+					{
+						"x" : 2000,
+						"y" : 1436
+					},
+					{
+						"x" : 1756,
+						"y" : 715
+					},
+					{
+						"x" : 1789,
+						"y" : 9
+					},
+					{
+						"x" : 3,
+						"y" : 3
+					},
+					{
+						"x" : 1,
+						"y" : 1433
+					}
+				],
+				"name" : "DELinux",
+				"priority" : 1,
+				"sn" : "DCSF12316000138"
+			},
+			{
+				"ip" : "192.168.12.105",
+				"jrtp_port" : 6670,
+				"masterroi" : 
+				[
+					{
+						"x" : 12,
+						"y" : 559
+					},
+					{
+						"x" : 281,
+						"y" : 1039
+					},
+					{
+						"x" : 566,
+						"y" : 947
+					},
+					{
+						"x" : 1398,
+						"y" : 598
+					},
+					{
+						"x" : 1413,
+						"y" : 8
+					},
+					{
+						"x" : 2554,
+						"y" : 8
+					},
+					{
+						"x" : 2560,
+						"y" : 1440
+					},
+					{
+						"x" : 0,
+						"y" : 1440
+					}
+				],
+				"name" : "DELinux",
+				"priority" : 1,
+				"sn" : "DCSF12316000131"
+			},
+			{
+				"ip" : "192.168.12.107",
+				"jrtp_port" : 6674,
+				"masterroi" : 
+				[
+					{
+						"x" : 1031,
+						"y" : 8
+					},
+					{
+						"x" : 1124,
+						"y" : 545
+					},
+					{
+						"x" : 2228,
+						"y" : 1021
+					},
+					{
+						"x" : 2558,
+						"y" : 403
+					},
+					{
+						"x" : 2560,
+						"y" : 1440
+					},
+					{
+						"x" : 3,
+						"y" : 1434
+					},
+					{
+						"x" : 0,
+						"y" : 3
+					}
+				],
+				"name" : "DELinux",
+				"priority" : 1,
+				"sn" : "DCSF12316000130"
+			},
+			{
+				"ip" : "192.168.12.106",
+				"jrtp_port" : 6666,
+				"masterroi" : 
+				[
+					{
+						"x" : 364,
+						"y" : 0
+					},
+					{
+						"x" : 534,
+						"y" : 761
+					},
+					{
+						"x" : 819,
+						"y" : 777
+					},
+					{
+						"x" : 1912,
+						"y" : 729
+					},
+					{
+						"x" : 2050,
+						"y" : 11
+					},
+					{
+						"x" : 2560,
+						"y" : 1440
+					},
+					{
+						"x" : 5,
+						"y" : 1436
+					},
+					{
+						"x" : 8,
+						"y" : 3
+					}
+				],
+				"name" : "DELinux",
+				"priority" : 1,
+				"sn" : "DCSF12316000118"
+			},
+			{
+				"ip" : "192.168.12.100",
+				"jrtp_port" : 6660,
+				"masterroi" : 
+				[
+					{
+						"x" : 0,
+						"y" : 1436
+					},
+					{
+						"x" : 465,
+						"y" : 1440
+					},
+					{
+						"x" : 1450,
+						"y" : 1440
+					},
+					{
+						"x" : 2109,
+						"y" : 760
+					},
+					{
+						"x" : 2264,
+						"y" : 4
+					},
+					{
+						"x" : 1,
+						"y" : 6
+					}
+				],
+				"name" : "DELinux",
+				"priority" : 1,
+				"sn" : "DCSF12316600145"
+			},
+			{
+				"ip" : "192.168.12.101",
+				"jrtp_port" : 6662,
+				"masterroi" : 
+				[
+					{
+						"x" : 592,
+						"y" : 6
+					},
+					{
+						"x" : 691,
+						"y" : 746
+					},
+					{
+						"x" : 403,
+						"y" : 1440
+					},
+					{
+						"x" : 2559,
+						"y" : 1434
+					},
+					{
+						"x" : 2559,
+						"y" : 6
+					}
+				],
+				"name" : "DELinux",
+				"priority" : 1,
+				"sn" : "DCSF12316000132"
+			}
+		],
+		"check_releaseframe" : 0,
+		"data_parse" : 0,
+		"detect_blob" : 0,
+		"detect_model" : 0,
+		"dvsn_conn" : null,
+		"dvsn_ip" : "192.168.12.10",
+		"dvsn_port" : 60010,
+		"enable_storage" : true,
+		"filter_humanpose" : 0,
+		"grpc_timeout" : 16,
+		"http_conn" : null,
+		"loss_frame_mode" : 0,
+		"max_obj_perframe" : 4,
+		"record_warning_size" : 1500,
+		"render" : {
+            "dir" : "/home/deepglint/render",   
+            "enable" : 1,                                                                     
+            "enable_server" : 1,                   
+            "model" : 1,                          
+            "port" : 7749,                          
+            "render_interval" : 90               
+        },
+		"source_height" : 1440,
+		"source_width" : 2560,
+		"storage_path" : "/home/deepglint/data",
+		"use_jrtp_filter" : false,
+		"use_jrtp_stream" : true,
+		"use_roi" : 1,
+		"warning_fps" : 27
+	}
+}
