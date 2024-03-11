@@ -87,6 +87,7 @@ namespace BodySource
                         XRDGBodySource.Instance.Data[person.Key] = body;
                     }
                 }
+                XREventListener.Instance.OnFrame();
                 // 20s活体检测
                 if (activeTimer != null)
                 {

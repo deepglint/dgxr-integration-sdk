@@ -28,6 +28,13 @@ namespace BodySource
             Y = y;
             Z = z;
         }
+
+        public float Distance(JointData target)
+        {
+            Vector3 v3source = new Vector3(X, Y, Z);
+            Vector3 v3target = new Vector3(target.X, target.Y, target.Z);
+            return Vector3.Distance(v3source, v3target);
+        }
     }
 
 
