@@ -135,19 +135,19 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 				}
 				// TODO 单独判断是否含有这几个动作在data.RecActions，如果没有设置为false
 				if _, ok := temMap[20]; !ok {
-					if val, ok := global.Sources.Load(id); !ok {
+					if val, ok := global.Sources.Load(id); ok {
 						pos := val.(*sources.Source)
 						pos.FastRun = false
 					}
 				}
 				if _, ok := temMap[21]; !ok {
-					if val, ok := global.Sources.Load(id); !ok {
+					if val, ok := global.Sources.Load(id); ok {
 						pos := val.(*sources.Source)
 						pos.Butterfly = false
 					}
 				}
 				if _, ok := temMap[22]; !ok {
-					if val, ok := global.Sources.Load(id); !ok {
+					if val, ok := global.Sources.Load(id); ok {
 						pos := val.(*sources.Source)
 						pos.FreeStyle = false
 					}
