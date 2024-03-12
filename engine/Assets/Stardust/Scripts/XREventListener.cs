@@ -9,10 +9,12 @@ namespace BodySource
     {
         private static XREventListener instance;
 
-        public float HighFiveHandDistanceThreshold = 0.05f;
-        public int HighFiveHandThreshold = 5;
+        public float HighFiveHandDistanceOnThreshold = 0.08f;
+        public float HighFiveHandDistanceOffThreshold = 0.09f;
+        public int HighFiveHandThreshold = 3;
 
-        public ConcurrentDictionary<string, int> HighFiveQueue = new ConcurrentDictionary<string, int> { };
+        public ConcurrentDictionary<string, int> HighFiveOnQueue = new ConcurrentDictionary<string, int> { };
+        public ConcurrentDictionary<string, int> HighFiveOffQueue = new ConcurrentDictionary<string, int> { };
         public HashSet<string> HighFiveResult = new HashSet<string> { };
 
         // 私有构造函数，防止外部直接实例化
@@ -38,7 +40,7 @@ namespace BodySource
 
         private void RaiseHighFiveEvent(string p1, string p2)
         {
-            MDebug.LogError("high five event occurs betweens " + p1 + " and " + p2);
+            MDebug.LogFlow("high five event occurs betweens " + p1 + " and " + p2);
             // Check if event is subscribed
             if (OnHighFiveEvent != null)
             {
@@ -65,23 +67,40 @@ namespace BodySource
                     {
                         key = p2.Key + "_" + p1.Key;
                     }
-                    if (IsHighFiveHappened(p1.Value, p2.Value))
+                    if (IsHighFiveOnHappened(p1.Value, p2.Value))
                     {
-                        if (HighFiveQueue.ContainsKey(key))
+                        if (HighFiveOnQueue.ContainsKey(key))
                         {
-                            HighFiveQueue[key] += 1;
+                            HighFiveOnQueue[key] += 1;
                         } else
                         {
-                            HighFiveQueue[key] = 1;
+                            HighFiveOnQueue[key] = 1;
                         }
+                        HighFiveOffQueue[key] = 0;
                     } else
                     {
-                        HighFiveQueue[key] = 0;
-                        HighFiveResult.Remove(key);
+                        if (HighFiveResult.Contains(key))
+                        {
+                            if(IsHighFiveOffHappened(p1.Value, p2.Value))
+                            {
+                                if (HighFiveOffQueue.ContainsKey(key))
+                                {
+                                    HighFiveOffQueue[key] += 1;
+                                } else
+                                {
+                                    HighFiveOffQueue[key] = 1;
+                                }
+                                if (HighFiveOffQueue[key] >= HighFiveHandThreshold)
+                                {
+                                    HighFiveResult.Remove(key);
+                                }
+                            }
+                        }
+                        HighFiveOnQueue[key] = 0;
                     }
                 }
             }
-            foreach (KeyValuePair<string, int> item in HighFiveQueue)
+            foreach (KeyValuePair<string, int> item in HighFiveOnQueue)
             {
                 if (item.Value >= HighFiveHandThreshold)
                 {
@@ -99,17 +118,35 @@ namespace BodySource
             }
         }
 
-        private bool IsHighFiveHappened(BodyDataSource p1, BodyDataSource p2)
+        private bool IsHighFiveOnHappened(BodyDataSource p1, BodyDataSource p2)
         {
             bool result = false;
             float elbowThreshold = GetLowestElbow(p1, p2);
             if (p1.Joints[JointType.LeftHand].Z > elbowThreshold && p1.Joints[JointType.RightHand].Z > elbowThreshold && p2.Joints[JointType.LeftHand].Z > elbowThreshold && p2.Joints[JointType.RightHand].Z > elbowThreshold)
             {
-                MDebug.LogError("distance: " + p1.Joints[JointType.LeftHand].Distance(p2.Joints[JointType.RightHand]));
-                if (p1.Joints[JointType.LeftHand].Distance(p2.Joints[JointType.RightHand]) <= HighFiveHandDistanceThreshold && p1.Joints[JointType.RightHand].Distance(p2.Joints[JointType.LeftHand]) <= HighFiveHandDistanceThreshold)
+                float leftDistance = p1.Joints[JointType.LeftHand].Distance(p2.Joints[JointType.RightHand]);
+                float rightDistance = p1.Joints[JointType.RightHand].Distance(p2.Joints[JointType.LeftHand]);
+                if (leftDistance < 0.1f && rightDistance < 0.1f) 
+                {
+                    MDebug.Log("left distance: " + leftDistance + " right distance: " + rightDistance);
+                }
+                if (leftDistance <= HighFiveHandDistanceOnThreshold && rightDistance <= HighFiveHandDistanceOnThreshold)
                 {
                     result = true;
                 }
+            }
+            
+            return result;
+        }
+
+        private bool IsHighFiveOffHappened(BodyDataSource p1, BodyDataSource p2)
+        {
+            bool result = false;
+            float leftDistance = p1.Joints[JointType.LeftHand].Distance(p2.Joints[JointType.RightHand]);
+            float rightDistance = p1.Joints[JointType.RightHand].Distance(p2.Joints[JointType.LeftHand]);
+            if (leftDistance >= HighFiveHandDistanceOffThreshold || rightDistance >= HighFiveHandDistanceOffThreshold)
+            {
+                result = true;
             }
             
             return result;
