@@ -106,6 +106,8 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 							if sd, err := value.LastData(); err == nil {
 								obj.Objs = append(obj.Objs, sd.Objs[k])
 							}
+						} else {
+							obj.Objs = append(obj.Objs, []float64{float64(v.Value[0]), float64(v.Value[1]), float64(v.Value[2])})
 						}
 					} else {
 						obj.Objs = append(obj.Objs, []float64{float64(v.Value[0]), float64(v.Value[1]), float64(v.Value[2])})
