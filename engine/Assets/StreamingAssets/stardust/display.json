@@ -1,5 +1,6 @@
 {
   "eventListenerConfig": {
+    "single": false,
     "highFiveOnThreshold": 0.09,
     "highFiveOffThreshold": 0.099
   },

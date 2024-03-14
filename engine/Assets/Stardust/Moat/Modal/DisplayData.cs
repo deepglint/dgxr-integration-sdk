@@ -50,6 +50,7 @@ namespace Moat.Model
     [System.Serializable]
     public class EventListenerConfig
     {
+        public bool single { get; set; }
         public float highFiveOnThreshold { get; set; }
         public float highFiveOffThreshold { get; set; }
     }

@@ -10,6 +10,7 @@ namespace BodySource
     {
         private static XREventListener instance;
 
+        private bool Single = false;
         private float HighFiveHandDistanceOnThreshold = 0.07f;
         private float HighFiveHandDistanceOffThreshold = 0.099f;
         private int HighFiveHandThreshold = 3;
@@ -23,6 +24,7 @@ namespace BodySource
         {
             HighFiveHandDistanceOnThreshold = DisplayData.configDisplay.eventListenerConfig.highFiveOnThreshold;
             HighFiveHandDistanceOffThreshold = DisplayData.configDisplay.eventListenerConfig.highFiveOffThreshold;
+            Single = DisplayData.configDisplay.eventListenerConfig.single;
             MDebug.Log("XR event config high-five on: " + HighFiveHandDistanceOnThreshold + " off " + HighFiveHandDistanceOffThreshold);
         }
 
@@ -124,21 +126,37 @@ namespace BodySource
             }
         }
 
+        private float GetAncherThreshold(BodyDataSource p1, BodyDataSource p2)
+        {
+            return GetLowestShoulder(p1, p2);
+        }
+
         private bool IsHighFiveOnHappened(BodyDataSource p1, BodyDataSource p2)
         {
+            if (Single)
+            {
+                return IsSingleHighFiveOnHappened(p1, p2);
+            } else 
+            {
+                return IsDoubleHighFiveOnHappened(p1, p2);
+            }
+        }
+
+        private bool IsDoubleHighFiveOnHappened(BodyDataSource p1, BodyDataSource p2)
+        {
             bool result = false;
-            float highThreshold = GetLowestShoulder(p1, p2);
-            if (p1.Joints[JointType.LeftHand].Z >= highThreshold && p1.Joints[JointType.RightHand].Z >= highThreshold && p2.Joints[JointType.LeftHand].Z >= highThreshold && p2.Joints[JointType.RightHand].Z >= highThreshold)
+            float ancherThreshold = GetAncherThreshold(p1, p2);
+            if (p1.Joints[JointType.LeftHand].Z >= ancherThreshold && p1.Joints[JointType.RightHand].Z >= ancherThreshold && p2.Joints[JointType.LeftHand].Z >= ancherThreshold && p2.Joints[JointType.RightHand].Z >= ancherThreshold)
             {
                 float leftDistance = p1.Joints[JointType.LeftHand].Distance(p2.Joints[JointType.RightHand]);
                 float rightDistance = p1.Joints[JointType.RightHand].Distance(p2.Joints[JointType.LeftHand]);
-                if (leftDistance < 0.1f && rightDistance < 0.1f) 
+                if (leftDistance < 0.2f && rightDistance < 0.2f) 
                 {
                     MDebug.Log("high-five distance left: " + leftDistance + " right: " + rightDistance);
                 }
                 if (leftDistance < HighFiveHandDistanceOffThreshold && rightDistance < HighFiveHandDistanceOffThreshold)
                 {
-                    if ((leftDistance+rightDistance) <= HighFiveHandDistanceOnThreshold)
+                    if ((leftDistance+rightDistance)*0.5f <= HighFiveHandDistanceOnThreshold)
                     {
                         result = true;
                     }
@@ -148,7 +166,68 @@ namespace BodySource
             return result;
         }
 
+        private bool IsSingleHighFiveOnHappened(BodyDataSource p1, BodyDataSource p2)
+        {
+            bool result = false;
+            float ancherThreshold = GetAncherThreshold(p1, p2);
+            if (p1.Joints[JointType.LeftHand].Z < ancherThreshold && p1.Joints[JointType.RightHand].Z < ancherThreshold)
+            {
+                return false;
+            }
+            if (p2.Joints[JointType.LeftHand].Z < ancherThreshold && p2.Joints[JointType.RightHand].Z < ancherThreshold)
+            {
+                return false;
+            }
+            float left1 = p1.Joints[JointType.LeftHand].Distance(p2.Joints[JointType.RightHand]);
+            float left2 = p1.Joints[JointType.LeftHand].Distance(p2.Joints[JointType.LeftHand]);
+            float leftDistance = left2 < left1 ? left2 : left1;
+            float right1 = p1.Joints[JointType.RightHand].Distance(p2.Joints[JointType.RightHand]);
+            float right2 = p1.Joints[JointType.RightHand].Distance(p2.Joints[JointType.LeftHand]);
+            float rightDistance = right2 < right1 ? right2 : right1;
+            float handDistance = rightDistance < leftDistance ? rightDistance : leftDistance;
+            if (handDistance < 0.15f) 
+            {
+                MDebug.Log("single high-five distance " + handDistance);
+                if (handDistance <= HighFiveHandDistanceOnThreshold)
+                {
+                    result = true;
+                }
+            }
+            
+            return result;
+        }
+
         private bool IsHighFiveOffHappened(BodyDataSource p1, BodyDataSource p2)
+        {
+            if (Single)
+            {
+                return IsSingleHighFiveOffHappened(p1, p2);
+            } else 
+            {
+                return IsDoubleHighFiveOffHappened(p1, p2);
+            }
+        }
+
+        private bool IsSingleHighFiveOffHappened(BodyDataSource p1, BodyDataSource p2)
+        {
+            bool result = false;
+            float left1 = p1.Joints[JointType.LeftHand].Distance(p2.Joints[JointType.RightHand]);
+            float left2 = p1.Joints[JointType.LeftHand].Distance(p2.Joints[JointType.LeftHand]);
+            float leftDistance = left2 < left1 ? left2 : left1;
+            float right1 = p1.Joints[JointType.RightHand].Distance(p2.Joints[JointType.RightHand]);
+            float right2 = p1.Joints[JointType.RightHand].Distance(p2.Joints[JointType.LeftHand]);
+            float rightDistance = right2 < right1 ? right2 : right1;
+            float handDistance = rightDistance < leftDistance ? rightDistance : leftDistance;
+            
+            if (handDistance > HighFiveHandDistanceOffThreshold)
+            {
+                result = true;
+            }
+            
+            return result;
+        }
+
+        private bool IsDoubleHighFiveOffHappened(BodyDataSource p1, BodyDataSource p2)
         {
             bool result = false;
             float leftDistance = p1.Joints[JointType.LeftHand].Distance(p2.Joints[JointType.RightHand]);
