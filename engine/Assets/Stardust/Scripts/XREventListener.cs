@@ -9,8 +9,8 @@ namespace BodySource
     {
         private static XREventListener instance;
 
-        public float HighFiveHandDistanceOnThreshold = 0.08f;
-        public float HighFiveHandDistanceOffThreshold = 0.09f;
+        public float HighFiveHandDistanceOnThreshold = 0.07f;
+        public float HighFiveHandDistanceOffThreshold = 0.099f;
         public int HighFiveHandThreshold = 3;
 
         public ConcurrentDictionary<string, int> HighFiveOnQueue = new ConcurrentDictionary<string, int> { };
@@ -40,7 +40,7 @@ namespace BodySource
 
         private void RaiseHighFiveEvent(string p1, string p2)
         {
-            MDebug.LogFlow("high five event occurs betweens " + p1 + " and " + p2);
+            MDebug.Log("high-five event occurs betweens " + p1 + " and " + p2);
             // Check if event is subscribed
             if (OnHighFiveEvent != null)
             {
@@ -121,18 +121,21 @@ namespace BodySource
         private bool IsHighFiveOnHappened(BodyDataSource p1, BodyDataSource p2)
         {
             bool result = false;
-            float elbowThreshold = GetLowestElbow(p1, p2);
-            if (p1.Joints[JointType.LeftHand].Z > elbowThreshold && p1.Joints[JointType.RightHand].Z > elbowThreshold && p2.Joints[JointType.LeftHand].Z > elbowThreshold && p2.Joints[JointType.RightHand].Z > elbowThreshold)
+            float highThreshold = GetLowestShoulder(p1, p2);
+            if (p1.Joints[JointType.LeftHand].Z >= highThreshold && p1.Joints[JointType.RightHand].Z >= highThreshold && p2.Joints[JointType.LeftHand].Z >= highThreshold && p2.Joints[JointType.RightHand].Z >= highThreshold)
             {
                 float leftDistance = p1.Joints[JointType.LeftHand].Distance(p2.Joints[JointType.RightHand]);
                 float rightDistance = p1.Joints[JointType.RightHand].Distance(p2.Joints[JointType.LeftHand]);
                 if (leftDistance < 0.1f && rightDistance < 0.1f) 
                 {
-                    MDebug.Log("left distance: " + leftDistance + " right distance: " + rightDistance);
+                    MDebug.Log("high-five distance left: " + leftDistance + " right: " + rightDistance);
                 }
-                if (leftDistance <= HighFiveHandDistanceOnThreshold && rightDistance <= HighFiveHandDistanceOnThreshold)
+                if (leftDistance < HighFiveHandDistanceOffThreshold && rightDistance < HighFiveHandDistanceOffThreshold)
                 {
-                    result = true;
+                    if ((leftDistance+rightDistance) <= HighFiveHandDistanceOnThreshold)
+                    {
+                        result = true;
+                    }
                 }
             }
             
@@ -144,7 +147,7 @@ namespace BodySource
             bool result = false;
             float leftDistance = p1.Joints[JointType.LeftHand].Distance(p2.Joints[JointType.RightHand]);
             float rightDistance = p1.Joints[JointType.RightHand].Distance(p2.Joints[JointType.LeftHand]);
-            if (leftDistance >= HighFiveHandDistanceOffThreshold || rightDistance >= HighFiveHandDistanceOffThreshold)
+            if (leftDistance > HighFiveHandDistanceOffThreshold || rightDistance > HighFiveHandDistanceOffThreshold)
             {
                 result = true;
             }
@@ -164,6 +167,20 @@ namespace BodySource
                 lowestElbow = p2.Joints[JointType.RightElbow].Z;
             }
             return lowestElbow;
+        }
+
+        private float GetLowestShoulder(BodyDataSource p1, BodyDataSource p2)
+        {
+            float lowestShoulder = p1.Joints[JointType.LeftShoulder].Z <= p1.Joints[JointType.RightShoulder].Z ? p1.Joints[JointType.LeftShoulder].Z : p1.Joints[JointType.RightShoulder].Z;
+            if (p2.Joints[JointType.LeftShoulder].Z < lowestShoulder)
+            {
+                lowestShoulder = p2.Joints[JointType.LeftShoulder].Z;
+            }
+            if (p2.Joints[JointType.RightShoulder].Z < lowestShoulder)
+            {
+                lowestShoulder = p2.Joints[JointType.RightShoulder].Z;
+            }
+            return lowestShoulder;
         }
     }
 
