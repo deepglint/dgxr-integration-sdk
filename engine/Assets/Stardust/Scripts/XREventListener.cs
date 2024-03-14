@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using Moat;
+using Moat.Model;
 using System;
 
 namespace BodySource
@@ -9,8 +10,8 @@ namespace BodySource
     {
         private static XREventListener instance;
 
-        public float HighFiveHandDistanceOnThreshold = 0.07f;
-        public float HighFiveHandDistanceOffThreshold = 0.099f;
+        private float HighFiveHandDistanceOnThreshold = 0.07f;
+        private float HighFiveHandDistanceOffThreshold = 0.099f;
         public int HighFiveHandThreshold = 3;
 
         public ConcurrentDictionary<string, int> HighFiveOnQueue = new ConcurrentDictionary<string, int> { };
@@ -18,7 +19,7 @@ namespace BodySource
         public HashSet<string> HighFiveResult = new HashSet<string> { };
 
         // 私有构造函数，防止外部直接实例化
-        public XREventListener()
+        private XREventListener()
         {
         }
 
@@ -30,6 +31,9 @@ namespace BodySource
                 if (instance == null)
                 {
                     instance = new XREventListener();
+                    instance.HighFiveHandDistanceOnThreshold = DisplayData.configDisplay.eventListenerConfig.highFiveOnThreshold;
+                    instance.HighFiveHandDistanceOffThreshold = DisplayData.configDisplay.eventListenerConfig.highFiveOffThreshold;
+                    MDebug.Log("high-five event config on: " + instance.HighFiveHandDistanceOnThreshold + " off " + instance.HighFiveHandDistanceOffThreshold);
                 }
                 return instance;
             }
@@ -44,8 +48,10 @@ namespace BodySource
             // Check if event is subscribed
             if (OnHighFiveEvent != null)
             {
+                int personId1 = int.Parse(p1) + 1;
+                int personId2 = int.Parse(p2) + 1;
                 // Invoke the event, which will call all the subscribed methods
-                OnHighFiveEvent(p1, p2);
+                OnHighFiveEvent(personId1.ToString(), personId2.ToString());
             }
         }
 
