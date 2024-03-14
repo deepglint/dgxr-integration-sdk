@@ -100,8 +100,18 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 				obj := sources.SourceData{
 					Objs: [][]float64{},
 				}
-				for _, v := range data.Objs {
-					obj.Objs = append(obj.Objs, []float64{float64(v.Value[0]), float64(v.Value[1]), float64(v.Value[2])})
+				for k, v := range data.Objs {
+					if v.Value[0] == 0 && v.Value[1] == 0 && v.Value[2] == 0 {
+						if value, ok := sourcesMap[id]; ok {
+							if sd, err := value.LastData(); err == nil {
+								obj.Objs = append(obj.Objs, sd.Objs[k])
+							}
+						} else {
+							obj.Objs = append(obj.Objs, []float64{float64(v.Value[0]), float64(v.Value[1]), float64(v.Value[2])})
+						}
+					} else {
+						obj.Objs = append(obj.Objs, []float64{float64(v.Value[0]), float64(v.Value[1]), float64(v.Value[2])})
+					}
 				}
 				if value, ok := sourcesMap[id]; ok {
 					if value.Xbox == nil {
@@ -127,19 +137,19 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 				}
 				// TODO 单独判断是否含有这几个动作在data.RecActions，如果没有设置为false
 				if _, ok := temMap[20]; !ok {
-					if val, ok := global.Sources.Load(id); !ok {
+					if val, ok := global.Sources.Load(id); ok {
 						pos := val.(*sources.Source)
 						pos.FastRun = false
 					}
 				}
 				if _, ok := temMap[21]; !ok {
-					if val, ok := global.Sources.Load(id); !ok {
+					if val, ok := global.Sources.Load(id); ok {
 						pos := val.(*sources.Source)
 						pos.Butterfly = false
 					}
 				}
 				if _, ok := temMap[22]; !ok {
-					if val, ok := global.Sources.Load(id); !ok {
+					if val, ok := global.Sources.Load(id); ok {
 						pos := val.(*sources.Source)
 						pos.FreeStyle = false
 					}
