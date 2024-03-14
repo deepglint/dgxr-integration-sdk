@@ -14,6 +14,7 @@ namespace BodySource
         private float HighFiveHandDistanceOnThreshold = 0.07f;
         private float HighFiveHandDistanceOffThreshold = 0.099f;
         private int HighFiveHandThreshold = 3;
+        private float logThreshold = 0.2f;
 
         private ConcurrentDictionary<string, int> HighFiveOnQueue = new ConcurrentDictionary<string, int> { };
         private ConcurrentDictionary<string, int> HighFiveOffQueue = new ConcurrentDictionary<string, int> { };
@@ -150,7 +151,7 @@ namespace BodySource
             {
                 float leftDistance = p1.Joints[JointType.LeftHand].Distance(p2.Joints[JointType.RightHand]);
                 float rightDistance = p1.Joints[JointType.RightHand].Distance(p2.Joints[JointType.LeftHand]);
-                if (leftDistance < 0.2f && rightDistance < 0.2f) 
+                if (leftDistance < logThreshold && rightDistance < logThreshold) 
                 {
                     MDebug.Log("high-five distance left: " + leftDistance + " right: " + rightDistance);
                 }
@@ -185,7 +186,7 @@ namespace BodySource
             float right2 = p1.Joints[JointType.RightHand].Distance(p2.Joints[JointType.LeftHand]);
             float rightDistance = right2 < right1 ? right2 : right1;
             float handDistance = rightDistance < leftDistance ? rightDistance : leftDistance;
-            if (handDistance < 0.15f) 
+            if (handDistance < logThreshold) 
             {
                 MDebug.Log("single high-five distance " + handDistance);
                 if (handDistance <= HighFiveHandDistanceOnThreshold)
