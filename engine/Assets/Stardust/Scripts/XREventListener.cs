@@ -12,15 +12,18 @@ namespace BodySource
 
         private float HighFiveHandDistanceOnThreshold = 0.07f;
         private float HighFiveHandDistanceOffThreshold = 0.099f;
-        public int HighFiveHandThreshold = 3;
+        private int HighFiveHandThreshold = 3;
 
-        public ConcurrentDictionary<string, int> HighFiveOnQueue = new ConcurrentDictionary<string, int> { };
-        public ConcurrentDictionary<string, int> HighFiveOffQueue = new ConcurrentDictionary<string, int> { };
-        public HashSet<string> HighFiveResult = new HashSet<string> { };
+        private ConcurrentDictionary<string, int> HighFiveOnQueue = new ConcurrentDictionary<string, int> { };
+        private ConcurrentDictionary<string, int> HighFiveOffQueue = new ConcurrentDictionary<string, int> { };
+        private HashSet<string> HighFiveResult = new HashSet<string> { };
 
         // 私有构造函数，防止外部直接实例化
         private XREventListener()
         {
+            HighFiveHandDistanceOnThreshold = DisplayData.configDisplay.eventListenerConfig.highFiveOnThreshold;
+            HighFiveHandDistanceOffThreshold = DisplayData.configDisplay.eventListenerConfig.highFiveOffThreshold;
+            MDebug.Log("XR event config high-five on: " + HighFiveHandDistanceOnThreshold + " off " + HighFiveHandDistanceOffThreshold);
         }
 
         // 获取GameManager的实例
@@ -31,9 +34,6 @@ namespace BodySource
                 if (instance == null)
                 {
                     instance = new XREventListener();
-                    instance.HighFiveHandDistanceOnThreshold = DisplayData.configDisplay.eventListenerConfig.highFiveOnThreshold;
-                    instance.HighFiveHandDistanceOffThreshold = DisplayData.configDisplay.eventListenerConfig.highFiveOffThreshold;
-                    MDebug.Log("high-five event config on: " + instance.HighFiveHandDistanceOnThreshold + " off " + instance.HighFiveHandDistanceOffThreshold);
                 }
                 return instance;
             }

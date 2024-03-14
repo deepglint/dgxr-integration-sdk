@@ -1,5 +1,5 @@
 {
-  "eventListener": {
+  "eventListenerConfig": {
     "highFiveOnThreshold": 0.09,
     "highFiveOffThreshold": 0.099
   },
@@ -73,7 +73,7 @@
   "~spaceUpperOrLowerOffset": "空间基于中心点上下偏移",
   "spaceUpperOrLowerOffset": "0",
   "~playerCount": "允许参与的玩家数量",
-  "playerCount": 1,
+  "playerCount": 4,
   "~debugLevel": "0 无Log，1 LogError，2 LogWarning，3 LogFlow，4 Log, 5 LogTest",
   "debugLevel": 4,
   "~interactionPermissionLevel": "0 无限制，1 限制玩家进入",
