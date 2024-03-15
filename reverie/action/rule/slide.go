@@ -20,7 +20,9 @@ func SlideLeft(data *source.Source) bool {
 			moveDistance := math.Abs(averageHandX - pose.Objs[source.RightHand][0])
 			HandToShoulderX := math.Abs(pose.Objs[source.RightHand][0] - pose.Objs[source.LeftShoulder][0])
 			HandToShoulderZ := math.Abs(pose.Objs[source.RightHand][2] - pose.Objs[source.LeftShoulder][2])
-			if moveDistance > global.Config.Rules.LeftRightSlide.HandMoveDistanceX && HandToShoulderX < global.Config.Rules.LeftRightSlide.HandToShoulderXZ && HandToShoulderZ < global.Config.Rules.LeftRightSlide.HandToShoulderXZ {
+			// 左手的 x 距离右边胯骨位置绝对值大于手移动距离的阈值
+			LeftHandToShoulderX := math.Abs(pose.Objs[source.LeftHand][0] - pose.Objs[source.RightShoulder][0])
+			if LeftHandToShoulderX > global.Config.Rules.LeftRightSlide.HandMoveDistanceX && moveDistance > global.Config.Rules.LeftRightSlide.HandMoveDistanceX && HandToShoulderX < global.Config.Rules.LeftRightSlide.HandToShoulderXZ && HandToShoulderZ < global.Config.Rules.LeftRightSlide.HandToShoulderXZ {
 				return true
 			}
 		}
@@ -40,7 +42,8 @@ func SlideRight(data *source.Source) bool {
 			moveDistance := math.Abs(averageHandX - pose.Objs[source.LeftHand][0])
 			HandToShoulderX := math.Abs(pose.Objs[source.LeftHand][0] - pose.Objs[source.RightShoulder][0])
 			HandToShoulderZ := math.Abs(pose.Objs[source.LeftHand][2] - pose.Objs[source.RightShoulder][2])
-			if moveDistance > global.Config.Rules.LeftRightSlide.HandMoveDistanceX && HandToShoulderX < global.Config.Rules.LeftRightSlide.HandToShoulderXZ && HandToShoulderZ < global.Config.Rules.LeftRightSlide.HandToShoulderXZ {
+			RightHandToLeftShoulderX := math.Abs(pose.Objs[source.RightHand][0] - pose.Objs[source.LeftShoulder][0])
+			if RightHandToLeftShoulderX > global.Config.Rules.LeftRightSlide.HandMoveDistanceX && moveDistance > global.Config.Rules.LeftRightSlide.HandMoveDistanceX && HandToShoulderX < global.Config.Rules.LeftRightSlide.HandToShoulderXZ && HandToShoulderZ < global.Config.Rules.LeftRightSlide.HandToShoulderXZ {
 				return true
 			}
 		}
