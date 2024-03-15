@@ -6,6 +6,7 @@ TagManager:
   tags:
   - VirtualDevice
   - Projector
+  - Ground
   layers:
   - Default
   - TransparentFX
