@@ -222,6 +222,12 @@ func ModelToXbox(pos *source.Source, action int32) {
 
 		if body, err := pos.LastData(); err == nil {
 			switch action {
+			case 10000:
+				if (body.Objs[source.LeftHand][2]-body.Objs[source.HeadTop][2] > 0.2) || (body.Objs[source.RightHand][2]-body.Objs[source.HeadTop][2]) > 0.2 {
+					logrus.Infof("model action: %s", Action(action).String())
+					go pos.Xbox.SetXbox(v)
+				}
+				return
 			case 21:
 				// 状态定义 false
 				// 当手的关节点低于胯部的时候设置为false，高于左肩位置设置为true，当为false且高于左边肩膀的时候计数一次
