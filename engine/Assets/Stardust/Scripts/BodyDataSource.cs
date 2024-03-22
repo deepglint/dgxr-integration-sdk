@@ -14,6 +14,12 @@ namespace BodySource
         public RaycastHit RightHit;
         public Dictionary<JointType, JointData> Joints { get; set; }
         //public Dictionary<JointType, OrientationData> Orientations { get; set; }
+        public Vector2 GetRootPositionVector2()
+        {
+            JointData leftHip = Joints[JointType.LeftHip];
+            JointData rightHip = Joints[JointType.RightHip];
+            return new Vector2((leftHip.X + rightHip.X) * 0.5f, (leftHip.Y + rightHip.Y) * 0.5f);
+        }
     }
 
     public class JointData
@@ -27,6 +33,13 @@ namespace BodySource
             X = x;
             Y = y;
             Z = z;
+        }
+        
+        public float Distance(JointData target)
+        {
+            Vector3 v3source = new Vector3(X, Y, Z);
+            Vector3 v3target = new Vector3(target.X, target.Y, target.Z);
+            return Vector3.Distance(v3source, v3target);
         }
     }
 

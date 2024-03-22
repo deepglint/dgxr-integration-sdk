@@ -4,6 +4,7 @@ using Moat;
 using Moat.Model;
 using UnityEngine;
 using Newtonsoft.Json;
+using UnityEngine.InputSystem;
 
 namespace BodySource
 {
@@ -14,6 +15,7 @@ namespace BodySource
         public Vector3 cavePersonHead = new Vector3(0, 0, 0);
 
         public ConcurrentDictionary<string, BodyDataSource> Data = new ConcurrentDictionary<string, BodyDataSource> { };
+        public ConcurrentDictionary<string, InputDevice> Devices = new ConcurrentDictionary<string, InputDevice> { };
         
         // 私有构造函数，防止外部直接实例化
         public XRDGBodySource()
