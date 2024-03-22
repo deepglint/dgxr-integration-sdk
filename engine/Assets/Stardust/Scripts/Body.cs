@@ -1,4 +1,5 @@
-﻿using Stardust.Model;
+﻿using Moat;
+using Moat.Model;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -90,7 +91,7 @@ namespace Stardust.Scripts
         void Start()
         {
             if (wsSource == null) return;
-            DisplayData.WsConnect = true;
+            DisplayData.wsConnect = true;
             wsSource.Init(new Options());
         
             _bodyManager = XrdgBodySource.Instance;

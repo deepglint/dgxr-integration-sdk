@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using UnityEngine;
+using Moat;
+using UnityEngine.InputSystem;
 
 namespace Stardust.Scripts
 {
@@ -10,6 +10,7 @@ namespace Stardust.Scripts
         public  string CavePersonId="";
 
         public ConcurrentDictionary<string, BodyDataSource> Data = new ConcurrentDictionary<string, BodyDataSource>();
+        public ConcurrentDictionary<string, InputDevice> Devices = new ConcurrentDictionary<string, InputDevice>();
         
         // 私有构造函数，防止外部直接实例化
 

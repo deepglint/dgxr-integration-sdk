@@ -520,6 +520,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1187668116823712881, guid: 41563c2f25f7740d1a129cb22a928821, type: 3}
+      propertyPath: WsUri
+      value: ws://192.168.12.1:8000/ws
+      objectReference: {fileID: 0}
     - target: {fileID: 3522114571120007156, guid: 41563c2f25f7740d1a129cb22a928821, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -563,6 +567,10 @@ PrefabInstance:
     - target: {fileID: 7106565577159589532, guid: 41563c2f25f7740d1a129cb22a928821, type: 3}
       propertyPath: m_Name
       value: Source
+      objectReference: {fileID: 0}
+    - target: {fileID: 7106565577159589532, guid: 41563c2f25f7740d1a129cb22a928821, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -719,7 +727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9acb62998eedc46a7ae8a43b05de254f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 1
   rotateSpeed: 10
   jumpSpeed: 400
 --- !u!54 &2144282934

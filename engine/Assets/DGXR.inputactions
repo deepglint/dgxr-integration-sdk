@@ -27,72 +27,6 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "2889ab19-92fb-4458-b0d3-934a3ea26757",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "WASD",
-                    "id": "f12fb5bd-132b-463d-99d4-2430fc28bb38",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "d199e073-3e0c-427b-b901-54d7a3f44e14",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "a0fd2bcd-e140-4ba3-a93b-2059e29a31f6",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "a6a832b0-4432-4cb8-8efe-469dfc4eaf5c",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "137f0241-ef70-4da7-81d8-5b0f717668f0",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "",
                     "id": "188ee5b0-7841-417d-8420-8069a71121e5",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -105,11 +39,88 @@
                 {
                     "name": "",
                     "id": "25e38683-3c13-47a6-b489-6f18288e395a",
-                    "path": "",
+                    "path": "<DGXRController>/primaryButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2a5542a8-528f-488e-bc40-74b111631c3f",
+                    "path": "<DGXRDeviceSimulator>/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "stick-simulator",
+                    "id": "24fa4abd-c537-4f1c-abb8-3836a7f18021",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "91cb1cee-83f1-42ca-b66f-9f1c52ca545e",
+                    "path": "<DGXRDeviceSimulator>/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "b7e9794e-0659-4ca3-b75b-e323f64b7e4e",
+                    "path": "<DGXRDeviceSimulator>/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "a9d72f32-11a7-4dcf-a51b-07e71cb0f7e2",
+                    "path": "<DGXRDeviceSimulator>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "1a19fcfa-ff89-4686-9d7f-fde91a082a1f",
+                    "path": "<DGXRDeviceSimulator>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "200f3eb0-e2a2-4b20-864f-023cf3c59f88",
+                    "path": "<DGXRController>/stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,5 +1,6 @@
 ﻿using System;
-using Stardust.Model;
+using Moat;
+using Moat.Model;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Matrix4x4 = UnityEngine.Matrix4x4;

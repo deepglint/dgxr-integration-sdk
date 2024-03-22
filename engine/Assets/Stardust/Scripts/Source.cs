@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Threading;
 using BestHTTP.WebSocket;
 using Newtonsoft.Json;
-using Stardust.Model;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Moat;
+using Moat.Model;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Layouts;
 
 // yq: ws://192.168.12.1:8000/ws
 // sl: ws://192.168.8.7:8000/ws
@@ -51,7 +54,14 @@ namespace Stardust.Scripts
                 {
                     if (!info.Pose.ContainsKey(person.Key))
                     {
-                        XrdgBodySource.Instance.Data.TryRemove(person.Key, out _);
+                        bool removed = XrdgBodySource.Instance.Data.TryRemove(person.Key, out BodyDataSource removedValue);
+                        // remove device
+                        InputDevice device = XrdgBodySource.Instance.Devices[person.Key];
+                        if (device != null)
+                        {
+                            InputSystem.RemoveDevice(device);
+                            Debug.Log("DGXR device: " + person.Key + " was removed");
+                        }
                     }
                 }
 
@@ -89,6 +99,14 @@ namespace Stardust.Scripts
                             body.Joints.Add(jointType, joint);
                         }
                         XrdgBodySource.Instance.Data[person.Key] = body;
+                        var device = InputSystem.AddDevice(new InputDeviceDescription
+                        {
+                            interfaceName = "DGXRController",
+                            product = "DGXRController",
+                            manufacturer = "deepglint",
+                        });
+                        Debug.Log("DGXR device: " + person.Key + " was created");
+                        XrdgBodySource.Instance.Devices[person.Key] = device;
                     }
                 }
                 XREventListener.Instance.OnFrame();
@@ -166,8 +184,8 @@ namespace Stardust.Scripts
             _reconnectCount = 0;
             
             DisplayData.ReadConfig();
-            MDebug.LogFlow("1. WS 连接 - 1.0 连接权限" + DisplayData.WsConnect + " " + DisplayData.ConfigDisplay.WsConnect);
-            if (DisplayData.WsConnect)
+            MDebug.LogFlow("1. WS 连接 - 1.0 连接权限" + DisplayData.wsConnect + " " + DisplayData.configDisplay.wsConnect);
+            if (DisplayData.wsConnect)
             {
                 Init(new Options());
             }
@@ -211,7 +229,7 @@ namespace Stardust.Scripts
 
         private void SmartReconnect(object timerState)
         {
-            if (!DisplayData.WsConnect)
+            if (!DisplayData.wsConnect)
             {
                 _timer.Dispose();
                 return;
