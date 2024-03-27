@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using BestHTTP.WebSocket;
 using System;
@@ -42,10 +42,7 @@ namespace BodySource
             if (res != null)
             {
                 SourceData info = JsonConvert.DeserializeObject<SourceData>(res);
-                if (info.pose.Count != XRDGBodySource.Instance.Data.Count)
-                {
-                    MDebug.LogFlow("1. WS 连接 - 1.3 骨骼人数：" + info.pose.Count);
-                }
+                MDebug.LogFlow("1. WS 连接 - 1.3 骨骼人数：" + info.pose.Count);
                 foreach (var person in XRDGBodySource.Instance.Data)
                 {
                     if (!info.pose.ContainsKey(person.Key))
@@ -90,6 +87,7 @@ namespace BodySource
                         XRDGBodySource.Instance.Data[person.Key] = body;
                     }
                 }
+                XREventListener.Instance.OnFrame();
                 // 20s活体检测
                 if (activeTimer != null)
                 {

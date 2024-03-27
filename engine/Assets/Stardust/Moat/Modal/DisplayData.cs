@@ -5,6 +5,7 @@ namespace Moat.Model
 {
     [System.Serializable]
     public class DisplayConfigData {
+        public EventListenerConfig eventListenerConfig { get; set; }
         public CircleAreaData circleArea { get; set; }
         public float[][] interactionArea { get; set; }
         public ResolutionData resolution { get; set; }
@@ -44,6 +45,14 @@ namespace Moat.Model
         public int playerRadius { get; set; }
         public int roiCircleBoundary { get; set; }
         public int groundSelectorRadius { get; set; }
+    }
+
+    [System.Serializable]
+    public class EventListenerConfig
+    {
+        public bool single { get; set; }
+        public float highFiveOnThreshold { get; set; }
+        public float highFiveOffThreshold { get; set; }
     }
 
     [System.Serializable]
