@@ -15,7 +15,7 @@ func SlideLeft(data *source.Source) bool {
 		// - 1s 相比上面 20 帧的动作，手部的位移
 		// - 手高度在左肩膀位置相差一定的大小
 		angle := CalculateRotateAngle(pose.Objs[source.LeftHip], pose.Objs[source.RightHip])
-		if angle > 0 && angle < 45 {
+		if angle > 0 && angle < 60 {
 			averageHandX := data.AverageAX(int(source.RightHand))
 			moveDistance := math.Abs(averageHandX - pose.Objs[source.RightHand][0])
 			HandToShoulderX := math.Abs(pose.Objs[source.RightHand][0] - pose.Objs[source.LeftShoulder][0])
@@ -37,7 +37,7 @@ func SlideRight(data *source.Source) bool {
 		// - 1s 相比上面 20 帧的动作，手部的位移
 		// - 手高度在左肩膀位置相差一定的大小
 		angle := CalculateRotateAngle(pose.Objs[source.LeftHip], pose.Objs[source.RightHip])
-		if angle > 0 && angle < 45 {
+		if angle > 0 && angle < 60 {
 			averageHandX := data.AverageAX(int(source.LeftHand))
 			moveDistance := math.Abs(averageHandX - pose.Objs[source.LeftHand][0])
 			HandToShoulderX := math.Abs(pose.Objs[source.LeftHand][0] - pose.Objs[source.RightShoulder][0])
