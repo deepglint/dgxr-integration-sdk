@@ -223,7 +223,7 @@ func ModelToXbox(pos *source.Source, action int32) {
 		if body, err := pos.LastData(); err == nil {
 			switch action {
 			case 10000:
-				if (body.Objs[source.LeftHand][2]-body.Objs[source.HeadTop][2] > 0.2) || (body.Objs[source.RightHand][2]-body.Objs[source.HeadTop][2]) > 0.2 {
+				if (body.Objs[source.LeftHand][2]-body.Objs[source.HeadTop][2] > global.Config.Rules.RaiseRightHand.HandThanHeadZ) || (body.Objs[source.RightHand][2]-body.Objs[source.HeadTop][2]) > global.Config.Rules.RaiseRightHand.HandThanHeadZ {
 					logrus.Infof("model action: %s", Action(action).String())
 					go pos.Xbox.SetXbox(v)
 				}

@@ -14,6 +14,7 @@ import (
 	"reverie/global"
 	sources "reverie/model/source"
 	pb "reverie/source/input/grpc/proto"
+	"reverie/util"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -101,16 +102,17 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 					Objs: [][]float64{},
 				}
 				for k, v := range data.Objs {
+					unifyValue := util.UnifyCoordinate(global.Config.Space.XDirection, global.Config.Space.YDirection, v.Value)
 					if v.Value[0] == 0 && v.Value[1] == 0 && v.Value[2] == 0 {
 						if value, ok := sourcesMap[id]; ok {
 							if sd, err := value.LastData(); err == nil {
 								obj.Objs = append(obj.Objs, sd.Objs[k])
 							}
 						} else {
-							obj.Objs = append(obj.Objs, []float64{float64(v.Value[0]), float64(v.Value[1]), float64(v.Value[2])})
+							obj.Objs = append(obj.Objs, unifyValue)
 						}
 					} else {
-						obj.Objs = append(obj.Objs, []float64{float64(v.Value[0]), float64(v.Value[1]), float64(v.Value[2])})
+						obj.Objs = append(obj.Objs, unifyValue)
 					}
 				}
 				if value, ok := sourcesMap[id]; ok {

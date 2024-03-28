@@ -16,6 +16,7 @@ type ActionData struct {
 
 type Config struct {
 	Source Source
+	Space  Space
 	Action map[int]ActionData
 	Rules  Rules
 	Log    *Log
@@ -29,6 +30,11 @@ type Grpc struct {
 type Source struct {
 	Cap  int
 	Grpc *Grpc
+}
+
+type Space struct {
+	XDirection string
+	YDirection string
 }
 
 type Log struct {
@@ -47,6 +53,11 @@ func NewConfig() *Config {
 		Grpc: grpc,
 	}
 
+	space := Space{
+		XDirection: viper.GetString("space.xDirection"),
+		YDirection: viper.GetString("space.yDirection"),
+	}
+
 	rules := Rules{}
 	// 绑定配置到结构体
 	if err := viper.UnmarshalKey("rules", &rules); err != nil {
@@ -57,6 +68,7 @@ func NewConfig() *Config {
 		Rules:  rules,
 		Action: map[int]ActionData{},
 		Source: *source,
+		Space:  space,
 		Log: &Log{
 			Level: viper.GetString("logLevel"),
 		},

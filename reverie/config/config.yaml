@@ -9,6 +9,9 @@ source:
   grpc:
     host: 0.0.0.0
     port: 50051
+space:
+  xDirection: right # left or right or up or down
+  yDirection: up # left or right or up or down
 games:
   skiing:
     tiltAngle: 20 # 倾斜角度，单位度，建议配置15-25
@@ -33,7 +36,7 @@ rules:
     elbowAngle: 100 #手肘的角度，建议 100
     handMoveDistanceXZ: 0.15 #手在 XZ 二维平面的移动距离，建议 0.15
   raiseRightHand:
-    handThanHeadZ: 0.1 #手（Z方向）高于头的距离，建议 0.1～0.2
+    handThanHeadZ: 0.15 #手（Z方向）高于头的距离，建议 0.1～0.2
   leftRightSlide:
     handMoveDistanceX: 0.25 #在X轴的移动距离，建议 0.1
     handToShoulderXZ: 0.2 #手和肩膀在XZ上的绝对值距离，建议 0.1
