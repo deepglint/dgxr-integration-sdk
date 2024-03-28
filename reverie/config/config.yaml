@@ -35,7 +35,7 @@ rules:
   raiseRightHand:
     handThanHeadZ: 0.1 #手（Z方向）高于头的距离，建议 0.1～0.2
   leftRightSlide:
-    handMoveDistanceX: 0.1 #在X轴的移动距离，建议 0.1
+    handMoveDistanceX: 0.25 #在X轴的移动距离，建议 0.1
     handToShoulderXZ: 0.2 #手和肩膀在XZ上的绝对值距离，建议 0.1
   upSlide:
     handMoveDistanceY: 0.02 #在Y轴的移动距离，建议 0.02
