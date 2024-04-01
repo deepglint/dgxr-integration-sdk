@@ -34,7 +34,7 @@ func Alert() {
 						Space:    Config.Space.Name,
 						Detail:   info.Detail,
 						Status:   false,
-						Describe: fmt.Sprintf("IP地址：%s，详情请访问 http://%s:9400/vars/*t_latency_x_merge_frames_qps*", Config.Space.Devices.Host.Ip[0], Config.Space.Devices.Host.Ip[0]),
+						Describe: fmt.Sprintf("IP地址：%s", Config.Space.Devices.Host.Ip[0]) + ". [**点击查看详情**](" + fmt.Sprintf("http://%s:9400/vars/*t_latency_x_merge_frames_qps*", Config.Space.Devices.Host.Ip[0]) + ")",
 					}
 					s := util.LarkToMarkDown(alert)
 					util.LarkAlert(Config.Space.AlertAddress, s, alert)
@@ -47,7 +47,7 @@ func Alert() {
 						Name:     info.Name,
 						Space:    Config.Space.Name,
 						Detail:   info.Detail,
-						Describe: fmt.Sprintf("IP地址：%s，详情请访问 http://%s:9400/vars/*t_latency_x_merge_frames_qps*", Config.Space.Devices.Host.Ip[0], Config.Space.Devices.Host.Ip[0]),
+						Describe: fmt.Sprintf("IP地址：%s", Config.Space.Devices.Host.Ip[0]) + ". [**点击查看详情**](" + fmt.Sprintf("http://%s:9400/vars/*t_latency_x_merge_frames_qps*", Config.Space.Devices.Host.Ip[0]) + ")",
 						Status:   true,
 					}
 					s := util.LarkToMarkDown(alert)
