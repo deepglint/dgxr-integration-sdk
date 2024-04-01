@@ -31,12 +31,26 @@ type Source struct {
 	Cap  int
 	Grpc *Grpc
 }
-
 type Space struct {
-	XDirection string
-	YDirection string
+	Name         string
+	Devices      Devices
+	AlertAddress string
+	XDirection   string
+	YDirection   string
 }
 
+type Devices struct {
+	Cam  Cam
+	Host Host
+}
+
+type Cam struct {
+	Ip []string
+}
+
+type Host struct {
+	Ip []string
+}
 type Log struct {
 	Level string
 }
@@ -52,10 +66,31 @@ func NewConfig() *Config {
 		Cap:  viper.GetInt("source.cap"),
 		Grpc: grpc,
 	}
-
+	// name: 公司 9 楼小灵境
+	// devices:
+	//   cam:
+	// 	ip:
+	// 	- 192.168.103.51
+	// 	- 192.168.103.52
+	// 	- 192.168.103.53
+	// 	- 192.168.103.54
+	// 	- 192.168.103.55
+	// 	- 192.168.103.56
+	// 	- 192.168.103.57
+	// 	- 192.168.103.58
+	//   host:
+	// 	ip:
+	// 	- 192.168.103.61
+	// alert: https://open.feishu.cn/open-api
 	space := Space{
-		XDirection: viper.GetString("space.xDirection"),
-		YDirection: viper.GetString("space.yDirection"),
+		Name: viper.GetString("space.name"),
+		Devices: Devices{
+			Cam:  Cam{Ip: viper.GetStringSlice("space.devices.cam.ip")},
+			Host: Host{Ip: viper.GetStringSlice("space.devices.host.ip")},
+		},
+		AlertAddress: viper.GetString("space.alert"),
+		XDirection:   viper.GetString("space.xDirection"),
+		YDirection:   viper.GetString("space.yDirection"),
 	}
 
 	rules := Rules{}

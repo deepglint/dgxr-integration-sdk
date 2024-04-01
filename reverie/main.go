@@ -64,6 +64,7 @@ func main() {
 func (p *program) run() {
 	config.InitConfig("./config")
 	db.InitDB()
+	go global.Alert()
 	go global.CheckLicense()
 	go server.InitHttp()
 	global.XboxDevice = global.NewXboxPool(10)

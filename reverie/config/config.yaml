@@ -10,6 +10,22 @@ source:
     host: 0.0.0.0
     port: 50051
 space:
+  name: 公司 9 楼小灵境
+  devices:
+    cam:
+      ip:
+      - 192.168.103.51
+      - 192.168.103.52
+      - 192.168.103.53
+      - 192.168.103.54
+      - 192.168.103.55
+      - 192.168.103.56
+      - 192.168.103.57
+      - 192.168.103.58
+    host:
+      ip:
+      - 192.168.103.200
+  alert: https://open.feishu.cn/open-apis/bot/v2/hook/f6322c7f-ac5d-4565-80ec-18974c262ee4
   xDirection: right # left or right or up or down
   yDirection: up # left or right or up or down
 games:

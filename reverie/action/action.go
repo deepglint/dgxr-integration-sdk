@@ -277,10 +277,6 @@ func ModelToXbox(pos *source.Source, action int32) {
 					pos.FastRun = true
 				}
 				return
-				// default:
-				// 	pos.FastRun = false
-				// 	pos.Butterfly = false
-				// 	pos.FreeStyle = false
 			}
 			logrus.Infof("model action: %s", Action(action).String())
 			go pos.Xbox.SetXbox(v)
