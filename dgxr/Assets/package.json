@@ -1,0 +1,19 @@
+﻿{
+  "name": "com.deepglint.dgxr",
+  "displayName": "DG Integration",
+  "version": "0.1.0",
+  "unity": "2022.3",
+  "description": "Provides display and input support for Deppglint devices.",
+  "samples": [
+    {
+      "displayName": "Cave Prefabs",
+      "description": "预制件",
+      "path": "Runtime/Stardust"
+    },
+    {
+      "displayName": "Config",
+      "description": "配置文件",
+      "path": "Runtime/StreamingAssets"
+    }
+  ]
+}

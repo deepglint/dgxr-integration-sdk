@@ -1,0 +1,22 @@
+{
+  "log":{
+    "~level": "debug warn or error",
+    "level": "debug",
+    "singFileMaxSize": 100,
+    "saveDay": 30,
+    "savePath": "C:\\meta"
+  },
+  "space":{
+    "~Direction": "left or right or up or down",
+    "xDirection": "right" ,
+    "yDirection": "up"
+  },
+  "source":{
+    "maxCacheFrame": 20
+  },
+  "record":{
+    "cacheFrameSize": 60,
+    "saveDay": 2,
+    "savePath": "C:\\meta\\record"
+  }
+}
