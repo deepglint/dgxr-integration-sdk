@@ -154,6 +154,7 @@ namespace DGXR
                         Action = action, 
                         Joints = joints,
                     };
+                    Global.TriggerMetaPoseDataReceived(body);
                     data.Add(body);
                 }
             }
