@@ -56,8 +56,8 @@ namespace DGXR
             public struct SpaceInfo{
                 [JsonProperty("xDirection")]
                 public string XDirection { get; set; }
-                [JsonProperty("yDirection")]
-                public string YDirection{ get; set; }
+                [JsonProperty("zDirection")]
+                public string ZDirection{ get; set; }
                 
             }
         }

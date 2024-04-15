@@ -9,7 +9,7 @@
   "space":{
     "~Direction": "left or right or up or down",
     "xDirection": "right" ,
-    "yDirection": "up"
+    "zDirection": "up"
   },
   "source":{
     "maxCacheFrame": 20

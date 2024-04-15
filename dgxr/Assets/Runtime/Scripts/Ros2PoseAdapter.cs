@@ -92,12 +92,11 @@ namespace DGXR
     
     public class Ros2PoseAdapter
     {
-        readonly Source _source = Source.Instance;
         private readonly Record _record = new(Global.Config.Record.SavePath,Global.Config.Record.CacheFrameSize,"Ros2");
 
         public void DealMsg(std_msgs.msg.String msg)
         {
-            ThreadPool.QueueUserWorkItem(_record.SaveMsgData, msg.Data);
+            List<Source.SourceData> data = new List<Source.SourceData>();
             MetaPoseData info = JsonConvert.DeserializeObject<MetaPoseData>(msg.Data);
             if (info.Result!=null&&info.Result.TryGetValue("999001", out  Result result))
             {
@@ -106,6 +105,8 @@ namespace DGXR
                     Debug.LogError("991 result is null");
                     return;
                 }
+                ThreadPool.QueueUserWorkItem(_record.SaveMsgData, msg.Data);
+                
                 foreach (var val in result.ThreeDim)
                 {
                     var action = new Dictionary<Action.ActionType, float>();
@@ -114,70 +115,73 @@ namespace DGXR
                         foreach (var act in val.Value.RecActions)
                         {
                             action[(Action.ActionType)act.Action] = act.Confidence;
-                        } 
-                    }
-                    var joints = new Dictionary<JointType, JointData>();
-                    for (int i = 0; i < val.Value.Objs.Count; i++)
-                    {
-                        var pose = val.Value.Objs[i];
-                        if (Global.IsFilterZero && pose.value[0]==0 && pose.value[1] == 0 && pose.value[2] == 0)
-                        {
-                            var bodyData = _source.GetData();
-                            if (bodyData.TryGetValue(val.Key, out var bodyInfo)&& bodyInfo!=null)
-                            {
-                                var bodyDataSource = bodyInfo.GetLatest();
-                                if (bodyDataSource.Joints != null)
-                                {
-                                    joints[(JointType)i] = bodyDataSource.Joints[(JointType)i];
-                                    continue;
-                                }
-                            }
                         }
-
-                        var unifyCoordinate = UnifyCoordinate(Global.Config.Space.XDirection,Global.Config.Space.XDirection,pose.value);
-                        joints[(JointType)i] = new JointData(unifyCoordinate[0], unifyCoordinate[2], unifyCoordinate[1]);
                     }
-                    
-                    Source.BodyDataSource body = new Source.BodyDataSource{
+
+                    Source.JointData joints = new Source.JointData();
+                    if (val.Value.Objs.Count>=24)
+                    {
+                        joints = new Source.JointData
+                        {
+                             Nose = UnifyCoordinate(val.Value.Objs[0].value),
+                             LeftEye = UnifyCoordinate(val.Value.Objs[1].value),
+                             RightEye = UnifyCoordinate(val.Value.Objs[2].value),
+                             LeftEar = UnifyCoordinate(val.Value.Objs[3].value),
+                             RightEar = UnifyCoordinate(val.Value.Objs[4].value),
+                             LeftShoulder = UnifyCoordinate(val.Value.Objs[5].value),
+                             RightShoulder = UnifyCoordinate(val.Value.Objs[6].value),
+                             LeftElbow = UnifyCoordinate(val.Value.Objs[7].value),
+                             RightElbow = UnifyCoordinate(val.Value.Objs[8].value),
+                             LeftWrist = UnifyCoordinate(val.Value.Objs[9].value),
+                             RightWrist = UnifyCoordinate(val.Value.Objs[10].value),
+                             LeftHip = UnifyCoordinate(val.Value.Objs[11].value),
+                             RightHip = UnifyCoordinate(val.Value.Objs[12].value),
+                             LeftKnee = UnifyCoordinate(val.Value.Objs[13].value),
+                             RightKnee = UnifyCoordinate(val.Value.Objs[14].value),
+                             LeftAnkle = UnifyCoordinate(val.Value.Objs[15].value),
+                             RightAnkle = UnifyCoordinate(val.Value.Objs[16].value),
+                             LeftTiptoe = UnifyCoordinate(val.Value.Objs[17].value),
+                             RightTiptoe = UnifyCoordinate(val.Value.Objs[18].value),
+                             LeftHeel = UnifyCoordinate(val.Value.Objs[19].value),
+                             RightHeel = UnifyCoordinate(val.Value.Objs[20].value),
+                             HeadTop = UnifyCoordinate(val.Value.Objs[21].value),
+                             LeftHand = UnifyCoordinate(val.Value.Objs[22].value),
+                             RightHand = UnifyCoordinate(val.Value.Objs[23].value),
+                        };
+                    }
+                    var body = new Source.SourceData{
                         FrameId = info.FrameId,
                         Action = action, 
                         Joints = joints,
-                    }; 
-                    _source.SetData(val.Key,body);
-                }
-                // 遍历 bodyData 的 key 在当前帧存不存在，不存在直接删除
-                foreach (var data in _source.GetData())
-                {
-                    if (!result.ThreeDim.TryGetValue(data.Key, out ThreeDim dim))
-                    {
-                        _source.DelData(data.Key);
-                    }
+                    };
+                    data.Add(body);
                 }
             }
+            Source.Data = data;
         }
         
-        private double[] UnifyCoordinate(string xDirection, string yDirection, List<double> pose)
+        private Vector3 UnifyCoordinate(List<double> pose)
         {
-            switch (xDirection.ToLower(), yDirection.ToLower())
+            switch (Global.Config.Space.XDirection, Global.Config.Space.ZDirection)
             {
                 case ("left", "up"):
-                    return new [] { -pose[0], pose[1], pose[2] };
+                    return new Vector3((float)-pose[0],(float)pose[2], (float)pose[1] );
                 case ("left", "down"):
-                    return new [] { -pose[0], -pose[1], pose[2] };
+                    return new Vector3((float)-pose[0],(float)pose[2], (float)-pose[1]);
                 case ("right", "up"):
-                    return new [] { pose[0], pose[1], pose[2] };
+                    return new Vector3( (float)pose[0],(float)pose[2], (float)pose[1]);
                 case ("right", "down"):
-                    return new [] { pose[0], -pose[1], pose[2] };
+                    return new Vector3( (float)pose[0], (float)pose[2],(float)-pose[1]);
                 case ("up", "left"):
-                    return new [] { pose[1], -pose[0], pose[2] };
+                    return new Vector3((float)pose[1], (float)pose[2],(float)-pose[0]);
                 case ("up", "right"):
-                    return new [] { -pose[1], pose[0], pose[2] };
+                    return new Vector3((float)-pose[1], (float)pose[2],(float)pose[0]);
                 case ("down", "left"):
-                    return new [] { -pose[1], -pose[0], pose[2] };
+                    return new Vector3( (float)-pose[1], (float)pose[2],(float)-pose[0]);
                 case ("down", "right"):
-                    return new [] { pose[1], -pose[0], pose[2] };
+                    return new Vector3( (float)pose[1], (float)pose[2],(float)-pose[0]);
                 default:
-                    return new [] { pose[0], pose[1], pose[2] };
+                    return new Vector3( (float)pose[0], (float)pose[2],(float)pose[1]);
             }
         }
     }
