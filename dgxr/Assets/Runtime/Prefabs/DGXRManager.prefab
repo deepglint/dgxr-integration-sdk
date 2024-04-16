@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8513445635269850490}
-  - component: {fileID: 5928869015983597924}
   - component: {fileID: 8779029305557658310}
   m_Layer: 0
   m_Name: DGXRManager
@@ -33,18 +32,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5928869015983597924
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3368867184338225241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: feab04ad06492965492b3edc6423aa53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8779029305557658310
 MonoBehaviour:
   m_ObjectHideFlags: 0

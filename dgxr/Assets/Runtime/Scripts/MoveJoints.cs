@@ -1,12 +1,5 @@
-using System;
-using System.Collections;
 using UnityEngine;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Threading;
-using DGXR;
-using Stardust.log;
-
+using Unity.XR.DGXR;
 public class MoveJoints : MonoBehaviour
 {
     #region definition

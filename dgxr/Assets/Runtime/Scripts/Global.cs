@@ -1,8 +1,6 @@
-using ROS2;
-
-namespace DGXR
+namespace Unity.XR.DGXR
 {
-    public class Global
+    public static class Global
     {
         public static Config.ConfigData.ConfigInfo Config;
         public delegate void MetaPoseDataEventHandler(Source.SourceData data);
@@ -10,7 +8,7 @@ namespace DGXR
         public static  event MetaPoseDataEventHandler OnMetaPoseDataReceived;
         public static event MetaGearDataEventHandler OnMetaGearDataReceived; 
         public static string UniqueID;
-        public static string AppName; 
+        public static string AppName;
         public static bool IsFilterZero;
         
         public static void TriggerMetaPoseDataReceived(Source.SourceData data)

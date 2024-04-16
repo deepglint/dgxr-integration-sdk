@@ -1,9 +1,8 @@
 using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
-using Stardust.log;
 
-namespace DGXR
+namespace Unity.XR.DGXR
 {
     public class Config
     {

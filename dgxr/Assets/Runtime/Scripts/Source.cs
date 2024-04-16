@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DGXR
+namespace Unity.XR.DGXR
 {
     public static class Source
     {
@@ -15,6 +15,7 @@ namespace DGXR
         public struct SourceData
         {
             public string FrameId;
+            public string BodyId;
             public Dictionary<Action.ActionType, float> Action;
             public JointData Joints;
         }

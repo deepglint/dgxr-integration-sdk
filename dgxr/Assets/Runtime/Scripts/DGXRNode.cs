@@ -1,11 +1,11 @@
 using ROS2;
-using Stardust.log;
-namespace DGXR
+
+namespace Unity.XR.DGXR
 {
     public class DGXRNode
     {
         private ROS2Node _ros2Node;
-        public void InitNode(ROS2UnityComponent ros)
+        public void InitNode(ROS2UnityManager ros)
         {
             if (_ros2Node == null && ros.Ok())
             {
