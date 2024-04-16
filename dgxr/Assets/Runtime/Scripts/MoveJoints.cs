@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
 using UnityEngine;
-using System.Collections.Concurrent;
-using System.Threading;
-using DGXR;
-
+using Unity.XR.DGXR;
 public class MoveJoints : MonoBehaviour
 {
     #region definition
@@ -15,7 +10,6 @@ public class MoveJoints : MonoBehaviour
     private LineRenderer lineRenderer2;
     private LineRenderer lineRenderer3;
     private LineRenderer lineRenderer4;
-    private DGXR.Source _bodyManager;
     private int lineLength = 300;
 
     Transform Nose;
@@ -90,8 +84,6 @@ public class MoveJoints : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        _bodyManager = DGXR.Source.Instance;
-
         InitObject();
         lineRenderer1.positionCount = lineLength;
         lineRenderer2.positionCount = lineLength;
@@ -105,44 +97,44 @@ public class MoveJoints : MonoBehaviour
     }
 
     // Update is called once per frame
-
     void Update()
     {
         float step = speed * Time.deltaTime;
 
-        var body = Body(_bodyManager.GetData());
-        if (String.IsNullOrEmpty(body.FrameId) || body.FrameId=="")
+        if (Source.Data.Count==0)
         {
+            // GameLogger.LogRed("errr");
             return;
         }
-        Nose.transform.localPosition = new Vector3((float)body.Joints[JointType.Nose].X, (float)body.Joints[JointType.Nose].Z, (float)body.Joints[JointType.Nose].Y);
-        LeftEye.transform.localPosition = new Vector3((float)body.Joints[JointType.LeftEye].X, (float)body.Joints[JointType.LeftEye].Z, (float)body.Joints[JointType.LeftEye].Y);
-        RightEye.transform.localPosition = new Vector3((float)body.Joints[JointType.RightEye].X, (float)body.Joints[JointType.RightEye].Z, (float)body.Joints[JointType.RightEye].Y);
-        LeftEar.transform.localPosition = new Vector3((float)body.Joints[JointType.LeftEar].X, (float)body.Joints[JointType.LeftEar].Z, (float)body.Joints[JointType.LeftEar].Y);
-        RightEar.transform.localPosition = new Vector3((float)body.Joints[JointType.RightEar].X, (float)body.Joints[JointType.RightEar].Z, (float)body.Joints[JointType.RightEar].Y);
-        LeftShoulder.transform.localPosition = new Vector3((float)body.Joints[JointType.LeftShoulder].X, (float)body.Joints[JointType.LeftShoulder].Z, (float)body.Joints[JointType.LeftShoulder].Y);
-        RightShoulder.transform.localPosition = new Vector3((float)body.Joints[JointType.RightShoulder].X, (float)body.Joints[JointType.RightShoulder].Z, (float)body.Joints[JointType.RightShoulder].Y);
-        LeftElbow.transform.localPosition = new Vector3((float)body.Joints[JointType.LeftElbow].X, (float)body.Joints[JointType.LeftElbow].Z, (float)body.Joints[JointType.LeftElbow].Y);
-        RightElbow.transform.localPosition = new Vector3((float)body.Joints[JointType.RightElbow].X, (float)body.Joints[JointType.RightElbow].Z, (float)body.Joints[JointType.RightElbow].Y);
-        LeftWrist.transform.localPosition = new Vector3((float)body.Joints[JointType.LeftWrist].X, (float)body.Joints[JointType.LeftWrist].Z, (float)body.Joints[JointType.LeftWrist].Y);
-        RightWrist.transform.localPosition = new Vector3((float)body.Joints[JointType.RightWrist].X, (float)body.Joints[JointType.RightWrist].Z, (float)body.Joints[JointType.RightWrist].Y);
-        LeftHip.transform.localPosition = new Vector3((float)body.Joints[JointType.LeftHip].X, (float)body.Joints[JointType.LeftHip].Z, (float)body.Joints[JointType.LeftHip].Y);
-        RightHip.transform.localPosition = new Vector3((float)body.Joints[JointType.RightHip].X, (float)body.Joints[JointType.RightHip].Z, (float)body.Joints[JointType.RightHip].Y);
-        LeftKnee.transform.localPosition = new Vector3((float)body.Joints[JointType.LeftKnee].X, (float)body.Joints[JointType.LeftKnee].Z, (float)body.Joints[JointType.LeftKnee].Y);
-        RightKnee.transform.localPosition = new Vector3((float)body.Joints[JointType.RightKnee].X, (float)body.Joints[JointType.RightKnee].Z, (float)body.Joints[JointType.RightKnee].Y);
-        LeftAnkle.transform.localPosition = new Vector3((float)body.Joints[JointType.LeftAnkle].X, (float)body.Joints[JointType.LeftAnkle].Z, (float)body.Joints[JointType.LeftAnkle].Y);
-        RightAnkle.transform.localPosition = new Vector3((float)body.Joints[JointType.RightAnkle].X, (float)body.Joints[JointType.RightAnkle].Z, (float)body.Joints[JointType.RightAnkle].Y);
-        LeftTiptoe.transform.localPosition = new Vector3((float)body.Joints[JointType.LeftTiptoe].X, (float)body.Joints[JointType.LeftTiptoe].Z, (float)body.Joints[JointType.LeftTiptoe].Y);
-        RightTiptoe.transform.localPosition = new Vector3((float)body.Joints[JointType.RightTiptoe].X, (float)body.Joints[JointType.RightTiptoe].Z, (float)body.Joints[JointType.RightTiptoe].Y);
-        LeftHeel.transform.localPosition = new Vector3((float)body.Joints[JointType.LeftHeel].X, (float)body.Joints[JointType.LeftHeel].Z, (float)body.Joints[JointType.LeftHeel].Y);
-        RightHeel.transform.localPosition = new Vector3((float)body.Joints[JointType.RightHeel].X, (float)body.Joints[JointType.RightHeel].Z, (float)body.Joints[JointType.RightHeel].Y);
-        HeadTop.transform.localPosition = new Vector3((float)body.Joints[JointType.HeadTop].X, (float)body.Joints[JointType.HeadTop].Z, (float)body.Joints[JointType.HeadTop].Y);
-        LeftHand.transform.localPosition = new Vector3((float)body.Joints[JointType.LeftHand].X, (float)body.Joints[JointType.LeftHand].Z, (float)body.Joints[JointType.LeftHand].Y);
-        RightHand.transform.localPosition = new Vector3((float)body.Joints[JointType.RightHand].X, (float)body.Joints[JointType.RightHand].Z, (float)body.Joints[JointType.RightHand].Y);
 
-        Neck.transform.localPosition = new Vector3(((float)body.Joints[JointType.LeftShoulder].X+ (float)body.Joints[JointType.RightShoulder].X)/2,((float)body.Joints[JointType.LeftShoulder].Z + (float)body.Joints[JointType.RightShoulder].Z) / 2,((float)body.Joints[JointType.LeftShoulder].Y + (float)body.Joints[JointType.RightShoulder].Y) / 2);
-        Root.transform.localPosition = new Vector3(((float)body.Joints[JointType.LeftHip].X + (float)body.Joints[JointType.RightHip].X) / 2, ((float)body.Joints[JointType.LeftHip].Z + (float)body.Joints[JointType.RightHip].Z) / 2, ((float)body.Joints[JointType.LeftHip].Y + (float)body.Joints[JointType.RightHip].Y) / 2);
-
+        var body = Source.Data[0];
+        Nose.transform.localPosition = body.Joints.Nose;
+        LeftEye.transform.localPosition = body.Joints.LeftEye;
+        RightEye.transform.localPosition = body.Joints.RightEye;
+        LeftEar.transform.localPosition = body.Joints.LeftEar;
+        RightEar.transform.localPosition = body.Joints.RightEar;
+        LeftShoulder.transform.localPosition = body.Joints.LeftShoulder;
+        RightShoulder.transform.localPosition = body.Joints.RightShoulder;
+        LeftElbow.transform.localPosition = body.Joints.LeftElbow;
+        RightElbow.transform.localPosition = body.Joints.RightElbow;
+        LeftWrist.transform.localPosition = body.Joints.LeftWrist;
+        RightWrist.transform.localPosition = body.Joints.RightWrist;
+        LeftHip.transform.localPosition = body.Joints.LeftHip;
+        RightHip.transform.localPosition = body.Joints.RightHip;
+        LeftKnee.transform.localPosition = body.Joints.LeftKnee;
+        RightKnee.transform.localPosition = body.Joints.RightKnee;
+        LeftAnkle.transform.localPosition = body.Joints.LeftAnkle;
+        RightAnkle.transform.localPosition = body.Joints.RightAnkle;
+        LeftTiptoe.transform.localPosition = body.Joints.LeftTiptoe;
+        RightTiptoe.transform.localPosition = body.Joints.RightTiptoe;
+        LeftHeel.transform.localPosition = body.Joints.LeftHeel;
+        RightHeel.transform.localPosition = body.Joints.RightHeel;
+        HeadTop.transform.localPosition = body.Joints.HeadTop;
+        LeftHand.transform.localPosition = body.Joints.LeftHand;
+        RightHand.transform.localPosition = body.Joints.RightHand;
+        Neck.transform.localPosition = (body.Joints.LeftShoulder+body.Joints.RightShoulder)/2;
+        Root.transform.localPosition = (body.Joints.LeftHip + body.Joints.RightHip) / 2;
+        
         //it requires 4 lines to connect all the joints
         lineRenderer1.SetPosition(0, LeftEar.transform.localPosition);
         lineRenderer1.SetPosition(1, LeftEye.transform.localPosition);
@@ -181,16 +173,7 @@ public class MoveJoints : MonoBehaviour
         lineRenderer4.SetPosition(1, Nose.transform.localPosition);
         lineRenderer4.SetPosition(2, Neck.transform.localPosition);
         lineRenderer4.SetPosition(3, Root.transform.localPosition);
-
     }
-
-    private DGXR.Source.BodyDataSource Body( ConcurrentDictionary<string, DGXR.Source.BodyData> data)
-    {
-        foreach (var val in data)
-        {
-            return val.Value.GetLatest();
-        } 
-        return new Source.BodyDataSource() { };
-    }
+   
 }
 

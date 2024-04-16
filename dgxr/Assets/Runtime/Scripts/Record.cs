@@ -1,12 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Stardust.log;
-using UnityEngine;
-using UnityEngine.Playables;
 
-namespace DGXR
+namespace Unity.XR.DGXR
 {
     public class Record
     {

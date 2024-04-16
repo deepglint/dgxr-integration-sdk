@@ -1,8 +1,8 @@
-namespace DGXR
+namespace Unity.XR.DGXR
 {
     public class Action
     {
-        public enum ActionType : int
+        public enum ActionType
         {
             RightHandDrawCircle   = 1,     //左手画圈
             LeftHandDrawCircle    = 2 ,    //右手画圈

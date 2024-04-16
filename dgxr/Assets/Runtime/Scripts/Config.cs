@@ -1,9 +1,8 @@
 using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
-using Stardust.log;
 
-namespace DGXR
+namespace Unity.XR.DGXR
 {
     public class Config
     {
@@ -56,8 +55,8 @@ namespace DGXR
             public struct SpaceInfo{
                 [JsonProperty("xDirection")]
                 public string XDirection { get; set; }
-                [JsonProperty("yDirection")]
-                public string YDirection{ get; set; }
+                [JsonProperty("zDirection")]
+                public string ZDirection{ get; set; }
                 
             }
         }
