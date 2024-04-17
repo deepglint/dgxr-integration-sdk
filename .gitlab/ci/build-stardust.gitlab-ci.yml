@@ -89,7 +89,7 @@ get-activation-file:
       - $UNITY_ACTIVATION_FILE
     expire_in: 10 min # Expiring this as artifacts may contain sensitive data and should not be kept public
 
-build_package:
+build_engine:
   <<: *unity_defaults
   stage: build stardust
   script:
@@ -106,12 +106,12 @@ build_package:
   tags:
     - alpha
 
-build_package:
+build_dgxr:
   <<: *unity_defaults
   stage: build stardust
   script:
     - echo $CI_JOB_ID
-    - echo GE_ENGINE_ID=$CI_JOB_ID >> dgxr.env
+    - echo GE_DGXR_ID=$CI_JOB_ID >> dgxr.env
     - cd dgxr/ci
     - chmod +x ./build_package.sh && ./build_package.sh
   artifacts:
