@@ -4,8 +4,8 @@ set -e
 set -x
 echo "Building unitypackage file"
 echo $UNITY_DIR
-export BUILD_PATH=$UNITY_DIR/engine/Packages
-export PROJECT_PATH=$UNITY_DIR/engine
+export BUILD_PATH=$UNITY_DIR/dgxr/Packages
+export PROJECT_PATH=$UNITY_DIR/dgxr
 mkdir -p $BUILD_PATH
 
 ${UNITY_EXECUTABLE:-xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' unity-editor} \
@@ -13,7 +13,7 @@ ${UNITY_EXECUTABLE:-xvfb-run --auto-servernum --server-args='-screen 0 640x480x2
   -quit \
   -batchmode \
   -nographics \
-  -exportPackage 'Assets/Runtime' 'Assets/Stardust' 'Assets/StreamingAssets' $BUILD_PATH/stardust.unitypackage
+  -exportPackage 'Assets/Runtime' 'Assets/StreamingAssets' $BUILD_PATH/dgxr.unitypackage
  
 UNITY_EXIT_CODE=$?
 

@@ -124,3 +124,20 @@ build_package:
   tags:
     - alpha
 
+build_package:
+  <<: *unity_defaults
+  stage: build dgxr
+  script:
+    - echo $CI_JOB_ID
+    - echo GE_ENGINE_ID=$CI_JOB_ID >> dgxr.env
+    - cd dgxr/ci
+    - chmod +x ./build_package.sh && ./build_package.sh
+  artifacts:
+    paths:
+      - $UNITY_DIR/dgxr/Packages/
+    name: dgxr-$CI_COMMIT_TAG
+    reports:
+      dotenv: dgxr.env
+  tags:
+    - alpha
+
