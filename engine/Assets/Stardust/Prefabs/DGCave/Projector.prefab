@@ -106,17 +106,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a6da6bdc018b5a4e9dd9fc8b11ffc31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mat: {fileID: 2100000, guid: 30c58c76c0cb1ff458ad880cf0929e77, type: 2}
-  _matUI: {fileID: 2100000, guid: 792bfd641ebb04aadaa1a6e204f2b9e7, type: 2}
-  DisplayIndex: 0
-  _tex:
+  mat: {fileID: 2100000, guid: 30c58c76c0cb1ff458ad880cf0929e77, type: 2}
+  matUI: {fileID: 2100000, guid: 792bfd641ebb04aadaa1a6e204f2b9e7, type: 2}
+  displayIndex: 0
+  tex:
   - {fileID: 0}
-  _uvs:
+  uvs:
   - {x: 0, y: 0}
   - {x: 0, y: 1}
   - {x: 1, y: 1}
   - {x: 1, y: 0}
-  savePath: MultipleDisplays.png
 --- !u!114 &-5804163995608952470
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BodySource
+namespace Stardust.Scripts
 {
     public struct BodyDataSource
     {
@@ -31,14 +31,14 @@ namespace BodySource
 
         public float Distance(JointData target)
         {
-            Vector3 v3source = new Vector3(X, Y, Z);
-            Vector3 v3target = new Vector3(target.X, target.Y, target.Z);
-            return Vector3.Distance(v3source, v3target);
+            Vector3 v3Source = new Vector3(X, Y, Z);
+            Vector3 v3Target = new Vector3(target.X, target.Y, target.Z);
+            return Vector3.Distance(v3Source, v3Target);
         }
     }
 
 
-    public enum JointType : int
+    public enum JointType
     {
         Nose = 0,
         LeftEye = 1,

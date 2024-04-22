@@ -1,43 +1,44 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 
-internal class DrawImageBlitRendererFeature : ScriptableRendererFeature
+namespace Stardust.URP
 {
-    public Shader m_Shader;
-    public float m_Intensity;
-    public Texture Sprite;
-    Material m_Material;
-
-    DrawImageBlitPass m_RenderPass = null;
-
-    public override void AddRenderPasses(ScriptableRenderer renderer,
-        ref RenderingData renderingData)
+    internal class DrawImageBlitRendererFeature : ScriptableRendererFeature
     {
-        if (renderingData.cameraData.camera.tag == "Projector")
-            renderer.EnqueuePass(m_RenderPass);
-    }
+        [FormerlySerializedAs("m_Shader")] public Shader mShader;
+        public string cameraTag = "Projector";
+        Material _mMaterial;
 
-    public override void SetupRenderPasses(ScriptableRenderer renderer,
-        in RenderingData renderingData)
-    {
-        if (renderingData.cameraData.camera.tag == "Projector")
+        DrawImageBlitPass _mRenderPass;
+
+        public override void AddRenderPasses(ScriptableRenderer renderer,
+            ref RenderingData renderingData)
         {
-            // Calling ConfigureInput with the ScriptableRenderPassInput.Color argument
-            // ensures that the opaque texture is available to the Render Pass.
-            m_RenderPass.ConfigureInput(ScriptableRenderPassInput.Color);
-            m_RenderPass.SetTarget(renderer.cameraColorTargetHandle, Sprite);
+            if (renderingData.cameraData.camera.CompareTag(cameraTag))
+                renderer.EnqueuePass(_mRenderPass);
         }
-    }
 
-    public override void Create()
-    {
-        m_Material = CoreUtils.CreateEngineMaterial(m_Shader);
-        m_RenderPass = new DrawImageBlitPass(m_Material);
-    }
+        public override void SetupRenderPasses(ScriptableRenderer renderer,
+            in RenderingData renderingData)
+        {
+            if (renderingData.cameraData.camera.CompareTag(cameraTag))
+            {
+                _mRenderPass.ConfigureInput(ScriptableRenderPassInput.Color);
+                _mRenderPass.SetTarget(renderer.cameraColorTargetHandle, cameraTag);
+            }
+        }
 
-    protected override void Dispose(bool disposing)
-    {
-        CoreUtils.Destroy(m_Material);
+        public override void Create()
+        {
+            _mMaterial = CoreUtils.CreateEngineMaterial(mShader);
+            _mRenderPass = new DrawImageBlitPass(_mMaterial);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            CoreUtils.Destroy(_mMaterial);
+        }
     }
 }

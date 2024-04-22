@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
-using Moat;
 using UnityEngine;
 
-namespace DGXR
+namespace Stardust.Scripts
 {
     /// <summary>
     /// This class is responsible for loading the calibration settings from the xml
@@ -15,7 +14,7 @@ namespace DGXR
 
         public enum SensorType
         {
-            DG,
+            Dg,
             ArtTrack
         }
         public struct Sensor
@@ -140,7 +139,7 @@ namespace DGXR
                         switch (parameter.InnerText)
                         {
                             case "DG":
-                                sensor.Type = SensorType.DG;
+                                sensor.Type = SensorType.Dg;
                                 break;
                             case "ARTTrack":
                                 sensor.Type = SensorType.ArtTrack;

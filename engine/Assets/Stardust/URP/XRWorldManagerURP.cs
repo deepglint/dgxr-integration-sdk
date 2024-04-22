@@ -1,24 +1,33 @@
 ﻿using System;
-using Moat.Model;
+using Stardust.Model;
+using Stardust.Scripts;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 using Matrix4x4 = UnityEngine.Matrix4x4;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
-namespace DGXR
+namespace Stardust.URP
 {
-    public class XRWorldManagerURP : MonoBehaviour
+    public class XRWorldManagerUrp : MonoBehaviour
     {
-        public GameObject SensorPrefab;
-        public Camera ProjectorPrefab;
-        public GameObject SurfacePrefab;
-        public Camera UserViewCameraPrefab;
-        public GameObject ScreenPrefab;
-        
+        [FormerlySerializedAs("SensorPrefab")] public GameObject sensorPrefab;
+
+        [FormerlySerializedAs("ProjectorPrefab")]
+        public Camera projectorPrefab;
+
+        [FormerlySerializedAs("SurfacePrefab")]
+        public GameObject surfacePrefab;
+
+        [FormerlySerializedAs("UserViewCameraPrefab")]
+        public Camera userViewCameraPrefab;
+
+        [FormerlySerializedAs("ScreenPrefab")] public GameObject screenPrefab;
+
         public LayerMask cameraLayer;
         private int _caveLayer = 31;
-       
+
         private XRLoadCalibration _configuration = new XRLoadCalibration();
 
         private GameObject _sensor;
@@ -31,27 +40,34 @@ namespace DGXR
         private Camera[] _userScreenViewCameras;
         private RenderTexture[] _surfaceTextures;
 
-        public static XRWorldManagerURP instance;
+        public static XRWorldManagerUrp Instance;
 
-        [Header("视角跟随相关设置")]
-        public Boolean LockAll;
-        public Boolean LockXZ;
-        public Vector3 centerViewPoint;
-        // 受Lock影响的头的位置
-        public Vector3 headLockPosition;
-        public float SpaceScale = 1; //Scale of the real world KAVE units used in calibration relative to the Unity project units. Ex: A KAVE with 2 meter tall wall and a scale of 3 will have walls of 2*3 Unity units tall when instantiated.
+        [FormerlySerializedAs("LockAll")] [Header("视角跟随相关设置")]
+        public Boolean lockAll;
+
+        [FormerlySerializedAs("LockXZ")] public Boolean lockXZ;
+
+        // 当LockAll\LockXY被勾选时，相机位置根据_headLockPosition进行设置，而不是再走真实空间中人的头的位置
+        private Vector3 _headLockPosition;
+
+        // Kave标定空间的00点在地面上，当LockAll\LockXY被勾选时，根据此值去模拟真实的人站在空间中的眼高
+        private Vector3 _eyeHeight = new Vector3(0, 1.6f, 0);
+
+        // 真实世界单位与Unity单位的比例。
+        // 例如：一个2米高的墙，spaceScale设置为3，墙壁最终高度为2 * 3个Unity单位
+        [FormerlySerializedAs("SpaceScale")] public float spaceScale = 1;
 
         private GameObject _head;
         private int _numberScreens;
         private int _numberSurfaces;
-        
+
         private int _textureWidth = 2800;
         private int _textureHeight = 1050;
         public Camera[] stackCameras;
-        
+
         private void Awake()
         {
-            instance = this;
+            Instance = this;
         }
 
         void Start()
@@ -62,22 +78,13 @@ namespace DGXR
 
             _surfaceEdges = new GameObject[_numberSurfaces, 4];
             for (int surface = 0; surface < _numberSurfaces; surface++)
-                for (int corner = 0; corner < 4; corner++)
-                    _surfaceEdges[surface, corner] = _surfaces[surface].transform.GetChild(corner).gameObject;
+            for (int corner = 0; corner < 4; corner++)
+                _surfaceEdges[surface, corner] = _surfaces[surface].transform.GetChild(corner).gameObject;
 
             _screenEdges = new GameObject[_numberScreens, 4];
             for (int screen = 0; screen < _numberScreens; screen++)
-                for (int corner = 0; corner < 4; corner++)
-                    _screenEdges[screen, corner] = _screens[screen].transform.GetChild(corner).gameObject;
-
-            int numberOfDisplays = Display.displays.Length < _projectors.Length + _screens.Length ? Display.displays.Length : _projectors.Length + _screens.Length;
-            for (int i = 1; i < numberOfDisplays; i++)
-            {
-                Display display = Display.displays[i];
-                Screen.SetResolution(display.systemWidth - 1, display.systemHeight - 1, false);
-                display.Activate(display.systemWidth - 1, display.systemHeight - 1, 60);
-            }
-               
+            for (int corner = 0; corner < 4; corner++)
+                _screenEdges[screen, corner] = _screens[screen].transform.GetChild(corner).gameObject;
         }
 
         public Camera[] GetCameras()
@@ -93,14 +100,17 @@ namespace DGXR
             //Instatiate the Sensor:
             switch (_configuration.Sensors.Type)
             {
-                case XRLoadCalibration.SensorType.DG:
-                    _sensor = Instantiate(SensorPrefab, transform);
+                case XRLoadCalibration.SensorType.Dg:
+                    _sensor = Instantiate(sensorPrefab, transform);
                     break;
                 case XRLoadCalibration.SensorType.ArtTrack:
                     break;
             }
-            _sensor.transform.localPosition = new Vector3(_configuration.Sensors.Position.x, _configuration.Sensors.Position.y, _configuration.Sensors.Position.z);
-            _sensor.transform.localRotation = Quaternion.Euler(_configuration.Sensors.Rotation.x, _configuration.Sensors.Rotation.y, _configuration.Sensors.Rotation.z);
+
+            _sensor.transform.localPosition = new Vector3(_configuration.Sensors.Position.x,
+                _configuration.Sensors.Position.y, _configuration.Sensors.Position.z);
+            _sensor.transform.localRotation = Quaternion.Euler(_configuration.Sensors.Rotation.x,
+                _configuration.Sensors.Rotation.y, _configuration.Sensors.Rotation.z);
 
             _sensor.gameObject.layer = _caveLayer;
 
@@ -110,13 +120,17 @@ namespace DGXR
             _surfaceTextures = new RenderTexture[_configuration.Surfaces.Length];
             foreach (var surface in _configuration.Surfaces)
             {
-                _surfaces[index] = Instantiate(SurfacePrefab, transform);
-                _surfaces[index].transform.localPosition = new Vector3(surface.Position.x, surface.Position.y, surface.Position.z);
-                _surfaces[index].transform.localRotation = Quaternion.Euler(surface.Rotation.x, surface.Rotation.y, surface.Rotation.z);
+                _surfaces[index] = Instantiate(surfacePrefab, transform);
+                _surfaces[index].transform.localPosition =
+                    new Vector3(surface.Position.x, surface.Position.y, surface.Position.z);
+                _surfaces[index].transform.localRotation =
+                    Quaternion.Euler(surface.Rotation.x, surface.Rotation.y, surface.Rotation.z);
                 _surfaces[index].transform.Rotate(new Vector3(0, 180, 0));
-                _surfaces[index].transform.localScale = new Vector3(surface.Size.x / 10, surface.Size.y / 10, surface.Size.z / 10);
+                _surfaces[index].transform.localScale =
+                    new Vector3(surface.Size.x / 10, surface.Size.y / 10, surface.Size.z / 10);
                 _surfaces[index].layer = _caveLayer;
-                _surfaceTextures[index] = new RenderTexture(_textureWidth, _textureHeight, 24, RenderTextureFormat.ARGB32);
+                _surfaceTextures[index] =
+                    new RenderTexture(_textureWidth, _textureHeight, 24, RenderTextureFormat.ARGB32);
                 _surfaceTextures[index].antiAliasing = 2;
                 _surfaceTextures[index].Create();
                 index++;
@@ -127,44 +141,53 @@ namespace DGXR
             _projectors = new Camera[_configuration.Projectors.Length];
             foreach (var projector in _configuration.Projectors)
             {
-                ProjectorPrefab.tag = "Projector";
-                _projectors[index] = Instantiate(ProjectorPrefab, transform);
+                projectorPrefab.tag = "Projector";
+                _projectors[index] = Instantiate(projectorPrefab, transform);
                 _projectors[index].tag = "Projector";
-                _projectors[index].transform.localPosition = new Vector3(projector.Position.x, projector.Position.y, projector.Position.z);
-                _projectors[index].transform.localRotation = Quaternion.Euler(projector.Rotation.x, projector.Rotation.y, projector.Rotation.z);
+                _projectors[index].transform.localPosition =
+                    new Vector3(projector.Position.x, projector.Position.y, projector.Position.z);
+                _projectors[index].transform.localRotation = Quaternion.Euler(projector.Rotation.x,
+                    projector.Rotation.y, projector.Rotation.z);
 #if !UNITY_EDITOR
-                    _projectors[index].aspect = (float)Display.displays[projector.Display - 1].renderingWidth / Display.displays[projector.Display - 1].renderingHeight;
+                if (Display.displays.Length >= projector.Display)
+                    _projectors[index].aspect = (float)Display.displays[projector.Display - 1].renderingWidth /
+                                                Display.displays[projector.Display - 1].renderingHeight;
 #endif
                 _projectors[index].targetDisplay = projector.Display - 1;
-                _projectors[index].farClipPlane = (_projectors[index].transform.position - _surfaces[_projectors[index].targetDisplay].transform.position).magnitude * SpaceScale * 2;
+                _projectors[index].farClipPlane =
+                    (_projectors[index].transform.position -
+                     _surfaces[_projectors[index].targetDisplay].transform.position).magnitude * spaceScale * 2;
                 _projectors[index].fieldOfView = projector.FOV;
+                _projectors[index].name = "projector" + projector.Display;
                 SetObliqueness(0, projector.Fy, _projectors[index]);
                 _projectors[index].gameObject.layer = _caveLayer;
                 //_projectors[index].cullingMask = 1 << (_caveLayer - projector.Display);
                 //_projectors[index].cullingMask |= 1 << _caveLayer;
-                _projectors[index].gameObject.GetComponent<QuadWarp>()._tex.Clear();
+                _projectors[index].gameObject.GetComponent<QuadWarp>().tex.Clear();
                 var surfaceIndex = 0;
                 foreach (var surface in _configuration.Surfaces)
                 {
                     if (surface.Display == projector.Display)
                     {
-                        _projectors[index].gameObject.GetComponent<QuadWarp>()._tex.Add(_surfaceTextures[surfaceIndex]);
-                        _projectors[index].gameObject.GetComponent<QuadWarp>()._vertices.Add(surface.Vertices);
-                        _projectors[index].gameObject.GetComponent<QuadWarp>().DisplayIndex =
+                        _projectors[index].gameObject.GetComponent<QuadWarp>().tex.Add(_surfaceTextures[surfaceIndex]);
+                        _projectors[index].gameObject.GetComponent<QuadWarp>().Vertices.Add(surface.Vertices);
+                        _projectors[index].gameObject.GetComponent<QuadWarp>().displayIndex =
                             _projectors[index].targetDisplay;
                     }
+
                     surfaceIndex++;
                 }
-                
-                foreach (var camera in stackCameras)
+
+                foreach (var item in stackCameras)
                 {
-                    if (_projectors[index].targetDisplay == camera.targetDisplay)
+                    if (_projectors[index].targetDisplay == item.targetDisplay)
                     {
-                        camera.GetUniversalAdditionalCameraData ().renderType = CameraRenderType.Overlay;
-                        _projectors[index].GetUniversalAdditionalCameraData().cameraStack.Add(camera);
+                        item.GetUniversalAdditionalCameraData().renderType = CameraRenderType.Overlay;
+                        _projectors[index].GetUniversalAdditionalCameraData().cameraStack.Add(item);
                         break;
                     }
                 }
+
                 index++;
             }
 
@@ -173,9 +196,11 @@ namespace DGXR
             _screens = new GameObject[_configuration.Screens.Length];
             foreach (var screen in _configuration.Screens)
             {
-                _screens[index] = Instantiate(ScreenPrefab, transform);
-                _screens[index].transform.localPosition = new Vector3(screen.Position.x, screen.Position.y, screen.Position.z);
-                _screens[index].transform.localRotation = Quaternion.Euler(screen.Rotation.x, screen.Rotation.y, screen.Rotation.z);
+                _screens[index] = Instantiate(screenPrefab, transform);
+                _screens[index].transform.localPosition =
+                    new Vector3(screen.Position.x, screen.Position.y, screen.Position.z);
+                _screens[index].transform.localRotation =
+                    Quaternion.Euler(screen.Rotation.x, screen.Rotation.y, screen.Rotation.z);
                 _screens[index].transform.localScale = new Vector3(screen.Size.x, screen.Size.y, screen.Size.z);
                 index++;
             }
@@ -185,12 +210,15 @@ namespace DGXR
             for (int i = 0; i < _configuration.Surfaces.Length; i++)
             {
                 index = i;
-                _userProjectorViewCameras[index] = Instantiate(UserViewCameraPrefab, transform.position, _surfaces[index].transform.rotation * Quaternion.Euler(90, 180, 0), _surfaces[index].transform);
-                _userProjectorViewCameras[index].aspect = _surfaces[index].transform.localScale.x / _surfaces[index].transform.localScale.z;
+                _userProjectorViewCameras[index] = Instantiate(userViewCameraPrefab, transform.position,
+                    _surfaces[index].transform.rotation * Quaternion.Euler(90, 180, 0), _surfaces[index].transform);
+                _userProjectorViewCameras[index].aspect = _surfaces[index].transform.localScale.x /
+                                                          _surfaces[index].transform.localScale.z;
                 _userProjectorViewCameras[index].gameObject.layer = _caveLayer;
                 // _userProjectorViewCameras[index].clearFlags = CameraClearFlags.SolidColor;
                 _userProjectorViewCameras[index].targetTexture = _surfaceTextures[index];
-                _userProjectorViewCameras[index].cullingMask = -1;      //The user is set to only see the default layer. Change this culling mask if you want the camera to see different layers (like water).
+                _userProjectorViewCameras[index].cullingMask =
+                    -1; //The user is set to only see the default layer. Change this culling mask if you want the camera to see different layers (like water).
                 _userProjectorViewCameras[index].cullingMask = cameraLayer;
             }
 
@@ -199,59 +227,38 @@ namespace DGXR
             for (int i = 0; i < _configuration.Screens.Length; i++)
             {
                 index = i;
-                _userScreenViewCameras[index] = Instantiate(UserViewCameraPrefab, transform.position, _screens[index].transform.rotation, _screens[index].transform);
+                _userScreenViewCameras[index] = Instantiate(userViewCameraPrefab, transform.position,
+                    _screens[index].transform.rotation, _screens[index].transform);
                 _userScreenViewCameras[index].gameObject.layer = _caveLayer;
                 //_userScreenViewCameras[index].cullingMask = 1 << ();      //The user is set to only see the default layer. Change this culling mask if you want the camera to see different layers (like water).
                 _userScreenViewCameras[index].targetDisplay = _configuration.Screens[index].Display - 1;
             }
         }
-       
-        public void SetCameraPosition(Vector3 _cameraPos)
-        {
-            if (_cameraPos == Vector3.zero)
-            {
-                transform.localPosition = new Vector3(_cameraPos.x, DisplayData.HumanEye + DisplayData.spaceUpperOrLowerOffset, _cameraPos.z);
-                centerViewPoint = new Vector3(_cameraPos.x, DisplayData.HumanEye, _cameraPos.z);
-            }
-            else
-            {
-                transform.localPosition = new Vector3(transform.localPosition.x, DisplayData.HumanEye + DisplayData.spaceUpperOrLowerOffset, transform.localPosition.z);
-                centerViewPoint = new Vector3(centerViewPoint.x, DisplayData.HumanEye, centerViewPoint.z); 
-            }
-        }
 
-        public Vector3 GetHeadPosition()
+
+        private Vector3 GetHeadPosition()
         {
             if (_head == null) return Vector3.zero;
-            Vector3 scaleHead = _head.transform.localPosition * DisplayData.SpatialProportion;
-           
-            // 基于空间点的移动偏移
-            float y = DisplayData.HumanEye + (DisplayData.HumanEye - scaleHead.z) * DisplayData.SpaceFollowSpeed;
-            return new Vector3(_head.transform.localPosition.x * DisplayData.SpatialProportion, y, _head.transform.localPosition.y * -1 * DisplayData.SpaceFollowSpeed);
+            return _head.transform.localPosition * DisplayData.SpaceFollowSpeed;
         }
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Quit();
-            }
-
             SetScale();
             SetHead(GetHeadPosition());
         }
 
         private void SetScale()
         {
-            gameObject.transform.localScale = new Vector3(SpaceScale, SpaceScale, SpaceScale);
+            gameObject.transform.localScale = new Vector3(spaceScale, spaceScale, spaceScale);
         }
 
-        public void SetHead(Vector3 _headPos)
+        public void SetHead(Vector3 headPos)
         {
             // 处理坐标的比例关系
-            
+
             //Set the position
-            SetHeadPosition(_headPos);
+            SetHeadPosition(headPos);
 
             //Set the FOV & Orientation
             for (int cameraIndex = 0; cameraIndex < _numberSurfaces; cameraIndex++)
@@ -269,15 +276,15 @@ namespace DGXR
             //Set FOV
             cameras[index].ResetProjectionMatrix();
             cameras[index].fieldOfView = 2 * Mathf.Rad2Deg *
-                                                  Mathf.Atan(bottomToTop.magnitude / 2 /
-                                                             (cameras[index].transform.localPosition.y *
-                                                              cameras[index].transform.parent.lossyScale.y));
+                                         Mathf.Atan(bottomToTop.magnitude / 2 /
+                                                    (cameras[index].transform.localPosition.y *
+                                                     cameras[index].transform.parent.lossyScale.y));
 
             //Set the orientation
             float obV = cameras[index].transform.localPosition.z *
-                        cameras[index].transform.parent.lossyScale.z / (bottomToTop.magnitude / 2);
+                cameras[index].transform.parent.lossyScale.z / (bottomToTop.magnitude / 2);
             float obH = cameras[index].transform.localPosition.x *
-                        cameras[index].transform.parent.lossyScale.x / (leftToRight.magnitude / 2);
+                cameras[index].transform.parent.lossyScale.x / (leftToRight.magnitude / 2);
             SetObliqueness(obH, obV, cameras[index]);
         }
 
@@ -289,57 +296,46 @@ namespace DGXR
             //Set FOV
             cameras[index].ResetProjectionMatrix();
             cameras[index].fieldOfView = -2 * Mathf.Rad2Deg *
-                                                  Mathf.Atan(bottomToTop.magnitude / 2 /
-                                                             (cameras[index].transform.localPosition.z *
-                                                              cameras[index].transform.parent.lossyScale.z));
+                                         Mathf.Atan(bottomToTop.magnitude / 2 /
+                                                    (cameras[index].transform.localPosition.z *
+                                                     cameras[index].transform.parent.lossyScale.z));
 
             //Set the orientation
             float obV = cameras[index].transform.localPosition.y *
-                        cameras[index].transform.parent.lossyScale.y / (bottomToTop.magnitude / 2);
+                cameras[index].transform.parent.lossyScale.y / (bottomToTop.magnitude / 2);
             float obH = cameras[index].transform.localPosition.x *
-                        cameras[index].transform.parent.lossyScale.x / (leftToRight.magnitude / 2);
+                cameras[index].transform.parent.lossyScale.x / (leftToRight.magnitude / 2);
             SetObliqueness(-obH, -obV, cameras[index]);
         }
 
-        private void SetHeadPosition(Vector3 _headPos)
+        private void SetHeadPosition(Vector3 headPos)
         {
-            if (LockAll)
+            _headLockPosition = headPos;
+            if (lockAll)
             {
-                headLockPosition = centerViewPoint;
+                _headLockPosition = transform.position + _eyeHeight;
             }
-            else if (LockXZ)
+            else if (lockXZ)
             {
-                headLockPosition = new Vector3(transform.position.x, _headPos.y, transform.position.z);
+                var position = transform.position + _eyeHeight;
+                _headLockPosition = new Vector3(position.x, headPos.y, position.z);
             }
-            else
+
+            foreach (var userCamera in _userProjectorViewCameras)
             {
-                headLockPosition = _headPos;
-                if (headLockPosition == Vector3.zero)
-                {
-                    headLockPosition = centerViewPoint;
-                }
-                // SetCameraPosition(Vector3.zero);
+                userCamera.transform.position = _headLockPosition;
             }
-            
-            foreach (var userCamera in _userProjectorViewCameras) {
-                userCamera.transform.position = headLockPosition;
-            }
-            
+
             foreach (var userCamera in _userScreenViewCameras)
-                userCamera.transform.position = headLockPosition;
+                userCamera.transform.position = _headLockPosition;
         }
 
-        private bool Load()
+        private void Load()
         {
             var path = Application.streamingAssetsPath + "/stardust/calibration.xml";
             _configuration.LoadConfiguration(path);
-            return true;
         }
 
-        private void Quit()
-        {
-            Application.Quit();
-        }
 
         void SetObliqueness(float horizObl, float vertObl, Camera cam)
         {

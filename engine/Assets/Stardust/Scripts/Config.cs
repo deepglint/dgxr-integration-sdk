@@ -1,15 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Newtonsoft.Json;
-using Moat;
-using Moat.Model;
+using UnityEngine;
 
-namespace BodySource
+namespace Stardust.Scripts
 {
     public class Config : MonoBehaviour
     {
-        public enum ActionType : int
+        public enum ActionType
         {
             Default = 0, // 无动作
             RightHandDrawCircle = 1, // 左手画圈
@@ -66,7 +63,7 @@ namespace BodySource
             SmallSquat = 4001 // 跳一跳下蹲 
         }
 
-        public enum Key : int
+        public enum Key
         {
             DPadUp = 0,
             DPadDown = 1,
@@ -98,7 +95,7 @@ namespace BodySource
             RightStickZero = 27,
         }
 
-        public enum keyType : int
+        public enum KeyType
         {
             Button = 0,
             Stick = 1,
@@ -109,13 +106,13 @@ namespace BodySource
         {
             public ActionType action;
             public Key key;
-            public keyType type;
+            public KeyType type;
         }
 
         public List<Action> actions;
 
-        [HideInInspector] public bool isSent = false;
-        private bool isEnterApp = false;
+        [HideInInspector] public bool isSent;
+        private bool _isEnterApp;
 
         // Update is called once per frame
         void Update()
@@ -125,14 +122,14 @@ namespace BodySource
                 isSent = SentConfig(actions);
             }
 
-            if (Application.isFocused && !isEnterApp && isSent)
+            if (Application.isFocused && !_isEnterApp && isSent)
             {
-                isEnterApp = true;
+                _isEnterApp = true;
                 isSent = false;
             }
-            else if (!Application.isFocused && isEnterApp)
+            else if (!Application.isFocused && _isEnterApp)
             {
-                isEnterApp = false;
+                _isEnterApp = false;
             }
         }
 
@@ -140,16 +137,16 @@ namespace BodySource
         {
             GameObject source = GameObject.Find("Source");
             Source sourceConnect = source.GetComponent<Source>();
-            MDebug.LogFlow("2. 动作配置 - 2.0 权限 " + sourceConnect.HasConnectSuccess);
-            if (!sourceConnect.HasConnectSuccess)
+            MDebug.LogFlow("2. 动作配置 - 2.0 权限 " + sourceConnect.hasConnectSuccess);
+            if (!sourceConnect.hasConnectSuccess)
             {
                 return false;
             }
 
-            if (sourceConnect != null && sourceConnect.webSocket != null)
+            if (sourceConnect != null && sourceConnect.WebSocket != null)
             {
                 string jsonString = JsonConvert.SerializeObject(conf);
-                sourceConnect.webSocket.Send(jsonString);
+                sourceConnect.WebSocket.Send(jsonString);
                 MDebug.LogFlow("2. 动作配置 - 2.1 发送成功");
                 MDebug.LogFlow("2. 动作配置 - 2.2 动作数量：" + conf.Count);
                 return true;
