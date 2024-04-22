@@ -1,62 +1,66 @@
-using System.Collections.Generic;
-using UnityEngine;
-using BestHTTP.WebSocket;
 using System;
+using System.Collections.Generic;
 using System.Threading;
+using BestHTTP.WebSocket;
 using Newtonsoft.Json;
-using Moat;
-using Moat.Model;
+using Stardust.Model;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 // yq: ws://192.168.12.1:8000/ws
 // sl: ws://192.168.8.7:8000/ws
 // local: ws://127.0.0.1:8000/ws
 
-namespace BodySource
+namespace Stardust.Scripts
 {
+    [Serializable]
+    public struct SourceData
+    {
+        public long Ts { get; set; }
+        public Dictionary<string, float[,]> Pose { get; set; }
+    }
+
     public class Options
     {
-        [System.Serializable]
-        public struct SourceData
-        {
-            public long ts { get; set; }
-            public Dictionary<string, float[,]> pose { get; set; }
-        }
-
-        public Timer activeTimer = null;
+        public Timer ActiveTimer;
 
         public class TimerObject
         {
             public int Counter;
         }
 
-        public long getNowTime()
+        public long GetNowTime()
         {
             TimeSpan mTimeSpan = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0);
             long time = (long)mTimeSpan.TotalMilliseconds;
             return time;
         }
 
-        public void onMessage(string res)
+        public void OnMessage(string res)
         {
             MDebug.LogTest("返回的message " + res);
             if (res != null)
             {
                 SourceData info = JsonConvert.DeserializeObject<SourceData>(res);
-                MDebug.LogFlow("1. WS 连接 - 1.3 骨骼人数：" + info.pose.Count);
-                foreach (var person in XRDGBodySource.Instance.Data)
+                if (info.Pose.Count != XrdgBodySource.Instance.Data.Count)
                 {
-                    if (!info.pose.ContainsKey(person.Key))
+                    MDebug.LogFlow("1. WS 连接 - 1.3 骨骼人数：" + info.Pose.Count);
+                }
+
+                foreach (var person in XrdgBodySource.Instance.Data)
+                {
+                    if (!info.Pose.ContainsKey(person.Key))
                     {
-                        bool removed = XRDGBodySource.Instance.Data.TryRemove(person.Key, out BodyDataSource removedValue);
+                        XrdgBodySource.Instance.Data.TryRemove(person.Key, out _);
                     }
                 }
 
-                foreach (var person in info.pose)
+                foreach (var person in info.Pose)
                 {
-                    if (XRDGBodySource.Instance.Data.ContainsKey(person.Key))
+                    if (XrdgBodySource.Instance.Data.ContainsKey(person.Key))
                     {
                         //存在则更新
-                        BodyDataSource body = XRDGBodySource.Instance.Data[person.Key];
+                        BodyDataSource body = XrdgBodySource.Instance.Data[person.Key];
                         int rows = person.Value.GetLength(0); // 获取行数
                         for (int i = 0; i < rows; i++)
                         {
@@ -64,15 +68,15 @@ namespace BodySource
                             JointType jointType = (JointType)i;
                             body.Joints[jointType] = joint; 
                         }
-                        XRDGBodySource.Instance.Data[person.Key] = body;
+                        XrdgBodySource.Instance.Data[person.Key] = body;
                     }
                     else
                     {
                         //新增
-                        BodyDataSource body = new BodyDataSource { };
+                        BodyDataSource body = new BodyDataSource();
                         body.IsTracked = true;
                         body.BodyID = person.Key;
-                        body.Joints = new Dictionary<JointType, JointData> { };
+                        body.Joints = new Dictionary<JointType, JointData>();
                         body.LeftRay = new Ray();
                         body.RightRay = new Ray();
                         body.LeftHit = new RaycastHit();
@@ -84,19 +88,19 @@ namespace BodySource
                             JointType jointType = (JointType)i;
                             body.Joints.Add(jointType, joint);
                         }
-                        XRDGBodySource.Instance.Data[person.Key] = body;
+                        XrdgBodySource.Instance.Data[person.Key] = body;
                     }
                 }
                 XREventListener.Instance.OnFrame();
                 // 20s活体检测
-                if (activeTimer != null)
+                if (ActiveTimer != null)
                 {
-                    activeTimer.Dispose();
-                    activeTimer = null;
+                    ActiveTimer.Dispose();
+                    ActiveTimer = null;
                 }
 
-                activeTimer = new Timer(
-                    callback: new TimerCallback(countDown),
+                ActiveTimer = new Timer(
+                    callback: CountDown,
                     state: new TimerObject { Counter = 0 },
                     dueTime: 0,
                     period: 1000
@@ -104,24 +108,27 @@ namespace BodySource
             }
         }
 
-        public void countDown(object timerState)
+        public void CountDown(object timerState)
         {
             var state = timerState as TimerObject;
-            Interlocked.Increment(ref state.Counter);
-            // MDebug.LogTest("倒计时" + state.Counter);
-            if (state.Counter == 20)
+            if (state != null)
             {
-                activeTimer.Dispose();
-                activeTimer = null;
+                Interlocked.Increment(ref state.Counter);
+                // MDebug.LogTest("倒计时" + state.Counter);
+                if (state.Counter == 20)
+                {
+                    ActiveTimer.Dispose();
+                    ActiveTimer = null;
+                }
             }
         }
 
-        public void onOpened()
+        public void OnOpened()
         {
             MDebug.Log("数据源接入～～～");
         }
 
-        public void onError()
+        public void OnError()
         {
             MDebug.Log("数据源接入失败～～～");
         }
@@ -129,17 +136,18 @@ namespace BodySource
 
     public class Source : MonoBehaviour
     {
-        public string WsUri = "";
+        [FormerlySerializedAs("WsUri")] public string wsUri = "";
         
-        private bool AutoReconnect = true;
-        public bool HasConnectSuccess;
-        [HideInInspector] public WebSocket webSocket;
-        private int ReconnectCount;
-        private int ReconnectMaxCount = -1;
-        private long LastConnect;
-        private Options options;
-        private Type OptionType;
-        private Timer timer;
+        private bool _autoReconnect = true;
+        [FormerlySerializedAs("HasConnectSuccess")] public bool hasConnectSuccess;
+        [HideInInspector] public WebSocket WebSocket;
+        private int _reconnectCount;
+        private int _reconnectMaxCount = -1;
+        private long _lastConnect;
+        private Options _options;
+        private Type _optionType;
+        private Timer _timer;
+        public string optionMessage;
 
         class TimerState
         {
@@ -148,117 +156,101 @@ namespace BodySource
 
         void Start()
         {
-            if (WsUri == "")
+            if (wsUri == "")
             {
-                WsUri = "ws://127.0.0.1:8000/ws";
+                wsUri = "ws://127.0.0.1:8000/ws";
             }
 
-            HasConnectSuccess = false;
-            AutoReconnect = true;
-            ReconnectCount = 0;
+            hasConnectSuccess = false;
+            _autoReconnect = true;
+            _reconnectCount = 0;
             
             DisplayData.ReadConfig();
-            MDebug.LogFlow("1. WS 连接 - 1.0 连接权限" + DisplayData.wsConnect + " " + DisplayData.configDisplay.wsConnect);
-            if (DisplayData.wsConnect)
+            MDebug.LogFlow("1. WS 连接 - 1.0 连接权限" + DisplayData.WsConnect + " " + DisplayData.ConfigDisplay.WsConnect);
+            if (DisplayData.WsConnect)
             {
-                init(new Options());
+                Init(new Options());
             }
         }
 
-        public void init(Options arg)
+        public void Init(Options arg)
         {
-            options = arg;
-            OptionType = options.GetType();
-            MDebug.LogFlow("1. WS 连接 - 1.1 地址：: " + WsUri);
-            Connect(WsUri);
+            _options = arg;
+            _optionType = _options.GetType();
+            MDebug.LogFlow("1. WS 连接 - 1.1 地址：: " + wsUri);
+            Connect(wsUri);
             // keep alive heartbeat
             var timerState = new TimerState { Counter = 0 };
-            timer = new Timer(
-                callback: new TimerCallback(smartReconnect),
+            _timer = new Timer(
+                callback: SmartReconnect,
                 state: timerState,
                 dueTime: 1000,
                 period: 1000
             );
         }
 
-        public long getNowTime()
+        public long GetNowTime()
         {
             TimeSpan mTimeSpan = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0);
             long time = (long)mTimeSpan.TotalSeconds;
             return time;
         }
 
-        private bool UrlExistsUsingSockets(string url)
-        {
-            if (url.StartsWith("https://")) url = url.Remove(0, "https://".Length);
-            try
-            {
-                System.Net.IPHostEntry ipHost = System.Net.Dns.GetHostEntry(url); // System.Net.Dns.Resolve(url);
-                return true;
-            }
-            catch (System.Net.Sockets.SocketException se)
-            {
-                MDebug.LogError("未联网error" + se.Message);
-                System.Diagnostics.Trace.Write(se.Message);
-                return false;
-            }
-        }
-
 
         public void Connect(string url)
         {
-            LastConnect = getNowTime();
+            _lastConnect = GetNowTime();
 
-            webSocket = new WebSocket(new Uri(url));
-            webSocket.OnOpen += OnWebSocketOpen;
-            webSocket.OnMessage += OnMessageReceived;
-            webSocket.OnClosed += OnWebSocketClosed;
-            webSocket.OnError += OnError;
-            webSocket.Open();
+            WebSocket = new WebSocket(new Uri(url));
+            WebSocket.OnOpen += OnWebSocketOpen;
+            WebSocket.OnMessage += OnMessageReceived;
+            WebSocket.OnClosed += OnWebSocketClosed;
+            WebSocket.OnError += OnError;
+            WebSocket.Open();
         }
 
-        private void smartReconnect(object timerState)
+        private void SmartReconnect(object timerState)
         {
-            if (!DisplayData.wsConnect)
+            if (!DisplayData.WsConnect)
             {
-                timer.Dispose();
+                _timer.Dispose();
                 return;
             }
 
             var state = timerState as TimerState;
-            Interlocked.Increment(ref state.Counter);
+            if (state != null) Interlocked.Increment(ref state.Counter);
 
             int maxWait = 15000;
             // MDebug.LogTest("当前状态:"+ webSocket.State);
 
 
-            if (AutoReconnect && !this.HasConnectSuccess)
+            if (_autoReconnect && !this.hasConnectSuccess)
             {
-                if (webSocket.State.ToString() != "Connecting")
+                if (WebSocket.State.ToString() != "Connecting")
                 {
                     maxWait = 3000;
                 }
 
                 // MDebug.LogTest("重连等待时间:" + (getNowTime() - LastConnect) * 1000);
-                if ((getNowTime() - LastConnect) * 1000 > maxWait)
+                if ((GetNowTime() - _lastConnect) * 1000 > maxWait)
                 {
-                    if (ReconnectCount < ReconnectMaxCount || ReconnectMaxCount == -1)
+                    if (_reconnectCount < _reconnectMaxCount || _reconnectMaxCount == -1)
                     {
-                        ReconnectCount += 1;
-                        if (webSocket.State.ToString() == "Open" || webSocket.State.ToString() == "Connecting")
+                        _reconnectCount += 1;
+                        if (WebSocket.State.ToString() == "Open" || WebSocket.State.ToString() == "Connecting")
                         {
                             // AutoReconnect = false;
-                            webSocket.Close();
+                            WebSocket.Close();
                         }
 
-                        MDebug.LogTest("重连次数:" + ReconnectCount);
-                        Connect(WsUri);
+                        MDebug.LogTest("重连次数:" + _reconnectCount);
+                        Connect(wsUri);
                     }
                     else
                     {
-                        timer.Dispose();
-                        AutoReconnect = false;
-                        MDebug.LogWarning("re-reconnect: " + ReconnectCount + "次，重连次数过多，不再继续重连，请联系后端服务人员处理");
+                        _timer.Dispose();
+                        _autoReconnect = false;
+                        MDebug.LogWarning("re-reconnect: " + _reconnectCount + "次，重连次数过多，不再继续重连，请联系后端服务人员处理");
                     }
                 }
             }
@@ -267,36 +259,49 @@ namespace BodySource
         private void OnWebSocketOpen(WebSocket webSocket)
         {
             MDebug.LogFlow("1. WS 连接 - 1.2.1 连接成功 server：web socket open!");
-            LastConnect = getNowTime();
-            if (!HasConnectSuccess)
+            _lastConnect = GetNowTime();
+            if (!hasConnectSuccess)
             {
-                HasConnectSuccess = true;
+                hasConnectSuccess = true;
                 EventManager.Send(MoatGameEvent.WsConnectSuccess);
-                if (OptionType.GetMethod("onOpened") != null)
+                if (_optionType.GetMethod("OnOpened") != null)
                 {
-                    options.onOpened();
+                    _options.OnOpened();
                 }
 
-                ReconnectCount = 0;
+                _reconnectCount = 0;
             }
         }
 
         private void OnMessageReceived(WebSocket webSocket, string message)
         {
-            if (OptionType.GetMethod("onMessage") != null)
+            if (_optionType.GetMethod("OnMessage") != null)
             {
-                options.onMessage(message);
+                if (message != null)
+                {
+                    SourceData info = JsonConvert.DeserializeObject<SourceData>(message);
+                    if (info.Pose.Count > 0)
+                    {
+                        optionMessage = message;
+                    }
+                    else
+                    {
+                        optionMessage = null;
+                    }
+                }
+
+                _options.OnMessage(message);
             }
         }
 
         private void OnError(WebSocket ws, string error)
         {
             MDebug.LogError("1. WS 连接 - 1.2.2 连接失败 " + error);
-            HasConnectSuccess = false;
+            hasConnectSuccess = false;
             EventManager.Send(MoatGameEvent.WsConnectError);
-            if (OptionType.GetMethod("onError") != null)
+            if (_optionType.GetMethod("OnError") != null)
             {
-                options.onError();
+                _options.OnError();
             }
         }
 
@@ -307,10 +312,10 @@ namespace BodySource
 
         void OnDestroy()
         {
-            if (webSocket == null) return;
-            webSocket.Close();
-            timer.Dispose();
-            AutoReconnect = false;
+            if (WebSocket == null) return;
+            WebSocket.Close();
+            _timer.Dispose();
+            _autoReconnect = false;
             // options.activeTimer.Dispose();        
         }
 

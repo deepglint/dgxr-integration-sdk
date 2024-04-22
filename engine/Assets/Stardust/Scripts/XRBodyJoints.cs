@@ -1,19 +1,19 @@
 ﻿using System;
 using UnityEngine;
-using BodySource;
+using UnityEngine.Serialization;
 
-namespace Assets.XR.Scripts
+namespace Stardust.Scripts
 {
     public class VRBodyJoints : MonoBehaviour
     {
 
-        public GameObject[] Joint = new GameObject[1];
-        public GameObject BodySourceManager;
-        private XRDGBodySource _bodyManager;
+        [FormerlySerializedAs("Joint")] public GameObject[] joint = new GameObject[1];
+        [FormerlySerializedAs("BodySourceManager")] public GameObject bodySourceManager;
+        private XrdgBodySource _bodyManager;
         void Start()
         {
             String[] arguments = Environment.GetCommandLineArgs();
-            _bodyManager = XRDGBodySource.Instance;
+            _bodyManager = XrdgBodySource.Instance;
             for (int n = 1; n < arguments.Length; n++)
             {
                 switch (arguments[n])
@@ -27,7 +27,7 @@ namespace Assets.XR.Scripts
 
         void Update()
         {
-            if (BodySourceManager == null)
+            if (bodySourceManager == null)
             {
                 return;
             }
@@ -36,7 +36,7 @@ namespace Assets.XR.Scripts
                 var body = Body(_bodyManager.Data);
                 if (body.BodyID == null || body.BodyID == "")
                     return;
-                Joint[0].transform.localPosition = GetVector3FromJoint(body.Joints[BodySource.JointType.HeadTop]);
+                joint[0].transform.localPosition = GetVector3FromJoint(body.Joints[JointType.HeadTop]);
             }
 
 
@@ -44,17 +44,17 @@ namespace Assets.XR.Scripts
 
         private static Vector3 GetVector3FromJoint(JointData joint)
         {
-            return new Vector3(-joint.X, joint.Y, joint.Z);
+            return new Vector3(joint.X, joint.Z, joint.Y);
         }
 
         private BodyDataSource Body(System.Collections.Concurrent.ConcurrentDictionary<string, BodyDataSource> data)
         {
            
-            if (_bodyManager.cavePersonId != "" && data.ContainsKey(_bodyManager.cavePersonId))
+            if (_bodyManager.CavePersonId != "" && data.ContainsKey(_bodyManager.CavePersonId))
             {
-                return data[_bodyManager.cavePersonId];
+                return data[_bodyManager.CavePersonId];
             }
-            else if (_bodyManager.cavePersonId == "" || !data.ContainsKey(_bodyManager.cavePersonId))
+            else if (_bodyManager.CavePersonId == "" || !data.ContainsKey(_bodyManager.CavePersonId))
             {
                 foreach (var person in _bodyManager.Data)
                 {
@@ -62,7 +62,7 @@ namespace Assets.XR.Scripts
                 }
             }
 
-            return new BodyDataSource { };
+            return new BodyDataSource();
         }
     }
 }

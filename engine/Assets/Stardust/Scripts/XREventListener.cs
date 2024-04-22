@@ -1,32 +1,31 @@
-using System.Collections.Generic;
-using System.Collections.Concurrent;
-using Moat;
-using Moat.Model;
 using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using Stardust.Model;
 
-namespace BodySource
+namespace Stardust.Scripts
 {
     public class XREventListener
     {
-        private static XREventListener instance;
+        private static XREventListener _instance;
 
-        private bool Single = false;
-        private float HighFiveHandDistanceOnThreshold = 0.07f;
-        private float HighFiveHandDistanceOffThreshold = 0.099f;
-        private int HighFiveHandThreshold = 3;
-        private float logThreshold = 0.2f;
+        private bool _single;
+        private float _highFiveHandDistanceOnThreshold;
+        private float _highFiveHandDistanceOffThreshold;
+        private int _highFiveHandThreshold = 3;
+        private float _logThreshold = 0.2f;
 
-        private ConcurrentDictionary<string, int> HighFiveOnQueue = new ConcurrentDictionary<string, int> { };
-        private ConcurrentDictionary<string, int> HighFiveOffQueue = new ConcurrentDictionary<string, int> { };
-        private HashSet<string> HighFiveResult = new HashSet<string> { };
+        private ConcurrentDictionary<string, int> _highFiveOnQueue = new ConcurrentDictionary<string, int>();
+        private ConcurrentDictionary<string, int> _highFiveOffQueue = new ConcurrentDictionary<string, int>();
+        private HashSet<string> _highFiveResult = new HashSet<string>();
 
         // 私有构造函数，防止外部直接实例化
         private XREventListener()
         {
-            HighFiveHandDistanceOnThreshold = DisplayData.configDisplay.eventListenerConfig.highFiveOnThreshold;
-            HighFiveHandDistanceOffThreshold = DisplayData.configDisplay.eventListenerConfig.highFiveOffThreshold;
-            Single = DisplayData.configDisplay.eventListenerConfig.single;
-            MDebug.Log("XR event config high-five on: " + HighFiveHandDistanceOnThreshold + " off " + HighFiveHandDistanceOffThreshold);
+            _highFiveHandDistanceOnThreshold = DisplayData.ConfigDisplay.EventListenerConfig.HighFiveOnThreshold;
+            _highFiveHandDistanceOffThreshold = DisplayData.ConfigDisplay.EventListenerConfig.HighFiveOffThreshold;
+            _single = DisplayData.ConfigDisplay.EventListenerConfig.Single;
+            MDebug.Log("XR event config high-five on: " + _highFiveHandDistanceOnThreshold + " off " + _highFiveHandDistanceOffThreshold);
         }
 
         // 获取GameManager的实例
@@ -34,11 +33,11 @@ namespace BodySource
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = new XREventListener();
+                    _instance = new XREventListener();
                 }
-                return instance;
+                return _instance;
             }
         }
 
@@ -61,10 +60,10 @@ namespace BodySource
 
         public void OnFrame()
         {
-            foreach (var p1 in XRDGBodySource.Instance.Data)
+            foreach (var p1 in XrdgBodySource.Instance.Data)
             {
                 int personId1 = int.Parse(p1.Key);
-                foreach (var p2 in XRDGBodySource.Instance.Data)
+                foreach (var p2 in XrdgBodySource.Instance.Data)
                 {
                     int personId2 = int.Parse(p2.Key);
                     if (personId2 <= personId1)
@@ -78,50 +77,49 @@ namespace BodySource
                     }
                     if (IsHighFiveOnHappened(p1.Value, p2.Value))
                     {
-                        if (HighFiveOnQueue.ContainsKey(key))
+                        if (_highFiveOnQueue.ContainsKey(key))
                         {
-                            HighFiveOnQueue[key] += 1;
+                            _highFiveOnQueue[key] += 1;
                         } else
                         {
-                            HighFiveOnQueue[key] = 1;
+                            _highFiveOnQueue[key] = 1;
                         }
-                        HighFiveOffQueue[key] = 0;
+                        _highFiveOffQueue[key] = 0;
                     } else
                     {
-                        if (HighFiveResult.Contains(key))
+                        if (_highFiveResult.Contains(key))
                         {
                             if(IsHighFiveOffHappened(p1.Value, p2.Value))
                             {
-                                if (HighFiveOffQueue.ContainsKey(key))
+                                if (_highFiveOffQueue.ContainsKey(key))
                                 {
-                                    HighFiveOffQueue[key] += 1;
+                                    _highFiveOffQueue[key] += 1;
                                 } else
                                 {
-                                    HighFiveOffQueue[key] = 1;
+                                    _highFiveOffQueue[key] = 1;
                                 }
-                                if (HighFiveOffQueue[key] >= HighFiveHandThreshold)
+                                if (_highFiveOffQueue[key] >= _highFiveHandThreshold)
                                 {
-                                    HighFiveResult.Remove(key);
+                                    _highFiveResult.Remove(key);
                                 }
                             }
                         }
-                        HighFiveOnQueue[key] = 0;
+                        _highFiveOnQueue[key] = 0;
                     }
                 }
             }
-            foreach (KeyValuePair<string, int> item in HighFiveOnQueue)
+            foreach (KeyValuePair<string, int> item in _highFiveOnQueue)
             {
-                if (item.Value >= HighFiveHandThreshold)
+                if (item.Value >= _highFiveHandThreshold)
                 {
-                    if (HighFiveResult.Contains(item.Key))
+                    if (_highFiveResult.Contains(item.Key))
                     {
-                        continue;
                     } else
                     {
                         // callback;
                         string[] persons = item.Key.Split("_");
                         RaiseHighFiveEvent(persons[0], persons[1]);
-                        HighFiveResult.Add(item.Key);
+                        _highFiveResult.Add(item.Key);
                     }
                 }
             }
@@ -134,7 +132,7 @@ namespace BodySource
 
         private bool IsHighFiveOnHappened(BodyDataSource p1, BodyDataSource p2)
         {
-            if (Single)
+            if (_single)
             {
                 return IsSingleHighFiveOnHappened(p1, p2);
             } else 
@@ -151,13 +149,13 @@ namespace BodySource
             {
                 float leftDistance = p1.Joints[JointType.LeftHand].Distance(p2.Joints[JointType.RightHand]);
                 float rightDistance = p1.Joints[JointType.RightHand].Distance(p2.Joints[JointType.LeftHand]);
-                if (leftDistance < logThreshold && rightDistance < logThreshold) 
+                if (leftDistance < _logThreshold && rightDistance < _logThreshold) 
                 {
                     MDebug.Log("high-five distance left: " + leftDistance + " right: " + rightDistance);
                 }
-                if (leftDistance < HighFiveHandDistanceOffThreshold && rightDistance < HighFiveHandDistanceOffThreshold)
+                if (leftDistance < _highFiveHandDistanceOffThreshold && rightDistance < _highFiveHandDistanceOffThreshold)
                 {
-                    if ((leftDistance+rightDistance)*0.5f <= HighFiveHandDistanceOnThreshold)
+                    if ((leftDistance+rightDistance)*0.5f <= _highFiveHandDistanceOnThreshold)
                     {
                         result = true;
                     }
@@ -186,10 +184,10 @@ namespace BodySource
             float right2 = p1.Joints[JointType.RightHand].Distance(p2.Joints[JointType.LeftHand]);
             float rightDistance = right2 < right1 ? right2 : right1;
             float handDistance = rightDistance < leftDistance ? rightDistance : leftDistance;
-            if (handDistance < logThreshold) 
+            if (handDistance < _logThreshold) 
             {
                 MDebug.Log("single high-five distance " + handDistance);
-                if (handDistance <= HighFiveHandDistanceOnThreshold)
+                if (handDistance <= _highFiveHandDistanceOnThreshold)
                 {
                     result = true;
                 }
@@ -200,7 +198,7 @@ namespace BodySource
 
         private bool IsHighFiveOffHappened(BodyDataSource p1, BodyDataSource p2)
         {
-            if (Single)
+            if (_single)
             {
                 return IsSingleHighFiveOffHappened(p1, p2);
             } else 
@@ -220,7 +218,7 @@ namespace BodySource
             float rightDistance = right2 < right1 ? right2 : right1;
             float handDistance = rightDistance < leftDistance ? rightDistance : leftDistance;
             
-            if (handDistance > HighFiveHandDistanceOffThreshold)
+            if (handDistance > _highFiveHandDistanceOffThreshold)
             {
                 result = true;
             }
@@ -233,26 +231,12 @@ namespace BodySource
             bool result = false;
             float leftDistance = p1.Joints[JointType.LeftHand].Distance(p2.Joints[JointType.RightHand]);
             float rightDistance = p1.Joints[JointType.RightHand].Distance(p2.Joints[JointType.LeftHand]);
-            if (leftDistance > HighFiveHandDistanceOffThreshold || rightDistance > HighFiveHandDistanceOffThreshold)
+            if (leftDistance > _highFiveHandDistanceOffThreshold || rightDistance > _highFiveHandDistanceOffThreshold)
             {
                 result = true;
             }
             
             return result;
-        }
-
-        private float GetLowestElbow(BodyDataSource p1, BodyDataSource p2)
-        {
-            float lowestElbow = p1.Joints[JointType.LeftElbow].Z <= p1.Joints[JointType.RightElbow].Z ? p1.Joints[JointType.LeftElbow].Z : p1.Joints[JointType.RightElbow].Z;
-            if (p2.Joints[JointType.LeftElbow].Z < lowestElbow)
-            {
-                lowestElbow = p2.Joints[JointType.LeftElbow].Z;
-            }
-            if (p2.Joints[JointType.RightElbow].Z < lowestElbow)
-            {
-                lowestElbow = p2.Joints[JointType.RightElbow].Z;
-            }
-            return lowestElbow;
         }
 
         private float GetLowestShoulder(BodyDataSource p1, BodyDataSource p2)
