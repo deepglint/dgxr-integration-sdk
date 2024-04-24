@@ -50,10 +50,8 @@ namespace Stardust.Scripts
             // Check if event is subscribed
             if (OnHighFiveEvent != null)
             {
-                int personId1 = int.Parse(p1) + 1;
-                int personId2 = int.Parse(p2) + 1;
                 // Invoke the event, which will call all the subscribed methods
-                OnHighFiveEvent(personId1.ToString(), personId2.ToString());
+                OnHighFiveEvent(p1, p2);
             }
         }
 
