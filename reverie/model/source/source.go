@@ -51,7 +51,8 @@ type Point struct {
 }
 
 type SourceData struct {
-	Objs [][]float64
+	Objs    [][]float64
+	Actions map[int]float32
 }
 
 // Window 维护一个滑动窗口

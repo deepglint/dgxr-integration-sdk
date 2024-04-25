@@ -16,8 +16,8 @@ import (
 )
 
 type PoseData struct {
-	Ts   int64                  `json:"ts"`
-	Pose map[string][][]float64 `json:"pose"`
+	Ts   int64                        `json:"ts"`
+	Pose map[string]source.SourceData `json:"pose"`
 }
 
 type MessageData struct {
@@ -98,14 +98,14 @@ func handleWebSocket(c *gin.Context) {
 		msg := PoseData{
 			Ts: time.Now().UnixMilli(),
 		}
-		pose := map[string][][]float64{}
+		pose := map[string]source.SourceData{}
 		global.Sources.Range(func(key, value interface{}) bool {
 			pos := value.(*source.Source)
 			if data, err := pos.LastData(); err != nil {
 				logrus.Error(err)
 			} else {
 				if pos.Xbox != nil {
-					pose[fmt.Sprintf("%v", pos.Xbox.ID)] = data.Objs
+					pose[fmt.Sprintf("%v", pos.Xbox.ID)] = data
 				}
 			}
 			return true

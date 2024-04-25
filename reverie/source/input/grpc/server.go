@@ -99,8 +99,15 @@ func (s *server) SendThreeDimSkelData(ctx context.Context, req *pb.Request) (*pb
 			// 数据添加到数据源
 			for id, data := range v.ThreeDim {
 				obj := sources.SourceData{
-					Objs: [][]float64{},
+					Objs:    [][]float64{},
+					Actions: map[int]float32{},
 				}
+				for _, v := range data.RecActions {
+					{
+						obj.Actions[int(v.Action)] = v.Confidence
+					}
+				}
+
 				for k, v := range data.Objs {
 					unifyValue := util.UnifyCoordinate(global.Config.Space.XDirection, global.Config.Space.YDirection, v.Value)
 					if v.Value[0] == 0 && v.Value[1] == 0 && v.Value[2] == 0 {
