@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using BestHTTP.WebSocket;
+using Deepglint.XR.Inputs;
+using Deepglint.XR.Inputs.Devices;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Moat;
 using Moat.Model;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Layouts;
 
 // yq: ws://192.168.12.1:8000/ws
 // sl: ws://192.168.8.7:8000/ws
@@ -25,7 +25,21 @@ namespace Stardust.Scripts
 
     public class Options
     {
-        public Timer ActiveTimer;
+        [System.Serializable]
+        public struct HumanData
+        {
+            public float[,] Objs { get; set; }
+            public Dictionary<string, float> Actions { get; set; } 
+        }
+
+        [System.Serializable]
+        public struct SourceData
+        {
+            public long Ts { get; set; }
+            public Dictionary<string, HumanData> Pose { get; set; }
+        }
+
+        public Timer ActiveTimer = null;
 
         public class TimerObject
         {
@@ -54,14 +68,10 @@ namespace Stardust.Scripts
                 {
                     if (!info.Pose.ContainsKey(person.Key))
                     {
-                        bool removed = XrdgBodySource.Instance.Data.TryRemove(person.Key, out BodyDataSource removedValue);
+                        XrdgBodySource.Instance.Data.TryRemove(person.Key, out BodyDataSource removedValue);
+                        XrdgBodySource.Instance.Actions.Remove(person.Key);
                         // remove device
-                        InputDevice device = XrdgBodySource.Instance.Devices[person.Key];
-                        if (device != null)
-                        {
-                            InputSystem.RemoveDevice(device);
-                            Debug.Log("DGXR device: " + person.Key + " was removed");
-                        }
+                        DeviceManager.RemoveDevice(person.Key);
                     }
                 }
 
@@ -71,14 +81,16 @@ namespace Stardust.Scripts
                     {
                         //存在则更新
                         BodyDataSource body = XrdgBodySource.Instance.Data[person.Key];
-                        int rows = person.Value.GetLength(0); // 获取行数
+                        int rows = person.Value.Objs.GetLength(0); // 获取行数
                         for (int i = 0; i < rows; i++)
                         {
-                            JointData joint = new JointData(person.Value[i, 0], person.Value[i, 1], person.Value[i, 2]);
+                            JointData joint = new JointData(person.Value.Objs[i, 0], person.Value.Objs[i, 1], person.Value.Objs[i, 2]);
                             JointType jointType = (JointType)i;
                             body.Joints[jointType] = joint; 
                         }
                         XrdgBodySource.Instance.Data[person.Key] = body;
+                        // Debug.LogFormat("Action {0}", person.Value.Actions);
+                        XrdgBodySource.Instance.Actions[person.Key] = person.Value.Actions;
                     }
                     else
                     {
@@ -91,22 +103,18 @@ namespace Stardust.Scripts
                         body.RightRay = new Ray();
                         body.LeftHit = new RaycastHit();
                         body.RightHit = new RaycastHit();
-                        int rows = person.Value.GetLength(0); // 获取行数
+                        int rows = person.Value.Objs.GetLength(0); // 获取行数
                         for (int i = 0; i < rows; i++)
                         {
-                            JointData joint = new JointData(person.Value[i, 0], person.Value[i, 1], person.Value[i, 2]);
+                            JointData joint = new JointData(person.Value.Objs[i, 0], person.Value.Objs[i, 1], person.Value.Objs[i, 2]);
                             JointType jointType = (JointType)i;
                             body.Joints.Add(jointType, joint);
                         }
                         XrdgBodySource.Instance.Data[person.Key] = body;
-                        var device = InputSystem.AddDevice(new InputDeviceDescription
-                        {
-                            interfaceName = "DGXRController",
-                            product = "DGXRController",
-                            manufacturer = "deepglint",
-                        });
-                        Debug.Log("DGXR device: " + person.Key + " was created");
-                        XrdgBodySource.Instance.Devices[person.Key] = device;
+                        XrdgBodySource.Instance.Actions[person.Key] = person.Value.Actions;
+                        DeviceManager.AddDevice(person.Key, nameof(DGXRController));
+                        
+                        //PlayerFactory.Instance.Create();
                     }
                 }
                 XREventListener.Instance.OnFrame();
