@@ -1,10 +1,10 @@
 using System.Linq;
+using Deepglint.XR.Inputs.Devices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem.LowLevel;
-using UnityEngine.InputSystem.XR;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -94,22 +94,22 @@ public class DGXRDeviceSimulator : InputDevice, IInputUpdateCallbackReceiver
 
         if (aPressed)
         {
-            Debug.Log("A is pressed");
+            //Debug.Log("A is pressed");
             state.x -= 127;
         }
         if (dPressed)
         {
-            Debug.Log("D is pressed");
+            //Debug.Log("D is pressed");
             state.x += 127;
         }
         if (wPressed)
         {
-            Debug.Log("W is pressed");
+            //Debug.Log("W is pressed");
             state.y += 127;
         }
         if (sPressed)
         {
-            Debug.Log("S is pressed");
+            //Debug.Log("S is pressed");
             state.y -= 127;
         }
         

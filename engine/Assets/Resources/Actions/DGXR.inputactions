@@ -1,0 +1,315 @@
+{
+    "name": "DGXR",
+    "maps": [
+        {
+            "name": "DGXRDevice",
+            "id": "87ad6ece-9948-4847-be28-62a69ac59434",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "b42130be-1d09-408f-97ce-bfa05e738682",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "3976792b-84b2-432d-b857-aa2bdde2e3bb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Join",
+                    "type": "Value",
+                    "id": "8d29d06a-2f0e-45aa-9439-4e32bdc9105e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RaiseRightHand",
+                    "type": "Value",
+                    "id": "217c9242-fe5d-4809-89b0-8a13fc74bb5f",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HumanPose",
+                    "type": "Value",
+                    "id": "3476302e-9a21-4b40-9e27-e114f8bf9261",
+                    "expectedControlType": "HumanPose",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "FreeSwim",
+                    "type": "Value",
+                    "id": "881bd9c8-0310-430e-b948-9ec78cc77447",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ButterflySwim",
+                    "type": "Value",
+                    "id": "c0fcd140-1d79-42e4-ac2f-e3ac853856d9",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HighKneeRun",
+                    "type": "Value",
+                    "id": "d28f9ade-516f-4250-aa48-dfbda93ccae8",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "DeepSquat",
+                    "type": "Value",
+                    "id": "35baf841-3b33-4f48-ac99-607376162bc8",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "213e2f87-a7c6-467c-a611-52cda833d18f",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "stick",
+                    "id": "24fa4abd-c537-4f1c-abb8-3836a7f18021",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "91cb1cee-83f1-42ca-b66f-9f1c52ca545e",
+                    "path": "<DGXRDeviceSimulator>/stick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "b7e9794e-0659-4ca3-b75b-e323f64b7e4e",
+                    "path": "<DGXRDeviceSimulator>/stick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "a9d72f32-11a7-4dcf-a51b-07e71cb0f7e2",
+                    "path": "<DGXRDeviceSimulator>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "1a19fcfa-ff89-4686-9d7f-fde91a082a1f",
+                    "path": "<DGXRDeviceSimulator>/stick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "0a6d0c0e-371c-42d3-a59d-525a48b5fcc3",
+                    "path": "<DGXRController>/stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "wasd",
+                    "id": "1121b8dd-a9d6-462d-9e77-8875d62625dc",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "c4ec9e6d-9126-4d33-bc23-f7f9225b7266",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "952963c8-fa08-4eec-9ebb-d682b84375dc",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "b4d15f3e-01a5-4b03-b834-3a4367bcd88b",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "2fb21bbb-96aa-4713-9bf3-091e35cebe8a",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "dfda1f9a-f942-443b-91be-6d1f43e0de76",
+                    "path": "<DGXRController>/humanBody",
+                    "interactions": "RaiseRightHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RaiseRightHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "01d11a49-0adf-4ddf-83b5-3f9ac68f13a4",
+                    "path": "<DGXRController>/humanBody",
+                    "interactions": "RaiseBothHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "68b24bb1-597e-46a1-b8e8-9ea13b23729f",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e0891d49-8730-4b17-b57e-5fb2cfdbd756",
+                    "path": "<DGXRController>/humanPose",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HumanPose",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "474be9f3-a23c-4f91-a6e2-553f26abdad6",
+                    "path": "<DGXRController>/freeSwim",
+                    "interactions": "FreeSwim",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FreeSwim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "237940fa-dcaa-4e1c-9d03-7a44cfe37bc0",
+                    "path": "<DGXRController>/butterflySwim",
+                    "interactions": "ButterflySwim",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ButterflySwim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "59a13351-4353-4915-ad9c-9d37eb2ad1c4",
+                    "path": "<DGXRController>/highKneeRun",
+                    "interactions": "HighKneeRun",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HighKneeRun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "94d94974-9cc9-4cc6-ae5e-3aebadd2fd34",
+                    "path": "<DGXRController>/deepSquat",
+                    "interactions": "DeepSquat",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DeepSquat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
