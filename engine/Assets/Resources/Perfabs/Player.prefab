@@ -406,6 +406,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 35baf841-3b33-4f48-ac99-607376162bc8
     m_ActionName: DGXRDevice/DeepSquat[/DGXRController/deepSquat,/DGXRController1/deepSquat,/DGXRController2/deepSquat,/DGXRController3/deepSquat,/DGXRController4/deepSquat,/DGXRController5/deepSquat,/DGXRController6/deepSquat]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: PlayerMotor, Assembly-CSharp
+        m_MethodName: SlideRightArmToLeftControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a3819df4-61b6-40bd-894a-6784d68f17a2
+    m_ActionName: DGXRDevice/SlideRightArmToLeft[/DGXRController/HumanBody,/DGXRController1/HumanBody,/DGXRController2/HumanBody,/DGXRController3/HumanBody,/DGXRController4/HumanBody,/DGXRController5/HumanBody,/DGXRController6/HumanBody,/DGXRController7/HumanBody,/DGXRController8/HumanBody,/DGXRController9/HumanBody,/DGXRController10/HumanBody,/DGXRController11/HumanBody,/DGXRController12/HumanBody,/DGXRController13/HumanBody,/DGXRController14/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: PlayerMotor, Assembly-CSharp
+        m_MethodName: SlideLeftArmToRightControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d019ca72-2e53-460f-8aff-bdda8d98fc06
+    m_ActionName: DGXRDevice/SlideLeftArmToRight
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: DGXRDevice
