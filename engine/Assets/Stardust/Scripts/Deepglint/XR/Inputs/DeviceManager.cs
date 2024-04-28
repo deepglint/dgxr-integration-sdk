@@ -7,6 +7,8 @@ using UnityEngine.InputSystem.Utilities;
 
 namespace Deepglint.XR.Inputs
 {
+    public delegate void TooManyActiveDevicesDelegate();
+    
     /// <summary>
     /// Manage all the Deepglint XR devices
     /// </summary>
@@ -16,7 +18,14 @@ namespace Deepglint.XR.Inputs
         /// count of all the active Deepglint XR devices
         /// </summary>
         internal static int s_ActiveDeviceCount = 0;
-        
+
+        /// <summary>
+        /// max count of all the active Deepglint XR devices
+        /// </summary>
+        public static int MaxActiveDeviceCount { get; set; }
+
+        public static TooManyActiveDevicesDelegate OnTooManyActiveDevices;
+
         /// <summary>
         /// all the active Deepglint XR devices
         /// </summary>
@@ -75,6 +84,10 @@ namespace Deepglint.XR.Inputs
                 s_ActiveDevices[serial] = device;
                 s_ActiveDeviceCount++;
                 Debug.LogFormat("Device {0} which serial is {1} which type is {2} was created", device.deviceId, serial, product);
+                if (s_ActiveDeviceCount >= MaxActiveDeviceCount)
+                {
+                    OnTooManyActiveDevices?.Invoke();
+                }
             }
         }
 

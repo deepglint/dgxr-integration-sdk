@@ -42,11 +42,10 @@ namespace Deepglint.XR
             }
             else
             {
-                // PlayerInput pi = m_player.GetComponent<PlayerInput>();
                 if (m_player.m_PlayerInput is not null)
                 {
                     // todo check the control schema.
-                    if (m_player.m_PlayerInput.devices.Count == 0)
+                    if (m_player.PairedDevices.Count == 0)
                     {
                         return true;
                     }

@@ -11,6 +11,8 @@ namespace Deepglint.XR.Interaction
             InputSystem.RegisterInteraction<RaiseLeftHandInteraction>();
             InputSystem.RegisterInteraction<RaiseRightHandInteraction>();
             InputSystem.RegisterInteraction<RaiseBothHandInteraction>();
+            InputSystem.RegisterInteraction<SlideRightArmToLeftInteraction>();
+            InputSystem.RegisterInteraction<SlideLeftArmToRightInteraction>();
             InputSystem.RegisterInteraction<FreeSwimInteraction>();
             InputSystem.RegisterInteraction<ButterflySwimInteraction>();
             InputSystem.RegisterInteraction<HighKneeRunInteraction>();

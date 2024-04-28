@@ -85,6 +85,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SlideRightArmToLeft",
+                    "type": "Value",
+                    "id": "a3819df4-61b6-40bd-894a-6784d68f17a2",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SlideLeftArmToRight",
+                    "type": "Value",
+                    "id": "d019ca72-2e53-460f-8aff-bdda8d98fc06",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -256,7 +274,7 @@
                 {
                     "name": "",
                     "id": "e0891d49-8730-4b17-b57e-5fb2cfdbd756",
-                    "path": "<DGXRController>/humanPose",
+                    "path": "<DGXRController>/HumanPose",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -305,6 +323,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "DeepSquat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aab0225b-2b12-4d94-9a8f-d4d2abc6c88e",
+                    "path": "<DGXRController>/HumanBody",
+                    "interactions": "SlideRightArmToLeft",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SlideRightArmToLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "577fc8a9-62f8-4333-94c4-105de99011f2",
+                    "path": "<DGXRController>/HumanBody",
+                    "interactions": "SlideLeftArmToRight",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SlideLeftArmToRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

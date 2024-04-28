@@ -15,6 +15,8 @@ public class PlayerMotor : MonoBehaviour
     private int butterflySwimCount = 0;
     private int highKneeRunSwimCount = 0;
     private int deepSquatCount = 0;
+    private int slideRightArmToLeftCount = 0;
+    private int slideLeftArmToRightCount = 0;
 
     private void Awake()
     {
@@ -68,6 +70,24 @@ public class PlayerMotor : MonoBehaviour
                 // 此时物体不在地面上
                 isOnGround = false;
             }
+        }
+    }
+    
+    public void SlideRightArmToLeftControl(InputAction.CallbackContext value)
+    {
+        if(value.performed)
+        {
+            slideRightArmToLeftCount++;
+            Debug.LogFormat("SlideRightArmToLeftCount count: {0}", slideRightArmToLeftCount);
+        }
+    }
+    
+    public void SlideLeftArmToRightControl(InputAction.CallbackContext value)
+    {
+        if(value.performed)
+        {
+            slideLeftArmToRightCount++;
+            Debug.LogFormat("SlideLeftArmToRightCount count: {0}", slideLeftArmToRightCount);
         }
     }
     
