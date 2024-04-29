@@ -5,10 +5,9 @@ using BestHTTP.WebSocket;
 using Deepglint.XR.Inputs;
 using Deepglint.XR.Inputs.Devices;
 using Newtonsoft.Json;
+using Stardust.Model;
 using UnityEngine;
 using UnityEngine.Serialization;
-using Moat;
-using Moat.Model;
 
 // yq: ws://192.168.12.1:8000/ws
 // sl: ws://192.168.8.7:8000/ws
@@ -16,13 +15,6 @@ using Moat.Model;
 
 namespace Stardust.Scripts
 {
-    [Serializable]
-    public struct SourceData
-    {
-        public long Ts { get; set; }
-        public Dictionary<string, float[,]> Pose { get; set; }
-    }
-
     public class Options
     {
         [System.Serializable]
@@ -89,7 +81,6 @@ namespace Stardust.Scripts
                             body.Joints[jointType] = joint; 
                         }
                         XrdgBodySource.Instance.Data[person.Key] = body;
-                        // Debug.LogFormat("Action {0}", person.Value.Actions);
                         XrdgBodySource.Instance.Actions[person.Key] = person.Value.Actions;
                     }
                     else
@@ -117,7 +108,7 @@ namespace Stardust.Scripts
                         //PlayerFactory.Instance.Create();
                     }
                 }
-                XREventListener.Instance.OnFrame();
+                WSSourceAdapter.OnFrame();
                 // 20s活体检测
                 if (ActiveTimer != null)
                 {
@@ -192,8 +183,8 @@ namespace Stardust.Scripts
             _reconnectCount = 0;
             
             DisplayData.ReadConfig();
-            MDebug.LogFlow("1. WS 连接 - 1.0 连接权限" + DisplayData.wsConnect + " " + DisplayData.configDisplay.wsConnect);
-            if (DisplayData.wsConnect)
+            MDebug.LogFlow("1. WS 连接 - 1.0 连接权限" + DisplayData.WsConnect + " " + DisplayData.ConfigDisplay.WsConnect);
+            if (DisplayData.WsConnect)
             {
                 Init(new Options());
             }
@@ -237,7 +228,7 @@ namespace Stardust.Scripts
 
         private void SmartReconnect(object timerState)
         {
-            if (!DisplayData.wsConnect)
+            if (!DisplayData.WsConnect)
             {
                 _timer.Dispose();
                 return;
@@ -305,7 +296,7 @@ namespace Stardust.Scripts
             {
                 if (message != null)
                 {
-                    SourceData info = JsonConvert.DeserializeObject<SourceData>(message);
+                    Options.SourceData info = JsonConvert.DeserializeObject<Options.SourceData>(message);
                     if (info.Pose.Count > 0)
                     {
                         optionMessage = message;

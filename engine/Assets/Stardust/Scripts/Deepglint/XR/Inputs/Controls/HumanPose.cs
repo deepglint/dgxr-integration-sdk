@@ -9,10 +9,10 @@ using TrackingState = UnityEngine.XR.InputTrackingState;
 
 namespace Deepglint.XR.Inputs.Controls
 {
-    [StructLayout(LayoutKind.Explicit, Size = kSizeInBytes)]
+    [StructLayout(LayoutKind.Explicit, Size = m_SizeInBytes)]
     public struct HumanPoseState : IInputStateTypeInfo
     {
-        internal const int kSizeInBytes = 36;
+        internal const int m_SizeInBytes = 36;
         internal static readonly FourCC m_Format = new FourCC('H', 'P', 'o', 's');
 
         public FourCC format => m_Format;
@@ -33,17 +33,17 @@ namespace Deepglint.XR.Inputs.Controls
     [InputControlLayout(stateType = typeof(HumanPoseState))]
     public class HumanPoseControl : InputControl<HumanPoseState>
     {
-        public ButtonControl isTracked { get; private set; }
-        public IntegerControl trackingState { get; private set; }
-        public Vector3Control position { get; private set; }
-        public QuaternionControl rotation { get; private set; }
+        public ButtonControl IsTracked { get; private set; }
+        public IntegerControl TrackingState { get; private set; }
+        public Vector3Control Position { get; private set; }
+        public QuaternionControl Rotation { get; private set; }
 
         protected override void FinishSetup()
         {
-            isTracked = GetChildControl<ButtonControl>("isTracked");
-            trackingState = GetChildControl<IntegerControl>("trackingState");
-            position = GetChildControl<Vector3Control>("position");
-            rotation = GetChildControl<QuaternionControl>("rotation");
+            IsTracked = GetChildControl<ButtonControl>("isTracked");
+            TrackingState = GetChildControl<IntegerControl>("trackingState");
+            Position = GetChildControl<Vector3Control>("position");
+            Rotation = GetChildControl<QuaternionControl>("rotation");
 
             base.FinishSetup();
         }
@@ -52,19 +52,19 @@ namespace Deepglint.XR.Inputs.Controls
         {
             return new HumanPoseState()
             {
-                isTracked = isTracked.ReadUnprocessedValueFromStateWithCaching(statePtr) > 0.5f,
-                trackingState = (TrackingState)trackingState.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                position = position.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                rotation = rotation.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                isTracked = IsTracked.ReadUnprocessedValueFromStateWithCaching(statePtr) > 0.5f,
+                trackingState = (TrackingState)TrackingState.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                position = Position.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                rotation = Rotation.ReadUnprocessedValueFromStateWithCaching(statePtr),
             };
         }
 
         public override unsafe void WriteValueIntoState(HumanPoseState humanPose, void* statePtr)
         {
-            isTracked.WriteValueIntoState(humanPose.isTracked, statePtr);
-            trackingState.WriteValueIntoState((uint)humanPose.trackingState, statePtr);
-            position.WriteValueIntoState(humanPose.position, statePtr);
-            rotation.WriteValueIntoState(humanPose.rotation, statePtr);
+            IsTracked.WriteValueIntoState(humanPose.isTracked, statePtr);
+            TrackingState.WriteValueIntoState((uint)humanPose.trackingState, statePtr);
+            Position.WriteValueIntoState(humanPose.position, statePtr);
+            Rotation.WriteValueIntoState(humanPose.rotation, statePtr);
         }
     }
 }

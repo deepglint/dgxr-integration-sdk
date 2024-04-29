@@ -10,10 +10,10 @@ using UnityEngine.Scripting;
 namespace Deepglint.XR.Inputs.Controls
 {
     [Preserve]
-    [StructLayout(LayoutKind.Explicit, Size = kSizeInBytes)]
+    [StructLayout(LayoutKind.Explicit, Size = m_SizeInBytes)]
     public struct HumanBodyState : IInputStateTypeInfo
     {
-        internal const int kSizeInBytes = 32*26;
+        internal const int m_SizeInBytes = 32*26;
         internal static readonly FourCC m_Format = new FourCC('H', 'B', 'o', 'd');
 
         public FourCC format => m_Format;
@@ -133,61 +133,61 @@ namespace Deepglint.XR.Inputs.Controls
     [InputControlLayout(stateType = typeof(HumanBodyState))]
     public class HumanBodyControl : InputControl<HumanBodyState>
     {
-        public BoneControl headTop { get; private set; }
-        public BoneControl nose { get; private set; }
-        public BoneControl leftEye { get; private set; }
-        public BoneControl rightEye { get; private set; }
-        public BoneControl leftEar { get; private set; }
-        public BoneControl rightEar { get; private set; }
-        public BoneControl leftShoulder { get; private set; }
-        public BoneControl rightShoulder { get; private set; }
-        public BoneControl leftElbow { get; private set; }
-        public BoneControl rightElbow { get; private set; }
-        public BoneControl leftWrist { get; private set; }
-        public BoneControl rightWrist { get; private set; }
-        public BoneControl leftHip { get; private set; }
-        public BoneControl rightHip { get; private set; }
-        public BoneControl leftKnee { get; private set; }
-        public BoneControl rightKnee { get; private set; }
-        public BoneControl leftAnkle { get; private set; }
-        public BoneControl rightAnkle { get; private set; }
-        public BoneControl leftTiptoe { get; private set; }
-        public BoneControl rightTiptoe { get; private set; }
-        public BoneControl leftHeel { get; private set; }
-        public BoneControl rightHeel { get; private set; }
-        public BoneControl leftHand { get; private set; }
-        public BoneControl rightHand { get; private set; }
-        public BoneControl leftFoot { get; private set; }
-        public BoneControl rightFoot { get; private set; }
+        public BoneControl HeadTop { get; private set; }
+        public BoneControl Nose { get; private set; }
+        public BoneControl LeftEye { get; private set; }
+        public BoneControl RightEye { get; private set; }
+        public BoneControl LeftEar { get; private set; }
+        public BoneControl RightEar { get; private set; }
+        public BoneControl LeftShoulder { get; private set; }
+        public BoneControl RightShoulder { get; private set; }
+        public BoneControl LeftElbow { get; private set; }
+        public BoneControl RightElbow { get; private set; }
+        public BoneControl LeftWrist { get; private set; }
+        public BoneControl RightWrist { get; private set; }
+        public BoneControl LeftHip { get; private set; }
+        public BoneControl RightHip { get; private set; }
+        public BoneControl LeftKnee { get; private set; }
+        public BoneControl RightKnee { get; private set; }
+        public BoneControl LeftAnkle { get; private set; }
+        public BoneControl RightAnkle { get; private set; }
+        public BoneControl LeftTiptoe { get; private set; }
+        public BoneControl RightTiptoe { get; private set; }
+        public BoneControl LeftHeel { get; private set; }
+        public BoneControl RightHeel { get; private set; }
+        public BoneControl LeftHand { get; private set; }
+        public BoneControl RightHand { get; private set; }
+        public BoneControl LeftFoot { get; private set; }
+        public BoneControl RightFoot { get; private set; }
         
         protected override void FinishSetup()
         {
-            headTop = GetChildControl<BoneControl>(nameof(headTop));
-            nose = GetChildControl<BoneControl>(nameof(nose));
-            leftEye = GetChildControl<BoneControl>(nameof(leftEye));
-            rightEye = GetChildControl<BoneControl>(nameof(rightEye));
-            leftEar = GetChildControl<BoneControl>(nameof(leftEar));
-            rightEar = GetChildControl<BoneControl>(nameof(rightEar));
-            leftShoulder = GetChildControl<BoneControl>(nameof(leftShoulder));
-            rightShoulder = GetChildControl<BoneControl>(nameof(rightShoulder));
-            leftElbow = GetChildControl<BoneControl>(nameof(leftElbow));
-            rightElbow = GetChildControl<BoneControl>(nameof(rightElbow));
-            leftWrist = GetChildControl<BoneControl>(nameof(leftWrist));
-            rightWrist = GetChildControl<BoneControl>(nameof(rightWrist));
-            leftHip = GetChildControl<BoneControl>(nameof(leftHip));
-            rightHip = GetChildControl<BoneControl>(nameof(rightHip));
-            leftKnee = GetChildControl<BoneControl>(nameof(leftKnee));
-            rightKnee = GetChildControl<BoneControl>(nameof(rightKnee));
-            leftAnkle = GetChildControl<BoneControl>(nameof(leftAnkle));
-            rightAnkle = GetChildControl<BoneControl>(nameof(rightAnkle));
-            leftTiptoe = GetChildControl<BoneControl>(nameof(leftTiptoe));
-            rightTiptoe = GetChildControl<BoneControl>(nameof(rightTiptoe));
-            leftHeel = GetChildControl<BoneControl>(nameof(leftHeel));
-            rightHeel = GetChildControl<BoneControl>(nameof(rightHeel));
-            leftHand = GetChildControl<BoneControl>(nameof(leftHand));
-            rightHand = GetChildControl<BoneControl>(nameof(rightHand));
-            leftFoot = GetChildControl<BoneControl>(nameof(leftFoot));
-            rightFoot = GetChildControl<BoneControl>(nameof(rightFoot));
+            HeadTop = GetChildControl<BoneControl>(nameof(HeadTop));
+            Nose = GetChildControl<BoneControl>(nameof(Nose));
+            LeftEye = GetChildControl<BoneControl>(nameof(LeftEye));
+            RightEye = GetChildControl<BoneControl>(nameof(RightEye));
+            LeftEar = GetChildControl<BoneControl>(nameof(LeftEar));
+            RightEar = GetChildControl<BoneControl>(nameof(RightEar));
+            LeftShoulder = GetChildControl<BoneControl>(nameof(LeftShoulder));
+            RightShoulder = GetChildControl<BoneControl>(nameof(RightShoulder));
+            LeftElbow = GetChildControl<BoneControl>(nameof(LeftElbow));
+            RightElbow = GetChildControl<BoneControl>(nameof(RightElbow));
+            LeftWrist = GetChildControl<BoneControl>(nameof(LeftWrist));
+            RightWrist = GetChildControl<BoneControl>(nameof(RightWrist));
+            LeftHip = GetChildControl<BoneControl>(nameof(LeftHip));
+            RightHip = GetChildControl<BoneControl>(nameof(RightHip));
+            LeftKnee = GetChildControl<BoneControl>(nameof(LeftKnee));
+            RightKnee = GetChildControl<BoneControl>(nameof(RightKnee));
+            LeftAnkle = GetChildControl<BoneControl>(nameof(LeftAnkle));
+            RightAnkle = GetChildControl<BoneControl>(nameof(RightAnkle));
+            LeftTiptoe = GetChildControl<BoneControl>(nameof(LeftTiptoe));
+            RightTiptoe = GetChildControl<BoneControl>(nameof(RightTiptoe));
+            LeftHeel = GetChildControl<BoneControl>(nameof(LeftHeel));
+            RightHeel = GetChildControl<BoneControl>(nameof(RightHeel));
+            LeftHand = GetChildControl<BoneControl>(nameof(LeftHand));
+            RightHand = GetChildControl<BoneControl>(nameof(RightHand));
+            LeftFoot = GetChildControl<BoneControl>(nameof(LeftFoot));
+            RightFoot = GetChildControl<BoneControl>(nameof(RightFoot));
 
             base.FinishSetup();
         }
@@ -196,63 +196,63 @@ namespace Deepglint.XR.Inputs.Controls
         {
             return new HumanBodyState()
             {
-                headTop = headTop.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                nose = nose.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                leftEye = leftEye.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                rightEye = rightEye.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                leftEar = leftEar.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                rightEar = rightEar.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                leftShoulder = leftShoulder.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                rightShoulder = rightShoulder.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                leftElbow = leftElbow.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                rightElbow = rightElbow.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                leftWrist = leftWrist.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                rightWrist = rightWrist.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                leftHip = leftHip.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                rightHip = rightHip.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                leftKnee = leftKnee.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                rightKnee = rightKnee.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                leftAnkle = leftAnkle.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                rightAnkle = rightAnkle.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                leftTiptoe = leftTiptoe.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                rightTiptoe = rightTiptoe.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                leftHeel = leftHeel.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                rightHeel = rightHeel.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                leftHand = leftHand.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                rightHand = rightHand.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                leftFoot = leftFoot.ReadUnprocessedValueFromStateWithCaching(statePtr),
-                rightFoot = rightFoot.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                headTop = HeadTop.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                nose = Nose.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                leftEye = LeftEye.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                rightEye = RightEye.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                leftEar = LeftEar.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                rightEar = RightEar.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                leftShoulder = LeftShoulder.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                rightShoulder = RightShoulder.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                leftElbow = LeftElbow.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                rightElbow = RightElbow.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                leftWrist = LeftWrist.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                rightWrist = RightWrist.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                leftHip = LeftHip.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                rightHip = RightHip.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                leftKnee = LeftKnee.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                rightKnee = RightKnee.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                leftAnkle = LeftAnkle.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                rightAnkle = RightAnkle.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                leftTiptoe = LeftTiptoe.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                rightTiptoe = RightTiptoe.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                leftHeel = LeftHeel.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                rightHeel = RightHeel.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                leftHand = LeftHand.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                rightHand = RightHand.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                leftFoot = LeftFoot.ReadUnprocessedValueFromStateWithCaching(statePtr),
+                rightFoot = RightFoot.ReadUnprocessedValueFromStateWithCaching(statePtr),
             };
         }
         
         public override unsafe void WriteValueIntoState(HumanBodyState humanBody, void* statePtr)
         {
-            headTop.WriteValueIntoState(humanBody.headTop, statePtr);
-            nose.WriteValueIntoState(humanBody.nose, statePtr);
-            leftEye.WriteValueIntoState(humanBody.leftEye, statePtr);
-            rightEye.WriteValueIntoState(humanBody.rightEye, statePtr);
-            leftEar.WriteValueIntoState(humanBody.leftEar, statePtr);
-            rightEar.WriteValueIntoState(humanBody.rightEar, statePtr);
-            leftShoulder.WriteValueIntoState(humanBody.leftShoulder, statePtr);
-            rightShoulder.WriteValueIntoState(humanBody.rightShoulder, statePtr);
-            leftElbow.WriteValueIntoState(humanBody.leftElbow, statePtr);
-            rightElbow.WriteValueIntoState(humanBody.rightElbow, statePtr);
-            leftWrist.WriteValueIntoState(humanBody.leftWrist, statePtr);
-            rightWrist.WriteValueIntoState(humanBody.rightWrist, statePtr);
-            leftHip.WriteValueIntoState(humanBody.leftHip, statePtr);
-            rightHip.WriteValueIntoState(humanBody.rightHip, statePtr);
-            leftKnee.WriteValueIntoState(humanBody.leftKnee, statePtr);
-            rightKnee.WriteValueIntoState(humanBody.rightKnee, statePtr);
-            leftAnkle.WriteValueIntoState(humanBody.leftAnkle, statePtr);
-            rightAnkle.WriteValueIntoState(humanBody.rightAnkle, statePtr);
-            leftTiptoe.WriteValueIntoState(humanBody.leftTiptoe, statePtr);
-            rightTiptoe.WriteValueIntoState(humanBody.rightTiptoe, statePtr);
-            leftHeel.WriteValueIntoState(humanBody.leftHeel, statePtr);
-            rightHeel.WriteValueIntoState(humanBody.rightHeel, statePtr);
-            leftHand.WriteValueIntoState(humanBody.leftHand, statePtr);
-            rightHand.WriteValueIntoState(humanBody.rightHand, statePtr);
-            leftFoot.WriteValueIntoState(humanBody.leftFoot, statePtr);
-            rightFoot.WriteValueIntoState(humanBody.rightFoot, statePtr);
+            HeadTop.WriteValueIntoState(humanBody.headTop, statePtr);
+            Nose.WriteValueIntoState(humanBody.nose, statePtr);
+            LeftEye.WriteValueIntoState(humanBody.leftEye, statePtr);
+            RightEye.WriteValueIntoState(humanBody.rightEye, statePtr);
+            LeftEar.WriteValueIntoState(humanBody.leftEar, statePtr);
+            RightEar.WriteValueIntoState(humanBody.rightEar, statePtr);
+            LeftShoulder.WriteValueIntoState(humanBody.leftShoulder, statePtr);
+            RightShoulder.WriteValueIntoState(humanBody.rightShoulder, statePtr);
+            LeftElbow.WriteValueIntoState(humanBody.leftElbow, statePtr);
+            RightElbow.WriteValueIntoState(humanBody.rightElbow, statePtr);
+            LeftWrist.WriteValueIntoState(humanBody.leftWrist, statePtr);
+            RightWrist.WriteValueIntoState(humanBody.rightWrist, statePtr);
+            LeftHip.WriteValueIntoState(humanBody.leftHip, statePtr);
+            RightHip.WriteValueIntoState(humanBody.rightHip, statePtr);
+            LeftKnee.WriteValueIntoState(humanBody.leftKnee, statePtr);
+            RightKnee.WriteValueIntoState(humanBody.rightKnee, statePtr);
+            LeftAnkle.WriteValueIntoState(humanBody.leftAnkle, statePtr);
+            RightAnkle.WriteValueIntoState(humanBody.rightAnkle, statePtr);
+            LeftTiptoe.WriteValueIntoState(humanBody.leftTiptoe, statePtr);
+            RightTiptoe.WriteValueIntoState(humanBody.rightTiptoe, statePtr);
+            LeftHeel.WriteValueIntoState(humanBody.leftHeel, statePtr);
+            RightHeel.WriteValueIntoState(humanBody.rightHeel, statePtr);
+            LeftHand.WriteValueIntoState(humanBody.leftHand, statePtr);
+            RightHand.WriteValueIntoState(humanBody.rightHand, statePtr);
+            LeftFoot.WriteValueIntoState(humanBody.leftFoot, statePtr);
+            RightFoot.WriteValueIntoState(humanBody.rightFoot, statePtr);
         }
     }
 }

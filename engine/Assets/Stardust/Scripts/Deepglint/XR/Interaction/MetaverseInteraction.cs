@@ -7,15 +7,15 @@ namespace Deepglint.XR.Interaction
     /// </summary>
     public class MetaverseInteraction
     {
-        protected int missCount = 0;
-        public float confidence = 0f;
+        protected int MissCount = 0;
+        public float Confidence = 0f;
 
         protected void CheckMissCancel(ref InputInteractionContext context)
         {
-            missCount++;
+            MissCount++;
             if (context.phase == InputActionPhase.Performed || context.phase == InputActionPhase.Started)
             {
-                if (missCount >= 5)
+                if (MissCount >= 5)
                 {
                     context.Canceled();
                 }
@@ -24,7 +24,7 @@ namespace Deepglint.XR.Interaction
 
         public void Reset()
         {
-            missCount = 0;
+            MissCount = 0;
         }
     }
 }

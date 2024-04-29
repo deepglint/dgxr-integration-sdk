@@ -41,7 +41,7 @@ public class CustomPlayerManager2 : MonoBehaviour
             {
                 if (device is DGXRController dgXRDevice)
                 {
-                    Vector3 position = dgXRDevice.HumanPose.position.ReadValue();
+                    Vector3 position = dgXRDevice.HumanPose.Position.ReadValue();
                     if (Vector2.Distance(roi.Anchor,new Vector2(position.x, position.z)) < roi.Radius)
                     {
                         Debug.LogFormat("character {0} is bindable", Name);

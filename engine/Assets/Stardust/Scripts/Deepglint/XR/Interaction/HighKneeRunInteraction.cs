@@ -10,7 +10,7 @@ namespace Deepglint.XR.Interaction
     /// </summary>
     public class HighKneeRunInteraction : MetaverseInteraction, IInputInteraction
     {
-        private bool rightKneeHit = false;
+        private bool _rightKneeHit = false;
         public void Process(ref InputInteractionContext context)
         {
             if (context.control.device is DGXRController dgXRDevice)
@@ -22,24 +22,24 @@ namespace Deepglint.XR.Interaction
                         case InputActionPhase.Waiting:
                             if (IsHighKneeRunHit(dgXRDevice, true))
                             {
-                                rightKneeHit = false;
+                                _rightKneeHit = false;
                                 context.Started();
                             }
                             else if (IsHighKneeRunHit(dgXRDevice))
                             {
-                                rightKneeHit = true;
+                                _rightKneeHit = true;
                                 context.Started();
                             }
                             break;
                         case InputActionPhase.Started:
-                            if (IsHighKneeRunHit(dgXRDevice, rightKneeHit))
+                            if (IsHighKneeRunHit(dgXRDevice, _rightKneeHit))
                             {
                                 Debug.Log("High-Knee-Run action performed");
                                 context.PerformedAndStayPerformed();
                             }
                             break;
                         case InputActionPhase.Performed:
-                            if (!IsHighKneeRunHit(dgXRDevice, rightKneeHit))
+                            if (!IsHighKneeRunHit(dgXRDevice, _rightKneeHit))
                             {
                                 context.Canceled();
                             }
@@ -55,7 +55,7 @@ namespace Deepglint.XR.Interaction
 
         private bool IsHighKneeRunHappening(DGXRController device)
         {
-            if (device.HighKneeRun.ReadValue() > confidence)
+            if (device.HighKneeRun.ReadValue() > Confidence)
             {
                 Debug.Log("High-Knee-Run action is happening");
                 return true;
@@ -67,16 +67,16 @@ namespace Deepglint.XR.Interaction
         private bool IsHighKneeRunHit(DGXRController device, bool leftKnee = false)
         {
             return leftKnee
-                ? device.HumanBody.leftFoot.position.y.ReadValue() >
-                  device.HumanBody.rightAnkle.position.y.ReadValue()
-                : device.HumanBody.rightFoot.position.y.ReadValue() >
-                  device.HumanBody.leftAnkle.position.y.ReadValue();
+                ? device.HumanBody.LeftFoot.position.y.ReadValue() >
+                  device.HumanBody.RightAnkle.position.y.ReadValue()
+                : device.HumanBody.RightFoot.position.y.ReadValue() >
+                  device.HumanBody.LeftAnkle.position.y.ReadValue();
         }
 
-        public void Reset()
+        public new void Reset()
         {
             base.Reset();
-            rightKneeHit = false;
+            _rightKneeHit = false;
             Debug.Log("reset High-Knee-Run interaction");
         }
     }

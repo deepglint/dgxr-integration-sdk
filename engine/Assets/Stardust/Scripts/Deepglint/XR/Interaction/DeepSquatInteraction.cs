@@ -50,7 +50,7 @@ namespace Deepglint.XR.Interaction
 
         private bool IsDeepSquatHappening(DGXRController dgXRDevice)
         {
-            if (dgXRDevice.DeepSquat.ReadValue() > confidence)
+            if (dgXRDevice.DeepSquat.ReadValue() > Confidence)
             {
                 Debug.Log("Deep-Squat action is happening");
                 return true;
@@ -61,19 +61,19 @@ namespace Deepglint.XR.Interaction
 
         private bool IsDeepSquatActionStart(DGXRController device)
         {
-            float legLength = Vector3.Distance(device.HumanBody.leftHip.position.ReadValue(),
-                device.HumanBody.leftKnee.position.ReadValue());
-            return Math.Abs(device.HumanBody.leftHip.position.y.ReadValue() -
-                    device.HumanBody.leftKnee.position.y.ReadValue()) <= legLength * 0.5f;
+            float legLength = Vector3.Distance(device.HumanBody.LeftHip.position.ReadValue(),
+                device.HumanBody.LeftKnee.position.ReadValue());
+            return Math.Abs(device.HumanBody.LeftHip.position.y.ReadValue() -
+                    device.HumanBody.LeftKnee.position.y.ReadValue()) <= legLength * 0.5f;
         }
 
         private bool IsDeepSquatActionHit(DGXRController device)
         {
-            return device.HumanBody.rightHip.position.y.ReadValue() -
-                            device.HumanBody.rightKnee.position.y.ReadValue() <= 0f;
+            return device.HumanBody.RightHip.position.y.ReadValue() -
+                            device.HumanBody.RightKnee.position.y.ReadValue() <= 0f;
         }
 
-        public void Reset()
+        public new void Reset()
         {
             base.Reset();
             Debug.Log("reset Deep-Squat interaction");

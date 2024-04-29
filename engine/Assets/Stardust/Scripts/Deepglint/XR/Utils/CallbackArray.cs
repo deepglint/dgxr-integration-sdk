@@ -8,7 +8,7 @@ namespace Deepglint.XR.Utils
         private InlinedArray<TDelegate> m_CallbacksToAdd;
         private InlinedArray<TDelegate> m_CallbacksToRemove;
 
-        public int length => m_Callbacks.length;
+        public int Length => m_Callbacks.Length;
 
         public TDelegate this[int index] => m_Callbacks[index];
 
@@ -64,9 +64,9 @@ namespace Deepglint.XR.Utils
             m_CannotMutateCallbacksArray = false;
 
             // Process mutations that have happened while we were executing callbacks.
-            for (var i = 0; i < m_CallbacksToRemove.length; ++i)
+            for (var i = 0; i < m_CallbacksToRemove.Length; ++i)
                 RemoveCallback(m_CallbacksToRemove[i]);
-            for (var i = 0; i < m_CallbacksToAdd.length; ++i)
+            for (var i = 0; i < m_CallbacksToAdd.Length; ++i)
                 AddCallback(m_CallbacksToAdd[i]);
 
             m_CallbacksToAdd.Clear();

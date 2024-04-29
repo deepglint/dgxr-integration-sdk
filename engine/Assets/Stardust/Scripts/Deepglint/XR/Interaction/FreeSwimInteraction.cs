@@ -10,7 +10,7 @@ namespace Deepglint.XR.Interaction
     /// </summary>
     public class FreeSwimInteraction : MetaverseInteraction, IInputInteraction
     {
-        private bool rightHandHit = false;
+        private bool _rightHandHit = false;
 
         public void Process(ref InputInteractionContext context)
         {
@@ -23,24 +23,24 @@ namespace Deepglint.XR.Interaction
                         case InputActionPhase.Waiting:
                             if (IsFreeSwimHit(dgXRDevice, true))
                             {
-                                rightHandHit = false;
+                                _rightHandHit = false;
                                 context.Started();
                             }
                             else if (IsFreeSwimHit(dgXRDevice))
                             {
-                                rightHandHit = true;
+                                _rightHandHit = true;
                                 context.Started();
                             }
                             break;
                         case InputActionPhase.Started:
-                            if (IsFreeSwimHit(dgXRDevice, rightHandHit))
+                            if (IsFreeSwimHit(dgXRDevice, _rightHandHit))
                             {
                                 Debug.Log("FreeSwim action performed");
                                 context.PerformedAndStayPerformed();
                             }
                             break;
                         case InputActionPhase.Performed:
-                            if (!IsFreeSwimHit(dgXRDevice, rightHandHit))
+                            if (!IsFreeSwimHit(dgXRDevice, _rightHandHit))
                             {
                                 context.Canceled();
                             }
@@ -56,7 +56,7 @@ namespace Deepglint.XR.Interaction
 
         private bool IsFreeSwimHappening(DGXRController dgXRDevice)
         {
-            if (dgXRDevice.FreeSwim.ReadValue() > confidence)
+            if (dgXRDevice.FreeSwim.ReadValue() > Confidence)
             {
                 Debug.Log("Free-Swim action is happening");
                 return true;
@@ -68,16 +68,16 @@ namespace Deepglint.XR.Interaction
         private bool IsFreeSwimHit(DGXRController device, bool leftHand = false)
         {
             return leftHand
-                ? device.HumanBody.leftWrist.position.y.ReadValue() >
-                  device.HumanBody.leftElbow.position.y.ReadValue()
-                : device.HumanBody.rightWrist.position.y.ReadValue() >
-                  device.HumanBody.rightElbow.position.y.ReadValue();
+                ? device.HumanBody.LeftWrist.position.y.ReadValue() >
+                  device.HumanBody.LeftElbow.position.y.ReadValue()
+                : device.HumanBody.RightWrist.position.y.ReadValue() >
+                  device.HumanBody.RightElbow.position.y.ReadValue();
         }
 
-        public void Reset()
+        public new void Reset()
         {
             base.Reset();
-            rightHandHit = false;
+            _rightHandHit = false;
             Debug.Log("reset Free-Swim interaction");
         }
     }

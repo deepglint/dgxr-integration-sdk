@@ -10,15 +10,15 @@ namespace Deepglint.XR.Interaction
     /// </summary>
     public class SlideLeftArmToRightInteraction : IInputInteraction
     {
-        private float armAngle = 180;
-        private float distance = 3;
-        private float distanceOffset = 0.05f;
-        private float angleOffset = 0.5f;
+        private float _armAngle = 180;
+        private float _distance = 3;
+        private readonly float _distanceOffset = 0.05f;
+        private readonly float _angleOffset = 0.5f;
 
-        public float startArmAngle = 140;
-        public float performArmAngle = 90;
+        public float StartArmAngle = 140;
+        public float PerformArmAngle = 90;
         
-        private int missCount = 0;
+        private int _missCount = 0;
         
         public void Process(ref InputInteractionContext context)
         {
@@ -30,13 +30,13 @@ namespace Deepglint.XR.Interaction
                     switch (context.phase)
                     {
                         case InputActionPhase.Waiting:
-                            if (armAngle >= startArmAngle)
+                            if (_armAngle >= StartArmAngle)
                             {
                                 context.Started();
                             }
                             break;
                         case InputActionPhase.Started:
-                            if (armAngle <= performArmAngle)
+                            if (_armAngle <= PerformArmAngle)
                             {
                                 context.PerformedAndStayPerformed();
                             }
@@ -46,8 +46,8 @@ namespace Deepglint.XR.Interaction
                 }
                 else
                 {
-                    missCount++;
-                    if (missCount >= 3 &&
+                    _missCount++;
+                    if (_missCount >= 3 &&
                         (context.phase == InputActionPhase.Performed || context.phase == InputActionPhase.Started))
                     {
                         context.Canceled();
@@ -70,41 +70,41 @@ namespace Deepglint.XR.Interaction
                 return false;
             }
 
-            Vector3 leftWrist = dgXRDevice.HumanBody.leftWrist.position.ReadValue();
-            Vector3 leftShoulder = dgXRDevice.HumanBody.leftShoulder.position.ReadValue();
+            Vector3 leftWrist = dgXRDevice.HumanBody.LeftWrist.position.ReadValue();
+            Vector3 leftShoulder = dgXRDevice.HumanBody.LeftShoulder.position.ReadValue();
             
-            if (leftWrist.y > leftShoulder.y || leftWrist.y < dgXRDevice.HumanBody.leftHip.position.y.ReadValue())
+            if (leftWrist.y > leftShoulder.y || leftWrist.y < dgXRDevice.HumanBody.LeftHip.position.y.ReadValue())
             {
                 return false;
             }
 
-            float currentDistance = Vector3.Distance(leftWrist, dgXRDevice.HumanBody.rightShoulder.position.ReadValue());
-            if (currentDistance > distance + distanceOffset) 
+            float currentDistance = Vector3.Distance(leftWrist, dgXRDevice.HumanBody.RightShoulder.position.ReadValue());
+            if (currentDistance > _distance + _distanceOffset) 
             {
-                distance = currentDistance; 
+                _distance = currentDistance; 
                 return false;
             }
             
-            distance = currentDistance;
+            _distance = currentDistance;
 
-            Vector3 leftElbow = dgXRDevice.HumanBody.leftElbow.position.ReadValue();
+            Vector3 leftElbow = dgXRDevice.HumanBody.LeftElbow.position.ReadValue();
             float currentAngle = Vector3.Angle(leftWrist - leftElbow, leftShoulder - leftElbow);
-            if (currentAngle > armAngle + angleOffset)
+            if (currentAngle > _armAngle + _angleOffset)
             {
-                armAngle = currentAngle;
+                _armAngle = currentAngle;
                 return false;
             }
 
-            armAngle = currentAngle;
-            missCount = 0;
+            _armAngle = currentAngle;
+            _missCount = 0;
             return true;
         }
 
         public void Reset()
         {
-            missCount = 0;
-            distance = 180;
-            armAngle = 3;
+            _missCount = 0;
+            _distance = 180;
+            _armAngle = 3;
         }
     }
 }

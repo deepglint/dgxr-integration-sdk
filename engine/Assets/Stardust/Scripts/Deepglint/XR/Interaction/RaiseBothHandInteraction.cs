@@ -11,30 +11,30 @@ namespace Deepglint.XR.Interaction
     public class RaiseBothHandInteraction : IInputInteraction
     {
         /// <summary>
-        /// required tap count to perform this action
+        /// required hit count to perform this action
         /// </summary>
-        public int requiredTaps = 3;
+        public int RequiredHits = 3;
 
         /// <summary>
         /// required arm angle to perform this action
         /// </summary>
-        public float requiredArmAngle = 120f;
+        public float RequiredArmAngle = 120f;
         
-        private Dictionary<int, int> tapDictionary = new Dictionary<int, int>();
+        private Dictionary<int, int> _hitDictionary = new Dictionary<int, int>();
 
         public void Process(ref InputInteractionContext context)
         {
             if (context.control.device is DGXRController dgXRDevice)
             {
-                if (IsRaiseBothHandHappening(dgXRDevice, requiredArmAngle))
+                if (IsRaiseBothHandHappening(dgXRDevice, RequiredArmAngle))
                 {
-                    if (tapDictionary.ContainsKey(dgXRDevice.deviceId))
+                    if (_hitDictionary.ContainsKey(dgXRDevice.deviceId))
                     {
-                        tapDictionary[dgXRDevice.deviceId] += 1;
+                        _hitDictionary[dgXRDevice.deviceId] += 1;
                     }
                     else
                     {
-                        tapDictionary[dgXRDevice.deviceId] = 1;
+                        _hitDictionary[dgXRDevice.deviceId] = 1;
                     }
 
                     if (context.phase == InputActionPhase.Waiting)
@@ -42,7 +42,7 @@ namespace Deepglint.XR.Interaction
                         context.Started();
                     } else if (context.phase == InputActionPhase.Started)
                     {
-                        if (tapDictionary[dgXRDevice.deviceId] >= requiredTaps)
+                        if (_hitDictionary[dgXRDevice.deviceId] >= RequiredHits)
                         {
                             context.PerformedAndStayPerformed();
                             //Debug.Log("perform raise both hand on device " + device.deviceId);
@@ -51,7 +51,7 @@ namespace Deepglint.XR.Interaction
                 }
                 else
                 {
-                    tapDictionary[dgXRDevice.deviceId] = 0;
+                    _hitDictionary[dgXRDevice.deviceId] = 0;
                     if (context.phase == InputActionPhase.Performed)
                     {
                         //Debug.Log("cancel raise both hand on device" + device.deviceId);

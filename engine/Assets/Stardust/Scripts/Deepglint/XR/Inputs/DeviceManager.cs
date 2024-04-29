@@ -17,7 +17,7 @@ namespace Deepglint.XR.Inputs
         /// <summary>
         /// count of all the active Deepglint XR devices
         /// </summary>
-        internal static int s_ActiveDeviceCount = 0;
+        internal static int m_ActiveDeviceCount = 0;
 
         /// <summary>
         /// max count of all the active Deepglint XR devices
@@ -29,17 +29,17 @@ namespace Deepglint.XR.Inputs
         /// <summary>
         /// all the active Deepglint XR devices
         /// </summary>
-        internal static ConcurrentDictionary<string, InputDevice> s_ActiveDevices =  new ConcurrentDictionary<string, InputDevice>{};
+        internal static ConcurrentDictionary<string, InputDevice> m_ActiveDevices =  new ConcurrentDictionary<string, InputDevice>();
         
         /// <summary>
         /// all the Deepglint XR devices 
         /// </summary>
-        private static ConcurrentDictionary<string, InputDevice> m_Devices =  new ConcurrentDictionary<string, InputDevice>{};
+        private static ConcurrentDictionary<string, InputDevice> _devices =  new ConcurrentDictionary<string, InputDevice>();
         
         /// <summary>
         /// all the active Deepglint XR devices
         /// </summary>
-        public static ReadOnlyArray<InputDevice> AllActiveDevices => new ReadOnlyArray<InputDevice>(s_ActiveDevices.Values.ToArray(), 0, s_ActiveDeviceCount);
+        public static ReadOnlyArray<InputDevice> AllActiveDevices => new ReadOnlyArray<InputDevice>(m_ActiveDevices.Values.ToArray(), 0, m_ActiveDeviceCount);
 
         /// <summary>
         /// Get an active device by the serial
@@ -48,9 +48,9 @@ namespace Deepglint.XR.Inputs
         /// <returns></returns>
         public static InputDevice GetActiveDeviceBySerial(string serial)
         {
-            if (s_ActiveDevices.ContainsKey(serial))
+            if (m_ActiveDevices.ContainsKey(serial))
             {
-                return s_ActiveDevices[serial];
+                return m_ActiveDevices[serial];
             }
             return null;
         }
@@ -65,9 +65,9 @@ namespace Deepglint.XR.Inputs
             var device = GetActiveDeviceBySerial(serial);
             if (device == null)
             {
-                if (m_Devices.ContainsKey(serial))
+                if (_devices.ContainsKey(serial))
                 {
-                    device = m_Devices[serial];
+                    device = _devices[serial];
                     InputSystem.AddDevice(device); 
                 }
                 else
@@ -79,12 +79,12 @@ namespace Deepglint.XR.Inputs
                         product = product,
                         manufacturer = "deepglint",
                     });
-                    m_Devices[serial] = device; 
+                    _devices[serial] = device; 
                 }
-                s_ActiveDevices[serial] = device;
-                s_ActiveDeviceCount++;
+                m_ActiveDevices[serial] = device;
+                m_ActiveDeviceCount++;
                 Debug.LogFormat("Device {0} which serial is {1} which type is {2} was created", device.deviceId, serial, product);
-                if (s_ActiveDeviceCount >= MaxActiveDeviceCount)
+                if (m_ActiveDeviceCount >= MaxActiveDeviceCount)
                 {
                     OnTooManyActiveDevices?.Invoke();
                 }
@@ -101,8 +101,8 @@ namespace Deepglint.XR.Inputs
             if (device != null)
             {
                 InputSystem.RemoveDevice(device);
-                s_ActiveDeviceCount--;
-                s_ActiveDevices.TryRemove(serial, out device);
+                m_ActiveDeviceCount--;
+                m_ActiveDevices.TryRemove(serial, out device);
                 Debug.LogFormat("Device {0} which serial is {1} was removed", device.deviceId, serial);
             }
         }

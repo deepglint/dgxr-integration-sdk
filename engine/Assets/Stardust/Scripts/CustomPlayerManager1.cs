@@ -25,7 +25,7 @@ public class CustomPlayerManager1 : MonoBehaviour
             {
                 if (device is DGXRController dgXRDevice)
                 {
-                    Vector3 position = dgXRDevice.HumanPose.position.ReadValue();
+                    Vector3 position = dgXRDevice.HumanPose.Position.ReadValue();
                     if (Vector2.Distance(character.roi.Anchor, new Vector2(position.x, position.z)) > character.roi.Radius)
                     {
                         Debug.LogFormat("device {0} stepped out from {1}'s roi", device.deviceId, character.Name);
@@ -43,12 +43,12 @@ public class CustomPlayerManager1 : MonoBehaviour
             if (character.Player.PairedDevices.Count == 0)
             {
                 var devices = DeviceManager.AllActiveDevices;
-                var allPairedDevices = PlayerManager.instance.AllPairedDevices.ToArray();
+                var allPairedDevices = PlayerManager.Instance.AllPairedDevices.ToArray();
                 foreach (var device in devices)
                 {
                     if (!ArrayHelper.Contains(allPairedDevices, device) &&  device is DGXRController dgXRDevice)
                     {
-                        Vector3 position = dgXRDevice.HumanPose.position.ReadValue();
+                        Vector3 position = dgXRDevice.HumanPose.Position.ReadValue();
                         if (Vector2.Distance(character.roi.Anchor, new Vector2(position.x, position.z)) < character.roi.Radius)
                         {
                             Debug.LogFormat("device {0} steeped into {1}'s roi", device.deviceId, character.Name); 
@@ -84,7 +84,7 @@ public class CustomPlayerManager1 : MonoBehaviour
             {
                 if (device is DGXRController dgXRDevice)
                 {
-                    Vector3 position = dgXRDevice.HumanPose.position.ReadValue();
+                    Vector3 position = dgXRDevice.HumanPose.Position.ReadValue();
                     if (Vector2.Distance(roi.Anchor,new Vector2(position.x, position.z)) <= roi.Radius)
                     {
                         Debug.LogFormat("character {0} is bindable", Name);

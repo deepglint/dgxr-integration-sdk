@@ -1,5 +1,5 @@
 ﻿using System;
-using Moat.Model;
+using Stardust.Model;
 using Stardust.Scripts;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;

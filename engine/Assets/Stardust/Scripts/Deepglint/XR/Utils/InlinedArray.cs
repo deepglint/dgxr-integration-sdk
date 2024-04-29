@@ -19,42 +19,42 @@ namespace Deepglint.XR.Utils
     {
         // We inline the first value so if there's only one, there's
         // no additional allocation. If more are added, we allocate an array.
-        public int length;
-        public TValue firstValue;
-        public TValue[] additionalValues;
+        public int Length;
+        public TValue FirstValue;
+        public TValue[] AdditionalValues;
 
-        public int Capacity => additionalValues?.Length + 1 ?? 1;
+        public int Capacity => AdditionalValues?.Length + 1 ?? 1;
 
         public InlinedArray(TValue value)
         {
-            length = 1;
-            firstValue = value;
-            additionalValues = null;
+            Length = 1;
+            FirstValue = value;
+            AdditionalValues = null;
         }
 
         public InlinedArray(TValue firstValue, params TValue[] additionalValues)
         {
-            length = 1 + additionalValues.Length;
-            this.firstValue = firstValue;
-            this.additionalValues = additionalValues;
+            Length = 1 + additionalValues.Length;
+            this.FirstValue = firstValue;
+            this.AdditionalValues = additionalValues;
         }
 
         public InlinedArray(IEnumerable<TValue> values)
             : this()
         {
-            length = values.Count();
-            if (length > 1)
-                additionalValues = new TValue[length - 1];
+            Length = values.Count();
+            if (Length > 1)
+                AdditionalValues = new TValue[Length - 1];
             else
-                additionalValues = null;
+                AdditionalValues = null;
 
             var index = 0;
             foreach (var value in values)
             {
                 if (index == 0)
-                    firstValue = value;
+                    FirstValue = value;
                 else
-                    additionalValues[index - 1] = value;
+                    AdditionalValues[index - 1] = value;
                 ++index;
             }
         }
@@ -63,39 +63,39 @@ namespace Deepglint.XR.Utils
         {
             get
             {
-                if (index < 0 || index >= length)
+                if (index < 0 || index >= Length)
                     throw new ArgumentOutOfRangeException(nameof(index));
 
                 if (index == 0)
-                    return firstValue;
+                    return FirstValue;
 
-                return additionalValues[index - 1];
+                return AdditionalValues[index - 1];
             }
             set
             {
-                if (index < 0 || index >= length)
+                if (index < 0 || index >= Length)
                     throw new ArgumentOutOfRangeException(nameof(index));
 
                 if (index == 0)
-                    firstValue = value;
+                    FirstValue = value;
                 else
-                    additionalValues[index - 1] = value;
+                    AdditionalValues[index - 1] = value;
             }
         }
 
         public void Clear()
         {
-            length = 0;
-            firstValue = default;
-            additionalValues = null;
+            Length = 0;
+            FirstValue = default;
+            AdditionalValues = null;
         }
 
         public void ClearWithCapacity()
         {
-            firstValue = default;
-            for (var i = 0; i < length - 1; ++i)
-                additionalValues[i] = default;
-            length = 0;
+            FirstValue = default;
+            for (var i = 0; i < Length - 1; ++i)
+                AdditionalValues[i] = default;
+            Length = 0;
         }
 
         ////REVIEW: This is inconsistent with ArrayHelpers.Clone() which also clones elements
@@ -103,39 +103,39 @@ namespace Deepglint.XR.Utils
         {
             return new InlinedArray<TValue>
             {
-                length = length,
-                firstValue = firstValue,
-                additionalValues = additionalValues != null ? ArrayHelper.Copy(additionalValues) : null
+                Length = Length,
+                FirstValue = FirstValue,
+                AdditionalValues = AdditionalValues != null ? ArrayHelper.Copy(AdditionalValues) : null
             };
         }
 
         public void SetLength(int size)
         {
             // Null out everything we're cutting off.
-            if (size < length)
+            if (size < Length)
             {
-                for (var i = size; i < length; ++i)
+                for (var i = size; i < Length; ++i)
                     this[i] = default;
             }
 
-            length = size;
+            Length = size;
 
-            if (size > 1 && (additionalValues == null || additionalValues.Length < size - 1))
-                Array.Resize(ref additionalValues, size - 1);
+            if (size > 1 && (AdditionalValues == null || AdditionalValues.Length < size - 1))
+                Array.Resize(ref AdditionalValues, size - 1);
         }
 
         public TValue[] ToArray()
         {
-            return ArrayHelper.Join(firstValue, additionalValues);
+            return ArrayHelper.Join(FirstValue, AdditionalValues);
         }
 
         public TOther[] ToArray<TOther>(Func<TValue, TOther> mapFunction)
         {
-            if (length == 0)
+            if (Length == 0)
                 return null;
 
-            var result = new TOther[length];
-            for (var i = 0; i < length; ++i)
+            var result = new TOther[Length];
+            for (var i = 0; i < Length; ++i)
                 result[i] = mapFunction(this[i]);
 
             return result;
@@ -144,14 +144,14 @@ namespace Deepglint.XR.Utils
         public int IndexOf(TValue value)
         {
             var comparer = EqualityComparer<TValue>.Default;
-            if (length > 0)
+            if (Length > 0)
             {
-                if (comparer.Equals(firstValue, value))
+                if (comparer.Equals(FirstValue, value))
                     return 0;
-                if (additionalValues != null)
+                if (AdditionalValues != null)
                 {
-                    for (var i = 0; i < length - 1; ++i)
-                        if (comparer.Equals(additionalValues[i], value))
+                    for (var i = 0; i < Length - 1; ++i)
+                        if (comparer.Equals(AdditionalValues[i], value))
                             return i + 1;
                 }
             }
@@ -161,53 +161,53 @@ namespace Deepglint.XR.Utils
 
         public int Append(TValue value)
         {
-            if (length == 0)
+            if (Length == 0)
             {
-                firstValue = value;
+                FirstValue = value;
             }
-            else if (additionalValues == null)
+            else if (AdditionalValues == null)
             {
-                additionalValues = new TValue[1];
-                additionalValues[0] = value;
+                AdditionalValues = new TValue[1];
+                AdditionalValues[0] = value;
             }
             else
             {
-                Array.Resize(ref additionalValues, length);
-                additionalValues[length - 1] = value;
+                Array.Resize(ref AdditionalValues, Length);
+                AdditionalValues[Length - 1] = value;
             }
 
-            var index = length;
-            ++length;
+            var index = Length;
+            ++Length;
             return index;
         }
 
         public int AppendWithCapacity(TValue value, int capacityIncrement = 10)
         {
-            if (length == 0)
+            if (Length == 0)
             {
-                firstValue = value;
+                FirstValue = value;
             }
             else
             {
-                var numAdditionalValues = length - 1;
-                ArrayHelper.AppendWithCapacity(ref additionalValues, ref numAdditionalValues, value, capacityIncrement: capacityIncrement);
+                var numAdditionalValues = Length - 1;
+                ArrayHelper.AppendWithCapacity(ref AdditionalValues, ref numAdditionalValues, value, capacityIncrement: capacityIncrement);
             }
 
-            var index = length;
-            ++length;
+            var index = Length;
+            ++Length;
             return index;
         }
 
         public void AssignWithCapacity(InlinedArray<TValue> values)
         {
-            if (Capacity < values.length && values.length > 1)
-                additionalValues = new TValue[values.length - 1];
+            if (Capacity < values.Length && values.Length > 1)
+                AdditionalValues = new TValue[values.Length - 1];
 
-            length = values.length;
-            if (length > 0)
-                firstValue = values.firstValue;
-            if (length > 1)
-                Array.Copy(values.additionalValues, additionalValues, length - 1);
+            Length = values.Length;
+            if (Length > 0)
+                FirstValue = values.FirstValue;
+            if (Length > 1)
+                Array.Copy(values.AdditionalValues, AdditionalValues, Length - 1);
         }
 
         public void Append(IEnumerable<TValue> values)
@@ -218,18 +218,18 @@ namespace Deepglint.XR.Utils
 
         public void Remove(TValue value)
         {
-            if (length < 1)
+            if (Length < 1)
                 return;
 
-            if (EqualityComparer<TValue>.Default.Equals(firstValue, value))
+            if (EqualityComparer<TValue>.Default.Equals(FirstValue, value))
             {
                 RemoveAt(0);
             }
-            else if (additionalValues != null)
+            else if (AdditionalValues != null)
             {
-                for (var i = 0; i < length - 1; ++i)
+                for (var i = 0; i < Length - 1; ++i)
                 {
-                    if (EqualityComparer<TValue>.Default.Equals(additionalValues[i], value))
+                    if (EqualityComparer<TValue>.Default.Equals(AdditionalValues[i], value))
                     {
                         RemoveAt(i + 1);
                         break;
@@ -240,74 +240,74 @@ namespace Deepglint.XR.Utils
 
         public void RemoveAtWithCapacity(int index)
         {
-            if (index < 0 || index >= length)
+            if (index < 0 || index >= Length)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
             if (index == 0)
             {
-                if (length == 1)
+                if (Length == 1)
                 {
-                    firstValue = default;
+                    FirstValue = default;
                 }
-                else if (length == 2)
+                else if (Length == 2)
                 {
-                    firstValue = additionalValues[0];
-                    additionalValues[0] = default;
+                    FirstValue = AdditionalValues[0];
+                    AdditionalValues[0] = default;
                 }
                 else
                 {
-                    Debug.Assert(length > 2);
-                    firstValue = additionalValues[0];
-                    var numAdditional = length - 1;
-                    ArrayHelper.EraseAtWithCapacity(additionalValues, ref numAdditional, 0);
+                    Debug.Assert(Length > 2);
+                    FirstValue = AdditionalValues[0];
+                    var numAdditional = Length - 1;
+                    ArrayHelper.EraseAtWithCapacity(AdditionalValues, ref numAdditional, 0);
                 }
             }
             else
             {
-                var numAdditional = length - 1;
-                ArrayHelper.EraseAtWithCapacity(additionalValues, ref numAdditional, index - 1);
+                var numAdditional = Length - 1;
+                ArrayHelper.EraseAtWithCapacity(AdditionalValues, ref numAdditional, index - 1);
             }
 
-            --length;
+            --Length;
         }
 
         public void RemoveAt(int index)
         {
-            if (index < 0 || index >= length)
+            if (index < 0 || index >= Length)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
             if (index == 0)
             {
-                if (additionalValues != null)
+                if (AdditionalValues != null)
                 {
-                    firstValue = additionalValues[0];
-                    if (additionalValues.Length == 1)
-                        additionalValues = null;
+                    FirstValue = AdditionalValues[0];
+                    if (AdditionalValues.Length == 1)
+                        AdditionalValues = null;
                     else
                     {
-                        Array.Copy(additionalValues, 1, additionalValues, 0, additionalValues.Length - 1);
-                        Array.Resize(ref additionalValues, additionalValues.Length - 1);
+                        Array.Copy(AdditionalValues, 1, AdditionalValues, 0, AdditionalValues.Length - 1);
+                        Array.Resize(ref AdditionalValues, AdditionalValues.Length - 1);
                     }
                 }
                 else
                 {
-                    firstValue = default;
+                    FirstValue = default;
                 }
             }
             else
             {
-                Debug.Assert(additionalValues != null);
+                Debug.Assert(AdditionalValues != null);
 
-                var numAdditionalValues = length - 1;
+                var numAdditionalValues = Length - 1;
                 if (numAdditionalValues == 1)
                 {
                     // Remove only entry in array.
-                    additionalValues = null;
+                    AdditionalValues = null;
                 }
-                else if (index == length - 1)
+                else if (index == Length - 1)
                 {
                     // Remove entry at end.
-                    Array.Resize(ref additionalValues, numAdditionalValues - 1);
+                    Array.Resize(ref AdditionalValues, numAdditionalValues - 1);
                 }
                 else
                 {
@@ -317,47 +317,47 @@ namespace Deepglint.XR.Utils
                     if (index >= 2)
                     {
                         // Copy elements before entry.
-                        Array.Copy(additionalValues, 0, newAdditionalValues, 0, index - 1);
+                        Array.Copy(AdditionalValues, 0, newAdditionalValues, 0, index - 1);
                     }
 
                     // Copy elements after entry. We already know that we're not removing
                     // the last entry so there have to be entries.
-                    Array.Copy(additionalValues, index + 1 - 1, newAdditionalValues, index - 1,
-                        length - index - 1);
+                    Array.Copy(AdditionalValues, index + 1 - 1, newAdditionalValues, index - 1,
+                        Length - index - 1);
 
-                    additionalValues = newAdditionalValues;
+                    AdditionalValues = newAdditionalValues;
                 }
             }
 
-            --length;
+            --Length;
         }
 
         public void RemoveAtByMovingTailWithCapacity(int index)
         {
-            if (index < 0 || index >= length)
+            if (index < 0 || index >= Length)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            var numAdditionalValues = length - 1;
+            var numAdditionalValues = Length - 1;
             if (index == 0)
             {
-                if (length > 1)
+                if (Length > 1)
                 {
-                    firstValue = additionalValues[numAdditionalValues - 1];
-                    additionalValues[numAdditionalValues - 1] = default;
+                    FirstValue = AdditionalValues[numAdditionalValues - 1];
+                    AdditionalValues[numAdditionalValues - 1] = default;
                 }
                 else
                 {
-                    firstValue = default;
+                    FirstValue = default;
                 }
             }
             else
             {
-                Debug.Assert(additionalValues != null);
+                Debug.Assert(AdditionalValues != null);
 
-                ArrayHelper.EraseAtByMovingTail(additionalValues, ref numAdditionalValues, index - 1);
+                ArrayHelper.EraseAtByMovingTail(AdditionalValues, ref numAdditionalValues, index - 1);
             }
 
-            --length;
+            --Length;
         }
 
         public bool RemoveByMovingTailWithCapacity(TValue value)
@@ -372,7 +372,7 @@ namespace Deepglint.XR.Utils
 
         public bool Contains(TValue value, IEqualityComparer<TValue> comparer)
         {
-            for (var n = 0; n < length; ++n)
+            for (var n = 0; n < Length; ++n)
                 if (comparer.Equals(this[n], value))
                     return true;
             return false;
@@ -381,7 +381,7 @@ namespace Deepglint.XR.Utils
         public void Merge(InlinedArray<TValue> other)
         {
             var comparer = EqualityComparer<TValue>.Default;
-            for (var i = 0; i < other.length; ++i)
+            for (var i = 0; i < other.Length; ++i)
             {
                 var value = other[i];
                 if (Contains(value, comparer))
@@ -394,7 +394,7 @@ namespace Deepglint.XR.Utils
 
         public IEnumerator<TValue> GetEnumerator()
         {
-            return new Enumerator { array = this, index = -1 };
+            return new Enumerator { Array = this, Index = -1 };
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -404,23 +404,23 @@ namespace Deepglint.XR.Utils
 
         private struct Enumerator : IEnumerator<TValue>
         {
-            public InlinedArray<TValue> array;
-            public int index;
+            public InlinedArray<TValue> Array;
+            public int Index;
 
             public bool MoveNext()
             {
-                if (index >= array.length)
+                if (Index >= Array.Length)
                     return false;
-                ++index;
-                return index < array.length;
+                ++Index;
+                return Index < Array.Length;
             }
 
             public void Reset()
             {
-                index = -1;
+                Index = -1;
             }
 
-            public TValue Current => array[index];
+            public TValue Current => Array[Index];
             object IEnumerator.Current => Current;
 
             public void Dispose()
@@ -434,7 +434,7 @@ namespace Deepglint.XR.Utils
         public static int IndexOfReference<TValue>(this InlinedArray<TValue> array, TValue value)
             where TValue : class
         {
-            for (var i = 0; i < array.length; ++i)
+            for (var i = 0; i < array.Length; ++i)
                 if (ReferenceEquals(array[i], value))
                     return i;
 
@@ -443,7 +443,7 @@ namespace Deepglint.XR.Utils
 
         public static bool Contains<TValue>(this InlinedArray<TValue> array, TValue value)
         {
-            for (var i = 0; i < array.length; ++i)
+            for (var i = 0; i < array.Length; ++i)
                 if (array[i].Equals(value))
                     return true;
             return false;

@@ -10,15 +10,15 @@ namespace Deepglint.XR.Interaction
     /// </summary>
     public class SlideRightArmToLeftInteraction : IInputInteraction
     {
-        private float armAngle = 180;
-        private float distance = 3;
-        private float distanceOffset = 0.05f;
-        private float angleOffset = 0.5f;
+        private float _armAngle = 180;
+        private float _distance = 3;
+        private readonly float _distanceOffset = 0.05f;
+        private readonly float _angleOffset = 0.5f;
 
-        public float startArmAngle = 140;
-        public float performArmAngle = 90;
+        public float StartArmAngle = 140;
+        public float PerformArmAngle = 90;
         
-        private int missCount = 0;
+        private int _missCount = 0;
         
         public void Process(ref InputInteractionContext context)
         {
@@ -30,14 +30,14 @@ namespace Deepglint.XR.Interaction
                     switch (context.phase)
                     {
                         case InputActionPhase.Waiting:
-                            if (armAngle >= startArmAngle)
+                            if (_armAngle >= StartArmAngle)
                             {
                                 // Debug.Log("SlideRightArmToLeft action started");
                                 context.Started();
                             }
                             break;
                         case InputActionPhase.Started:
-                            if (armAngle <= performArmAngle)
+                            if (_armAngle <= PerformArmAngle)
                             {
                                 // Debug.Log("SlideRightArmToLeft action performed");
                                 context.PerformedAndStayPerformed();
@@ -48,8 +48,8 @@ namespace Deepglint.XR.Interaction
                 }
                 else
                 {
-                    missCount++;
-                    if (missCount >= 3 &&
+                    _missCount++;
+                    if (_missCount >= 3 &&
                         (context.phase == InputActionPhase.Performed || context.phase == InputActionPhase.Started))
                     {
                         // Debug.Log("SlideRightArmToLeft action canceled");
@@ -73,45 +73,45 @@ namespace Deepglint.XR.Interaction
                 return false;
             }
 
-            Vector3 rightWrist = dgXRDevice.HumanBody.rightWrist.position.ReadValue();
-            Vector3 rightShoulder = dgXRDevice.HumanBody.rightShoulder.position.ReadValue();
+            Vector3 rightWrist = dgXRDevice.HumanBody.RightWrist.position.ReadValue();
+            Vector3 rightShoulder = dgXRDevice.HumanBody.RightShoulder.position.ReadValue();
             
-            if (rightWrist.y > rightShoulder.y || rightWrist.y < dgXRDevice.HumanBody.rightHip.position.y.ReadValue())
+            if (rightWrist.y > rightShoulder.y || rightWrist.y < dgXRDevice.HumanBody.RightHip.position.y.ReadValue())
             {
                 // Debug.Log("SlideRightArmToLeft action miss by position.y");
                 return false;
             }
 
-            float currentDistance = Vector3.Distance(rightWrist, dgXRDevice.HumanBody.leftShoulder.position.ReadValue());
-            if (currentDistance > distance + distanceOffset) 
+            float currentDistance = Vector3.Distance(rightWrist, dgXRDevice.HumanBody.LeftShoulder.position.ReadValue());
+            if (currentDistance > _distance + _distanceOffset) 
             {
                 // Debug.LogFormat("SlideRightArmToLeft action miss by distance {0},{1}", distance, currentDistance);
-                distance = currentDistance; 
+                _distance = currentDistance; 
                 return false;
             }
             
-            distance = currentDistance;
+            _distance = currentDistance;
 
-            Vector3 rightElbow = dgXRDevice.HumanBody.rightElbow.position.ReadValue();
+            Vector3 rightElbow = dgXRDevice.HumanBody.RightElbow.position.ReadValue();
             float currentAngle = Vector3.Angle(rightWrist - rightElbow, rightShoulder - rightElbow);
-            if (currentAngle > armAngle + angleOffset)
+            if (currentAngle > _armAngle + _angleOffset)
             {
                 // Debug.LogFormat("SlideRightArmToLeft action miss by angle {0}, {1}", armAngle, currentAngle);
-                armAngle = currentAngle;
+                _armAngle = currentAngle;
                 return false;
             }
 
-            armAngle = currentAngle;
+            _armAngle = currentAngle;
             // Debug.Log("SlideRightArmToLeft action is happening");
-            missCount = 0;
+            _missCount = 0;
             return true;
         }
 
         public void Reset()
         {
-            missCount = 0;
-            distance = 180;
-            armAngle = 3;
+            _missCount = 0;
+            _distance = 180;
+            _armAngle = 3;
         }
     }
 }

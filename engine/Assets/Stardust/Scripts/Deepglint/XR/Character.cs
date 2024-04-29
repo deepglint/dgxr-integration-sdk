@@ -10,12 +10,12 @@ namespace Deepglint.XR
     /// </remarks>
     public abstract class Character
     {
-        internal Player m_player;
+        internal Player m_Player;
 
         /// <summary>
         /// The player which controls current character
         /// </summary>
-        public Player Player => m_player;
+        public Player Player => m_Player;
         
         /// <summary>
         /// Name of current character
@@ -36,16 +36,16 @@ namespace Deepglint.XR
         /// </summary>
         public bool IsBindable()
         {
-            if (m_player is null)
+            if (m_Player is null)
             {
                 return true;
             }
             else
             {
-                if (m_player.m_PlayerInput is not null)
+                if (m_Player.m_PlayerInput is not null)
                 {
                     // todo check the control schema.
-                    if (m_player.PairedDevices.Count == 0)
+                    if (m_Player.PairedDevices.Count == 0)
                     {
                         return true;
                     }

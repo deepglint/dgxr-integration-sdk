@@ -35,7 +35,7 @@ namespace Deepglint.XR
         {
             Debug.Assert(m_PlayerInput is not null, "Only player initialized by PlayerManager can use PairDeviceManually function");
             
-            return PlayerManager.instance.PairDeviceToCharacter(m_Character, device);
+            return PlayerManager.Instance.PairDeviceToCharacter(m_Character, device);
         }
 
         /// <summary>

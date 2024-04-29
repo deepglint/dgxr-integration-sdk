@@ -36,27 +36,27 @@ namespace Deepglint.XR
         /// <summary>
         /// Manages all the playerInputs
         /// </summary>
-        private PlayerInputManager playerInputManager;
+        private PlayerInputManager _playerInputManager;
         
         /// <summary>
         /// All the active PlayerInput count managed by the PlayerManager instance
         /// </summary>
-        private static int s_AllActivePlayersCount;
+        private static int _allActivePlayersCount;
         
         /// <summary>
         /// All the active PlayerInputs managed by the PlayerManager instance 
         /// </summary>
-        private static PlayerInput[] s_AllActivePlayers;
+        private static PlayerInput[] _allActivePlayers;
 
         /// <summary>
         /// Singleton instance of the manager.
         /// </summary>
-        public static PlayerManager instance { get; private set; }
+        public static PlayerManager Instance { get; private set; }
         
         /// <summary>
         /// Callback array to save all the OnTryToJoin delegate 
         /// </summary>
-        private static CallbackArray<Func<InputDevice, object>> s_TryToJoinDelegate;
+        private static CallbackArray<Func<InputDevice, object>> _tryToJoinDelegate;
         
         public static event Func<InputDevice, Character> OnTryToJoin
         {
@@ -64,19 +64,19 @@ namespace Deepglint.XR
             {
                 if (value == null)
                     throw new ArgumentNullException(nameof(value));
-                s_TryToJoinDelegate.AddCallback(value);
+                _tryToJoinDelegate.AddCallback(value);
             }
             remove
             {
                 if (value == null)
                     throw new ArgumentNullException(nameof(value));
-                s_TryToJoinDelegate.RemoveCallback(value);
+                _tryToJoinDelegate.RemoveCallback(value);
             }
         }
         
         private void Awake()
         {
-            playerInputManager = gameObject.AddComponent<PlayerInputManager>();
+            _playerInputManager = gameObject.AddComponent<PlayerInputManager>();
             // todo check player prefab exist;
             // if (playerPrefab == null)
             // {
@@ -86,18 +86,18 @@ namespace Deepglint.XR
             //         Debug.LogError("Player perfab not found");
             //     }
             // }
-            playerInputManager.playerPrefab = playerPrefab;
-            playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersManually;
+            _playerInputManager.playerPrefab = playerPrefab;
+            _playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersManually;
         
-            playerInputManager.onPlayerJoined += OnPlayerJoined;
-            playerInputManager.onPlayerLeft += OnPlayerLeft;
+            _playerInputManager.onPlayerJoined += OnPlayerJoined;
+            _playerInputManager.onPlayerLeft += OnPlayerLeft;
         }
 
         private void OnEnable()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
             }
             else
             {
@@ -115,18 +115,18 @@ namespace Deepglint.XR
                 joinAction.action.performed += OnJoinActionPerformed;
                 joinAction.action.Enable();
             }          
-            playerInputManager.EnableJoining();
+            _playerInputManager.EnableJoining();
 
             InputUser.onChange += OnInputUserChange;
         }
         
         private void OnDisable()
         {
-            if (instance == this)
+            if (Instance == this)
             {
-                instance = null;
+                Instance = null;
             }
-            playerInputManager.DisableJoining();
+            _playerInputManager.DisableJoining();
             InputUser.onChange -= OnInputUserChange;
         }
 
@@ -141,9 +141,9 @@ namespace Deepglint.XR
             get
             {
                 InputDevice[] devices = null;
-                for (var i = 0; i < s_AllActivePlayersCount; ++i)
+                for (var i = 0; i < _allActivePlayersCount; ++i)
                 {
-                    ArrayHelper.Append(ref devices, s_AllActivePlayers[i].devices);
+                    ArrayHelper.Append(ref devices, _allActivePlayers[i].devices);
                 }
 
                 return devices;
@@ -166,7 +166,7 @@ namespace Deepglint.XR
 
             // PlayerInput playerInput = null;
             var obj = DelegateHelper.InvokeCallbacksSafe_AnyCallbackReturnsObject(
-                ref s_TryToJoinDelegate, device, "PlayerManager.onTryToJoin");
+                ref _tryToJoinDelegate, device, "PlayerManager.onTryToJoin");
             if (obj is Character character)
             {
                 Debug.LogFormat("trying to bind device {0} to player {1}", device.deviceId, character.Name);
@@ -194,19 +194,19 @@ namespace Deepglint.XR
         internal bool PairDeviceToCharacter(Character character, InputDevice pairDevice)
         {
             PlayerInput playerInput = null;
-            if (character.m_player is null)
+            if (character.m_Player is null)
             {
                 // Initiate a new player for the character and pair the device to the new player.
-                playerInput = playerInputManager.JoinPlayer(pairWithDevice: pairDevice);
+                playerInput = _playerInputManager.JoinPlayer(pairWithDevice: pairDevice);
                 Player player = playerInput.gameObject.AddComponent<Player>();
-                character.m_player = player;
+                character.m_Player = player;
                 player.m_Character = character;
                 player.m_PlayerInput = playerInput;
                 Debug.LogFormat("player {0} joined with character {1}", playerInput.user.id, character.Name);
                 return true;
             }
 
-            playerInput = character.m_player.m_PlayerInput;
+            playerInput = character.m_Player.m_PlayerInput;
             if (playerInput is not null)
             {
                 // Pair the device to the player which controls current character.
@@ -236,7 +236,7 @@ namespace Deepglint.XR
         /// <param name="playerInput"></param>
         private void OnPlayerJoined(PlayerInput playerInput)
         {
-            ArrayHelper.AppendWithCapacity<PlayerInput>(ref s_AllActivePlayers, ref s_AllActivePlayersCount, playerInput);
+            ArrayHelper.AppendWithCapacity<PlayerInput>(ref _allActivePlayers, ref _allActivePlayersCount, playerInput);
             Debug.Log("Player joined: " + playerInput.playerIndex);
         }
 
@@ -246,10 +246,10 @@ namespace Deepglint.XR
         /// <param name="playerInput"></param>
         private void OnPlayerLeft(PlayerInput playerInput)
         {
-            var index = ArrayHelper.IndexOfReference(s_AllActivePlayers, playerInput, s_AllActivePlayersCount);
+            var index = ArrayHelper.IndexOfReference(_allActivePlayers, playerInput, _allActivePlayersCount);
             if (index != -1)
             {
-                ArrayHelper.EraseAtWithCapacity(s_AllActivePlayers, ref s_AllActivePlayersCount, index);
+                ArrayHelper.EraseAtWithCapacity(_allActivePlayers, ref _allActivePlayersCount, index);
             }
             Debug.LogFormat("Player {0} left, and current paired device count is {1}", playerInput.playerIndex, playerInput.devices.Count);
         }
@@ -302,9 +302,9 @@ namespace Deepglint.XR
             switch (change)
             {
                 case InputUserChange.DeviceLost:
-                    for (var i = 0; i < s_AllActivePlayersCount; ++i)
+                    for (var i = 0; i < _allActivePlayersCount; ++i)
                     {
-                        var player = s_AllActivePlayers[i];
+                        var player = _allActivePlayers[i];
                         if (player.user == user)
                         {
                             OnDeviceLost(player, device);
@@ -313,9 +313,9 @@ namespace Deepglint.XR
                     
                     break;
                 case InputUserChange.DeviceRegained:
-                    for (var i = 0; i < s_AllActivePlayersCount; ++i)
+                    for (var i = 0; i < _allActivePlayersCount; ++i)
                     {
-                        var player = s_AllActivePlayers[i];
+                        var player = _allActivePlayers[i];
                         if (player.user == user)
                         {
                             OnDeviceRegained(player, device); 
@@ -324,9 +324,9 @@ namespace Deepglint.XR
 
                     break;
                 case InputUserChange.DevicePaired:
-                    for (var i = 0; i < s_AllActivePlayersCount; ++i)
+                    for (var i = 0; i < _allActivePlayersCount; ++i)
                     {
-                        var player = s_AllActivePlayers[i];
+                        var player = _allActivePlayers[i];
                         if (player.user == user)
                         {
                             OnDevicePaired(player, device); 

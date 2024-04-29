@@ -48,7 +48,7 @@ namespace Deepglint.XR.Interaction
 
         private bool IsButterflySwimHappening(DGXRController dgXRDevice)
         {
-            if (dgXRDevice.ButterflySwim.ReadValue() > confidence)
+            if (dgXRDevice.ButterflySwim.ReadValue() > Confidence)
             {
                 Debug.Log("Butterfly-Swim action is happening");
                 return true;
@@ -59,21 +59,21 @@ namespace Deepglint.XR.Interaction
 
         private bool IsButterflySwimStart(DGXRController device)
         {
-            return device.HumanBody.leftWrist.position.y.ReadValue() > 
-                   device.HumanBody.leftElbow.position.y.ReadValue() && 
-                   device.HumanBody.rightWrist.position.y.ReadValue() > 
-                   device.HumanBody.rightElbow.position.y.ReadValue(); 
+            return device.HumanBody.LeftWrist.position.y.ReadValue() > 
+                   device.HumanBody.LeftElbow.position.y.ReadValue() && 
+                   device.HumanBody.RightWrist.position.y.ReadValue() > 
+                   device.HumanBody.RightElbow.position.y.ReadValue(); 
         }
 
         private bool IsButterflySwimHit(DGXRController device)
         {
-            return device.HumanBody.leftWrist.position.y.ReadValue() > 
-                   device.HumanBody.headTop.position.y.ReadValue() && 
-                   device.HumanBody.rightWrist.position.y.ReadValue() > 
-                   device.HumanBody.headTop.position.y.ReadValue();
+            return device.HumanBody.LeftWrist.position.y.ReadValue() > 
+                   device.HumanBody.HeadTop.position.y.ReadValue() && 
+                   device.HumanBody.RightWrist.position.y.ReadValue() > 
+                   device.HumanBody.HeadTop.position.y.ReadValue();
         }
 
-        public void Reset()
+        public new void Reset()
         {
             base.Reset();
             Debug.Log("reset Butterfly-Swim interaction");
