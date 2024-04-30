@@ -1,0 +1,74 @@
+{
+    "name": "DGXRActions",
+    "maps": [
+        {
+            "name": "DGXRActions",
+            "id": "28f04f06-fc64-4354-b714-d463ae6bf8fd",
+            "actions": [
+                {
+                    "name": "Join",
+                    "type": "Value",
+                    "id": "de4f99bb-576e-476d-b184-8f7d0d5ddf85",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Pose",
+                    "type": "Value",
+                    "id": "73fe1f94-f5ff-41bf-9032-10fd8b76977e",
+                    "expectedControlType": "HumanPose",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RaiseRightHand",
+                    "type": "Value",
+                    "id": "4cb50855-c11f-48d0-9f55-8e7682a14e62",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "09d95f42-fa6a-4088-9f22-18bc6d3fe14f",
+                    "path": "<DGXRController>/HumanBody",
+                    "interactions": "RaiseBothHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "129ab4fd-0d5d-490a-9dbd-d89001e658b8",
+                    "path": "<DGXRController>/HumanPose",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pose",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "de994201-1856-47e0-a0ba-0a6a6548774e",
+                    "path": "<DGXRController>/HumanBody",
+                    "interactions": "RaiseRightHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RaiseRightHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
