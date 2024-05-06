@@ -1,71 +1,74 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public struct BodyDataSource
+namespace Runtime.Samples.CustomPlayerManager
 {
-    public bool IsTracked;
-    public string BodyID { get; set; }
+    public struct BodyDataSource
+    {
+        public bool IsTracked;
+        public string BodyID { get; set; }
         
-    public Ray LeftRay;
-    public Ray RightRay;
-    public RaycastHit LeftHit;
-    public RaycastHit RightHit;
-    public Dictionary<JointType, JointData> Joints { get; set; }
-    //public Dictionary<JointType, OrientationData> Orientations { get; set; }
-    public Vector2 GetRootPositionVector2()
-    {
-        JointData leftHip = Joints[JointType.LeftHip];
-        JointData rightHip = Joints[JointType.RightHip];
-        return new Vector2((leftHip.X + rightHip.X) * 0.5f, (leftHip.Y + rightHip.Y) * 0.5f);
+        public Ray LeftRay;
+        public Ray RightRay;
+        public RaycastHit LeftHit;
+        public RaycastHit RightHit;
+        public Dictionary<JointType, JointData> Joints { get; set; }
+        //public Dictionary<JointType, OrientationData> Orientations { get; set; }
+        public Vector2 GetRootPositionVector2()
+        {
+            JointData leftHip = Joints[JointType.LeftHip];
+            JointData rightHip = Joints[JointType.RightHip];
+            return new Vector2((leftHip.X + rightHip.X) * 0.5f, (leftHip.Y + rightHip.Y) * 0.5f);
+        }
     }
-}
 
-public class JointData
-{
-    public float X { get; set; }
-    public float Y { get; set; }
-    public float Z { get; set; }
-
-    public JointData(float x, float y, float z)
+    public class JointData
     {
-        X = x;
-        Y = y;
-        Z = z;
-    }
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
+
+        public JointData(float x, float y, float z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
         
-    public float Distance(JointData target)
-    {
-        Vector3 v3source = new Vector3(X, Y, Z);
-        Vector3 v3target = new Vector3(target.X, target.Y, target.Z);
-        return Vector3.Distance(v3source, v3target);
+        public float Distance(JointData target)
+        {
+            Vector3 v3source = new Vector3(X, Y, Z);
+            Vector3 v3target = new Vector3(target.X, target.Y, target.Z);
+            return Vector3.Distance(v3source, v3target);
+        }
     }
-}
 
 
-public enum JointType
-{
-    Nose = 0,
-    LeftEye = 1,
-    RightEye = 2,
-    LeftEar = 3,
-    RightEar = 4,
-    LeftShoulder = 5,
-    RightShoulder = 6,
-    LeftElbow = 7,
-    RightElbow = 8,
-    LeftWrist = 9,
-    RightWrist = 10,
-    LeftHip = 11,
-    RightHip = 12,
-    LeftKnee = 13,
-    RightKnee = 14,
-    LeftAnkle = 15,
-    RightAnkle = 16,
-    LeftTiptoe = 17,
-    RightTiptoe = 18,
-    LeftHeel = 19,
-    RightHeel = 20,
-    HeadTop = 21,
-    LeftHand = 22,
-    RightHand = 23,
+    public enum JointType
+    {
+        Nose = 0,
+        LeftEye = 1,
+        RightEye = 2,
+        LeftEar = 3,
+        RightEar = 4,
+        LeftShoulder = 5,
+        RightShoulder = 6,
+        LeftElbow = 7,
+        RightElbow = 8,
+        LeftWrist = 9,
+        RightWrist = 10,
+        LeftHip = 11,
+        RightHip = 12,
+        LeftKnee = 13,
+        RightKnee = 14,
+        LeftAnkle = 15,
+        RightAnkle = 16,
+        LeftTiptoe = 17,
+        RightTiptoe = 18,
+        LeftHeel = 19,
+        RightHeel = 20,
+        HeadTop = 21,
+        LeftHand = 22,
+        RightHand = 23,
+    }
 }

@@ -7,28 +7,30 @@ using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.XR;
 using InputDevice = UnityEngine.InputSystem.InputDevice;
 
-public static class WSSourceAdapter
+namespace Runtime.Samples.CustomPlayerManager
 {
-    private static float _positionThresholdMin = 0.5f;
-    private static Quaternion GetQuaternion(BodyDataSource data)
+    public static class WSSourceAdapter
     {
-        Vector3 leftShoulder = new Vector3(data.Joints[JointType.LeftShoulder].X, 
-            data.Joints[JointType.LeftShoulder].Z,
-            data.Joints[JointType.LeftShoulder].Y);
-        Vector3 rightShoulder = new Vector3(data.Joints[JointType.RightShoulder].X, 
-            data.Joints[JointType.RightShoulder].Z,
-            data.Joints[JointType.RightShoulder].Y);
-        Vector3 hip = new Vector3(
-            (data.Joints[JointType.LeftHip].X + data.Joints[JointType.RightHip].X) * 0.5f,
-            (data.Joints[JointType.LeftHip].Z + data.Joints[JointType.RightHip].Z) * 0.5f,
-            (data.Joints[JointType.LeftHip].Y + data.Joints[JointType.RightHip].Y) * 0.5f
-        );
-        Vector3 forward = -Vector3.Cross(leftShoulder - hip, rightShoulder - hip).normalized;
-        return Quaternion.LookRotation(forward);
-    }
+        private static float _positionThresholdMin = 0.5f;
+        private static Quaternion GetQuaternion(BodyDataSource data)
+        {
+            Vector3 leftShoulder = new Vector3(data.Joints[JointType.LeftShoulder].X, 
+                data.Joints[JointType.LeftShoulder].Z,
+                data.Joints[JointType.LeftShoulder].Y);
+            Vector3 rightShoulder = new Vector3(data.Joints[JointType.RightShoulder].X, 
+                data.Joints[JointType.RightShoulder].Z,
+                data.Joints[JointType.RightShoulder].Y);
+            Vector3 hip = new Vector3(
+                (data.Joints[JointType.LeftHip].X + data.Joints[JointType.RightHip].X) * 0.5f,
+                (data.Joints[JointType.LeftHip].Z + data.Joints[JointType.RightHip].Z) * 0.5f,
+                (data.Joints[JointType.LeftHip].Y + data.Joints[JointType.RightHip].Y) * 0.5f
+            );
+            Vector3 forward = -Vector3.Cross(leftShoulder - hip, rightShoulder - hip).normalized;
+            return Quaternion.LookRotation(forward);
+        }
 
-     private static void OnBonesUpdate(string pId, BodyDataSource data)
-     {
+        private static void OnBonesUpdate(string pId, BodyDataSource data)
+        {
             InputDevice device = DeviceManager.GetActiveDeviceBySerial(pId);
             if (device != null)
             {
@@ -208,11 +210,12 @@ public static class WSSourceAdapter
             }
         }
 
-     public static void OnFrame()
-     {
-         foreach (var p1 in XrdgBodySource.Instance.Data)
-         {
-             OnBonesUpdate(p1.Key, p1.Value);
-         }
-     }
+        public static void OnFrame()
+        {
+            foreach (var p1 in XrdgBodySource.Instance.Data)
+            {
+                OnBonesUpdate(p1.Key, p1.Value);
+            }
+        }
+    }
 }

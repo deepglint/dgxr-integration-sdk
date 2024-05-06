@@ -12,7 +12,7 @@ using UnityEngine.Serialization;
 // sl: ws://192.168.8.7:8000/ws
 // local: ws://127.0.0.1:8000/ws
 
-namespace Stardust.Scripts
+namespace Runtime.Samples.CustomPlayerManager
 {
     public class Options
     {

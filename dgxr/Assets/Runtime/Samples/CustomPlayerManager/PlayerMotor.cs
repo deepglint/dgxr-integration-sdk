@@ -2,172 +2,175 @@ using Deepglint.XR.Inputs.Controls;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMotor : MonoBehaviour
+namespace Runtime.Samples.CustomPlayerManager
 {
-    public float moveSpeed = 10f;
-    public float rotateSpeed = 10f;
-    public float jumpSpeed = 400f;
-    private bool _isOnGround = true;
-    private Vector3 _moveDistance;
-    private Rigidbody _rb;
-    private int _freeSwimCount = 0;
-    private int _butterflySwimCount = 0;
-    private int _highKneeRunSwimCount = 0;
-    private int _deepSquatCount = 0;
-    private int _slideRightArmToLeftCount = 0;
-    private int _slideLeftArmToRightCount = 0;
-
-    private void Awake()
+    public class PlayerMotor : MonoBehaviour
     {
-        _rb = GetComponent<Rigidbody>(); 
-    }
+        public float moveSpeed = 10f;
+        public float rotateSpeed = 10f;
+        public float jumpSpeed = 400f;
+        private bool _isOnGround = true;
+        private Vector3 _moveDistance;
+        private Rigidbody _rb;
+        private int _freeSwimCount = 0;
+        private int _butterflySwimCount = 0;
+        private int _highKneeRunSwimCount = 0;
+        private int _deepSquatCount = 0;
+        private int _slideRightArmToLeftCount = 0;
+        private int _slideLeftArmToRightCount = 0;
 
-    void FixedUpdate()
-    {
-        _rb.MovePosition(_rb.position + _moveDistance);
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
+        private void Awake()
         {
-            _isOnGround = true;
+            _rb = GetComponent<Rigidbody>(); 
         }
-    }
-    
-    public void MoveControl(InputAction.CallbackContext value)
-    {
-        Vector2 data = value.ReadValue<Vector2>();
-        Vector3 moveDir = new Vector3(data.x * 2, 0, data.y * 2).normalized;
-        _moveDistance = moveDir * moveSpeed * Time.deltaTime;
- 
-        Vector3 targetDir = Vector3.Slerp(transform.forward, moveDir, rotateSpeed * Time.deltaTime);
-        transform.rotation = Quaternion.LookRotation(targetDir); 
-    }
-    
-    public void PoseControl(InputAction.CallbackContext value)
-    {
-        HumanPoseState humanPose = value.ReadValue<HumanPoseState>();
-        transform.position = new Vector3(humanPose.position.x, transform.position.y, humanPose.position.z);
-        transform.rotation = humanPose.rotation;
-    }
-    
-    public void JumpControl(InputAction.CallbackContext value)
-    {
-        //Debug.Log("on callback");
-        if(value.performed)
+
+        void FixedUpdate()
         {
-            //Debug.Log("raise right hand, " + isOnGround);
-            if (_isOnGround)
+            _rb.MovePosition(_rb.position + _moveDistance);
+        }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            if (other.gameObject.CompareTag("Ground"))
             {
-                // 实现跳跃效果
-                if (_rb == null)
-                {
-                    Debug.Log("rb is null");
-                }
-                _rb.AddForce(Vector3.up * jumpSpeed);
-                // 此时物体不在地面上
-                _isOnGround = false;
+                _isOnGround = true;
             }
         }
-    }
     
-    public void SlideRightArmToLeftControl(InputAction.CallbackContext value)
-    {
-        if(value.performed)
+        public void MoveControl(InputAction.CallbackContext value)
         {
-            _slideRightArmToLeftCount++;
-            Debug.LogFormat("SlideRightArmToLeftCount count: {0}", _slideRightArmToLeftCount);
+            Vector2 data = value.ReadValue<Vector2>();
+            Vector3 moveDir = new Vector3(data.x * 2, 0, data.y * 2).normalized;
+            _moveDistance = moveDir * moveSpeed * Time.deltaTime;
+ 
+            Vector3 targetDir = Vector3.Slerp(transform.forward, moveDir, rotateSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.LookRotation(targetDir); 
         }
-    }
     
-    public void SlideLeftArmToRightControl(InputAction.CallbackContext value)
-    {
-        if(value.performed)
+        public void PoseControl(InputAction.CallbackContext value)
         {
-            _slideLeftArmToRightCount++;
-            Debug.LogFormat("SlideLeftArmToRightCount count: {0}", _slideLeftArmToRightCount);
+            HumanPoseState humanPose = value.ReadValue<HumanPoseState>();
+            transform.position = new Vector3(humanPose.position.x, transform.position.y, humanPose.position.z);
+            transform.rotation = humanPose.rotation;
         }
-    }
     
-    public void FreeSwimControl(InputAction.CallbackContext value)
-    {
-        if(value.performed)
+        public void JumpControl(InputAction.CallbackContext value)
         {
-            _freeSwimCount++;
-            Debug.LogFormat("free-swim count: {0}", _freeSwimCount);
-        }
-    }
-    
-    public void ButterflySwimControl(InputAction.CallbackContext value)
-    {
-        if(value.performed)
-        {
-            _freeSwimCount++;
-            Debug.LogFormat("butterfly-swim count: {0}", _butterflySwimCount);
-        }
-    }
-    
-    public void HighKneeRunControl(InputAction.CallbackContext value)
-    {
-        if(value.performed)
-        {
-            _freeSwimCount++;
-            Debug.LogFormat("high-knee-run count: {0}", _highKneeRunSwimCount);
-        }
-    }
-    
-    public void DeepSquatControl(InputAction.CallbackContext value)
-    {
-        if(value.performed)
-        {
-            _freeSwimCount++;
-            Debug.LogFormat("deep-squat count: {0}", _deepSquatCount);
-        }
-    }
-    
-    public void RaiseRightHandControl(InputAction.CallbackContext value)
-    {
-        //Debug.Log("on callback");
-        if(value.performed)
-        {
-            //Debug.Log("raise right hand, " + isOnGround);
-            if (_isOnGround)
+            //Debug.Log("on callback");
+            if(value.performed)
             {
-                // 实现跳跃效果
-                if (_rb == null)
+                //Debug.Log("raise right hand, " + isOnGround);
+                if (_isOnGround)
                 {
-                    Debug.Log("rb is null");
+                    // 实现跳跃效果
+                    if (_rb == null)
+                    {
+                        Debug.Log("rb is null");
+                    }
+                    _rb.AddForce(Vector3.up * jumpSpeed);
+                    // 此时物体不在地面上
+                    _isOnGround = false;
                 }
-                _rb.AddForce(Vector3.up * jumpSpeed);
-                // 此时物体不在地面上
-                _isOnGround = false;
-                //transform.GetComponent<MeshRenderer>().material.color = Color.red; 
             }
         }
-    }
     
-    void OnJump(InputValue value)
-    {
-        return;
-        bool data = value.isPressed;
-        if(data)
+        public void SlideRightArmToLeftControl(InputAction.CallbackContext value)
         {
-            Debug.Log("jump, " + _isOnGround);
-            if (_isOnGround)
+            if(value.performed)
             {
-                //瞬移效果
-                //transform.Translate(Vector3.up * Time.deltaTime * jumpSpeed);
- 
-                // 实现跳跃效果
-                if (_rb == null)
+                _slideRightArmToLeftCount++;
+                Debug.LogFormat("SlideRightArmToLeftCount count: {0}", _slideRightArmToLeftCount);
+            }
+        }
+    
+        public void SlideLeftArmToRightControl(InputAction.CallbackContext value)
+        {
+            if(value.performed)
+            {
+                _slideLeftArmToRightCount++;
+                Debug.LogFormat("SlideLeftArmToRightCount count: {0}", _slideLeftArmToRightCount);
+            }
+        }
+    
+        public void FreeSwimControl(InputAction.CallbackContext value)
+        {
+            if(value.performed)
+            {
+                _freeSwimCount++;
+                Debug.LogFormat("free-swim count: {0}", _freeSwimCount);
+            }
+        }
+    
+        public void ButterflySwimControl(InputAction.CallbackContext value)
+        {
+            if(value.performed)
+            {
+                _freeSwimCount++;
+                Debug.LogFormat("butterfly-swim count: {0}", _butterflySwimCount);
+            }
+        }
+    
+        public void HighKneeRunControl(InputAction.CallbackContext value)
+        {
+            if(value.performed)
+            {
+                _freeSwimCount++;
+                Debug.LogFormat("high-knee-run count: {0}", _highKneeRunSwimCount);
+            }
+        }
+    
+        public void DeepSquatControl(InputAction.CallbackContext value)
+        {
+            if(value.performed)
+            {
+                _freeSwimCount++;
+                Debug.LogFormat("deep-squat count: {0}", _deepSquatCount);
+            }
+        }
+    
+        public void RaiseRightHandControl(InputAction.CallbackContext value)
+        {
+            //Debug.Log("on callback");
+            if(value.performed)
+            {
+                //Debug.Log("raise right hand, " + isOnGround);
+                if (_isOnGround)
                 {
-                    Debug.Log("rb is null");
+                    // 实现跳跃效果
+                    if (_rb == null)
+                    {
+                        Debug.Log("rb is null");
+                    }
+                    _rb.AddForce(Vector3.up * jumpSpeed);
+                    // 此时物体不在地面上
+                    _isOnGround = false;
+                    //transform.GetComponent<MeshRenderer>().material.color = Color.red; 
                 }
-                _rb.AddForce(Vector3.up * jumpSpeed);
-                // 此时物体不在地面上
-                _isOnGround = false;
-                //transform.GetComponent<MeshRenderer>().material.color = Color.red; 
+            }
+        }
+    
+        void OnJump(InputValue value)
+        {
+            return;
+            bool data = value.isPressed;
+            if(data)
+            {
+                Debug.Log("jump, " + _isOnGround);
+                if (_isOnGround)
+                {
+                    //瞬移效果
+                    //transform.Translate(Vector3.up * Time.deltaTime * jumpSpeed);
+ 
+                    // 实现跳跃效果
+                    if (_rb == null)
+                    {
+                        Debug.Log("rb is null");
+                    }
+                    _rb.AddForce(Vector3.up * jumpSpeed);
+                    // 此时物体不在地面上
+                    _isOnGround = false;
+                    //transform.GetComponent<MeshRenderer>().material.color = Color.red; 
+                }
             }
         }
     }
