@@ -1,0 +1,30 @@
+digraph "类继承关系图"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node0 [id="Node000000",label="IInputInteraction",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node0 -> Node1 [id="edge6_Node000000_Node000001",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 [id="Node000001",label="Deepglint.XR.Interaction.\lButterflySwimInteraction",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_deepglint_1_1_x_r_1_1_interaction_1_1_butterfly_swim_interaction.html",tooltip="A Interaction to judge if butterfly-swim action is performed depending on the DGXRController...."];
+  Node0 -> Node3 [id="edge7_Node000000_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="Deepglint.XR.Interaction.\lDeepSquatInteraction",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_deepglint_1_1_x_r_1_1_interaction_1_1_deep_squat_interaction.html",tooltip="A Interaction to judge if Deep-Squat action is performed depending on the DGXRController...."];
+  Node0 -> Node4 [id="edge8_Node000000_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="Deepglint.XR.Interaction.\lFreeSwimInteraction",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_deepglint_1_1_x_r_1_1_interaction_1_1_free_swim_interaction.html",tooltip="A Interaction to judge if free-swim action is performed depending on the DGXRController...."];
+  Node0 -> Node5 [id="edge9_Node000000_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="Deepglint.XR.Interaction.\lHighKneeRunInteraction",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_deepglint_1_1_x_r_1_1_interaction_1_1_high_knee_run_interaction.html",tooltip="A Interaction to judge if high-knee-run action is performed depending on the DGXRController...."];
+  Node0 -> Node6 [id="edge10_Node000000_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="Deepglint.XR.Interaction.\lRaiseBothHandInteraction",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_deepglint_1_1_x_r_1_1_interaction_1_1_raise_both_hand_interaction.html",tooltip="A Interaction to judge if raise-both-hand action is performed depending on the DGXRController...."];
+  Node0 -> Node7 [id="edge11_Node000000_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="Deepglint.XR.Interaction.\lRaiseHandInteraction",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_deepglint_1_1_x_r_1_1_interaction_1_1_raise_hand_interaction.html",tooltip="A Interaction to judge if raise-hand action is performed depending on the DGXRController...."];
+  Node0 -> Node8 [id="edge12_Node000000_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node8 [id="Node000008",label="Deepglint.XR.Interaction.\lRaiseLeftHandInteraction",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_deepglint_1_1_x_r_1_1_interaction_1_1_raise_left_hand_interaction.html",tooltip="A Interaction to judge if raise-left-hand action is performed depending on the DGXRController...."];
+  Node0 -> Node9 [id="edge13_Node000000_Node000009",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node9 [id="Node000009",label="Deepglint.XR.Interaction.\lRaiseRightHandInteraction",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_deepglint_1_1_x_r_1_1_interaction_1_1_raise_right_hand_interaction.html",tooltip="A Interaction to judge if raise-right-hand action is performed depending on the DGXRController...."];
+  Node2 [id="Node000002",label="Deepglint.XR.Interaction.\lMetaverseInteraction",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_deepglint_1_1_x_r_1_1_interaction_1_1_metaverse_interaction.html",tooltip="Base class for metaverse action."];
+  Node2 -> Node1 [id="edge14_Node000002_Node000001",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 -> Node3 [id="edge15_Node000002_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 -> Node4 [id="edge16_Node000002_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 -> Node5 [id="edge17_Node000002_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+}

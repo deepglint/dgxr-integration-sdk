@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Stardust_XR: /Users/apple/src/beth/deepglint/stardust_reverie/engine/Assets/Stardust/Scripts/Deepglint/XR/Inputs/DeviceManager.cs 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Stardust_XR
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_5bc33182a5495f9096745b1fab65ba67.html">stardust_reverie</a></li><li class="navelem"><a class="el" href="dir_395eb628c7f39f35b803932d1c3ed223.html">engine</a></li><li class="navelem"><a class="el" href="dir_580a4dc52d9ab7f3e5b007bbfd7b8f5b.html">Assets</a></li><li class="navelem"><a class="el" href="dir_0fc5de4301109cb668cd1f94556030e8.html">Stardust</a></li><li class="navelem"><a class="el" href="dir_902360e5757ceee6dcb4ce19d4a1a98b.html">Scripts</a></li><li class="navelem"><a class="el" href="dir_17a3ae61e405d7e30a97f43565342938.html">Deepglint</a></li><li class="navelem"><a class="el" href="dir_4c86a74cc395d060c24ebf7082ee7baf.html">XR</a></li><li class="navelem"><a class="el" href="dir_3d12165277f14b3d27f5faa57def9f4a.html">Inputs</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">DeviceManager.cs</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_device_manager_8cs.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using </span>System.Collections.Concurrent;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using </span>System.Linq;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using </span>UnityEngine;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using </span>UnityEngine.InputSystem;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using </span>UnityEngine.InputSystem.Layouts;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">using </span>UnityEngine.InputSystem.Utilities;</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_deepglint_1_1_x_r_1_1_inputs.html">Deepglint.XR.Inputs</a></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>{</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class </span>DeviceManager</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="keyword">internal</span> <span class="keyword">static</span> <span class="keywordtype">int</span> s_ActiveDeviceCount = 0;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="keyword">internal</span> <span class="keyword">static</span> ConcurrentDictionary&lt;string, InputDevice&gt; s_ActiveDevices =  <span class="keyword">new</span> ConcurrentDictionary&lt;string, InputDevice&gt;{};</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="keyword">private</span> <span class="keyword">static</span> ConcurrentDictionary&lt;string, InputDevice&gt; m_Devices =  <span class="keyword">new</span> ConcurrentDictionary&lt;string, InputDevice&gt;{};</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keyword">public</span> <span class="keyword">static</span> ReadOnlyArray&lt;InputDevice&gt; AllActiveDevices =&gt; <span class="keyword">new</span> ReadOnlyArray&lt;InputDevice&gt;(s_ActiveDevices.Values.ToArray(), 0, s_ActiveDeviceCount);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keyword">public</span> <span class="keyword">static</span> <a class="code hl_typedef" href="_x_r_event_listener_8cs.html#a3b80d9b741a751bf14350aa8a2f54b61">InputDevice</a> GetActiveDeviceBySerial(<span class="keywordtype">string</span> serial)</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            <span class="keywordflow">if</span> (s_ActiveDevices.ContainsKey(serial))</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                <span class="keywordflow">return</span> s_ActiveDevices[serial];</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        }</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> AddDevice(<span class="keywordtype">string</span> serial, <span class="keywordtype">string</span> product)</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            var device = GetActiveDeviceBySerial(serial);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <span class="keywordflow">if</span> (device == <span class="keyword">null</span>)</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                <span class="keywordflow">if</span> (m_Devices.ContainsKey(serial))</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                    device = m_Devices[serial];</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                    InputSystem.AddDevice(device); </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                }</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                    device =  InputSystem.AddDevice(<span class="keyword">new</span> InputDeviceDescription</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                    {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                        serial = serial,</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                        interfaceName = product, </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                        product = product,</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                        manufacturer = <span class="stringliteral">&quot;deepglint&quot;</span>,</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                    });</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                    m_Devices[serial] = device; </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>                }</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>                s_ActiveDevices[serial] = device;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>                s_ActiveDeviceCount++;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                Debug.LogFormat(<span class="stringliteral">&quot;Device {0} which serial is {1} which type is {2} was created&quot;</span>, device.deviceId, serial, product);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            }</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">void</span> RemoveDevice(<span class="keywordtype">string</span> serial)</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            var device = GetActiveDeviceBySerial(serial);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            <span class="keywordflow">if</span> (device != <span class="keyword">null</span>)</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                InputSystem.RemoveDevice(device);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                s_ActiveDeviceCount--;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                s_ActiveDevices.TryRemove(serial, out device);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                Debug.LogFormat(<span class="stringliteral">&quot;Device {0} which serial is {1} was removed&quot;</span>, device.deviceId, serial);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            }</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        }</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    }</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>}</div>
+<div class="ttc" id="a_x_r_event_listener_8cs_html_a3b80d9b741a751bf14350aa8a2f54b61"><div class="ttname"><a href="_x_r_event_listener_8cs.html#a3b80d9b741a751bf14350aa8a2f54b61">InputDevice</a></div><div class="ttdeci">UnityEngine.InputSystem.InputDevice InputDevice</div><div class="ttdef"><b>Definition</b> <a href="_x_r_event_listener_8cs_source.html#l00013">XREventListener.cs:13</a></div></div>
+<div class="ttc" id="anamespace_deepglint_1_1_x_r_1_1_inputs_html"><div class="ttname"><a href="namespace_deepglint_1_1_x_r_1_1_inputs.html">Deepglint.XR.Inputs</a></div><div class="ttdef"><b>Definition</b> <a href="_human_body_8cs_source.html#l00010">HumanBody.cs:11</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
+</small></address>
+</body>
+</html>

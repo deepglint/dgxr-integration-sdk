@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Stardust_XR: /Users/apple/src/beth/deepglint/stardust_reverie/engine/Assets/Stardust/Moat/MInputSystem/MultiPlayer/Scripts/PlayerGroup.cs 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Stardust_XR
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_5bc33182a5495f9096745b1fab65ba67.html">stardust_reverie</a></li><li class="navelem"><a class="el" href="dir_395eb628c7f39f35b803932d1c3ed223.html">engine</a></li><li class="navelem"><a class="el" href="dir_580a4dc52d9ab7f3e5b007bbfd7b8f5b.html">Assets</a></li><li class="navelem"><a class="el" href="dir_0fc5de4301109cb668cd1f94556030e8.html">Stardust</a></li><li class="navelem"><a class="el" href="dir_a3d56c2af82ad1cf52e48b7ca713bc33.html">Moat</a></li><li class="navelem"><a class="el" href="dir_5de71331ca18d5940342926f19c27ad7.html">MInputSystem</a></li><li class="navelem"><a class="el" href="dir_b5af52e09f15b59b41874545ceabfd34.html">MultiPlayer</a></li><li class="navelem"><a class="el" href="dir_5660277d696387dafbd462e33622732f.html">Scripts</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">PlayerGroup.cs</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_player_group_8cs.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using </span>System.Collections.Generic;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_moat.html">Moat</a></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>{</div>
+<div class="foldopen" id="foldopen00008" data-start="{" data-end="};">
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="class_moat_1_1_player_group.html">    8</a></span>    <span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="class_moat_1_1_player_group.html">PlayerGroup</a>: <a class="code hl_class" href="class_m_singleton.html">MSingleton</a>&lt;PlayerGroup&gt;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">   10</a></span>        <span class="keyword">public</span> List&lt;VirtualPlayer&gt; <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a> = <span class="keyword">new</span> List&lt;VirtualPlayer&gt;();</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="class_moat_1_1_player_group.html#aed9d37197718a9ed5887d2b3707c308b">   11</a></span>        <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="class_moat_1_1_player_group.html#aed9d37197718a9ed5887d2b3707c308b">maxCount</a> = 1;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="foldopen" id="foldopen00013" data-start="{" data-end="}">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="class_moat_1_1_player_group.html#a0121066bfcb6b5adc92d6c87ef86f7b4">   13</a></span>        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_moat_1_1_player_group.html#a0121066bfcb6b5adc92d6c87ef86f7b4">RemovePlayer</a>(<a class="code hl_class" href="class_moat_1_1_virtual_player.html">VirtualPlayer</a> player)</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Contains(player))</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>            {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>                <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Remove(player);</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>                <a class="code hl_class" href="class_moat_1_1_event_manager.html">EventManager</a>.<a class="code hl_function" href="class_moat_1_1_event_manager.html#a943c6baf6c8409bfa71c2384c759e55f">Send</a>(<a class="code hl_class" href="class_moat_1_1_moat_game_event.html">MoatGameEvent</a>.<a class="code hl_variable" href="class_moat_1_1_moat_game_event.html#a35242941618338aa8e96243bff1e8480">PlayerRemove</a>, <span class="keyword">new</span> <span class="keywordtype">object</span>[1]{ player.id });</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            }</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        }</div>
+</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="}">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="class_moat_1_1_player_group.html#a5b4b38d81daaf58ce3a13b3d9d6f434e">   22</a></span>        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_moat_1_1_player_group.html#a5b4b38d81daaf58ce3a13b3d9d6f434e">RemovePlayerByIndex</a>(<span class="keywordtype">int</span> index)</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Count &gt; index &amp;&amp; <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>[index] != <span class="keyword">null</span>)</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                <a class="code hl_class" href="class_moat_1_1_virtual_player.html">VirtualPlayer</a> player = <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>[index];</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Remove(player);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                <a class="code hl_class" href="class_moat_1_1_event_manager.html">EventManager</a>.<a class="code hl_function" href="class_moat_1_1_event_manager.html#a943c6baf6c8409bfa71c2384c759e55f">Send</a>(<a class="code hl_class" href="class_moat_1_1_moat_game_event.html">MoatGameEvent</a>.<a class="code hl_variable" href="class_moat_1_1_moat_game_event.html#a35242941618338aa8e96243bff1e8480">PlayerRemove</a>, <span class="keyword">new</span> <span class="keywordtype">object</span>[1]{ player.id });</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            }</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        }</div>
+</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="foldopen" id="foldopen00032" data-start="{" data-end="}">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="class_moat_1_1_player_group.html#a34b26ed102cbc95955be49016fcf6d6c">   32</a></span>        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_moat_1_1_player_group.html#a34b26ed102cbc95955be49016fcf6d6c">RemovePlayerById</a>(<span class="keywordtype">string</span> playerID)</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            <a class="code hl_class" href="class_moat_1_1_m_debug.html">MDebug</a>.<a class="code hl_function" href="class_moat_1_1_m_debug.html#a63886c7d34ea1d3b2efe221f8af71df5">LogTest</a>(<span class="stringliteral">&quot;RemovePlayerById::&quot;</span>+playerID + <span class="stringliteral">&quot;   Lenght:&quot;</span>+ <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Count);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            <span class="keywordflow">foreach</span> (var player <span class="keywordflow">in</span> <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>)</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                <span class="keywordflow">if</span> (player.id == playerID)</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                    <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Remove(player);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                    </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                    <a class="code hl_class" href="class_moat_1_1_event_manager.html">EventManager</a>.<a class="code hl_function" href="class_moat_1_1_event_manager.html#a943c6baf6c8409bfa71c2384c759e55f">Send</a>(<a class="code hl_class" href="class_moat_1_1_moat_game_event.html">MoatGameEvent</a>.<a class="code hl_variable" href="class_moat_1_1_moat_game_event.html#a35242941618338aa8e96243bff1e8480">PlayerRemove</a>, <span class="keyword">new</span> <span class="keywordtype">object</span>[1]{ player.id });</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                }</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            }</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            <a class="code hl_class" href="class_moat_1_1_m_debug.html">MDebug</a>.<a class="code hl_function" href="class_moat_1_1_m_debug.html#a63886c7d34ea1d3b2efe221f8af71df5">LogTest</a>(<span class="stringliteral">&quot;RemovePlayerById Lenght:&quot;</span>+ <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Count);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        }</div>
+</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="foldopen" id="foldopen00048" data-start="{" data-end="}">
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="class_moat_1_1_player_group.html#ab306bf53aaad013786cfd6fa9b696c1f">   48</a></span>        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_moat_1_1_player_group.html#ab306bf53aaad013786cfd6fa9b696c1f">AddPlayer</a>(<a class="code hl_class" href="class_moat_1_1_virtual_player.html">VirtualPlayer</a> player)</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Contains(player)) <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Count &lt; <a class="code hl_variable" href="class_moat_1_1_player_group.html#aed9d37197718a9ed5887d2b3707c308b">maxCount</a>)</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Add(player);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                <a class="code hl_class" href="class_moat_1_1_m_debug.html">MDebug</a>.<a class="code hl_function" href="class_moat_1_1_m_debug.html#a23cb6dd35c5017b213e926a767524d95">LogFlow</a>(<span class="stringliteral">&quot;3. 玩家进入 - 3.1.1 玩家【&quot;</span> + player.<a class="code hl_variable" href="class_moat_1_1_virtual_player.html#a7c820482a5f712aab62d2a164e3d40a4">id</a> + <span class="stringliteral">&quot;】进入成功&quot;</span>);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                <a class="code hl_class" href="class_moat_1_1_event_manager.html">EventManager</a>.<a class="code hl_function" href="class_moat_1_1_event_manager.html#a943c6baf6c8409bfa71c2384c759e55f">Send</a>(<a class="code hl_class" href="class_moat_1_1_moat_game_event.html">MoatGameEvent</a>.<a class="code hl_variable" href="class_moat_1_1_moat_game_event.html#a2b5f4ef645031172313a2532526566d3">PlayerAdd</a>, <span class="keyword">new</span> <span class="keywordtype">object</span>[1]{ player.id }); </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                <a class="code hl_class" href="class_moat_1_1_m_debug.html">MDebug</a>.<a class="code hl_function" href="class_moat_1_1_m_debug.html#a23cb6dd35c5017b213e926a767524d95">LogFlow</a>(<span class="stringliteral">&quot;3. 玩家进入 - 3.1.2 玩家【&quot;</span> + player.<a class="code hl_variable" href="class_moat_1_1_virtual_player.html#a7c820482a5f712aab62d2a164e3d40a4">id</a> + <span class="stringliteral">&quot;】进入失败&quot;</span>); </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>            }</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            <a class="code hl_class" href="class_moat_1_1_m_debug.html">MDebug</a>.<a class="code hl_function" href="class_moat_1_1_m_debug.html#a23cb6dd35c5017b213e926a767524d95">LogFlow</a>(<span class="stringliteral">&quot;3. 玩家进入 - 3.3 玩家Groups人数: &quot;</span>+ <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Count);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        }</div>
+</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        </div>
+<div class="foldopen" id="foldopen00064" data-start="{" data-end="}">
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="class_moat_1_1_player_group.html#a672c72b45154eb2e3cfa34507b47cc10">   64</a></span>        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_moat_1_1_player_group.html#a672c72b45154eb2e3cfa34507b47cc10">ReplacePlayer</a>(<a class="code hl_class" href="class_moat_1_1_virtual_player.html">VirtualPlayer</a> player, <span class="keywordtype">int</span> index)</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Contains(player)) <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Count &lt; <a class="code hl_variable" href="class_moat_1_1_player_group.html#aed9d37197718a9ed5887d2b3707c308b">maxCount</a>)</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Add(player);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                <a class="code hl_class" href="class_moat_1_1_m_debug.html">MDebug</a>.<a class="code hl_function" href="class_moat_1_1_m_debug.html#a23cb6dd35c5017b213e926a767524d95">LogFlow</a>(<span class="stringliteral">&quot;3. 玩家进入 - 3.1.3 替换玩家【&quot;</span> + player.<a class="code hl_variable" href="class_moat_1_1_virtual_player.html#a7c820482a5f712aab62d2a164e3d40a4">id</a> + <span class="stringliteral">&quot;】加入成功&quot;</span>);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                <a class="code hl_class" href="class_moat_1_1_event_manager.html">EventManager</a>.<a class="code hl_function" href="class_moat_1_1_event_manager.html#a943c6baf6c8409bfa71c2384c759e55f">Send</a>(<a class="code hl_class" href="class_moat_1_1_moat_game_event.html">MoatGameEvent</a>.<a class="code hl_variable" href="class_moat_1_1_moat_game_event.html#a2b5f4ef645031172313a2532526566d3">PlayerAdd</a>, <span class="keyword">new</span> <span class="keywordtype">object</span>[1]{ player.id }); </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            }</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>                <a class="code hl_class" href="class_moat_1_1_virtual_player.html">VirtualPlayer</a> prePlayer = <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>[index];</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>                <a class="code hl_function" href="class_moat_1_1_player_group.html#a34b26ed102cbc95955be49016fcf6d6c">RemovePlayerById</a>(prePlayer.<a class="code hl_variable" href="class_moat_1_1_virtual_player.html#a7c820482a5f712aab62d2a164e3d40a4">id</a>);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Add(player);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                <a class="code hl_class" href="class_moat_1_1_m_debug.html">MDebug</a>.<a class="code hl_function" href="class_moat_1_1_m_debug.html#a23cb6dd35c5017b213e926a767524d95">LogFlow</a>(<span class="stringliteral">&quot;3. 玩家进入 - 3.1.3 替换玩家【&quot;</span> + player.<a class="code hl_variable" href="class_moat_1_1_virtual_player.html#a7c820482a5f712aab62d2a164e3d40a4">id</a> + <span class="stringliteral">&quot;】替换成功&quot;</span>);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>                <a class="code hl_class" href="class_moat_1_1_event_manager.html">EventManager</a>.<a class="code hl_function" href="class_moat_1_1_event_manager.html#a943c6baf6c8409bfa71c2384c759e55f">Send</a>(<a class="code hl_class" href="class_moat_1_1_moat_game_event.html">MoatGameEvent</a>.<a class="code hl_variable" href="class_moat_1_1_moat_game_event.html#a2b5f4ef645031172313a2532526566d3">PlayerAdd</a>, <span class="keyword">new</span> <span class="keywordtype">object</span>[1]{ player.id });</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            }</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            <a class="code hl_class" href="class_moat_1_1_m_debug.html">MDebug</a>.<a class="code hl_function" href="class_moat_1_1_m_debug.html#a23cb6dd35c5017b213e926a767524d95">LogFlow</a>(<span class="stringliteral">&quot;3. 玩家进入 - 3.3 玩家Groups人数: &quot;</span>+ <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Count);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        }</div>
+</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="foldopen" id="foldopen00084" data-start="{" data-end="}">
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="class_moat_1_1_player_group.html#a05965d4871ec8971a9d58b540d793141">   84</a></span>        <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="class_moat_1_1_player_group.html#a05965d4871ec8971a9d58b540d793141">IsMaxPlayerCount</a>()</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            <span class="keywordflow">return</span> players.Count &gt;= <a class="code hl_variable" href="class_moat_1_1_player_group.html#aed9d37197718a9ed5887d2b3707c308b">maxCount</a>;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        }</div>
+</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="foldopen" id="foldopen00089" data-start="{" data-end="}">
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="class_moat_1_1_player_group.html#ab2013712748289ac32afc2424fb7cac8">   89</a></span>        <span class="keyword">public</span> <a class="code hl_class" href="class_moat_1_1_virtual_player.html">VirtualPlayer</a> <a class="code hl_function" href="class_moat_1_1_player_group.html#ab2013712748289ac32afc2424fb7cac8">GetVirtualPlayerById</a>(<span class="keywordtype">string</span> <span class="keywordtype">id</span>)</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        {</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>            <span class="keywordflow">foreach</span> (var vPlayer <span class="keywordflow">in</span> <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>)</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                <span class="keywordflow">if</span> (vPlayer.id == <span class="keywordtype">id</span>)</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                    <span class="keywordflow">return</span> vPlayer;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                }</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            }</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        }</div>
+</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="comment">//=================================================================================</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="class_moat_1_1_player_group.html#ad6aa8f8124e4e576408373362ddd7bea">  105</a></span>        <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="class_moat_1_1_player_group.html#ad6aa8f8124e4e576408373362ddd7bea">count</a> = 1;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="foldopen" id="foldopen00107" data-start="{" data-end="}">
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="class_moat_1_1_player_group.html#a349e994eb6ac3934db1f7ed81413f2ca">  107</a></span>        <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="class_moat_1_1_player_group.html#a349e994eb6ac3934db1f7ed81413f2ca">IsAllReady</a>()</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            <span class="keywordtype">int</span> flagCount = 0;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>.Count; i++)</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>            {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>                <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a>[i].isReady)</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>                {</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>                    flagCount += 1;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                }</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>            }</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            <span class="keywordflow">return</span> flagCount == <a class="code hl_variable" href="class_moat_1_1_player_group.html#aed9d37197718a9ed5887d2b3707c308b">maxCount</a>;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        }</div>
+</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="foldopen" id="foldopen00122" data-start="{" data-end="}">
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="class_moat_1_1_player_group.html#a8a299f3cd0a7b891b20adeb63ed5ee31">  122</a></span>        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_moat_1_1_player_group.html#a8a299f3cd0a7b891b20adeb63ed5ee31">SetNumberPlayer</a>(<span class="keywordtype">int</span> _count)</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        {</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            <a class="code hl_variable" href="class_moat_1_1_player_group.html#ad6aa8f8124e4e576408373362ddd7bea">count</a> = _count;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>            <a class="code hl_variable" href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">players</a> = <span class="keyword">new</span> List&lt;VirtualPlayer&gt;();</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        }</div>
+</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="foldopen" id="foldopen00128" data-start="{" data-end="}">
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno"><a class="line" href="class_moat_1_1_player_group.html#af5285649586285e8d0f3d7938d767e2b">  128</a></span>        <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="class_moat_1_1_player_group.html#af5285649586285e8d0f3d7938d767e2b">IsEnterRoi</a>(<span class="keywordtype">int</span> moveArea)</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        {</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            <span class="keywordtype">bool</span> singleIsEnterRoi = <a class="code hl_variable" href="class_moat_1_1_player_group.html#aed9d37197718a9ed5887d2b3707c308b">maxCount</a> == 1 &amp;&amp; moveArea &gt; 0;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            <span class="keywordflow">if</span> (singleIsEnterRoi)</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>            {</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>                <span class="keywordflow">return</span> singleIsEnterRoi;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>            }</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>            <span class="keywordtype">bool</span> multiIsEnterRoi = <a class="code hl_variable" href="class_moat_1_1_player_group.html#aed9d37197718a9ed5887d2b3707c308b">maxCount</a> &gt; 1 &amp;&amp; (0 &lt; moveArea &amp; moveArea &lt; 5);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>            <span class="keywordflow">if</span> (multiIsEnterRoi)</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>            {</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                <span class="keywordflow">return</span> multiIsEnterRoi;</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>            }</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        }</div>
+</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    }</div>
+</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>}</div>
+<div class="ttc" id="aclass_m_singleton_html"><div class="ttname"><a href="class_m_singleton.html">MSingleton</a></div><div class="ttdef"><b>Definition</b> <a href="_m_singleton_8cs_source.html#l00005">MSingleton.cs:7</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_event_manager_html"><div class="ttname"><a href="class_moat_1_1_event_manager.html">Moat.EventManager</a></div><div class="ttdef"><b>Definition</b> <a href="_event_manager_8cs_source.html#l00075">EventManager.cs:76</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_event_manager_html_a943c6baf6c8409bfa71c2384c759e55f"><div class="ttname"><a href="class_moat_1_1_event_manager.html#a943c6baf6c8409bfa71c2384c759e55f">Moat.EventManager.Send</a></div><div class="ttdeci">static void Send(string type, object[] args=null)</div><div class="ttdef"><b>Definition</b> <a href="_event_manager_8cs_source.html#l00127">EventManager.cs:127</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_m_debug_html"><div class="ttname"><a href="class_moat_1_1_m_debug.html">Moat.MDebug</a></div><div class="ttdef"><b>Definition</b> <a href="_m_debug_8cs_source.html#l00006">MDebug.cs:7</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_m_debug_html_a23cb6dd35c5017b213e926a767524d95"><div class="ttname"><a href="class_moat_1_1_m_debug.html#a23cb6dd35c5017b213e926a767524d95">Moat.MDebug.LogFlow</a></div><div class="ttdeci">static void LogFlow(string value)</div><div class="ttdef"><b>Definition</b> <a href="_m_debug_8cs_source.html#l00038">MDebug.cs:38</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_m_debug_html_a63886c7d34ea1d3b2efe221f8af71df5"><div class="ttname"><a href="class_moat_1_1_m_debug.html#a63886c7d34ea1d3b2efe221f8af71df5">Moat.MDebug.LogTest</a></div><div class="ttdeci">static void LogTest(string value)</div><div class="ttdef"><b>Definition</b> <a href="_m_debug_8cs_source.html#l00008">MDebug.cs:8</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_moat_game_event_html"><div class="ttname"><a href="class_moat_1_1_moat_game_event.html">Moat.MoatGameEvent</a></div><div class="ttdef"><b>Definition</b> <a href="_event_manager_8cs_source.html#l00009">EventManager.cs:10</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_moat_game_event_html_a2b5f4ef645031172313a2532526566d3"><div class="ttname"><a href="class_moat_1_1_moat_game_event.html#a2b5f4ef645031172313a2532526566d3">Moat.MoatGameEvent.PlayerAdd</a></div><div class="ttdeci">static string PlayerAdd</div><div class="ttdef"><b>Definition</b> <a href="_event_manager_8cs_source.html#l00015">EventManager.cs:15</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_moat_game_event_html_a35242941618338aa8e96243bff1e8480"><div class="ttname"><a href="class_moat_1_1_moat_game_event.html#a35242941618338aa8e96243bff1e8480">Moat.MoatGameEvent.PlayerRemove</a></div><div class="ttdeci">static string PlayerRemove</div><div class="ttdef"><b>Definition</b> <a href="_event_manager_8cs_source.html#l00014">EventManager.cs:14</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_player_group_html"><div class="ttname"><a href="class_moat_1_1_player_group.html">Moat.PlayerGroup</a></div><div class="ttdoc">准备了的虚拟玩家</div><div class="ttdef"><b>Definition</b> <a href="#l00008">PlayerGroup.cs:9</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_player_group_html_a0121066bfcb6b5adc92d6c87ef86f7b4"><div class="ttname"><a href="class_moat_1_1_player_group.html#a0121066bfcb6b5adc92d6c87ef86f7b4">Moat.PlayerGroup.RemovePlayer</a></div><div class="ttdeci">void RemovePlayer(VirtualPlayer player)</div><div class="ttdef"><b>Definition</b> <a href="#l00013">PlayerGroup.cs:13</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_player_group_html_a05965d4871ec8971a9d58b540d793141"><div class="ttname"><a href="class_moat_1_1_player_group.html#a05965d4871ec8971a9d58b540d793141">Moat.PlayerGroup.IsMaxPlayerCount</a></div><div class="ttdeci">bool IsMaxPlayerCount()</div><div class="ttdef"><b>Definition</b> <a href="#l00084">PlayerGroup.cs:84</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_player_group_html_a349e994eb6ac3934db1f7ed81413f2ca"><div class="ttname"><a href="class_moat_1_1_player_group.html#a349e994eb6ac3934db1f7ed81413f2ca">Moat.PlayerGroup.IsAllReady</a></div><div class="ttdeci">bool IsAllReady()</div><div class="ttdef"><b>Definition</b> <a href="#l00107">PlayerGroup.cs:107</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_player_group_html_a34b26ed102cbc95955be49016fcf6d6c"><div class="ttname"><a href="class_moat_1_1_player_group.html#a34b26ed102cbc95955be49016fcf6d6c">Moat.PlayerGroup.RemovePlayerById</a></div><div class="ttdeci">void RemovePlayerById(string playerID)</div><div class="ttdef"><b>Definition</b> <a href="#l00032">PlayerGroup.cs:32</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_player_group_html_a5b4b38d81daaf58ce3a13b3d9d6f434e"><div class="ttname"><a href="class_moat_1_1_player_group.html#a5b4b38d81daaf58ce3a13b3d9d6f434e">Moat.PlayerGroup.RemovePlayerByIndex</a></div><div class="ttdeci">void RemovePlayerByIndex(int index)</div><div class="ttdef"><b>Definition</b> <a href="#l00022">PlayerGroup.cs:22</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_player_group_html_a672c72b45154eb2e3cfa34507b47cc10"><div class="ttname"><a href="class_moat_1_1_player_group.html#a672c72b45154eb2e3cfa34507b47cc10">Moat.PlayerGroup.ReplacePlayer</a></div><div class="ttdeci">void ReplacePlayer(VirtualPlayer player, int index)</div><div class="ttdef"><b>Definition</b> <a href="#l00064">PlayerGroup.cs:64</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_player_group_html_a8a299f3cd0a7b891b20adeb63ed5ee31"><div class="ttname"><a href="class_moat_1_1_player_group.html#a8a299f3cd0a7b891b20adeb63ed5ee31">Moat.PlayerGroup.SetNumberPlayer</a></div><div class="ttdeci">void SetNumberPlayer(int _count)</div><div class="ttdef"><b>Definition</b> <a href="#l00122">PlayerGroup.cs:122</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_player_group_html_a963bf9ba854c72552cd7ae1754b30ad9"><div class="ttname"><a href="class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9">Moat.PlayerGroup.players</a></div><div class="ttdeci">List&lt; VirtualPlayer &gt; players</div><div class="ttdef"><b>Definition</b> <a href="#l00010">PlayerGroup.cs:10</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_player_group_html_ab2013712748289ac32afc2424fb7cac8"><div class="ttname"><a href="class_moat_1_1_player_group.html#ab2013712748289ac32afc2424fb7cac8">Moat.PlayerGroup.GetVirtualPlayerById</a></div><div class="ttdeci">VirtualPlayer GetVirtualPlayerById(string id)</div><div class="ttdef"><b>Definition</b> <a href="#l00089">PlayerGroup.cs:89</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_player_group_html_ab306bf53aaad013786cfd6fa9b696c1f"><div class="ttname"><a href="class_moat_1_1_player_group.html#ab306bf53aaad013786cfd6fa9b696c1f">Moat.PlayerGroup.AddPlayer</a></div><div class="ttdeci">void AddPlayer(VirtualPlayer player)</div><div class="ttdef"><b>Definition</b> <a href="#l00048">PlayerGroup.cs:48</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_player_group_html_ad6aa8f8124e4e576408373362ddd7bea"><div class="ttname"><a href="class_moat_1_1_player_group.html#ad6aa8f8124e4e576408373362ddd7bea">Moat.PlayerGroup.count</a></div><div class="ttdeci">int count</div><div class="ttdef"><b>Definition</b> <a href="#l00105">PlayerGroup.cs:105</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_player_group_html_aed9d37197718a9ed5887d2b3707c308b"><div class="ttname"><a href="class_moat_1_1_player_group.html#aed9d37197718a9ed5887d2b3707c308b">Moat.PlayerGroup.maxCount</a></div><div class="ttdeci">int maxCount</div><div class="ttdef"><b>Definition</b> <a href="#l00011">PlayerGroup.cs:11</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_player_group_html_af5285649586285e8d0f3d7938d767e2b"><div class="ttname"><a href="class_moat_1_1_player_group.html#af5285649586285e8d0f3d7938d767e2b">Moat.PlayerGroup.IsEnterRoi</a></div><div class="ttdeci">bool IsEnterRoi(int moveArea)</div><div class="ttdef"><b>Definition</b> <a href="#l00128">PlayerGroup.cs:128</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_virtual_player_html"><div class="ttname"><a href="class_moat_1_1_virtual_player.html">Moat.VirtualPlayer</a></div><div class="ttdef"><b>Definition</b> <a href="_virtual_player_8cs_source.html#l00014">VirtualPlayer.cs:15</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_virtual_player_html_a7c820482a5f712aab62d2a164e3d40a4"><div class="ttname"><a href="class_moat_1_1_virtual_player.html#a7c820482a5f712aab62d2a164e3d40a4">Moat.VirtualPlayer.id</a></div><div class="ttdeci">readonly string id</div><div class="ttdef"><b>Definition</b> <a href="_virtual_player_8cs_source.html#l00016">VirtualPlayer.cs:16</a></div></div>
+<div class="ttc" id="anamespace_moat_html"><div class="ttname"><a href="namespace_moat.html">Moat</a></div><div class="ttdef"><b>Definition</b> <a href="_debug_button_8cs_source.html#l00005">DebugButton.cs:6</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
+</small></address>
+</body>
+</html>

@@ -1,0 +1,871 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Stardust_XR: Deepglint.XR.Inputs.Controls.HumanBodyControl类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Stardust_XR
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespace_deepglint.html">Deepglint</a></li><li class="navelem"><a class="el" href="namespace_deepglint_1_1_x_r.html">XR</a></li><li class="navelem"><a class="el" href="namespace_deepglint_1_1_x_r_1_1_inputs.html">Inputs</a></li><li class="navelem"><a class="el" href="namespace_deepglint_1_1_x_r_1_1_inputs_1_1_controls.html">Controls</a></li><li class="navelem"><a class="el" href="class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control.html">HumanBodyControl</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pro-methods">Protected 成员函数</a> &#124;
+<a href="#properties">属性</a> &#124;
+<a href="class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">Deepglint.XR.Inputs.Controls.HumanBodyControl类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="dynheader">
+类 Deepglint.XR.Inputs.Controls.HumanBodyControl 继承关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control__inherit__graph.png" border="0" usemap="#a_deepglint_8_x_r_8_inputs_8_controls_8_human_body_control_inherit__map" alt="Inheritance graph"/></div>
+</div>
+<div class="dynheader">
+Deepglint.XR.Inputs.Controls.HumanBodyControl 的协作图:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control__coll__graph.png" border="0" usemap="#a_deepglint_8_x_r_8_inputs_8_controls_8_human_body_control_coll__map" alt="Collaboration graph"/></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a25746282ac557a3bde58324591829b86" id="r_a25746282ac557a3bde58324591829b86"><td class="memItemLeft" align="right" valign="top">override unsafe <a class="el" href="struct_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_state.html">HumanBodyState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25746282ac557a3bde58324591829b86">ReadUnprocessedValueFromState</a> (void *statePtr)</td></tr>
+<tr class="separator:a25746282ac557a3bde58324591829b86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e2a5c12ce07f9c338e861f7fdc74530" id="r_a7e2a5c12ce07f9c338e861f7fdc74530"><td class="memItemLeft" align="right" valign="top">override unsafe void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e2a5c12ce07f9c338e861f7fdc74530">WriteValueIntoState</a> (<a class="el" href="struct_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_state.html">HumanBodyState</a> humanBody, void *statePtr)</td></tr>
+<tr class="separator:a7e2a5c12ce07f9c338e861f7fdc74530"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected 成员函数</h2></td></tr>
+<tr class="memitem:af23f9251315dbd72eb39041346c8a02d" id="r_af23f9251315dbd72eb39041346c8a02d"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af23f9251315dbd72eb39041346c8a02d">FinishSetup</a> ()</td></tr>
+<tr class="separator:af23f9251315dbd72eb39041346c8a02d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+属性</h2></td></tr>
+<tr class="memitem:a706fff747c206f4ff748d84ed016275b" id="r_a706fff747c206f4ff748d84ed016275b"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a706fff747c206f4ff748d84ed016275b">headTop</a><code> [get]</code></td></tr>
+<tr class="separator:a706fff747c206f4ff748d84ed016275b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43b78b51f0fff81f7fbc3096074fb7d5" id="r_a43b78b51f0fff81f7fbc3096074fb7d5"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43b78b51f0fff81f7fbc3096074fb7d5">nose</a><code> [get]</code></td></tr>
+<tr class="separator:a43b78b51f0fff81f7fbc3096074fb7d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50764bfa438d4277d5c4c76e39c7b421" id="r_a50764bfa438d4277d5c4c76e39c7b421"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50764bfa438d4277d5c4c76e39c7b421">leftEye</a><code> [get]</code></td></tr>
+<tr class="separator:a50764bfa438d4277d5c4c76e39c7b421"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af82e1d552f0a9475954d84af00af702b" id="r_af82e1d552f0a9475954d84af00af702b"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af82e1d552f0a9475954d84af00af702b">rightEye</a><code> [get]</code></td></tr>
+<tr class="separator:af82e1d552f0a9475954d84af00af702b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abacf30a382887914354b44b511f0eb8e" id="r_abacf30a382887914354b44b511f0eb8e"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abacf30a382887914354b44b511f0eb8e">leftEar</a><code> [get]</code></td></tr>
+<tr class="separator:abacf30a382887914354b44b511f0eb8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a333c2acf2381de5c8cca13cb75d30ec6" id="r_a333c2acf2381de5c8cca13cb75d30ec6"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a333c2acf2381de5c8cca13cb75d30ec6">rightEar</a><code> [get]</code></td></tr>
+<tr class="separator:a333c2acf2381de5c8cca13cb75d30ec6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9f8222a3de8b3eb9852db221726f357" id="r_af9f8222a3de8b3eb9852db221726f357"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9f8222a3de8b3eb9852db221726f357">leftShoulder</a><code> [get]</code></td></tr>
+<tr class="separator:af9f8222a3de8b3eb9852db221726f357"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e40e6d5b381767f0a3a5089590882aa" id="r_a9e40e6d5b381767f0a3a5089590882aa"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e40e6d5b381767f0a3a5089590882aa">rightShoulder</a><code> [get]</code></td></tr>
+<tr class="separator:a9e40e6d5b381767f0a3a5089590882aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6aeca826ae920bbb05934c972aded6f" id="r_aa6aeca826ae920bbb05934c972aded6f"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6aeca826ae920bbb05934c972aded6f">leftElbow</a><code> [get]</code></td></tr>
+<tr class="separator:aa6aeca826ae920bbb05934c972aded6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5c94a6f7ef11ac048488129a779a2f5" id="r_ac5c94a6f7ef11ac048488129a779a2f5"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5c94a6f7ef11ac048488129a779a2f5">rightElbow</a><code> [get]</code></td></tr>
+<tr class="separator:ac5c94a6f7ef11ac048488129a779a2f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c3546652aacffdd31582bd8ff29ed49" id="r_a8c3546652aacffdd31582bd8ff29ed49"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c3546652aacffdd31582bd8ff29ed49">leftWrist</a><code> [get]</code></td></tr>
+<tr class="separator:a8c3546652aacffdd31582bd8ff29ed49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f0da5abbf236ba51231ba215fdb58f8" id="r_a5f0da5abbf236ba51231ba215fdb58f8"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f0da5abbf236ba51231ba215fdb58f8">rightWrist</a><code> [get]</code></td></tr>
+<tr class="separator:a5f0da5abbf236ba51231ba215fdb58f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a030b098c876b3ba3cbeb32201ce2c138" id="r_a030b098c876b3ba3cbeb32201ce2c138"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a030b098c876b3ba3cbeb32201ce2c138">leftHip</a><code> [get]</code></td></tr>
+<tr class="separator:a030b098c876b3ba3cbeb32201ce2c138"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb3fd7a8cfae944addef0f18ed488469" id="r_afb3fd7a8cfae944addef0f18ed488469"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb3fd7a8cfae944addef0f18ed488469">rightHip</a><code> [get]</code></td></tr>
+<tr class="separator:afb3fd7a8cfae944addef0f18ed488469"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a128ab07ad7915d58565e2a7c1e5ed0d6" id="r_a128ab07ad7915d58565e2a7c1e5ed0d6"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a128ab07ad7915d58565e2a7c1e5ed0d6">leftKnee</a><code> [get]</code></td></tr>
+<tr class="separator:a128ab07ad7915d58565e2a7c1e5ed0d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a881ab595595a5a98241e1dae43fb596f" id="r_a881ab595595a5a98241e1dae43fb596f"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a881ab595595a5a98241e1dae43fb596f">rightKnee</a><code> [get]</code></td></tr>
+<tr class="separator:a881ab595595a5a98241e1dae43fb596f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27bab7ae02de5c1a978e2c750beba1a7" id="r_a27bab7ae02de5c1a978e2c750beba1a7"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27bab7ae02de5c1a978e2c750beba1a7">leftAnkle</a><code> [get]</code></td></tr>
+<tr class="separator:a27bab7ae02de5c1a978e2c750beba1a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5d53f18b817f108ce32b7c9155cbf47" id="r_ad5d53f18b817f108ce32b7c9155cbf47"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad5d53f18b817f108ce32b7c9155cbf47">rightAnkle</a><code> [get]</code></td></tr>
+<tr class="separator:ad5d53f18b817f108ce32b7c9155cbf47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a589c1a8e25d47947ea5982ba55efb55e" id="r_a589c1a8e25d47947ea5982ba55efb55e"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a589c1a8e25d47947ea5982ba55efb55e">leftTiptoe</a><code> [get]</code></td></tr>
+<tr class="separator:a589c1a8e25d47947ea5982ba55efb55e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0819fbc410fc91ae727124e120780da" id="r_ae0819fbc410fc91ae727124e120780da"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0819fbc410fc91ae727124e120780da">rightTiptoe</a><code> [get]</code></td></tr>
+<tr class="separator:ae0819fbc410fc91ae727124e120780da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa17c51c6f33765910ea3eb186d287f8b" id="r_aa17c51c6f33765910ea3eb186d287f8b"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa17c51c6f33765910ea3eb186d287f8b">leftHeel</a><code> [get]</code></td></tr>
+<tr class="separator:aa17c51c6f33765910ea3eb186d287f8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11fa7040775717cc0a4e63ece16672f1" id="r_a11fa7040775717cc0a4e63ece16672f1"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11fa7040775717cc0a4e63ece16672f1">rightHeel</a><code> [get]</code></td></tr>
+<tr class="separator:a11fa7040775717cc0a4e63ece16672f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f5397242c44ca6f70026285efd7645f" id="r_a0f5397242c44ca6f70026285efd7645f"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f5397242c44ca6f70026285efd7645f">leftHand</a><code> [get]</code></td></tr>
+<tr class="separator:a0f5397242c44ca6f70026285efd7645f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b4f9749f6c5ec0711e8d500c1e77342" id="r_a1b4f9749f6c5ec0711e8d500c1e77342"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b4f9749f6c5ec0711e8d500c1e77342">rightHand</a><code> [get]</code></td></tr>
+<tr class="separator:a1b4f9749f6c5ec0711e8d500c1e77342"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a627791bc3b21f6cd7e7523fd62618d0e" id="r_a627791bc3b21f6cd7e7523fd62618d0e"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a627791bc3b21f6cd7e7523fd62618d0e">leftFoot</a><code> [get]</code></td></tr>
+<tr class="separator:a627791bc3b21f6cd7e7523fd62618d0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad62be323683ea3d775a932da8aff2eb4" id="r_ad62be323683ea3d775a932da8aff2eb4"><td class="memItemLeft" align="right" valign="top">BoneControl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad62be323683ea3d775a932da8aff2eb4">rightFoot</a><code> [get]</code></td></tr>
+<tr class="separator:ad62be323683ea3d775a932da8aff2eb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock">
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00134">134</a> 行定义.</p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="af23f9251315dbd72eb39041346c8a02d" name="af23f9251315dbd72eb39041346c8a02d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af23f9251315dbd72eb39041346c8a02d">&#9670;&#160;</a></span>FinishSetup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Deepglint.XR.Inputs.Controls.HumanBodyControl.FinishSetup </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00163">163</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a25746282ac557a3bde58324591829b86" name="a25746282ac557a3bde58324591829b86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25746282ac557a3bde58324591829b86">&#9670;&#160;</a></span>ReadUnprocessedValueFromState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override unsafe <a class="el" href="struct_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_state.html">HumanBodyState</a> Deepglint.XR.Inputs.Controls.HumanBodyControl.ReadUnprocessedValueFromState </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>statePtr</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00195">195</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a7e2a5c12ce07f9c338e861f7fdc74530" name="a7e2a5c12ce07f9c338e861f7fdc74530"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e2a5c12ce07f9c338e861f7fdc74530">&#9670;&#160;</a></span>WriteValueIntoState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override unsafe void Deepglint.XR.Inputs.Controls.HumanBodyControl.WriteValueIntoState </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_state.html">HumanBodyState</a></td>          <td class="paramname"><span class="paramname"><em>humanBody</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>statePtr</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00228">228</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">属性说明</h2>
+<a id="a706fff747c206f4ff748d84ed016275b" name="a706fff747c206f4ff748d84ed016275b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a706fff747c206f4ff748d84ed016275b">&#9670;&#160;</a></span>headTop</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.headTop</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00136">136</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a27bab7ae02de5c1a978e2c750beba1a7" name="a27bab7ae02de5c1a978e2c750beba1a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27bab7ae02de5c1a978e2c750beba1a7">&#9670;&#160;</a></span>leftAnkle</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.leftAnkle</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00152">152</a> 行定义.</p>
+
+</div>
+</div>
+<a id="abacf30a382887914354b44b511f0eb8e" name="abacf30a382887914354b44b511f0eb8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abacf30a382887914354b44b511f0eb8e">&#9670;&#160;</a></span>leftEar</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.leftEar</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00140">140</a> 行定义.</p>
+
+</div>
+</div>
+<a id="aa6aeca826ae920bbb05934c972aded6f" name="aa6aeca826ae920bbb05934c972aded6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6aeca826ae920bbb05934c972aded6f">&#9670;&#160;</a></span>leftElbow</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.leftElbow</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00144">144</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a50764bfa438d4277d5c4c76e39c7b421" name="a50764bfa438d4277d5c4c76e39c7b421"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50764bfa438d4277d5c4c76e39c7b421">&#9670;&#160;</a></span>leftEye</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.leftEye</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00138">138</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a627791bc3b21f6cd7e7523fd62618d0e" name="a627791bc3b21f6cd7e7523fd62618d0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a627791bc3b21f6cd7e7523fd62618d0e">&#9670;&#160;</a></span>leftFoot</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.leftFoot</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00160">160</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a0f5397242c44ca6f70026285efd7645f" name="a0f5397242c44ca6f70026285efd7645f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f5397242c44ca6f70026285efd7645f">&#9670;&#160;</a></span>leftHand</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.leftHand</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00158">158</a> 行定义.</p>
+
+</div>
+</div>
+<a id="aa17c51c6f33765910ea3eb186d287f8b" name="aa17c51c6f33765910ea3eb186d287f8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa17c51c6f33765910ea3eb186d287f8b">&#9670;&#160;</a></span>leftHeel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.leftHeel</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00156">156</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a030b098c876b3ba3cbeb32201ce2c138" name="a030b098c876b3ba3cbeb32201ce2c138"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a030b098c876b3ba3cbeb32201ce2c138">&#9670;&#160;</a></span>leftHip</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.leftHip</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00148">148</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a128ab07ad7915d58565e2a7c1e5ed0d6" name="a128ab07ad7915d58565e2a7c1e5ed0d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a128ab07ad7915d58565e2a7c1e5ed0d6">&#9670;&#160;</a></span>leftKnee</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.leftKnee</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00150">150</a> 行定义.</p>
+
+</div>
+</div>
+<a id="af9f8222a3de8b3eb9852db221726f357" name="af9f8222a3de8b3eb9852db221726f357"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9f8222a3de8b3eb9852db221726f357">&#9670;&#160;</a></span>leftShoulder</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.leftShoulder</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00142">142</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a589c1a8e25d47947ea5982ba55efb55e" name="a589c1a8e25d47947ea5982ba55efb55e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a589c1a8e25d47947ea5982ba55efb55e">&#9670;&#160;</a></span>leftTiptoe</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.leftTiptoe</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00154">154</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a8c3546652aacffdd31582bd8ff29ed49" name="a8c3546652aacffdd31582bd8ff29ed49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c3546652aacffdd31582bd8ff29ed49">&#9670;&#160;</a></span>leftWrist</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.leftWrist</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00146">146</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a43b78b51f0fff81f7fbc3096074fb7d5" name="a43b78b51f0fff81f7fbc3096074fb7d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43b78b51f0fff81f7fbc3096074fb7d5">&#9670;&#160;</a></span>nose</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.nose</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00137">137</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ad5d53f18b817f108ce32b7c9155cbf47" name="ad5d53f18b817f108ce32b7c9155cbf47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5d53f18b817f108ce32b7c9155cbf47">&#9670;&#160;</a></span>rightAnkle</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.rightAnkle</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00153">153</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a333c2acf2381de5c8cca13cb75d30ec6" name="a333c2acf2381de5c8cca13cb75d30ec6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a333c2acf2381de5c8cca13cb75d30ec6">&#9670;&#160;</a></span>rightEar</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.rightEar</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00141">141</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ac5c94a6f7ef11ac048488129a779a2f5" name="ac5c94a6f7ef11ac048488129a779a2f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5c94a6f7ef11ac048488129a779a2f5">&#9670;&#160;</a></span>rightElbow</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.rightElbow</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00145">145</a> 行定义.</p>
+
+</div>
+</div>
+<a id="af82e1d552f0a9475954d84af00af702b" name="af82e1d552f0a9475954d84af00af702b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af82e1d552f0a9475954d84af00af702b">&#9670;&#160;</a></span>rightEye</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.rightEye</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00139">139</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ad62be323683ea3d775a932da8aff2eb4" name="ad62be323683ea3d775a932da8aff2eb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad62be323683ea3d775a932da8aff2eb4">&#9670;&#160;</a></span>rightFoot</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.rightFoot</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00161">161</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a1b4f9749f6c5ec0711e8d500c1e77342" name="a1b4f9749f6c5ec0711e8d500c1e77342"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b4f9749f6c5ec0711e8d500c1e77342">&#9670;&#160;</a></span>rightHand</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.rightHand</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00159">159</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a11fa7040775717cc0a4e63ece16672f1" name="a11fa7040775717cc0a4e63ece16672f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11fa7040775717cc0a4e63ece16672f1">&#9670;&#160;</a></span>rightHeel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.rightHeel</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00157">157</a> 行定义.</p>
+
+</div>
+</div>
+<a id="afb3fd7a8cfae944addef0f18ed488469" name="afb3fd7a8cfae944addef0f18ed488469"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb3fd7a8cfae944addef0f18ed488469">&#9670;&#160;</a></span>rightHip</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.rightHip</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00149">149</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a881ab595595a5a98241e1dae43fb596f" name="a881ab595595a5a98241e1dae43fb596f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a881ab595595a5a98241e1dae43fb596f">&#9670;&#160;</a></span>rightKnee</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.rightKnee</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00151">151</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a9e40e6d5b381767f0a3a5089590882aa" name="a9e40e6d5b381767f0a3a5089590882aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e40e6d5b381767f0a3a5089590882aa">&#9670;&#160;</a></span>rightShoulder</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.rightShoulder</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00143">143</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ae0819fbc410fc91ae727124e120780da" name="ae0819fbc410fc91ae727124e120780da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0819fbc410fc91ae727124e120780da">&#9670;&#160;</a></span>rightTiptoe</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.rightTiptoe</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00155">155</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a5f0da5abbf236ba51231ba215fdb58f8" name="a5f0da5abbf236ba51231ba215fdb58f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f0da5abbf236ba51231ba215fdb58f8">&#9670;&#160;</a></span>rightWrist</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">BoneControl Deepglint.XR.Inputs.Controls.HumanBodyControl.rightWrist</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a> 第 <a class="el" href="_human_body_8cs_source.html#l00147">147</a> 行定义.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>/Users/apple/src/beth/deepglint/stardust_reverie/engine/Assets/Stardust/Scripts/Deepglint/XR/Inputs/Controls/<a class="el" href="_human_body_8cs_source.html">HumanBody.cs</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
+</small></address>
+</body>
+</html>

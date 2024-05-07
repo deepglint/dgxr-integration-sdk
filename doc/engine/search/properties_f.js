@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['radius_0',['Radius',['../struct_deepglint_1_1_x_r_1_1_inputs_1_1_devices_1_1_stick_anchor.html#a614e24a451901e3667c3f52cc0978bc8',1,'Deepglint::XR::Inputs::Devices::StickAnchor']]],
+  ['raiseonhand_1',['RaiseOnHand',['../struct_player_action_1_1_player_actions.html#aae6eddf468602c76bc1008ddc8a153f8',1,'PlayerAction.PlayerActions.RaiseOnHand'],['../struct_player_action_1_1_moat_actions.html#a938a06f8306dce33e2e6b34f287300c9',1,'PlayerAction.MoatActions.RaiseOnHand']]],
+  ['realresolution_2',['realResolution',['../class_moat_1_1_model_1_1_resolution_data.html#a9e67d149faefc96bce2a1df83d3087cb',1,'Moat::Model::ResolutionData']]],
+  ['reconnectmaxcount_3',['ReconnectMaxCount',['../class_moat_1_1_model_1_1_display_config_data.html#ad1571370618ae205579cf1e56121fd69',1,'Moat::Model::DisplayConfigData']]],
+  ['resolution_4',['resolution',['../class_moat_1_1_model_1_1_display_config_data.html#afc19356bc23b7ead37796d592cfeee8e',1,'Moat::Model::DisplayConfigData']]],
+  ['right_5',['right',['../class_moat_1_1_model_1_1_target_display_data.html#a2e85e600127e0759ba54270122ccbb54',1,'Moat::Model::TargetDisplayData']]],
+  ['rightankle_6',['rightAnkle',['../class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control.html#ad5d53f18b817f108ce32b7c9155cbf47',1,'Deepglint::XR::Inputs::Controls::HumanBodyControl']]],
+  ['rightear_7',['rightEar',['../class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control.html#a333c2acf2381de5c8cca13cb75d30ec6',1,'Deepglint::XR::Inputs::Controls::HumanBodyControl']]],
+  ['rightelbow_8',['rightElbow',['../class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control.html#ac5c94a6f7ef11ac048488129a779a2f5',1,'Deepglint::XR::Inputs::Controls::HumanBodyControl']]],
+  ['righteye_9',['rightEye',['../class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control.html#af82e1d552f0a9475954d84af00af702b',1,'Deepglint::XR::Inputs::Controls::HumanBodyControl']]],
+  ['rightfoot_10',['rightFoot',['../class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control.html#ad62be323683ea3d775a932da8aff2eb4',1,'Deepglint::XR::Inputs::Controls::HumanBodyControl']]],
+  ['righthand_11',['rightHand',['../class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control.html#a1b4f9749f6c5ec0711e8d500c1e77342',1,'Deepglint::XR::Inputs::Controls::HumanBodyControl']]],
+  ['righthanddrawcircle_12',['RightHandDrawCircle',['../struct_player_action_1_1_moat_actions.html#a2019b27e13db629e4cd76d4057ea4ce7',1,'PlayerAction::MoatActions']]],
+  ['rightheel_13',['rightHeel',['../class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control.html#a11fa7040775717cc0a4e63ece16672f1',1,'Deepglint::XR::Inputs::Controls::HumanBodyControl']]],
+  ['righthip_14',['rightHip',['../class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control.html#afb3fd7a8cfae944addef0f18ed488469',1,'Deepglint::XR::Inputs::Controls::HumanBodyControl']]],
+  ['rightknee_15',['rightKnee',['../class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control.html#a881ab595595a5a98241e1dae43fb596f',1,'Deepglint::XR::Inputs::Controls::HumanBodyControl']]],
+  ['rightshoulder_16',['rightShoulder',['../class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control.html#a9e40e6d5b381767f0a3a5089590882aa',1,'Deepglint::XR::Inputs::Controls::HumanBodyControl']]],
+  ['righttiptoe_17',['rightTiptoe',['../class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control.html#ae0819fbc410fc91ae727124e120780da',1,'Deepglint::XR::Inputs::Controls::HumanBodyControl']]],
+  ['rightwrist_18',['rightWrist',['../class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_body_control.html#a5f0da5abbf236ba51231ba215fdb58f8',1,'Deepglint::XR::Inputs::Controls::HumanBodyControl']]],
+  ['roamrotationspeed_19',['roamRotationSpeed',['../class_moat_1_1_model_1_1_display_config_data.html#a53de88190bf52322b9bba85aa3b3528e',1,'Moat::Model::DisplayConfigData']]],
+  ['roamspeed_20',['roamSpeed',['../class_moat_1_1_model_1_1_display_config_data.html#ad1f6f98aae42df53e7a950dcea1166f5',1,'Moat::Model::DisplayConfigData']]],
+  ['roicircleboundary_21',['roiCircleBoundary',['../class_moat_1_1_model_1_1_circle_area_data.html#a7c31d959b39f6b08c3bd1218abd85f38',1,'Moat::Model::CircleAreaData']]],
+  ['roiradius_22',['roiRadius',['../class_moat_1_1_model_1_1_circle_area_data.html#a6fec385890453e3091d1841c5b4f51ac',1,'Moat::Model::CircleAreaData']]],
+  ['rotation_23',['rotation',['../class_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_pose_control.html#a0b16eba0504136d994bd7c11404a2d65',1,'Deepglint::XR::Inputs::Controls::HumanPoseControl']]]
+];

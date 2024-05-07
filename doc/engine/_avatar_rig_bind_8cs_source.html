@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Stardust_XR: /Users/apple/src/beth/deepglint/stardust_reverie/engine/Assets/Stardust/Moat/Scripts/AvatarRigBind.cs 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Stardust_XR
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_5bc33182a5495f9096745b1fab65ba67.html">stardust_reverie</a></li><li class="navelem"><a class="el" href="dir_395eb628c7f39f35b803932d1c3ed223.html">engine</a></li><li class="navelem"><a class="el" href="dir_580a4dc52d9ab7f3e5b007bbfd7b8f5b.html">Assets</a></li><li class="navelem"><a class="el" href="dir_0fc5de4301109cb668cd1f94556030e8.html">Stardust</a></li><li class="navelem"><a class="el" href="dir_a3d56c2af82ad1cf52e48b7ca713bc33.html">Moat</a></li><li class="navelem"><a class="el" href="dir_302d547419a05957244e1df775784a3f.html">Scripts</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">AvatarRigBind.cs</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_avatar_rig_bind_8cs.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using </span>System.Collections;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using </span>System.Collections.Concurrent;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using </span>System.Collections.Generic;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using </span>UnityEngine;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_moat.html">Moat</a></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
+<div class="foldopen" id="foldopen00008" data-start="{" data-end="};">
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html">    8</a></span>    <span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="class_moat_1_1_avatar_rig_bind.html">AvatarRigBind</a> : MonoBehaviour</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a363cbe4d5536a77a93cc81b7c549a0dc">   10</a></span>        [Header(<span class="stringliteral">&quot;常规参数&quot;</span>)] <span class="keyword">public</span> <span class="keywordtype">float</span> <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a363cbe4d5536a77a93cc81b7c549a0dc">scaleRatio</a> = 20f;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a012a2ef16b44f5a845d78e7118bfe4d5">   11</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a012a2ef16b44f5a845d78e7118bfe4d5">parentObject</a>;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">   13</a></span>        [Header(<span class="stringliteral">&quot;模型骨骼&quot;</span>)] <span class="keyword">public</span> Dictionary&lt;string, string&gt; <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a> = <span class="keyword">new</span> Dictionary&lt;string, string&gt;();</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a685311fc4097cde7d6cbbfff9b4e135b">   14</a></span>        <span class="keyword">public</span> Dictionary&lt;string, Transform&gt; <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a685311fc4097cde7d6cbbfff9b4e135b">AvatarBodyObj</a> = <span class="keyword">new</span> Dictionary&lt;string, Transform&gt;();</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        [Header(<span class="stringliteral">&quot;映射骨骼&quot;</span>)] </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a6b39056026018377b5ba913ee110cb06">   17</a></span>        <span class="keyword">public</span> Dictionary&lt;string, Transform&gt; <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a6b39056026018377b5ba913ee110cb06">BodyObj</a> = <span class="keyword">new</span> Dictionary&lt;string, Transform&gt;();</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        [Header(<span class="stringliteral">&quot;AvatarBody&quot;</span>)]</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a6dce7ef96fc888e9f67bb71a3c71ca3a">   20</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a6dce7ef96fc888e9f67bb71a3c71ca3a">Nose</a>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a3d874fb31f2b0143a0e0a8206ad9dc9d">   21</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a3d874fb31f2b0143a0e0a8206ad9dc9d">LeftEye</a>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#aef81d75a4e1e1e2e2b1fccf39b55433b">   22</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#aef81d75a4e1e1e2e2b1fccf39b55433b">RightEye</a>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#aff385e353f18fdaa58fc08d8aaf6a406">   23</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#aff385e353f18fdaa58fc08d8aaf6a406">LeftEar</a>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#ab6033bdc8e490f28193cf936751d2b7d">   24</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#ab6033bdc8e490f28193cf936751d2b7d">RightEar</a>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a0c47179cf5ab16d55b8abd52a9992688">   25</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a0c47179cf5ab16d55b8abd52a9992688">LeftShoulder</a>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#ac0aab11913f95f578c8a9ca347f5073c">   26</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#ac0aab11913f95f578c8a9ca347f5073c">RightShoulder</a>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#aa72b93382080e55d852415c1c8d7afea">   27</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#aa72b93382080e55d852415c1c8d7afea">LeftElbow</a>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a7867ba43771187f6dfd901b18c8eba04">   28</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a7867ba43771187f6dfd901b18c8eba04">RightElbow</a>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#aceb426d6e91fabccc19bc84e506c64e5">   29</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#aceb426d6e91fabccc19bc84e506c64e5">LeftWrist</a>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a015979d7105e79ce75ee74c8af89cc12">   30</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a015979d7105e79ce75ee74c8af89cc12">RightWrist</a>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a2a8fd12a76f24434910135c12df543aa">   31</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a2a8fd12a76f24434910135c12df543aa">LeftHip</a>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#af10865a1144417cbe83d84066c582f58">   32</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af10865a1144417cbe83d84066c582f58">RightHip</a>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a82277aaf57f771398223eb30f3c31c50">   33</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a82277aaf57f771398223eb30f3c31c50">LeftKnee</a>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#ae309d341c4d145fb8b22005295deeaf0">   34</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#ae309d341c4d145fb8b22005295deeaf0">RightKnee</a>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a1f6ef561f0a6d8ae159cab65481f05e9">   35</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a1f6ef561f0a6d8ae159cab65481f05e9">LeftAnkle</a>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a96d8ce247d0cf0ca96fd8cb955b756ce">   36</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a96d8ce247d0cf0ca96fd8cb955b756ce">RightAnkle</a>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a4ab0034452a86390320c7181e5ad761b">   37</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a4ab0034452a86390320c7181e5ad761b">LeftTiptoe</a>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#aa063509725c61f2ca26ef77c42d5be11">   38</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#aa063509725c61f2ca26ef77c42d5be11">RightTiptoe</a>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#ad2a93c915abc9a24945b330fff61740e">   39</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#ad2a93c915abc9a24945b330fff61740e">LeftHeel</a>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a2fbb3e4e529e0076462d0d75f25fb0f4">   40</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a2fbb3e4e529e0076462d0d75f25fb0f4">RightHeel</a>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a14aa216341e290238747253a6e6bd3ad">   41</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a14aa216341e290238747253a6e6bd3ad">HeadTop</a>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a71fb8b5b9adad875dc8cb7245a7d232a">   42</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a71fb8b5b9adad875dc8cb7245a7d232a">LeftHand</a>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a8d72480e39ac7b17051d56f088b32478">   43</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a8d72480e39ac7b17051d56f088b32478">RightHand</a>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#ab3a074c5a8be91d831b5528c039e35f4">   45</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#ab3a074c5a8be91d831b5528c039e35f4">Neck</a>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="class_moat_1_1_avatar_rig_bind.html#a82858cb0eaec5dca5b41d4b117339e1c">   46</a></span>        <span class="keyword">public</span> Transform <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a82858cb0eaec5dca5b41d4b117339e1c">Root</a>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keyword">private</span> <span class="keywordtype">bool</span> _initFinished = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="comment">// Start is called before the first frame update</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keywordtype">void</span> Start()</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;Root&quot;</span>, <span class="stringliteral">&quot;mixamorig:Hips&quot;</span>);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;HeadTop&quot;</span>, <span class="stringliteral">&quot;mixamorig:HeadTop_End&quot;</span>);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;Nose&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;Neck&quot;</span>, <span class="stringliteral">&quot;mixamorig:Neck&quot;</span>);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;LeftEye&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;RightEye&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;LeftEar&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;RightEar&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;LeftShoulder&quot;</span>, <span class="stringliteral">&quot;mixamorig:LeftShoulder&quot;</span>);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;RightShoulder&quot;</span>, <span class="stringliteral">&quot;mixamorig:RightShoulder&quot;</span>);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;LeftElbow&quot;</span>, <span class="stringliteral">&quot;mixamorig:LeftForeArm&quot;</span>);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;RightElbow&quot;</span>, <span class="stringliteral">&quot;mixamorig:RightForeArm&quot;</span>);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;LeftWrist&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;RightWrist&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;LeftHip&quot;</span>, <span class="stringliteral">&quot;mixamorig:LeftUpLeg&quot;</span>);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;RightHip&quot;</span>, <span class="stringliteral">&quot;mixamorig:RightUpLeg&quot;</span>);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;LeftKnee&quot;</span>, <span class="stringliteral">&quot;mixamorig:LeftLeg&quot;</span>);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;RightKnee&quot;</span>, <span class="stringliteral">&quot;mixamorig:RightLeg&quot;</span>);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;LeftAnkle&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;RightAnkle&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;LeftTiptoe&quot;</span>, <span class="stringliteral">&quot;mixamorig:LeftToeBase&quot;</span>);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;RightTiptoe&quot;</span>, <span class="stringliteral">&quot;mixamorig:RightToeBase&quot;</span>);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;LeftHeel&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;RightHeel&quot;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;LeftHand&quot;</span>, <span class="stringliteral">&quot;mixamorig:LeftHand&quot;</span>);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>.Add(<span class="stringliteral">&quot;RightHand&quot;</span>, <span class="stringliteral">&quot;mixamorig:RightHand&quot;</span>);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            <span class="comment">// Debug.LogError(&quot;mixamorig:Hips2: &quot; + parentObject.Find(&quot;Avatar/young-bellona-fighting/mixamorig:Hips&quot;));</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            Init();</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        }</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="keywordtype">void</span> Init()</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            <span class="keywordflow">foreach</span> (KeyValuePair&lt;string, string&gt; kvp <span class="keywordflow">in</span> <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">AvatarBody</a>)</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            {</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                <span class="keywordtype">string</span> key = kvp.Key;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                <span class="keywordtype">string</span> value = kvp.Value;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                Transform bodyTransform = <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a012a2ef16b44f5a845d78e7118bfe4d5">parentObject</a>.Find(key);</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                <span class="keywordflow">if</span> (bodyTransform != <span class="keyword">null</span>)</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                    <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a6b39056026018377b5ba913ee110cb06">BodyObj</a>.Add(key, bodyTransform);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                }</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                <span class="keywordflow">if</span> (value != <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>                {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                    Transform avatarTransform = <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a012a2ef16b44f5a845d78e7118bfe4d5">parentObject</a>.Find(value);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                    <span class="keywordflow">if</span> (avatarTransform != <span class="keyword">null</span>)</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                    {</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                        <a class="code hl_variable" href="class_moat_1_1_avatar_rig_bind.html#a685311fc4097cde7d6cbbfff9b4e135b">AvatarBodyObj</a>.Add(key, avatarTransform);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>                    }</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>                }</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            }</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        }</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <span class="comment">// Update is called once per frame</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keywordtype">void</span> Update()</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        {</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>            <span class="comment">// foreach (KeyValuePair&lt;string, Transform&gt; key in AvatarBodyObj)</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>            <span class="comment">// {</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>            <span class="comment">//     AvatarBodyObj[key.Key].localPosition = BodyObj[key.Key].position * scaleRatio;</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            <span class="comment">// }</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>            <span class="comment">// AvatarRoot.localPosition = new Vector3(Root.position.x, Root.position.y, Root.position.z) * scaleRatio;</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>            <span class="comment">// if (Root != null) Root.localPosition = BodyObj[&quot;Root&quot;].position * scaleRatio;</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            <span class="comment">// if (HeadTop != null) HeadTop.localPosition = BodyObj[&quot;HeadTop&quot;].localPosition * scaleRatio;</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            <span class="comment">// if (Neck != null) Neck.localPosition = BodyObj[&quot;Neck&quot;].localPosition * scaleRatio;</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            <span class="comment">// if (LeftShoulder != null) LeftShoulder.localPosition = BodyObj[&quot;LeftShoulder&quot;].localPosition * scaleRatio;</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>            <span class="comment">// if (RightShoulder != null) RightShoulder.localPosition = BodyObj[&quot;RightShoulder&quot;].localPosition * scaleRatio;</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>            <span class="comment">// if (LeftElbow != null) LeftElbow.localPosition = BodyObj[&quot;LeftElbow&quot;].localPosition * scaleRatio;</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>            <span class="comment">// if (RightElbow != null) RightElbow.localPosition = BodyObj[&quot;RightElbow&quot;].localPosition * scaleRatio;</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            <span class="comment">// if (LeftHip != null) LeftHip.localPosition = BodyObj[&quot;LeftHip&quot;].localPosition * scaleRatio;</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>            <span class="comment">// if (RightHip != null) RightHip.localPosition = BodyObj[&quot;RightHip&quot;].localPosition * scaleRatio;</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>            <span class="comment">// if (LeftKnee != null) LeftKnee.localPosition = BodyObj[&quot;LeftKnee&quot;].position * scaleRatio;</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>            <span class="comment">// if (RightKnee != null) RightKnee.localPosition = BodyObj[&quot;RightKnee&quot;].position * scaleRatio;</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>            <span class="comment">// if (LeftTiptoe != null) LeftTiptoe.localPosition = BodyObj[&quot;LeftTiptoe&quot;].position * scaleRatio;</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>            <span class="comment">// if (RightTiptoe != null) RightTiptoe.localPosition = BodyObj[&quot;RightTiptoe&quot;].position * scaleRatio;</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            <span class="comment">// if (LeftHand != null) LeftHand.localPosition = BodyObj[&quot;LeftHand&quot;].position * scaleRatio;</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            <span class="comment">// if (RightHand != null) RightHand.localPosition = BodyObj[&quot;RightHand&quot;].position * scaleRatio;</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        }</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    }</div>
+</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>}</div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html">Moat.AvatarRigBind</a></div><div class="ttdef"><b>Definition</b> <a href="#l00008">AvatarRigBind.cs:9</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a012a2ef16b44f5a845d78e7118bfe4d5"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a012a2ef16b44f5a845d78e7118bfe4d5">Moat.AvatarRigBind.parentObject</a></div><div class="ttdeci">Transform parentObject</div><div class="ttdef"><b>Definition</b> <a href="#l00011">AvatarRigBind.cs:11</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a015979d7105e79ce75ee74c8af89cc12"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a015979d7105e79ce75ee74c8af89cc12">Moat.AvatarRigBind.RightWrist</a></div><div class="ttdeci">Transform RightWrist</div><div class="ttdef"><b>Definition</b> <a href="#l00030">AvatarRigBind.cs:30</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a0c47179cf5ab16d55b8abd52a9992688"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a0c47179cf5ab16d55b8abd52a9992688">Moat.AvatarRigBind.LeftShoulder</a></div><div class="ttdeci">Transform LeftShoulder</div><div class="ttdef"><b>Definition</b> <a href="#l00025">AvatarRigBind.cs:25</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a14aa216341e290238747253a6e6bd3ad"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a14aa216341e290238747253a6e6bd3ad">Moat.AvatarRigBind.HeadTop</a></div><div class="ttdeci">Transform HeadTop</div><div class="ttdef"><b>Definition</b> <a href="#l00041">AvatarRigBind.cs:41</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a1f6ef561f0a6d8ae159cab65481f05e9"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a1f6ef561f0a6d8ae159cab65481f05e9">Moat.AvatarRigBind.LeftAnkle</a></div><div class="ttdeci">Transform LeftAnkle</div><div class="ttdef"><b>Definition</b> <a href="#l00035">AvatarRigBind.cs:35</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a2a8fd12a76f24434910135c12df543aa"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a2a8fd12a76f24434910135c12df543aa">Moat.AvatarRigBind.LeftHip</a></div><div class="ttdeci">Transform LeftHip</div><div class="ttdef"><b>Definition</b> <a href="#l00031">AvatarRigBind.cs:31</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a2fbb3e4e529e0076462d0d75f25fb0f4"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a2fbb3e4e529e0076462d0d75f25fb0f4">Moat.AvatarRigBind.RightHeel</a></div><div class="ttdeci">Transform RightHeel</div><div class="ttdef"><b>Definition</b> <a href="#l00040">AvatarRigBind.cs:40</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a363cbe4d5536a77a93cc81b7c549a0dc"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a363cbe4d5536a77a93cc81b7c549a0dc">Moat.AvatarRigBind.scaleRatio</a></div><div class="ttdeci">float scaleRatio</div><div class="ttdef"><b>Definition</b> <a href="#l00010">AvatarRigBind.cs:10</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a3d874fb31f2b0143a0e0a8206ad9dc9d"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a3d874fb31f2b0143a0e0a8206ad9dc9d">Moat.AvatarRigBind.LeftEye</a></div><div class="ttdeci">Transform LeftEye</div><div class="ttdef"><b>Definition</b> <a href="#l00021">AvatarRigBind.cs:21</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a4ab0034452a86390320c7181e5ad761b"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a4ab0034452a86390320c7181e5ad761b">Moat.AvatarRigBind.LeftTiptoe</a></div><div class="ttdeci">Transform LeftTiptoe</div><div class="ttdef"><b>Definition</b> <a href="#l00037">AvatarRigBind.cs:37</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a685311fc4097cde7d6cbbfff9b4e135b"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a685311fc4097cde7d6cbbfff9b4e135b">Moat.AvatarRigBind.AvatarBodyObj</a></div><div class="ttdeci">Dictionary&lt; string, Transform &gt; AvatarBodyObj</div><div class="ttdef"><b>Definition</b> <a href="#l00014">AvatarRigBind.cs:14</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a6b39056026018377b5ba913ee110cb06"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a6b39056026018377b5ba913ee110cb06">Moat.AvatarRigBind.BodyObj</a></div><div class="ttdeci">Dictionary&lt; string, Transform &gt; BodyObj</div><div class="ttdef"><b>Definition</b> <a href="#l00017">AvatarRigBind.cs:17</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a6dce7ef96fc888e9f67bb71a3c71ca3a"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a6dce7ef96fc888e9f67bb71a3c71ca3a">Moat.AvatarRigBind.Nose</a></div><div class="ttdeci">Transform Nose</div><div class="ttdef"><b>Definition</b> <a href="#l00020">AvatarRigBind.cs:20</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a71fb8b5b9adad875dc8cb7245a7d232a"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a71fb8b5b9adad875dc8cb7245a7d232a">Moat.AvatarRigBind.LeftHand</a></div><div class="ttdeci">Transform LeftHand</div><div class="ttdef"><b>Definition</b> <a href="#l00042">AvatarRigBind.cs:42</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a7867ba43771187f6dfd901b18c8eba04"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a7867ba43771187f6dfd901b18c8eba04">Moat.AvatarRigBind.RightElbow</a></div><div class="ttdeci">Transform RightElbow</div><div class="ttdef"><b>Definition</b> <a href="#l00028">AvatarRigBind.cs:28</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a82277aaf57f771398223eb30f3c31c50"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a82277aaf57f771398223eb30f3c31c50">Moat.AvatarRigBind.LeftKnee</a></div><div class="ttdeci">Transform LeftKnee</div><div class="ttdef"><b>Definition</b> <a href="#l00033">AvatarRigBind.cs:33</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a82858cb0eaec5dca5b41d4b117339e1c"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a82858cb0eaec5dca5b41d4b117339e1c">Moat.AvatarRigBind.Root</a></div><div class="ttdeci">Transform Root</div><div class="ttdef"><b>Definition</b> <a href="#l00046">AvatarRigBind.cs:46</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a8d72480e39ac7b17051d56f088b32478"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a8d72480e39ac7b17051d56f088b32478">Moat.AvatarRigBind.RightHand</a></div><div class="ttdeci">Transform RightHand</div><div class="ttdef"><b>Definition</b> <a href="#l00043">AvatarRigBind.cs:43</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_a96d8ce247d0cf0ca96fd8cb955b756ce"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#a96d8ce247d0cf0ca96fd8cb955b756ce">Moat.AvatarRigBind.RightAnkle</a></div><div class="ttdeci">Transform RightAnkle</div><div class="ttdef"><b>Definition</b> <a href="#l00036">AvatarRigBind.cs:36</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_aa063509725c61f2ca26ef77c42d5be11"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#aa063509725c61f2ca26ef77c42d5be11">Moat.AvatarRigBind.RightTiptoe</a></div><div class="ttdeci">Transform RightTiptoe</div><div class="ttdef"><b>Definition</b> <a href="#l00038">AvatarRigBind.cs:38</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_aa72b93382080e55d852415c1c8d7afea"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#aa72b93382080e55d852415c1c8d7afea">Moat.AvatarRigBind.LeftElbow</a></div><div class="ttdeci">Transform LeftElbow</div><div class="ttdef"><b>Definition</b> <a href="#l00027">AvatarRigBind.cs:27</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_ab3a074c5a8be91d831b5528c039e35f4"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#ab3a074c5a8be91d831b5528c039e35f4">Moat.AvatarRigBind.Neck</a></div><div class="ttdeci">Transform Neck</div><div class="ttdef"><b>Definition</b> <a href="#l00045">AvatarRigBind.cs:45</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_ab6033bdc8e490f28193cf936751d2b7d"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#ab6033bdc8e490f28193cf936751d2b7d">Moat.AvatarRigBind.RightEar</a></div><div class="ttdeci">Transform RightEar</div><div class="ttdef"><b>Definition</b> <a href="#l00024">AvatarRigBind.cs:24</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_ac0aab11913f95f578c8a9ca347f5073c"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#ac0aab11913f95f578c8a9ca347f5073c">Moat.AvatarRigBind.RightShoulder</a></div><div class="ttdeci">Transform RightShoulder</div><div class="ttdef"><b>Definition</b> <a href="#l00026">AvatarRigBind.cs:26</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_aceb426d6e91fabccc19bc84e506c64e5"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#aceb426d6e91fabccc19bc84e506c64e5">Moat.AvatarRigBind.LeftWrist</a></div><div class="ttdeci">Transform LeftWrist</div><div class="ttdef"><b>Definition</b> <a href="#l00029">AvatarRigBind.cs:29</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_ad2a93c915abc9a24945b330fff61740e"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#ad2a93c915abc9a24945b330fff61740e">Moat.AvatarRigBind.LeftHeel</a></div><div class="ttdeci">Transform LeftHeel</div><div class="ttdef"><b>Definition</b> <a href="#l00039">AvatarRigBind.cs:39</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_ae309d341c4d145fb8b22005295deeaf0"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#ae309d341c4d145fb8b22005295deeaf0">Moat.AvatarRigBind.RightKnee</a></div><div class="ttdeci">Transform RightKnee</div><div class="ttdef"><b>Definition</b> <a href="#l00034">AvatarRigBind.cs:34</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_aef81d75a4e1e1e2e2b1fccf39b55433b"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#aef81d75a4e1e1e2e2b1fccf39b55433b">Moat.AvatarRigBind.RightEye</a></div><div class="ttdeci">Transform RightEye</div><div class="ttdef"><b>Definition</b> <a href="#l00022">AvatarRigBind.cs:22</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_af10865a1144417cbe83d84066c582f58"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#af10865a1144417cbe83d84066c582f58">Moat.AvatarRigBind.RightHip</a></div><div class="ttdeci">Transform RightHip</div><div class="ttdef"><b>Definition</b> <a href="#l00032">AvatarRigBind.cs:32</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_af1cdd2a4a2c433b449cfff74c432a855"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#af1cdd2a4a2c433b449cfff74c432a855">Moat.AvatarRigBind.AvatarBody</a></div><div class="ttdeci">Dictionary&lt; string, string &gt; AvatarBody</div><div class="ttdef"><b>Definition</b> <a href="#l00013">AvatarRigBind.cs:13</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_avatar_rig_bind_html_aff385e353f18fdaa58fc08d8aaf6a406"><div class="ttname"><a href="class_moat_1_1_avatar_rig_bind.html#aff385e353f18fdaa58fc08d8aaf6a406">Moat.AvatarRigBind.LeftEar</a></div><div class="ttdeci">Transform LeftEar</div><div class="ttdef"><b>Definition</b> <a href="#l00023">AvatarRigBind.cs:23</a></div></div>
+<div class="ttc" id="anamespace_moat_html"><div class="ttname"><a href="namespace_moat.html">Moat</a></div><div class="ttdef"><b>Definition</b> <a href="_debug_button_8cs_source.html#l00005">DebugButton.cs:6</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
+</small></address>
+</body>
+</html>

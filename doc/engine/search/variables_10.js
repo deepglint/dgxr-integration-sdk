@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['parentobject_0',['parentObject',['../class_moat_1_1_avatar_rig_bind.html#a012a2ef16b44f5a845d78e7118bfe4d5',1,'Moat.AvatarRigBind.parentObject'],['../class_moat_1_1_body_rig_bind.html#acaa4febf1136fd38e0618d740b27670a',1,'Moat.BodyRigBind.parentObject'],['../class_move_joints.html#a7c08b3264dbd964a603530b2aa3c3357',1,'MoveJoints.parentObject']]],
+  ['personbodyinfo_1',['personBodyInfo',['../class_moat_1_1_cave_manager.html#ad990cd5e0e0bd2f4cdf5c6b08de7db58',1,'Moat::CaveManager']]],
+  ['personbodyinfo_2',['PersonBodyInfo',['../class_moat_1_1_device_player_manager.html#a25b3dfd960757985a40c7df87050bff9',1,'Moat::DevicePlayerManager']]],
+  ['personbodysource_3',['personBodySource',['../class_moat_1_1_cave_manager.html#a4e92eb186a6e1621415801deae617fb2',1,'Moat::CaveManager']]],
+  ['personid_4',['PersonId',['../class_moat_1_1_body_rig_bind.html#a537afe52e51527560761808d308bdc1c',1,'Moat::BodyRigBind']]],
+  ['personids_5',['PersonIds',['../class_moat_1_1_body_manager.html#a47afa214dc707317bc294c9101c6f7c3',1,'Moat::BodyManager']]],
+  ['personstatus_6',['PersonStatus',['../class_moat_1_1_body_rig_bind.html#a9ab8c0bca4bb4a3a920dbc341e27af24',1,'Moat::BodyRigBind']]],
+  ['playeradd_7',['PlayerAdd',['../class_moat_1_1_moat_game_event.html#a2b5f4ef645031172313a2532526566d3',1,'Moat::MoatGameEvent']]],
+  ['playerbody_8',['PlayerBody',['../class_moat_1_1_device_controller.html#ac4b0659ba382ef310c922c11b39e8ee0',1,'Moat::DeviceController']]],
+  ['playercircle_9',['PlayerCircle',['../class_moat_1_1_device_controller.html#a453ace388836e435061088abca09060d',1,'Moat::DeviceController']]],
+  ['playercount_10',['playerCount',['../class_moat_1_1_device_player_manager.html#a58e37642e0959f99a00747491d2873b6',1,'Moat.DevicePlayerManager.playerCount'],['../class_moat_1_1_d_g_x_r_config.html#a5b620cbeec05c7c441ba7f198c07f451',1,'Moat.DGXRConfig.playerCount']]],
+  ['playergroupscount_11',['PlayerGroupsCount',['../class_moat_1_1_d_g_x_r_config.html#abaa3054f91221efbea16511351eb4b95',1,'Moat::DGXRConfig']]],
+  ['playerobjs_12',['PlayerObjs',['../class_moat_1_1_body_manager.html#a7f85f3ba1748b3904841790b55d7931d',1,'Moat::BodyManager']]],
+  ['playerperfab_13',['playerPerfab',['../class_player_factory.html#a468e4e276b9100b81e5d7bb579715b99',1,'PlayerFactory']]],
+  ['playerprefab_14',['PlayerPrefab',['../class_moat_1_1_device_player_manager.html#a3a58f90140b05f93052c6b25e73f2011',1,'Moat.DevicePlayerManager.PlayerPrefab'],['../class_moat_1_1_body_manager.html#acb038d55af29140ad6b3ac3477524ae9',1,'Moat.BodyManager.PlayerPrefab']]],
+  ['playerremove_15',['PlayerRemove',['../class_moat_1_1_moat_game_event.html#a35242941618338aa8e96243bff1e8480',1,'Moat::MoatGameEvent']]],
+  ['players_16',['players',['../class_moat_1_1_player_group.html#a963bf9ba854c72552cd7ae1754b30ad9',1,'Moat::PlayerGroup']]],
+  ['position_17',['position',['../struct_deepglint_1_1_x_r_1_1_inputs_1_1_controls_1_1_human_pose_state.html#a853350c0c5f8968c9a3cabd8d99aac29',1,'Deepglint::XR::Inputs::Controls::HumanPoseState']]],
+  ['position_18',['Position',['../struct_d_g_x_r_1_1_x_r_load_calibration_1_1_sensor.html#a4bafcbe7f015e8dad000a1941909e4de',1,'DGXR.XRLoadCalibration.Sensor.Position'],['../struct_d_g_x_r_1_1_x_r_load_calibration_1_1_projector.html#afda158d14dd0fcb236d9cbd15f0c7970',1,'DGXR.XRLoadCalibration.Projector.Position'],['../struct_d_g_x_r_1_1_x_r_load_calibration_1_1_surface.html#a5ee44dc3861929a147c1db0a37ec2298',1,'DGXR.XRLoadCalibration.Surface.Position'],['../struct_d_g_x_r_1_1_x_r_load_calibration_1_1_screen.html#a5d366021573408ba26eec0cbf7ba27ad',1,'DGXR.XRLoadCalibration.Screen.Position']]],
+  ['projectorprefab_19',['ProjectorPrefab',['../class_d_g_x_r_1_1_x_r_world_manager.html#a46c56ec595b18bb1fd0e19b23d17ab1f',1,'DGXR.XRWorldManager.ProjectorPrefab'],['../class_d_g_x_r_1_1_x_r_world_manager_u_r_p.html#a01d0233c9044ef863d289604aa8f3ece',1,'DGXR.XRWorldManagerURP.ProjectorPrefab']]],
+  ['projectors_20',['Projectors',['../class_d_g_x_r_1_1_x_r_load_calibration.html#a820674e059833afb28c4e8170f5582e7',1,'DGXR::XRLoadCalibration']]]
+];

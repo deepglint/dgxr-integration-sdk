@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Stardust_XR: /Users/apple/src/beth/deepglint/stardust_reverie/engine/Assets/Stardust/Moat/MInputSystem/MultiPlayer/DebugTool/DebugPanel.cs 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Stardust_XR
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_5bc33182a5495f9096745b1fab65ba67.html">stardust_reverie</a></li><li class="navelem"><a class="el" href="dir_395eb628c7f39f35b803932d1c3ed223.html">engine</a></li><li class="navelem"><a class="el" href="dir_580a4dc52d9ab7f3e5b007bbfd7b8f5b.html">Assets</a></li><li class="navelem"><a class="el" href="dir_0fc5de4301109cb668cd1f94556030e8.html">Stardust</a></li><li class="navelem"><a class="el" href="dir_a3d56c2af82ad1cf52e48b7ca713bc33.html">Moat</a></li><li class="navelem"><a class="el" href="dir_5de71331ca18d5940342926f19c27ad7.html">MInputSystem</a></li><li class="navelem"><a class="el" href="dir_b5af52e09f15b59b41874545ceabfd34.html">MultiPlayer</a></li><li class="navelem"><a class="el" href="dir_cc0a312fe4773d005661496cd57260b5.html">DebugTool</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">DebugPanel.cs</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_debug_panel_8cs.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using </span>System;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using </span>System.Collections.Generic;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using </span>UnityEngine;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using </span><a class="code hl_namespace" href="namespace_moat.html">Moat</a>;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_moat.html">Moat</a></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
+<div class="foldopen" id="foldopen00008" data-start="{" data-end="};">
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="class_moat_1_1_debug_panel.html">    8</a></span>    <span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="class_moat_1_1_debug_panel.html">DebugPanel</a> : MonoBehaviour</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="class_moat_1_1_debug_panel.html#ade251445af153ad9d57df7a5fbd29692">   10</a></span>        <span class="keyword">public</span> <span class="keyword">static</span> <a class="code hl_class" href="class_moat_1_1_debug_panel.html">DebugPanel</a> <a class="code hl_variable" href="class_moat_1_1_debug_panel.html#ade251445af153ad9d57df7a5fbd29692">Instance</a>;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="class_moat_1_1_debug_panel.html#a12b15403eb731b508ce5590ca1531639">   11</a></span>        <span class="keyword">public</span> GameObject <a class="code hl_variable" href="class_moat_1_1_debug_panel.html#a12b15403eb731b508ce5590ca1531639">debugButton</a>;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="class_moat_1_1_debug_panel.html#a84960ea71ad24ece4f58621f630c2a56">   12</a></span>        <span class="keyword">public</span> GameObject <a class="code hl_variable" href="class_moat_1_1_debug_panel.html#a84960ea71ad24ece4f58621f630c2a56">LeftGroup</a>;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="class_moat_1_1_debug_panel.html#af064f7fb6df061153d93066775e2af90">   13</a></span>        <span class="keyword">public</span> GameObject <a class="code hl_variable" href="class_moat_1_1_debug_panel.html#af064f7fb6df061153d93066775e2af90">RightGroup</a>;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <span class="keyword">private</span> <span class="keywordtype">string</span> _beControlledUserID;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keyword">private</span> List&lt;DebugButton&gt; _buttonList = <span class="keyword">new</span> List&lt;DebugButton&gt;();</div>
+<div class="foldopen" id="foldopen00018" data-start="{" data-end="};">
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="class_moat_1_1_debug_panel.html#a70aa7cf1732293af28e1fea39241709e">   18</a></span>        <span class="keyword">public</span> <span class="keywordtype">string</span>  <a class="code hl_property" href="class_moat_1_1_debug_panel.html#a70aa7cf1732293af28e1fea39241709e">BeControlledUserID</a></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>            <span class="keyword">get</span> { <span class="keywordflow">return</span> _beControlledUserID;}</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>            <span class="keyword">set</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>                _beControlledUserID = value; </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                DevicePlayerManager.Instance.BeControlledUserID = _beControlledUserID;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            }</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        }</div>
+</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="keyword">private</span> <span class="keywordtype">void</span> Awake()</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            <a class="code hl_variable" href="class_moat_1_1_debug_panel.html#ade251445af153ad9d57df7a5fbd29692">Instance</a> = <span class="keyword">this</span>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        }</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordtype">void</span> Start()</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 10; i++)</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                GameObject obj = GameObject.Instantiate(<a class="code hl_variable" href="class_moat_1_1_debug_panel.html#a12b15403eb731b508ce5590ca1531639">debugButton</a>, <a class="code hl_variable" href="class_moat_1_1_debug_panel.html#a84960ea71ad24ece4f58621f630c2a56">LeftGroup</a>.transform);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                obj.name = i + obj.name;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                obj.SetActive(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                obj.GetComponent&lt;<a class="code hl_class" href="class_moat_1_1_debug_button.html">DebugButton</a>&gt;().debugPanel = <span class="keyword">this</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                obj.GetComponent&lt;<a class="code hl_class" href="class_moat_1_1_debug_button.html">DebugButton</a>&gt;().Initialize(i + 1 + <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                _buttonList.Add(obj.GetComponent&lt;<a class="code hl_class" href="class_moat_1_1_debug_button.html">DebugButton</a>&gt;());</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            }</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        }</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="keyword">private</span> <span class="keywordtype">void</span> OnEnable()</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            <a class="code hl_class" href="class_moat_1_1_event_manager.html">EventManager</a>.<a class="code hl_function" href="class_moat_1_1_event_manager.html#afa45e473e6e6140e47b599d75d2fae21">RegisterListener</a>(<a class="code hl_class" href="class_moat_1_1_action_event.html">ActionEvent</a>.<a class="code hl_variable" href="class_moat_1_1_action_event.html#ad1a32784ed6f8516d7c974d2c147b414">OnRaiseOnHand</a>, OnRaiseOnHand);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        }</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keyword">private</span> <span class="keywordtype">void</span> OnDisable()</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            <a class="code hl_class" href="class_moat_1_1_event_manager.html">EventManager</a>.<a class="code hl_function" href="class_moat_1_1_event_manager.html#ae09a49c342d994cb341c34d53541afba">RemoveListener</a>(<a class="code hl_class" href="class_moat_1_1_action_event.html">ActionEvent</a>.<a class="code hl_variable" href="class_moat_1_1_action_event.html#ad1a32784ed6f8516d7c974d2c147b414">OnRaiseOnHand</a>, OnRaiseOnHand);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <span class="keyword">private</span> <span class="keywordtype">void</span> OnRaiseOnHand(<a class="code hl_class" href="class_moat_1_1_event_call_back.html">EventCallBack</a> evt)</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            <a class="code hl_class" href="class_moat_1_1_m_debug.html">MDebug</a>.<a class="code hl_function" href="class_moat_1_1_m_debug.html#a23cb6dd35c5017b213e926a767524d95">LogFlow</a>(<span class="stringliteral">&quot;3. 玩家进入 - 3.0.4 举右手添加按钮&quot;</span>);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            <span class="keywordtype">string</span> <span class="keywordtype">id</span> = (string)evt.<a class="code hl_property" href="class_moat_1_1_event_call_back.html#a97a01ddc821364892fcccef3e05d7740">Params</a>[0];</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>            <a class="code hl_class" href="class_moat_1_1_debug_button.html">DebugButton</a> <a class="code hl_variable" href="class_moat_1_1_debug_panel.html#a12b15403eb731b508ce5590ca1531639">debugButton</a> = <a class="code hl_variable" href="class_moat_1_1_debug_panel.html#a84960ea71ad24ece4f58621f630c2a56">LeftGroup</a>.transform.GetChild(0).GetComponent&lt;<a class="code hl_class" href="class_moat_1_1_debug_button.html">DebugButton</a>&gt;();</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            <span class="keywordflow">if</span>(<a class="code hl_variable" href="class_moat_1_1_debug_panel.html#a12b15403eb731b508ce5590ca1531639">debugButton</a> != <span class="keyword">null</span> &amp;&amp; !<a class="code hl_variable" href="class_moat_1_1_debug_panel.html#a12b15403eb731b508ce5590ca1531639">debugButton</a>.IsReady)<a class="code hl_variable" href="class_moat_1_1_debug_panel.html#a12b15403eb731b508ce5590ca1531639">debugButton</a>.<a class="code hl_function" href="class_moat_1_1_debug_button.html#ac7254f2ea40c7439d252404fc6384554">ChangeButtonState</a>();</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="keyword">private</span> <a class="code hl_class" href="class_moat_1_1_debug_button.html">DebugButton</a> GetDebugButtonById(<span class="keywordtype">string</span> <span class="keywordtype">id</span>)</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            <span class="keywordflow">foreach</span> (var button <span class="keywordflow">in</span> _buttonList)</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                <span class="keywordflow">if</span> (button.UserId == <span class="keywordtype">id</span>)</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                {</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                    <span class="keywordflow">return</span> button;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            }</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        }</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="foldopen" id="foldopen00077" data-start="{" data-end="}">
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="class_moat_1_1_debug_panel.html#a1fcc6628362d56699501b7676a057ecb">   77</a></span>        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_moat_1_1_debug_panel.html#a1fcc6628362d56699501b7676a057ecb">ResetPanel</a>()</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            <span class="keywordflow">foreach</span> (var button <span class="keywordflow">in</span> _buttonList)</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            {</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>                button.ResetButton();</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            }</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        }</div>
+</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    }</div>
+</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>}</div>
+<div class="ttc" id="aclass_moat_1_1_action_event_html"><div class="ttname"><a href="class_moat_1_1_action_event.html">Moat.ActionEvent</a></div><div class="ttdef"><b>Definition</b> <a href="_action_event_8cs_source.html#l00011">ActionEvent.cs:12</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_action_event_html_ad1a32784ed6f8516d7c974d2c147b414"><div class="ttname"><a href="class_moat_1_1_action_event.html#ad1a32784ed6f8516d7c974d2c147b414">Moat.ActionEvent.OnRaiseOnHand</a></div><div class="ttdeci">const string OnRaiseOnHand</div><div class="ttdef"><b>Definition</b> <a href="_action_event_8cs_source.html#l00039">ActionEvent.cs:39</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_debug_button_html"><div class="ttname"><a href="class_moat_1_1_debug_button.html">Moat.DebugButton</a></div><div class="ttdef"><b>Definition</b> <a href="_debug_button_8cs_source.html#l00007">DebugButton.cs:8</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_debug_button_html_ac7254f2ea40c7439d252404fc6384554"><div class="ttname"><a href="class_moat_1_1_debug_button.html#ac7254f2ea40c7439d252404fc6384554">Moat.DebugButton.ChangeButtonState</a></div><div class="ttdeci">void ChangeButtonState()</div><div class="ttdef"><b>Definition</b> <a href="_debug_button_8cs_source.html#l00032">DebugButton.cs:32</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_debug_panel_html"><div class="ttname"><a href="class_moat_1_1_debug_panel.html">Moat.DebugPanel</a></div><div class="ttdef"><b>Definition</b> <a href="#l00008">DebugPanel.cs:9</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_debug_panel_html_a12b15403eb731b508ce5590ca1531639"><div class="ttname"><a href="class_moat_1_1_debug_panel.html#a12b15403eb731b508ce5590ca1531639">Moat.DebugPanel.debugButton</a></div><div class="ttdeci">GameObject debugButton</div><div class="ttdef"><b>Definition</b> <a href="#l00011">DebugPanel.cs:11</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_debug_panel_html_a1fcc6628362d56699501b7676a057ecb"><div class="ttname"><a href="class_moat_1_1_debug_panel.html#a1fcc6628362d56699501b7676a057ecb">Moat.DebugPanel.ResetPanel</a></div><div class="ttdeci">void ResetPanel()</div><div class="ttdef"><b>Definition</b> <a href="#l00077">DebugPanel.cs:77</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_debug_panel_html_a70aa7cf1732293af28e1fea39241709e"><div class="ttname"><a href="class_moat_1_1_debug_panel.html#a70aa7cf1732293af28e1fea39241709e">Moat.DebugPanel.BeControlledUserID</a></div><div class="ttdeci">string BeControlledUserID</div><div class="ttdef"><b>Definition</b> <a href="#l00018">DebugPanel.cs:19</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_debug_panel_html_a84960ea71ad24ece4f58621f630c2a56"><div class="ttname"><a href="class_moat_1_1_debug_panel.html#a84960ea71ad24ece4f58621f630c2a56">Moat.DebugPanel.LeftGroup</a></div><div class="ttdeci">GameObject LeftGroup</div><div class="ttdef"><b>Definition</b> <a href="#l00012">DebugPanel.cs:12</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_debug_panel_html_ade251445af153ad9d57df7a5fbd29692"><div class="ttname"><a href="class_moat_1_1_debug_panel.html#ade251445af153ad9d57df7a5fbd29692">Moat.DebugPanel.Instance</a></div><div class="ttdeci">static DebugPanel Instance</div><div class="ttdef"><b>Definition</b> <a href="#l00010">DebugPanel.cs:10</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_debug_panel_html_af064f7fb6df061153d93066775e2af90"><div class="ttname"><a href="class_moat_1_1_debug_panel.html#af064f7fb6df061153d93066775e2af90">Moat.DebugPanel.RightGroup</a></div><div class="ttdeci">GameObject RightGroup</div><div class="ttdef"><b>Definition</b> <a href="#l00013">DebugPanel.cs:13</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_event_call_back_html"><div class="ttname"><a href="class_moat_1_1_event_call_back.html">Moat.EventCallBack</a></div><div class="ttdef"><b>Definition</b> <a href="_event_manager_8cs_source.html#l00018">EventManager.cs:19</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_event_call_back_html_a97a01ddc821364892fcccef3e05d7740"><div class="ttname"><a href="class_moat_1_1_event_call_back.html#a97a01ddc821364892fcccef3e05d7740">Moat.EventCallBack.Params</a></div><div class="ttdeci">System.Object[] Params</div><div class="ttdef"><b>Definition</b> <a href="_event_manager_8cs_source.html#l00030">EventManager.cs:31</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_event_manager_html"><div class="ttname"><a href="class_moat_1_1_event_manager.html">Moat.EventManager</a></div><div class="ttdef"><b>Definition</b> <a href="_event_manager_8cs_source.html#l00075">EventManager.cs:76</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_event_manager_html_ae09a49c342d994cb341c34d53541afba"><div class="ttname"><a href="class_moat_1_1_event_manager.html#ae09a49c342d994cb341c34d53541afba">Moat.EventManager.RemoveListener</a></div><div class="ttdeci">static void RemoveListener(string type, EventListenerDelegate listener)</div><div class="ttdef"><b>Definition</b> <a href="_event_manager_8cs_source.html#l00106">EventManager.cs:106</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_event_manager_html_afa45e473e6e6140e47b599d75d2fae21"><div class="ttname"><a href="class_moat_1_1_event_manager.html#afa45e473e6e6140e47b599d75d2fae21">Moat.EventManager.RegisterListener</a></div><div class="ttdeci">static void RegisterListener(string type, EventListenerDelegate listener)</div><div class="ttdef"><b>Definition</b> <a href="_event_manager_8cs_source.html#l00093">EventManager.cs:93</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_m_debug_html"><div class="ttname"><a href="class_moat_1_1_m_debug.html">Moat.MDebug</a></div><div class="ttdef"><b>Definition</b> <a href="_m_debug_8cs_source.html#l00006">MDebug.cs:7</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_m_debug_html_a23cb6dd35c5017b213e926a767524d95"><div class="ttname"><a href="class_moat_1_1_m_debug.html#a23cb6dd35c5017b213e926a767524d95">Moat.MDebug.LogFlow</a></div><div class="ttdeci">static void LogFlow(string value)</div><div class="ttdef"><b>Definition</b> <a href="_m_debug_8cs_source.html#l00038">MDebug.cs:38</a></div></div>
+<div class="ttc" id="anamespace_moat_html"><div class="ttname"><a href="namespace_moat.html">Moat</a></div><div class="ttdef"><b>Definition</b> <a href="_debug_button_8cs_source.html#l00005">DebugButton.cs:6</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
+</small></address>
+</body>
+</html>

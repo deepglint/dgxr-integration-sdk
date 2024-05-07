@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Stardust_XR: /Users/apple/src/beth/deepglint/stardust_reverie/engine/Assets/Stardust/Moat/Scripts/RotationControl.cs 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Stardust_XR
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_5bc33182a5495f9096745b1fab65ba67.html">stardust_reverie</a></li><li class="navelem"><a class="el" href="dir_395eb628c7f39f35b803932d1c3ed223.html">engine</a></li><li class="navelem"><a class="el" href="dir_580a4dc52d9ab7f3e5b007bbfd7b8f5b.html">Assets</a></li><li class="navelem"><a class="el" href="dir_0fc5de4301109cb668cd1f94556030e8.html">Stardust</a></li><li class="navelem"><a class="el" href="dir_a3d56c2af82ad1cf52e48b7ca713bc33.html">Moat</a></li><li class="navelem"><a class="el" href="dir_302d547419a05957244e1df775784a3f.html">Scripts</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">RotationControl.cs</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_rotation_control_8cs.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using </span>System;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using </span>UnityEngine;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_moat.html">Moat</a></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>{</div>
+<div class="foldopen" id="foldopen00006" data-start="{" data-end="};">
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="class_moat_1_1_rotation_control.html">    6</a></span>    <span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="class_moat_1_1_rotation_control.html">RotationControl</a> : MonoBehaviour</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="class_moat_1_1_rotation_control.html#ae3bc9e74a264cae0f1c1614e6197d5ae">    8</a></span>        <span class="keyword">public</span> <span class="keywordtype">float</span> <a class="code hl_variable" href="class_moat_1_1_rotation_control.html#ae3bc9e74a264cae0f1c1614e6197d5ae">rotationSpeed</a> = 5f; <span class="comment">// 旋转速度</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="class_moat_1_1_rotation_control.html#a71f11c8e29d7b468230218cc8885af90">    9</a></span>        <span class="keyword">public</span> <span class="keywordtype">float</span> <a class="code hl_variable" href="class_moat_1_1_rotation_control.html#a71f11c8e29d7b468230218cc8885af90">rotationThreshold</a> = 10f; <span class="comment">// 角度阈值</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="keyword">private</span> <a class="code hl_typedef" href="_x_r_world_manager_8cs.html#a3115aee88de19f0e23050e8650bc3153">Quaternion</a> _targetRotation; <span class="comment">// 目标旋转角度</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="class_moat_1_1_rotation_control.html#a2f02ec1203c2c145c45643aad3e5dbda">   13</a></span>        <span class="keyword">public</span> <span class="keywordtype">float</span> <a class="code hl_variable" href="class_moat_1_1_rotation_control.html#a2f02ec1203c2c145c45643aad3e5dbda">maxThreshold</a> = 500f; <span class="comment">//最大可视旋转距离</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <span class="keyword">private</span> GameObject[] _leftCloseShotGo;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keyword">private</span> GameObject[] _rightCloseShotGo;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="keyword">private</span> <span class="keywordtype">void</span> Start()</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>            _leftCloseShotGo = GameObject.FindGameObjectsWithTag(<span class="stringliteral">&quot;LeftCloseShot&quot;</span>);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            _rightCloseShotGo = GameObject.FindGameObjectsWithTag(<span class="stringliteral">&quot;RightCloseShot&quot;</span>);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        }</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keywordtype">void</span> Update()</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            Rotate();</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        }</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keywordtype">void</span> Rotate()</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            <span class="keywordflow">foreach</span> (var leftGO <span class="keywordflow">in</span> _leftCloseShotGo)</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                RectTransform leftGoRectTransform = leftGO.GetComponent&lt;RectTransform&gt;();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                <a class="code hl_typedef" href="_x_r_world_manager_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a> leftGOWorldPosition = leftGoRectTransform.TransformPoint(<a class="code hl_typedef" href="_x_r_world_manager_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>.zero);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                <span class="keywordtype">float</span> distance = leftGOWorldPosition.z - transform.position.z;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                <span class="keywordflow">if</span> (distance &lt; <a class="code hl_variable" href="class_moat_1_1_rotation_control.html#a2f02ec1203c2c145c45643aad3e5dbda">maxThreshold</a>)</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                    <span class="comment">// 朝向相机</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                    <a class="code hl_typedef" href="_x_r_world_manager_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a> targetDirection = leftGO.transform.position - transform.position;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                    _targetRotation = <a class="code hl_typedef" href="_x_r_world_manager_8cs.html#a3115aee88de19f0e23050e8650bc3153">Quaternion</a>.LookRotation(targetDirection);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                    <span class="comment">// 平滑旋转</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                    leftGO.transform.rotation =</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                        <a class="code hl_typedef" href="_x_r_world_manager_8cs.html#a3115aee88de19f0e23050e8650bc3153">Quaternion</a>.Lerp(leftGO.transform.rotation, _targetRotation, <a class="code hl_variable" href="class_moat_1_1_rotation_control.html#ae3bc9e74a264cae0f1c1614e6197d5ae">rotationSpeed</a> * Time.deltaTime);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            <span class="keywordflow">foreach</span> (var rightGO <span class="keywordflow">in</span> _rightCloseShotGo)</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                <span class="keywordtype">float</span> distance = <a class="code hl_typedef" href="_x_r_world_manager_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>.Distance(rightGO.transform.position, transform.position);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                <span class="keywordflow">if</span> (distance &lt; <a class="code hl_variable" href="class_moat_1_1_rotation_control.html#a2f02ec1203c2c145c45643aad3e5dbda">maxThreshold</a>)</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                    <span class="comment">// 朝向相机</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                    <a class="code hl_typedef" href="_x_r_world_manager_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a> targetDirection = rightGO.transform.position - transform.position;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                    _targetRotation = <a class="code hl_typedef" href="_x_r_world_manager_8cs.html#a3115aee88de19f0e23050e8650bc3153">Quaternion</a>.LookRotation(targetDirection);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                    <span class="comment">// 平滑旋转</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                    rightGO.transform.rotation =</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                        <a class="code hl_typedef" href="_x_r_world_manager_8cs.html#a3115aee88de19f0e23050e8650bc3153">Quaternion</a>.Lerp(rightGO.transform.rotation, _targetRotation, <a class="code hl_variable" href="class_moat_1_1_rotation_control.html#ae3bc9e74a264cae0f1c1614e6197d5ae">rotationSpeed</a> * Time.deltaTime);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                }</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            }</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }</div>
+</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>}</div>
+<div class="ttc" id="a_x_r_world_manager_8cs_html_a3115aee88de19f0e23050e8650bc3153"><div class="ttname"><a href="_x_r_world_manager_8cs.html#a3115aee88de19f0e23050e8650bc3153">Quaternion</a></div><div class="ttdeci">UnityEngine.Quaternion Quaternion</div><div class="ttdef"><b>Definition</b> <a href="_x_r_world_manager_8cs_source.html#l00006">XRWorldManager.cs:6</a></div></div>
+<div class="ttc" id="a_x_r_world_manager_8cs_html_af3326292fdd04d2b384b6d781d9594f6"><div class="ttname"><a href="_x_r_world_manager_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a></div><div class="ttdeci">UnityEngine.Vector3 Vector3</div><div class="ttdef"><b>Definition</b> <a href="_x_r_world_manager_8cs_source.html#l00007">XRWorldManager.cs:7</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_rotation_control_html"><div class="ttname"><a href="class_moat_1_1_rotation_control.html">Moat.RotationControl</a></div><div class="ttdef"><b>Definition</b> <a href="#l00006">RotationControl.cs:7</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_rotation_control_html_a2f02ec1203c2c145c45643aad3e5dbda"><div class="ttname"><a href="class_moat_1_1_rotation_control.html#a2f02ec1203c2c145c45643aad3e5dbda">Moat.RotationControl.maxThreshold</a></div><div class="ttdeci">float maxThreshold</div><div class="ttdef"><b>Definition</b> <a href="#l00013">RotationControl.cs:13</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_rotation_control_html_a71f11c8e29d7b468230218cc8885af90"><div class="ttname"><a href="class_moat_1_1_rotation_control.html#a71f11c8e29d7b468230218cc8885af90">Moat.RotationControl.rotationThreshold</a></div><div class="ttdeci">float rotationThreshold</div><div class="ttdef"><b>Definition</b> <a href="#l00009">RotationControl.cs:9</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_rotation_control_html_ae3bc9e74a264cae0f1c1614e6197d5ae"><div class="ttname"><a href="class_moat_1_1_rotation_control.html#ae3bc9e74a264cae0f1c1614e6197d5ae">Moat.RotationControl.rotationSpeed</a></div><div class="ttdeci">float rotationSpeed</div><div class="ttdef"><b>Definition</b> <a href="#l00008">RotationControl.cs:8</a></div></div>
+<div class="ttc" id="anamespace_moat_html"><div class="ttname"><a href="namespace_moat.html">Moat</a></div><div class="ttdef"><b>Definition</b> <a href="_debug_button_8cs_source.html#l00005">DebugButton.cs:6</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
+</small></address>
+</body>
+</html>

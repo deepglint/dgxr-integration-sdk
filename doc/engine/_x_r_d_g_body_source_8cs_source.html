@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.10.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Stardust_XR: /Users/apple/src/beth/deepglint/stardust_reverie/engine/Assets/Stardust/Scripts/XRDGBodySource.cs 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Stardust_XR
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.10.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_5bc33182a5495f9096745b1fab65ba67.html">stardust_reverie</a></li><li class="navelem"><a class="el" href="dir_395eb628c7f39f35b803932d1c3ed223.html">engine</a></li><li class="navelem"><a class="el" href="dir_580a4dc52d9ab7f3e5b007bbfd7b8f5b.html">Assets</a></li><li class="navelem"><a class="el" href="dir_0fc5de4301109cb668cd1f94556030e8.html">Stardust</a></li><li class="navelem"><a class="el" href="dir_902360e5757ceee6dcb4ce19d4a1a98b.html">Scripts</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle"><div class="title">XRDGBodySource.cs</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_x_r_d_g_body_source_8cs.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using </span>System.Collections.Concurrent;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using </span>System.Collections.Generic;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using </span><a class="code hl_namespace" href="namespace_moat.html">Moat</a>;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using </span><a class="code hl_namespace" href="namespace_moat_1_1_model.html">Moat.Model</a>;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using </span>UnityEngine;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">using </span>Newtonsoft.Json;</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">using </span>UnityEngine.InputSystem;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_body_source.html">BodySource</a></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>{</div>
+<div class="foldopen" id="foldopen00011" data-start="{" data-end="};">
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="class_body_source_1_1_x_r_d_g_body_source.html">   11</a></span>    <span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="class_body_source_1_1_x_r_d_g_body_source.html">XRDGBodySource</a></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <span class="keyword">private</span> <span class="keyword">static</span> <a class="code hl_class" href="class_body_source_1_1_x_r_d_g_body_source.html">XRDGBodySource</a> instance;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="class_body_source_1_1_x_r_d_g_body_source.html#a3a138a6fdb88af33b94f4b106be76452">   14</a></span>        <span class="keyword">public</span>  <span class="keywordtype">string</span> <a class="code hl_variable" href="class_body_source_1_1_x_r_d_g_body_source.html#a3a138a6fdb88af33b94f4b106be76452">cavePersonId</a>=<span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="class_body_source_1_1_x_r_d_g_body_source.html#aabda57d4e82500e7aa8cec30a61590a9">   15</a></span>        <span class="keyword">public</span> <a class="code hl_typedef" href="_x_r_world_manager_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a> <a class="code hl_variable" href="class_body_source_1_1_x_r_d_g_body_source.html#aabda57d4e82500e7aa8cec30a61590a9">cavePersonHead</a> = <span class="keyword">new</span> <a class="code hl_typedef" href="_x_r_world_manager_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>(0, 0, 0);</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="class_body_source_1_1_x_r_d_g_body_source.html#a5a02884b3abab260e28e898c2e1695b6">   17</a></span>        <span class="keyword">public</span> ConcurrentDictionary&lt;string, BodyDataSource&gt; <a class="code hl_variable" href="class_body_source_1_1_x_r_d_g_body_source.html#a5a02884b3abab260e28e898c2e1695b6">Data</a> = <span class="keyword">new</span> ConcurrentDictionary&lt;string, BodyDataSource&gt; { };</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="class_body_source_1_1_x_r_d_g_body_source.html#a9e0e78413051a0e33afe94927b5d4739">   19</a></span>        <span class="keyword">public</span> Dictionary&lt;string, Dictionary&lt;string, float&gt;&gt; <a class="code hl_variable" href="class_body_source_1_1_x_r_d_g_body_source.html#a9e0e78413051a0e33afe94927b5d4739">Actions</a> =</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>            <span class="keyword">new</span> Dictionary&lt;string, Dictionary&lt;string, float&gt;&gt;();</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="comment">// 私有构造函数，防止外部直接实例化</span></div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="}">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="class_body_source_1_1_x_r_d_g_body_source.html#a0a9963ce51b39cb6f42f8509529955a0">   22</a></span>        <span class="keyword">public</span> <a class="code hl_function" href="class_body_source_1_1_x_r_d_g_body_source.html#a0a9963ce51b39cb6f42f8509529955a0">XRDGBodySource</a>()</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            <span class="comment">// 初始化GameManager</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        }</div>
+</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="comment">// 获取GameManager的实例</span></div>
+<div class="foldopen" id="foldopen00028" data-start="{" data-end="};">
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="class_body_source_1_1_x_r_d_g_body_source.html#a58e4b9b4fa010765838d5fb21a0825e3">   28</a></span>        <span class="keyword">public</span> <span class="keyword">static</span> <a class="code hl_class" href="class_body_source_1_1_x_r_d_g_body_source.html">XRDGBodySource</a> <a class="code hl_property" href="class_body_source_1_1_x_r_d_g_body_source.html#a58e4b9b4fa010765838d5fb21a0825e3">Instance</a></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            <span class="keyword">get</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                <span class="keywordflow">if</span> (instance == <span class="keyword">null</span>)</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                    instance = <span class="keyword">new</span> <a class="code hl_function" href="class_body_source_1_1_x_r_d_g_body_source.html#a0a9963ce51b39cb6f42f8509529955a0">XRDGBodySource</a>();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                <span class="keywordflow">return</span> instance;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            }</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        }</div>
+</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        </div>
+<div class="foldopen" id="foldopen00040" data-start="{" data-end="}">
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="class_body_source_1_1_x_r_d_g_body_source.html#ae7d35ccdc5967485763a68159716e186">   40</a></span>        <span class="keyword">public</span> ConcurrentDictionary&lt;string, BodyDataSource&gt; <a class="code hl_function" href="class_body_source_1_1_x_r_d_g_body_source.html#ae7d35ccdc5967485763a68159716e186">GetData</a>()</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="class_body_source_1_1_x_r_d_g_body_source.html#a5a02884b3abab260e28e898c2e1695b6">Data</a>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        }</div>
+</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="foldopen" id="foldopen00045" data-start="{" data-end="}">
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="class_body_source_1_1_x_r_d_g_body_source.html#a87c390343e373f05c16ecef17c29b6ee">   45</a></span>        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_body_source_1_1_x_r_d_g_body_source.html#a87c390343e373f05c16ecef17c29b6ee">InitBodyHead</a>(<span class="keywordtype">string</span> personId)</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            ConcurrentDictionary&lt;string, BodyDataSource&gt; personBodySource = <a class="code hl_function" href="class_body_source_1_1_x_r_d_g_body_source.html#ae7d35ccdc5967485763a68159716e186">GetData</a>(); </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            <span class="keywordflow">foreach</span> (KeyValuePair&lt;string, BodyDataSource&gt; person <span class="keywordflow">in</span> personBodySource)</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                <a class="code hl_struct" href="struct_body_source_1_1_body_data_source.html">BodyDataSource</a> personData = personBodySource[person.Key];</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                Debug.Log(personId  + <span class="stringliteral">&quot;当前所有玩家：personData.BodyID: &quot;</span> + personData.<a class="code hl_property" href="struct_body_source_1_1_body_data_source.html#a5fe273ef957dc9167363fe8f3e3da01b">BodyID</a>);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                <span class="keywordtype">string</span> bodyId = (<span class="keywordtype">int</span>.Parse(personData.<a class="code hl_property" href="struct_body_source_1_1_body_data_source.html#a5fe273ef957dc9167363fe8f3e3da01b">BodyID</a>) + 1).ToString();</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                <span class="keywordflow">if</span> (personId == bodyId)</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                {</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                    <a class="code hl_class" href="class_body_source_1_1_joint_data.html">JointData</a> HeadTopData = personData.<a class="code hl_property" href="struct_body_source_1_1_body_data_source.html#ad20564ee1f6233df020660c7ffb2471f">Joints</a>[<a class="code hl_enumeration" href="namespace_body_source.html#afa6d6b478d97ac29a37fc098f1884915">JointType</a>.HeadTop];</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                    <a class="code hl_variable" href="class_body_source_1_1_x_r_d_g_body_source.html#aabda57d4e82500e7aa8cec30a61590a9">cavePersonHead</a> = <span class="keyword">new</span> <a class="code hl_typedef" href="_x_r_world_manager_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>(HeadTopData.<a class="code hl_property" href="class_body_source_1_1_joint_data.html#ad7b35af23ee0a0732c9fcb42d5e1e6f3">X</a>, HeadTopData.<a class="code hl_property" href="class_body_source_1_1_joint_data.html#a2c57ce077e15d9cc6c9ab6c6507430ae">Y</a>, HeadTopData.<a class="code hl_property" href="class_body_source_1_1_joint_data.html#a901f8c6e25ddf6a3fc19061cde3bced8">Z</a>);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                }</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            }</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        }</div>
+</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="foldopen" id="foldopen00061" data-start="{" data-end="}">
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="class_body_source_1_1_x_r_d_g_body_source.html#a713ca8f2b6a65d13aa15ce383cd5080f">   61</a></span>        <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_body_source_1_1_x_r_d_g_body_source.html#a713ca8f2b6a65d13aa15ce383cd5080f">SetCavePersonId</a>(<span class="keywordtype">string</span> personId)</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            <span class="keywordflow">if</span> (personId != <a class="code hl_variable" href="class_body_source_1_1_x_r_d_g_body_source.html#a3a138a6fdb88af33b94f4b106be76452">cavePersonId</a>)</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                <a class="code hl_class" href="class_moat_1_1_m_debug.html">MDebug</a>.<a class="code hl_function" href="class_moat_1_1_m_debug.html#a23cb6dd35c5017b213e926a767524d95">LogFlow</a>(<span class="stringliteral">&quot;4. 视角跟随 - 1.1 跟随玩家 &quot;</span> + personId);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            <a class="code hl_variable" href="class_body_source_1_1_x_r_d_g_body_source.html#a3a138a6fdb88af33b94f4b106be76452">cavePersonId</a> = personId;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            <a class="code hl_function" href="class_body_source_1_1_x_r_d_g_body_source.html#a87c390343e373f05c16ecef17c29b6ee">InitBodyHead</a>(personId);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        }</div>
+</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    }</div>
+</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>  </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>}</div>
+<div class="ttc" id="a_x_r_world_manager_8cs_html_af3326292fdd04d2b384b6d781d9594f6"><div class="ttname"><a href="_x_r_world_manager_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a></div><div class="ttdeci">UnityEngine.Vector3 Vector3</div><div class="ttdef"><b>Definition</b> <a href="_x_r_world_manager_8cs_source.html#l00007">XRWorldManager.cs:7</a></div></div>
+<div class="ttc" id="aclass_body_source_1_1_joint_data_html"><div class="ttname"><a href="class_body_source_1_1_joint_data.html">BodySource.JointData</a></div><div class="ttdef"><b>Definition</b> <a href="_body_data_source_8cs_source.html#l00025">BodyDataSource.cs:26</a></div></div>
+<div class="ttc" id="aclass_body_source_1_1_joint_data_html_a2c57ce077e15d9cc6c9ab6c6507430ae"><div class="ttname"><a href="class_body_source_1_1_joint_data.html#a2c57ce077e15d9cc6c9ab6c6507430ae">BodySource.JointData.Y</a></div><div class="ttdeci">float Y</div><div class="ttdef"><b>Definition</b> <a href="_body_data_source_8cs_source.html#l00028">BodyDataSource.cs:28</a></div></div>
+<div class="ttc" id="aclass_body_source_1_1_joint_data_html_a901f8c6e25ddf6a3fc19061cde3bced8"><div class="ttname"><a href="class_body_source_1_1_joint_data.html#a901f8c6e25ddf6a3fc19061cde3bced8">BodySource.JointData.Z</a></div><div class="ttdeci">float Z</div><div class="ttdef"><b>Definition</b> <a href="_body_data_source_8cs_source.html#l00029">BodyDataSource.cs:29</a></div></div>
+<div class="ttc" id="aclass_body_source_1_1_joint_data_html_ad7b35af23ee0a0732c9fcb42d5e1e6f3"><div class="ttname"><a href="class_body_source_1_1_joint_data.html#ad7b35af23ee0a0732c9fcb42d5e1e6f3">BodySource.JointData.X</a></div><div class="ttdeci">float X</div><div class="ttdef"><b>Definition</b> <a href="_body_data_source_8cs_source.html#l00027">BodyDataSource.cs:27</a></div></div>
+<div class="ttc" id="aclass_body_source_1_1_x_r_d_g_body_source_html"><div class="ttname"><a href="class_body_source_1_1_x_r_d_g_body_source.html">BodySource.XRDGBodySource</a></div><div class="ttdef"><b>Definition</b> <a href="#l00011">XRDGBodySource.cs:12</a></div></div>
+<div class="ttc" id="aclass_body_source_1_1_x_r_d_g_body_source_html_a0a9963ce51b39cb6f42f8509529955a0"><div class="ttname"><a href="class_body_source_1_1_x_r_d_g_body_source.html#a0a9963ce51b39cb6f42f8509529955a0">BodySource.XRDGBodySource.XRDGBodySource</a></div><div class="ttdeci">XRDGBodySource()</div><div class="ttdef"><b>Definition</b> <a href="#l00022">XRDGBodySource.cs:22</a></div></div>
+<div class="ttc" id="aclass_body_source_1_1_x_r_d_g_body_source_html_a3a138a6fdb88af33b94f4b106be76452"><div class="ttname"><a href="class_body_source_1_1_x_r_d_g_body_source.html#a3a138a6fdb88af33b94f4b106be76452">BodySource.XRDGBodySource.cavePersonId</a></div><div class="ttdeci">string cavePersonId</div><div class="ttdef"><b>Definition</b> <a href="#l00014">XRDGBodySource.cs:14</a></div></div>
+<div class="ttc" id="aclass_body_source_1_1_x_r_d_g_body_source_html_a58e4b9b4fa010765838d5fb21a0825e3"><div class="ttname"><a href="class_body_source_1_1_x_r_d_g_body_source.html#a58e4b9b4fa010765838d5fb21a0825e3">BodySource.XRDGBodySource.Instance</a></div><div class="ttdeci">static XRDGBodySource Instance</div><div class="ttdef"><b>Definition</b> <a href="#l00028">XRDGBodySource.cs:29</a></div></div>
+<div class="ttc" id="aclass_body_source_1_1_x_r_d_g_body_source_html_a5a02884b3abab260e28e898c2e1695b6"><div class="ttname"><a href="class_body_source_1_1_x_r_d_g_body_source.html#a5a02884b3abab260e28e898c2e1695b6">BodySource.XRDGBodySource.Data</a></div><div class="ttdeci">ConcurrentDictionary&lt; string, BodyDataSource &gt; Data</div><div class="ttdef"><b>Definition</b> <a href="#l00017">XRDGBodySource.cs:17</a></div></div>
+<div class="ttc" id="aclass_body_source_1_1_x_r_d_g_body_source_html_a713ca8f2b6a65d13aa15ce383cd5080f"><div class="ttname"><a href="class_body_source_1_1_x_r_d_g_body_source.html#a713ca8f2b6a65d13aa15ce383cd5080f">BodySource.XRDGBodySource.SetCavePersonId</a></div><div class="ttdeci">void SetCavePersonId(string personId)</div><div class="ttdef"><b>Definition</b> <a href="#l00061">XRDGBodySource.cs:61</a></div></div>
+<div class="ttc" id="aclass_body_source_1_1_x_r_d_g_body_source_html_a87c390343e373f05c16ecef17c29b6ee"><div class="ttname"><a href="class_body_source_1_1_x_r_d_g_body_source.html#a87c390343e373f05c16ecef17c29b6ee">BodySource.XRDGBodySource.InitBodyHead</a></div><div class="ttdeci">void InitBodyHead(string personId)</div><div class="ttdef"><b>Definition</b> <a href="#l00045">XRDGBodySource.cs:45</a></div></div>
+<div class="ttc" id="aclass_body_source_1_1_x_r_d_g_body_source_html_a9e0e78413051a0e33afe94927b5d4739"><div class="ttname"><a href="class_body_source_1_1_x_r_d_g_body_source.html#a9e0e78413051a0e33afe94927b5d4739">BodySource.XRDGBodySource.Actions</a></div><div class="ttdeci">Dictionary&lt; string, Dictionary&lt; string, float &gt; &gt; Actions</div><div class="ttdef"><b>Definition</b> <a href="#l00019">XRDGBodySource.cs:19</a></div></div>
+<div class="ttc" id="aclass_body_source_1_1_x_r_d_g_body_source_html_aabda57d4e82500e7aa8cec30a61590a9"><div class="ttname"><a href="class_body_source_1_1_x_r_d_g_body_source.html#aabda57d4e82500e7aa8cec30a61590a9">BodySource.XRDGBodySource.cavePersonHead</a></div><div class="ttdeci">Vector3 cavePersonHead</div><div class="ttdef"><b>Definition</b> <a href="#l00015">XRDGBodySource.cs:15</a></div></div>
+<div class="ttc" id="aclass_body_source_1_1_x_r_d_g_body_source_html_ae7d35ccdc5967485763a68159716e186"><div class="ttname"><a href="class_body_source_1_1_x_r_d_g_body_source.html#ae7d35ccdc5967485763a68159716e186">BodySource.XRDGBodySource.GetData</a></div><div class="ttdeci">ConcurrentDictionary&lt; string, BodyDataSource &gt; GetData()</div><div class="ttdef"><b>Definition</b> <a href="#l00040">XRDGBodySource.cs:40</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_m_debug_html"><div class="ttname"><a href="class_moat_1_1_m_debug.html">Moat.MDebug</a></div><div class="ttdef"><b>Definition</b> <a href="_m_debug_8cs_source.html#l00006">MDebug.cs:7</a></div></div>
+<div class="ttc" id="aclass_moat_1_1_m_debug_html_a23cb6dd35c5017b213e926a767524d95"><div class="ttname"><a href="class_moat_1_1_m_debug.html#a23cb6dd35c5017b213e926a767524d95">Moat.MDebug.LogFlow</a></div><div class="ttdeci">static void LogFlow(string value)</div><div class="ttdef"><b>Definition</b> <a href="_m_debug_8cs_source.html#l00038">MDebug.cs:38</a></div></div>
+<div class="ttc" id="anamespace_body_source_html"><div class="ttname"><a href="namespace_body_source.html">BodySource</a></div><div class="ttdef"><b>Definition</b> <a href="_body_data_source_8cs_source.html#l00004">BodyDataSource.cs:5</a></div></div>
+<div class="ttc" id="anamespace_body_source_html_afa6d6b478d97ac29a37fc098f1884915"><div class="ttname"><a href="namespace_body_source.html#afa6d6b478d97ac29a37fc098f1884915">BodySource.JointType</a></div><div class="ttdeci">JointType</div><div class="ttdef"><b>Definition</b> <a href="_body_data_source_8cs_source.html#l00047">BodyDataSource.cs:48</a></div></div>
+<div class="ttc" id="anamespace_moat_1_1_model_html"><div class="ttname"><a href="namespace_moat_1_1_model.html">Moat.Model</a></div><div class="ttdef"><b>Definition</b> <a href="_display_data_8cs_source.html#l00004">DisplayData.cs:5</a></div></div>
+<div class="ttc" id="anamespace_moat_html"><div class="ttname"><a href="namespace_moat.html">Moat</a></div><div class="ttdef"><b>Definition</b> <a href="_debug_button_8cs_source.html#l00005">DebugButton.cs:6</a></div></div>
+<div class="ttc" id="astruct_body_source_1_1_body_data_source_html"><div class="ttname"><a href="struct_body_source_1_1_body_data_source.html">BodySource.BodyDataSource</a></div><div class="ttdef"><b>Definition</b> <a href="_body_data_source_8cs_source.html#l00006">BodyDataSource.cs:7</a></div></div>
+<div class="ttc" id="astruct_body_source_1_1_body_data_source_html_a5fe273ef957dc9167363fe8f3e3da01b"><div class="ttname"><a href="struct_body_source_1_1_body_data_source.html#a5fe273ef957dc9167363fe8f3e3da01b">BodySource.BodyDataSource.BodyID</a></div><div class="ttdeci">string BodyID</div><div class="ttdef"><b>Definition</b> <a href="_body_data_source_8cs_source.html#l00009">BodyDataSource.cs:9</a></div></div>
+<div class="ttc" id="astruct_body_source_1_1_body_data_source_html_ad20564ee1f6233df020660c7ffb2471f"><div class="ttname"><a href="struct_body_source_1_1_body_data_source.html#ad20564ee1f6233df020660c7ffb2471f">BodySource.BodyDataSource.Joints</a></div><div class="ttdeci">Dictionary&lt; JointType, JointData &gt; Joints</div><div class="ttdef"><b>Definition</b> <a href="_body_data_source_8cs_source.html#l00015">BodyDataSource.cs:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
+</small></address>
+</body>
+</html>

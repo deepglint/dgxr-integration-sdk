@@ -1,0 +1,18 @@
+digraph "/Users/apple/src/beth/deepglint/stardust_reverie/engine/Assets/Stardust/Scripts/Deepglint/XR/Inputs"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  compound=true
+  subgraph clusterdir_4c86a74cc395d060c24ebf7082ee7baf {
+    graph [ bgcolor="#edf0f7", pencolor="grey50", label="XR", fontname=Helvetica,fontsize=10 style="filled,dashed", URL="dir_4c86a74cc395d060c24ebf7082ee7baf.html",tooltip=""]
+  subgraph clusterdir_3d12165277f14b3d27f5faa57def9f4a {
+    graph [ bgcolor="#edf0f7", pencolor="grey25", label="", fontname=Helvetica,fontsize=10 style="filled,bold", URL="dir_3d12165277f14b3d27f5faa57def9f4a.html",tooltip=""]
+    dir_3d12165277f14b3d27f5faa57def9f4a [shape=plaintext, label="Inputs"];
+  dir_64ec95a99e98af27720e61595a40aec2 [label="Controls", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_64ec95a99e98af27720e61595a40aec2.html",tooltip=""];
+  dir_c46bb5b946d7c06f8dc6bbaeadf4bb00 [label="Devices", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_c46bb5b946d7c06f8dc6bbaeadf4bb00.html",tooltip=""];
+  dir_3ec4ec43504e0c25ce456ec96e11ce94 [label="Simulator", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_3ec4ec43504e0c25ce456ec96e11ce94.html",tooltip=""];
+  }
+  }
+}
