@@ -3,7 +3,10 @@
   "displayName": "DGXR Integration SDK",
   "version": "0.1.0",
   "unity": "2022.3",
-  "description": "Provides deepglint XR support.",
+  "description": "Provides Deepglint XR support.",
+  "dependencies": {
+    "com.unity.inputsystem": "1.6.3"
+  },
   "samples": [
     {
       "displayName": "PlayerManager",
