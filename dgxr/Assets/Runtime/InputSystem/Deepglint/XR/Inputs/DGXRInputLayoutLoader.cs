@@ -29,6 +29,7 @@ namespace Deepglint.XR.Inputs
             // Will execute the static constructor as a side effect.
         }
     
+#if UNITY_EDITOR
         [InitializeOnLoadMethod]
         public static void RegisterInputLayouts()
         {
@@ -41,5 +42,6 @@ namespace Deepglint.XR.Inputs
                 matches: new InputDeviceMatcher()
                     .WithProduct(nameof(DGXRDeviceSimulator))); 
         }
+#endif
     } 
 }
