@@ -13,12 +13,8 @@ using UnityEditor;
 [InputControlLayout(stateType = typeof(DGXRControllerState), isGenericTypeOfDevice = false, displayName = "DGXR Controller Simulator", updateBeforeRender = true)]
 public class DGXRDeviceSimulator : InputDevice, IInputUpdateCallbackReceiver 
 {
-    public int DeviceId { get; private set; }
     public AxisControl trigger { get; private set; }
     public AxisControl grip { get; private set; }
-    public ButtonControl primaryButton { get; private set; }
-    public ButtonControl gripButton { get; private set; }
-    public ButtonControl triggerButton { get; private set; }
     
     public StickControl stick { get; private set; }
     
@@ -28,9 +24,6 @@ public class DGXRDeviceSimulator : InputDevice, IInputUpdateCallbackReceiver
 
         trigger = GetChildControl<AxisControl>(nameof(trigger));
         grip = GetChildControl<AxisControl>(nameof(grip));
-        primaryButton = GetChildControl<ButtonControl>(nameof(primaryButton));
-        gripButton = GetChildControl<ButtonControl>(nameof(gripButton));
-        triggerButton = GetChildControl<ButtonControl>(nameof(triggerButton));
     }
     
     public static DGXRDeviceSimulator current { get; private set; }
