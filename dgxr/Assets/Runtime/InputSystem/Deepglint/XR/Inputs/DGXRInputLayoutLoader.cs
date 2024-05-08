@@ -17,16 +17,23 @@ namespace Deepglint.XR.Inputs
     [Preserve]
     public static class DeepglintInputLayoutLoader
     {
-        [Preserve]
+#if UNITY_EDITOR
         static DeepglintInputLayoutLoader()
         {
             RegisterInputLayouts();
         }
-    
+#endif
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad), Preserve]
         public static void Initialize()
         {
-            // Will execute the static constructor as a side effect.
+            InputSystem.RegisterLayout<HumanPoseControl>("HumanPose");
+            InputSystem.RegisterLayout<HumanBodyControl>("HumanBody");
+            InputSystem.RegisterLayout<DGXRController>(
+                matches: new InputDeviceMatcher()
+                    .WithProduct(nameof(DGXRController)));
+            InputSystem.RegisterLayout<DGXRDeviceSimulator>(
+                matches: new InputDeviceMatcher()
+                    .WithProduct(nameof(DGXRDeviceSimulator))); 
         }
     
 #if UNITY_EDITOR
