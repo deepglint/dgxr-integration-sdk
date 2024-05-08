@@ -1,6 +1,6 @@
 ﻿{
   "name": "com.deepglint.xr",
-  "displayName": "DGXR Integration",
+  "displayName": "DGXR Integration SDK",
   "version": "0.1.0",
   "unity": "2022.3",
   "description": "Provides deepglint XR support.",
