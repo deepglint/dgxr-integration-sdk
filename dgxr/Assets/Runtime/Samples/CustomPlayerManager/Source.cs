@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using BestHTTP.WebSocket;
 using Deepglint.XR.Inputs;
 using Deepglint.XR.Inputs.Devices;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Serialization;
+using WebSocket = BestHTTP.WebSocket.WebSocket;
 
 // yq: ws://192.168.12.1:8000/ws
 // sl: ws://192.168.8.7:8000/ws
