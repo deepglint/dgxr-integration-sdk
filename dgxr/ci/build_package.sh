@@ -17,6 +17,8 @@ ${UNITY_EXECUTABLE:-xvfb-run --auto-servernum --server-args='-screen 0 640x480x2
  
 UNITY_EXIT_CODE=$?
 
+echo "Unity process exited with code $UNITY_EXIT_CODE"
+
 if [ $UNITY_EXIT_CODE -eq 0 ]; then
   echo "Run succeeded, no failures occurred";
 elif [ $UNITY_EXIT_CODE -eq 2 ]; then
