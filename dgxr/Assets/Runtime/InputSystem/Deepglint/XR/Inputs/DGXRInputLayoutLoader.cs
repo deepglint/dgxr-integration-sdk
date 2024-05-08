@@ -29,7 +29,8 @@ namespace Deepglint.XR.Inputs
             // Will execute the static constructor as a side effect.
         }
     
-        static void RegisterInputLayouts()
+        [InitializeOnLoadMethod]
+        public static void RegisterInputLayouts()
         {
             InputSystem.RegisterLayout<HumanPoseControl>("HumanPose");
             InputSystem.RegisterLayout<HumanBodyControl>("HumanBody");
