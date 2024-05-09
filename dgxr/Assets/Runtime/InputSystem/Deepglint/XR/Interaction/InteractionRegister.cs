@@ -2,7 +2,9 @@ using UnityEngine.InputSystem;
 
 namespace Deepglint.XR.Interaction
 {
+#if UNITY_EDITOR
     [UnityEditor.InitializeOnLoad] 
+#endif 
     public class InteractionRegister
     {
         static InteractionRegister()

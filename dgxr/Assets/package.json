@@ -5,13 +5,20 @@
   "unity": "2022.3",
   "description": "Provides Deepglint XR support.",
   "dependencies": {
-    "com.unity.inputsystem": "1.6.3"
+    "com.unity.inputsystem": "1.6.3",
+    "com.yasirkula.ingamedebugconsole": "https://github.com/yasirkula/UnityIngameDebugConsole.git",
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "samples": [
     {
       "displayName": "PlayerManager",
       "description": "玩家管理",
       "path": "Runtime/Samples/CustomPlayerManager"
+    },
+    {
+      "displayName": "StreamingAssets",
+      "description": "配置文件",
+      "path": "StreamingAssets"
     }
   ]
 }

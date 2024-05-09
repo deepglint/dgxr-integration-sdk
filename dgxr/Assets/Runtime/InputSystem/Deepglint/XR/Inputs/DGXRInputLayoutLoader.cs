@@ -21,13 +21,15 @@ namespace Deepglint.XR.Inputs
         {
             RegisterInputLayouts();
         }
-        
+#if UNITY_EDITOR  
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad), Preserve]
+#endif
         public static void Initialize()
         {
         }
-    
+#if UNITY_EDITOR
         [InitializeOnLoadMethod]
+#endif
         public static void RegisterInputLayouts()
         {
             InputSystem.RegisterLayout<HumanPoseControl>("HumanPose");

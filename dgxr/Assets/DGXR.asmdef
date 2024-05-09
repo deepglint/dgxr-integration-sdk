@@ -3,7 +3,9 @@
     "rootNamespace": "",
     "references": [
         "Unity.InputSystem",
-        "BestHTTP"
+        "BestHTTP",
+        "Unity.TextMeshPro",
+        "IngameDebugConsole.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
