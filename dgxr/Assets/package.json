@@ -6,9 +6,6 @@
   "description": "Provides Deepglint XR support.",
   "dependencies": {
     "com.unity.inputsystem": "1.6.3",
-    "com.yasirkula.ingamedebugconsole": {
-      "git": "https://github.com/yasirkula/UnityIngameDebugConsole.git"
-    },
     "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "samples": [
