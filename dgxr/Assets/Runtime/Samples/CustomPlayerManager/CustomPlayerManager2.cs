@@ -17,9 +17,9 @@ namespace Runtime.Samples.CustomPlayerManager
             _character1 = new Character2("小红", new ROI(){ Anchor = new Vector2(-1, 0), Radius = 1.0f }); 
             _character2 = new Character2("蓝蓝", new ROI(){ Anchor = Vector2.zero, Radius = 1.0f }); 
             _character3 = new Character2("阿强", new ROI(){ Anchor = new Vector2(1, 0), Radius = 1.0f }); 
-            PlayerManager.OnTryToJoin += _character1.OnJoin;
-            PlayerManager.OnTryToJoin += _character2.OnJoin;
-            PlayerManager.OnTryToJoin += _character3.OnJoin;
+            PlayerManager.OnTryToJoinWithCharacter += _character1.OnTryToJoin;
+            PlayerManager.OnTryToJoinWithCharacter += _character2.OnTryToJoin;
+            PlayerManager.OnTryToJoinWithCharacter += _character3.OnTryToJoin;
         }
     
         public struct ROI
@@ -37,7 +37,7 @@ namespace Runtime.Samples.CustomPlayerManager
                 Roi = roi;
             }
         
-            public override Character OnJoin(InputDevice device)
+            public override Character OnTryToJoin(InputDevice device)
             {
                 if (IsBindable())
                 {

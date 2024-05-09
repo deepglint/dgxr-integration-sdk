@@ -1,5 +1,7 @@
 using System;
+using Deepglint.XR.Inputs.Devices;
 using Deepglint.XR.Utils;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
@@ -58,7 +60,23 @@ namespace Deepglint.XR.Player
         /// </summary>
         private static CallbackArray<Func<InputDevice, object>> _tryToJoinDelegate;
         
-        public static event Func<InputDevice, Character> OnTryToJoin
+        public static event Func<InputDevice, ICharacter> OnTryToJoinWithICharacter
+        {
+            add
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+                _tryToJoinDelegate.AddCallback(value);
+            }
+            remove
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+                _tryToJoinDelegate.RemoveCallback(value);
+            }
+        }
+        
+        public static event Func<InputDevice, Character> OnTryToJoinWithCharacter
         {
             add
             {
@@ -160,7 +178,7 @@ namespace Deepglint.XR.Player
             var device = context.control.device;
             if (PlayerInput.FindFirstPairedToDevice(device) != null)
             {
-                // forbidden to pair a device to multi player.
+                // forbidden to pair a device to multi player on joining stage.
                 return;
             }
 
@@ -169,7 +187,6 @@ namespace Deepglint.XR.Player
                 ref _tryToJoinDelegate, device, "PlayerManager.onTryToJoin");
             if (obj is Character character)
             {
-                Debug.LogFormat("trying to bind device {0} to player {1}", device.deviceId, character.Name);
                 if (PairDeviceToCharacter(character, device))
                 {
                     Debug.LogFormat("succeed to bind device {0} to player {1}", device.deviceId, character.Name);
@@ -178,15 +195,71 @@ namespace Deepglint.XR.Player
                 {
                     Debug.LogFormat("failed to bind device {0} to player {1}", device.deviceId, character.Name);
                 }
+
+                return;
             }
-            else
+            
+            if (obj is ICharacter iCharacter)
             {
-                Debug.LogFormat("device {0} join failed", device.deviceId);
+                // Initiate a new player for the character and pair the device to the new player.
+                var playerInput = _playerInputManager.JoinPlayer(pairWithDevice: device);
+                if (playerInput != null)
+                {
+                    iCharacter.Join(playerInput.gameObject);
+                    Debug.LogFormat("player {0} which paired to {1} joined with ICharacter succeed", playerInput.user.id, device.deviceId);
+                }
+                
+                return;
+            }
+
+            Debug.LogFormat("device {0} join failed", device.deviceId);
+        }
+
+        public bool PairDeviceToPlayer(GameObject player, InputDevice device)
+        {
+            GameObject prefabSource = PrefabUtility.GetCorrespondingObjectFromSource(player) as GameObject;
+            if (prefabSource != playerPrefab)
+            {
+                return false;
+            }
+
+            var playerInput = player.GetComponent<PlayerInput>();
+            if (playerInput != null)
+            {
+                foreach (var pairedDevice in playerInput.devices)
+                {
+                    if (pairedDevice is DGXRController)
+                    {
+                        // forbidden pair duplicate DGXRController device to one player.
+                        return false;
+                    }
+                }
+
+                // Pair the device to the given player
+                InputUser.PerformPairingWithDevice(device, playerInput.user);
+                return true;
+            }
+            
+            return false;
+        }
+
+        public void UnpairDeviceFromPlayer(GameObject player, InputDevice device)
+        {
+            GameObject prefabSource = PrefabUtility.GetCorrespondingObjectFromSource(player) as GameObject;
+            if (prefabSource != playerPrefab)
+            {
+                return;
+            }
+            
+            var playerInput = player.GetComponent<PlayerInput>();
+            if (playerInput != null)
+            {
+                playerInput.user.UnpairDevice(device);
             }
         }
 
         /// <summary>
-        /// pare the device the given character.
+        /// pair the device the given character.
         /// </summary>
         /// <param name="character"></param>
         /// <param name="pairDevice"></param>
