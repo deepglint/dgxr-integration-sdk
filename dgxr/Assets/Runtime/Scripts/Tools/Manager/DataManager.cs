@@ -22,7 +22,7 @@ namespace Runtime.Scripts.Tools.Manager
             Config = LoadData<Config>();
         }
         
-        private static T LoadData<T>()
+        public static T LoadData<T>()
         {
             var type = typeof(T);
             var attribute = type.GetCustomAttribute<DataFileAttribute>();
