@@ -11,7 +11,7 @@ variables:
   BUILD_NAME: stardust
   UNITY_ACTIVATION_FILE: ./unity3d.alf
   UNITY_VERSION: "2022.3.7f1"
-  IMAGE: unityci/editor # https://hub.docker.com/r/unityci/editor
+  IMAGE: unityci/editor
   IMAGE_VERSION: 1 # This will automatically use latest v1.x.x, see https://github.com/game-ci/docker/releases
   UNITY_DIR: $CI_PROJECT_DIR # this needs to be an absolute path. Defaults to the root of your tree.
   # You can expose this in Unity via Application.version
@@ -89,25 +89,7 @@ get-activation-file:
       - $UNITY_ACTIVATION_FILE
     expire_in: 10 min # Expiring this as artifacts may contain sensitive data and should not be kept public
 
-npm_publish:
-  <<: *build
-  image: node:18.12.1-alpine3.15
-  script:
-    - echo "https://mirrors.ustc.edu.cn/alpine/v3.15/main" > /etc/apk/repositories
-    - echo "https://mirrors.ustc.edu.cn/alpine/v3.15/community" >> /etc/apk/repositories
-    - apk update
-    - apk add jq
-    - cd engine/Assets
-    - version=`echo $CI_COMMIT_TAG | sed 's/^v//g'`
-    - jq --arg new_version "$version" '.version = $new_version' package.json > tmp.json && mv tmp.json package.json
-    - cat package.json
-    - npm config set registry http://package.nemoface.com/repository/unity
-    - echo "//package.nemoface.com/repository/:_authToken=\${CI_NPM_TOKEN}" >> ~/.npmrc
-    - npm publish
-  rules:
-    - if: $CI_COMMIT_TAG
-
-build_package:
+build_engine:
   <<: *unity_defaults
   stage: build stardust
   script:
@@ -121,6 +103,23 @@ build_package:
     name: engine-$CI_COMMIT_TAG
     reports:
       dotenv: engine.env
+  tags:
+    - alpha
+
+build_dgxr:
+  <<: *unity_defaults
+  stage: build stardust
+  script:
+    - echo $CI_JOB_ID
+    - echo GE_DGXR_ID=$CI_JOB_ID >> dgxr.env
+    - cd dgxr/ci
+    - chmod +x ./build_package.sh && ./build_package.sh
+  artifacts:
+    paths:
+      - $UNITY_DIR/dgxr/Packages/
+    name: dgxr-$CI_COMMIT_TAG
+    reports:
+      dotenv: dgxr.env
   tags:
     - alpha
 
