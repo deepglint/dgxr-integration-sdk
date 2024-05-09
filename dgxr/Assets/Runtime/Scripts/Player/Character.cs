@@ -20,7 +20,7 @@ namespace Deepglint.XR.Player
         /// <summary>
         /// Name of current character
         /// </summary>
-        protected internal string Name;
+        public string Name;
         
         /// <summary>
         /// OnJoin is a callback function.
