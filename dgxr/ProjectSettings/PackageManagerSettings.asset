@@ -26,11 +26,19 @@ MonoBehaviour:
     m_IsDefault: 1
     m_Capabilities: 7
     m_ConfigSource: 0
-  m_UserSelectedRegistryName: 
+  - m_Id: scoped:project:alpha
+    m_Name: alpha
+    m_Url: http://package.nemoface.com/repository/unity
+    m_Scopes:
+    - com.deepglint
+    m_IsDefault: 0
+    m_Capabilities: 0
+    m_ConfigSource: 4
+  m_UserSelectedRegistryName: alpha
   m_UserAddingNewScopedRegistry: 0
   m_RegistryInfoDraft:
     m_Modified: 0
     m_ErrorMessage: 
-    m_UserModificationsInstanceId: -834
-    m_OriginalInstanceId: -836
+    m_UserModificationsInstanceId: -830
+    m_OriginalInstanceId: -832
   m_LoadAssets: 0

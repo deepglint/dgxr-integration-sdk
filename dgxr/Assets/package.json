@@ -6,7 +6,8 @@
   "description": "Provides Deepglint XR support.",
   "dependencies": {
     "com.unity.inputsystem": "1.6.3",
-    "com.unity.nuget.newtonsoft-json": "3.2.1"
+    "com.unity.nuget.newtonsoft-json": "3.2.1",
+    "com.deepglint.ingamedebugconsole": "1.6.7"
   },
   "samples": [
     {

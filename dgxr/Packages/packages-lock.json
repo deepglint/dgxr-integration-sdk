@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.deepglint.ingamedebugconsole": {
+      "version": "1.6.7",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "http://package.nemoface.com/repository/unity"
+    },
     "com.unity.collab-proxy": {
       "version": "2.2.0",
       "depth": 0,
