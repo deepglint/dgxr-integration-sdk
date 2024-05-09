@@ -4,19 +4,15 @@
     "level": "debug",
     "singFileMaxSize": 100,
     "saveDay": 30,
-    "savePath": "C:\\meta"
+    "savePath": "D:\\meta"
   },
   "space":{
     "~Direction": "left or right or up or down",
     "xDirection": "right" ,
     "zDirection": "up"
   },
-  "source":{
-    "maxCacheFrame": 20
-  },
   "record":{
-    "cacheFrameSize": 60,
     "saveDay": 2,
-    "savePath": "C:\\meta\\record"
+    "savePath": "D:\\meta\\record"
   }
 }

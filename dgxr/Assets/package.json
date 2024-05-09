@@ -6,14 +6,9 @@
   "description": "Provides display and input support for Deppglint devices.",
   "samples": [
     {
-      "displayName": "Cave Prefabs",
+      "displayName": "Body Prefabs",
       "description": "预制件",
-      "path": "Runtime/Stardust"
-    },
-    {
-      "displayName": "Config",
-      "description": "配置文件",
-      "path": "Runtime/StreamingAssets"
+      "path": "Samples"
     }
   ]
 }
