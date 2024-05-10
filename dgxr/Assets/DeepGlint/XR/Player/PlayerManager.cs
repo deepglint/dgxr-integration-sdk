@@ -1,11 +1,14 @@
 using System;
 using DeepGlint.XR.Inputs.Devices;
 using DeepGlint.XR.Utils;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.InputSystem.Utilities;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace DeepGlint.XR.Player
 {
