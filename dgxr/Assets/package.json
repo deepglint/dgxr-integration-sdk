@@ -1,14 +1,22 @@
 ﻿{
-  "name": "com.deepglint.dgxr",
-  "displayName": "DG Integration",
-  "version": "0.1.0",
+  "name": "com.deepglint.xr",
+  "displayName": "DGXR Integration SDK",
+  "version": "2.0.0",
   "unity": "2022.3",
-  "description": "Provides display and input support for Deppglint devices.",
+  "description": "Provides Deepglint XR support.",
+  "dependencies": {
+    "com.unity.inputsystem": "1.6.3"
+  },
   "samples": [
     {
-      "displayName": "Body Prefabs",
-      "description": "预制件",
-      "path": "Samples"
+      "displayName": "PlayerManager",
+      "description": "玩家管理",
+      "path": "Runtime/Samples/CustomPlayerManager"
+    },
+    {
+      "displayName": "HumanBody",
+      "description": "人体检测",
+      "path": "Runtime/Samples/HumanBody"
     }
   ]
 }
