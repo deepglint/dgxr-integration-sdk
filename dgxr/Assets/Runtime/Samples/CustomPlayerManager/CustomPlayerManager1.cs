@@ -15,7 +15,7 @@ namespace Runtime.Samples.CustomPlayerManager
         public void Start()
         {
             _character = new CustomCharacter1("领航员", new ROI(){ Anchor = Vector2.zero, Radius = 1.0f }); 
-            PlayerManager.OnTryToJoin += _character.OnJoin;
+            PlayerManager.OnTryToJoinWithCharacter += _character.OnTryToJoin;
         }
 
         public void Update()
@@ -80,7 +80,7 @@ namespace Runtime.Samples.CustomPlayerManager
                 Name = name;
                 Roi = roi;
             }
-            public override Character OnJoin(InputDevice device)
+            public override Character OnTryToJoin(InputDevice device)
             {
                 if (IsBindable())
                 {

@@ -4,7 +4,11 @@ namespace Deepglint.XR.Interaction
 {
 #if UNITY_EDITOR
     [UnityEditor.InitializeOnLoad] 
+<<<<<<< dgxr/Assets/Runtime/InputSystem/Deepglint/XR/Interaction/InteractionRegister.cs
 #endif 
+=======
+#endif
+>>>>>>> dgxr/Assets/Runtime/InputSystem/Deepglint/XR/Interaction/InteractionRegister.cs
     public class InteractionRegister
     {
         static InteractionRegister()
