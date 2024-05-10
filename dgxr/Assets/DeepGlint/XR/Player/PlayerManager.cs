@@ -226,11 +226,14 @@ namespace DeepGlint.XR.Player
 
         public bool PairDeviceToPlayer(GameObject player, InputDevice device)
         {
+            
+#if UNITY_EDITOR
             GameObject prefabSource = PrefabUtility.GetCorrespondingObjectFromSource(player) as GameObject;
             if (prefabSource != playerPrefab)
             {
                 return false;
             }
+#endif
 
             var playerInput = player.GetComponent<PlayerInput>();
             if (playerInput != null)
@@ -254,11 +257,14 @@ namespace DeepGlint.XR.Player
 
         public void UnpairDeviceFromPlayer(GameObject player, InputDevice device)
         {
+            
+#if UNITY_EDITOR
             GameObject prefabSource = PrefabUtility.GetCorrespondingObjectFromSource(player) as GameObject;
             if (prefabSource != playerPrefab)
             {
                 return;
             }
+#endif
             
             var playerInput = player.GetComponent<PlayerInput>();
             if (playerInput != null)
