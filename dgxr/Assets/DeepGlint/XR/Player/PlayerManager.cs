@@ -49,6 +49,12 @@ namespace DeepGlint.XR.Player
         /// All the active PlayerInputs managed by the PlayerManager instance 
         /// </summary>
         private static PlayerInput[] _allActivePlayers;
+        
+        public GameObject PlayerPrefab
+        {
+            get => playerPrefab;
+            set => playerPrefab = value;
+        }
 
         /// <summary>
         /// Singleton instance of the manager.

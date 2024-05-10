@@ -11,12 +11,12 @@
     {
       "displayName": "PlayerManager",
       "description": "玩家管理",
-      "path": "Runtime/Samples/CustomPlayerManager"
+      "path": "Samples/CustomPlayerManager"
     },
     {
       "displayName": "HumanBody",
       "description": "人体检测",
-      "path": "Runtime/Samples/HumanBody"
+      "path": "Samples/HumanBody"
     }
   ]
 }

@@ -13,7 +13,7 @@ ${UNITY_EXECUTABLE:-xvfb-run --auto-servernum --server-args='-screen 0 640x480x2
   -quit \
   -batchmode \
   -nographics \
-  -exportPackage 'Assets/Runtime' 'Assets/Settings' $BUILD_PATH/DGXRIntegrationSDK.unitypackage
+  -exportPackage 'Assets' $BUILD_PATH/DGXRIntegrationSDK.unitypackage
  
 UNITY_EXIT_CODE=$?
 
