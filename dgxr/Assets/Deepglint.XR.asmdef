@@ -4,6 +4,7 @@
     "references": [
         "Unity.InputSystem",
         "Unity.TextMeshPro",
+        "Unity.TextMeshPro",
         "Analyzers"
     ],
     "includePlatforms": [],

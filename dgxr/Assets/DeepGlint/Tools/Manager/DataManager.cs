@@ -28,7 +28,7 @@ namespace DeepGlint.Tools.Manager
             var attribute = type.GetCustomAttribute<DataFileAttribute>();
             string name = attribute != null ? attribute.Name : $"{type.Name.ToLower()}.json";
             string path = Path.Combine(Application.streamingAssetsPath, ConfigSubPath, name);
-            return ReadJsonFile<T>(path);
+            return DataManager.ReadJsonFile<T>(path);
         }
 
     }
