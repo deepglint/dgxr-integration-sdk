@@ -1,4 +1,4 @@
-using DeepGlint.XR.Inputs.Controls;
+using Deepglint.XR.Inputs.Controls;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
