@@ -70,8 +70,8 @@ get-activation-file:
     expire_in: 10 min # Expiring this as artifacts may contain sensitive data and should not be kept public
 
 lint_analyze:
+  <<: *unity_defaults
   stage: build pre
-  image: $IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
   script:
     - cd dgxr
     - echo "Generating Unity solution..."
