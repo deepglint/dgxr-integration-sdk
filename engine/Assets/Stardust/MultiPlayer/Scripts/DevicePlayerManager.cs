@@ -206,12 +206,19 @@ namespace Stardust.MultiPlayer.Scripts
         {
             JointData leftShoulder = personData.Joints[JointType.LeftShoulder];
             JointData rightShoulder = personData.Joints[JointType.RightShoulder];
-            float dx = rightShoulder.X - leftShoulder.X;
-            float dy = rightShoulder.Y - leftShoulder.Y;
-            double angleRadians = Math.Atan(dy / dx);
-            double angleDegrees = angleRadians * (180 / Math.PI);
-            
-            return (float)Math.Round(angleDegrees,2);
+
+            var rad = Math.PI / 180;
+            var lat1 = rightShoulder.X * rad;
+            var lat2 = leftShoulder.X * rad;
+            var lon1 = rightShoulder.Y * rad;
+            var lon2 = leftShoulder.Y * rad;
+            var a = Math.Sin(lon2 - lon1) * Math.Cos(lat2);
+            var b = Math.Cos(lat1) * Math.Sin(lat2) -
+                    Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(lon2 - lon1);
+
+            var angleD = Math.Atan2(a, b) % (2 * Math.PI);
+            var angleDegrees = angleD * (180 / Math.PI);
+            return (float)Math.Round(angleDegrees, 2) - 180;
         }
         //============================= 本地测试逻辑 =================================
         private string _beControlledUserID;
