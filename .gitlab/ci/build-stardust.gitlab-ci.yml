@@ -73,7 +73,13 @@ lint_analyze:
   stage: build pre
   image: mcr.microsoft.com/dotnet/core/sdk:latest
   script:
-    - 'cd dgxr && ls && dotnet build Deepglint.XR.csproj --no-restore /p:RunAnalyzersDuringBuild=true'   # 运行 Roslyn 分析器
+    - cd dgxr
+    - echo "Generating Unity solution..."
+    - unity -batchmode -nographics -silent-crashes -logFile -projectPath $(pwd) -executeMethod SolutionGenerater.Generate -quit
+    - echo "Restoring NuGet packages..."
+    - dotnet restore dgxr.sln
+    - echo "Running Microsoft.Unity.Analyzers..."
+    - dotnet build dgxr.sln /p:Configuration=Release /p:RunCodeAnalysis=true
 
 npm_publish:
   <<: *build
