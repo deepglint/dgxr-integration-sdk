@@ -31,12 +31,6 @@ get-unity-version:
     reports:
       dotenv: prepare.env
 
-lint_analyze:
-  stage: build pre
-  image: mcr.microsoft.com/dotnet/core/sdk:latest
-  script:
-    - 'dotnet build dgxr/Deepglint.XR.csproj --no-restore /p:RunAnalyzersDuringBuild=true'   # 运行 Roslyn 分析器
-
 .unity_before_script: &unity_before_script
   before_script:
     - export UNITY_DIR=$CI_PROJECT_DIR
@@ -75,6 +69,12 @@ get-activation-file:
       - $UNITY_ACTIVATION_FILE
     expire_in: 10 min # Expiring this as artifacts may contain sensitive data and should not be kept public
 
+lint_analyze:
+  stage: build pre
+  image: mcr.microsoft.com/dotnet/core/sdk:latest
+  script:
+    - 'ls && dotnet build dgxr/Deepglint.XR.csproj --no-restore /p:RunAnalyzersDuringBuild=true'   # 运行 Roslyn 分析器
+    
 npm_publish:
   <<: *build
   image: node:18.12.1-alpine3.15
