@@ -122,13 +122,6 @@
       "dependencies": {},
       "url": "https://package.openupm.com"
     },
-    "com.yasirkula.ingamedebugconsole": {
-      "version": "1.6.7",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://package.openupm.com"
-    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
