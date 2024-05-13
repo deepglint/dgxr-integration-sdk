@@ -8,24 +8,24 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.XR;
-using InputDevice = UnityEngine.InputSystem.InputDevice;
 
 namespace Deepglint.XR
 {
-    public class DGXRManager: MonoBehaviour
+    public class DGXRManager : MonoBehaviour
     {
         public bool isFilterZero;
         private DGXRNode _node;
         private ROS2UnityManager _ros;
         private WsPoseAdapter ws;
+
         public void Awake()
         {
             Global.UniqueID = SystemInfo.deviceUniqueIdentifier;
             Global.AppName = Application.productName;
-            Global.SystemName = SystemInfo.operatingSystem; 
+            Global.SystemName = SystemInfo.operatingSystem;
             Global.Config = new Config().InitConfig();
             GameLogger.Init(Global.Config.Log);
-            if (Global.SystemName.Contains("Mac"))
+            if (Application.isEditor || Global.SystemName.Contains("Mac"))
             {
                 ws = new WsPoseAdapter();
                 ws.Start();
@@ -37,24 +37,27 @@ namespace Deepglint.XR
             }
         }
 
+
         public void Start()
         {
-            if (!Global.SystemName.Contains("Mac"))
+            if (!Application.isEditor && !Global.SystemName.Contains("Mac"))
             {
                 _node = new DGXRNode();
             }
+
             Global.IsFilterZero = isFilterZero;
         }
 
         public void Update()
         {
-            if (!Global.SystemName.Contains("Mac"))
+            if (!Application.isEditor && !Global.SystemName.Contains("Mac"))
             {
                 _ros.FixedUpdate();
                 _node.InitNode(_ros);
             }
         }
-        
+
+          
         private void OnEnable()
         {
             Global.OnMetaPoseDataReceived += OnMetaPoseDataReceived;
@@ -67,10 +70,11 @@ namespace Deepglint.XR
             Global.OnMetaPoseDataReceived -= OnMetaPoseDataReceived;
             Global.OnMetaPoseDataLost -= OnMetaPoseDataLost;
         }
+
         
         public void OnDestroy()
         {
-            if (!Global.SystemName.Contains("Mac"))
+            if (!Application.isEditor && !Global.SystemName.Contains("Mac"))
             {
                 _ros.OnApplicationQuit();
             }
@@ -79,7 +83,7 @@ namespace Deepglint.XR
                 ws.OnDestroy();
             }
         }
-
+  
         private void OnMetaPoseDataLost(string key)
         {
             DeviceManager.RemoveDevice(key);
@@ -87,7 +91,7 @@ namespace Deepglint.XR
         
         private void OnMetaPoseDataReceived(Source.SourceData data)
         {
-            InputDevice device = DeviceManager.AddOrActiveDevice(data.BodyId, nameof(DGXRController));
+            var device = DeviceManager.AddOrActiveDevice(data.BodyId, nameof(DGXRController));
             if (device != null)
             {
                 var xrDevice = device as DGXRController;

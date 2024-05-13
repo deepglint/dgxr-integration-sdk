@@ -43,6 +43,10 @@ namespace Deepglint.XR
             
             [System.Serializable]
             public struct SpaceInfo{
+                [JsonProperty("engineHost")]
+                public string EngineHost { get; set; }
+                [JsonProperty("wsPort")]
+                public string WsPort { get; set; }
                 [JsonProperty("xDirection")]
                 public string XDirection { get; set; }
                 [JsonProperty("zDirection")]

@@ -1,0 +1,1 @@
+// This script is empty on purpose. It is used to force the assembly definition to get compiled.

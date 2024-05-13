@@ -151,7 +151,6 @@ namespace Samples.CustomPlayerManager
     
         void OnJump(InputValue value)
         {
-            return;
             bool data = value.isPressed;
             if(data)
             {
