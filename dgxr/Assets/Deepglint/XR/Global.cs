@@ -1,5 +1,9 @@
 using System;
+using System.Collections.Generic;
 using Deepglint.XR.Ros;
+using UnityEngine;
+using UnityEngine.UI;
+
 
 namespace Deepglint.XR
 {
@@ -18,7 +22,13 @@ namespace Deepglint.XR
         public static string AppName;
         public static string SystemName;
         public static bool IsFilterZero;
-        
+        public static UserViewInfo UserView;
+        public static Vector3 CavePosition;
+        public struct UserViewInfo
+        {
+            public Camera[] Cameras;
+            public Dictionary<int, RawImage> DisplayImages;
+        } 
         public static void TriggerMetaPoseDataReceived(Source.SourceData data)
         {
             OnMetaPoseDataReceived?.Invoke(data);

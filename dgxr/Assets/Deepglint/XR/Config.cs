@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -17,6 +18,8 @@ namespace Deepglint.XR
                 public SpaceInfo Space{ get; set; }
                 [JsonProperty("record")]
                 public RecordInfo Record { get; set; }
+                
+                
             }
 
             [System.Serializable]
@@ -51,8 +54,43 @@ namespace Deepglint.XR
                 public string XDirection { get; set; }
                 [JsonProperty("zDirection")]
                 public string ZDirection{ get; set; }
-                
+                [JsonProperty("screens")]
+                public List<ScreenInfo> Screens { get; set; }
             }
+        }
+
+        [System.Serializable]
+        public struct ScreenInfo
+        {
+            [JsonProperty("display")]
+            public int Display { get; set; }
+            [JsonProperty("render")]
+            public RenderInfo[] Render { get; set; } 
+            [JsonProperty("position")]
+            public CoordinateInfo Position{ get; set; }
+            [JsonProperty("rotation")]
+            public CoordinateInfo Rotation{ get; set; }
+            [JsonProperty("size")]
+            public CoordinateInfo Size{ get; set; }
+        }
+        [System.Serializable]
+        public struct RenderInfo
+        {
+            [JsonProperty("display")]
+            public int Display{ get; set; }
+            [JsonProperty("rect")]
+            public float[] Rect{ get; set; }
+        }
+
+        [System.Serializable]
+        public struct CoordinateInfo
+        {
+            [JsonProperty("x")]
+            public float x{ get; set; }
+            [JsonProperty("y")]
+            public float y{ get; set; }
+            [JsonProperty("z")]
+            public float z{ get; set; }
         }
 
 
