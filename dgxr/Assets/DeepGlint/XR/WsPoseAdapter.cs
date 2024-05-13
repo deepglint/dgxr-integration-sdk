@@ -15,8 +15,8 @@ namespace DeepGlint.XR
     public class WsPoseAdapter
     {
         private Ros2PoseAdapter _poseAdapter;
-        private ClientWebSocket ws;
-        private CancellationTokenSource cancellationTokenSource;
+        private ClientWebSocket _ws;
+        private CancellationTokenSource _cancellationTokenSource;
 
         [DataContract]
         public class MetaWsPoseData
@@ -29,7 +29,7 @@ namespace DeepGlint.XR
         [Serializable]
         public class MessageData
         {
-            [DataMember(Name = "data")] public string Data;
+            [DataMember(Name = "data")] public string data;
         }
 
         public async void Start()
@@ -37,10 +37,10 @@ namespace DeepGlint.XR
             _poseAdapter = new Ros2PoseAdapter();
             Debug.Log($"ws://{Global.Config.Space.EngineHost}:{Global.Config.Space.WsPort}");
             Uri serverUri = new Uri($"ws://{Global.Config.Space.EngineHost}:{Global.Config.Space.WsPort}");
-            ws = new ClientWebSocket();
+            _ws = new ClientWebSocket();
             try
             {
-                await ws.ConnectAsync(serverUri, CancellationToken.None);
+                await _ws.ConnectAsync(serverUri, CancellationToken.None);
 
                 await SubscribeToTopic("/metapose/pose3d", "std_msgs/String");
 
@@ -62,17 +62,17 @@ namespace DeepGlint.XR
         async Task SendMessageAsync(string message)
         {
             byte[] buffer = Encoding.UTF8.GetBytes(message);
-            await ws.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+            await _ws.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
         async Task ReceiveLoop()
         {
             List<byte> buffer = new List<byte>();
-            while (ws.State == WebSocketState.Open)
+            while (_ws.State == WebSocketState.Open)
             {
                 byte[] receiveBuffer = new byte[1024]; // 每次接收的缓冲区大小
                 WebSocketReceiveResult result =
-                    await ws.ReceiveAsync(new ArraySegment<byte>(receiveBuffer), CancellationToken.None);
+                    await _ws.ReceiveAsync(new ArraySegment<byte>(receiveBuffer), CancellationToken.None);
                 if (result.MessageType == WebSocketMessageType.Text)
                 {
                     buffer.AddRange(receiveBuffer.Take(result.Count)); // 将接收到的数据添加到缓冲区
@@ -80,7 +80,7 @@ namespace DeepGlint.XR
                     {
                         string message = Encoding.UTF8.GetString(buffer.ToArray());
                         MetaWsPoseData info = JsonConvert.DeserializeObject<MetaWsPoseData>(message);
-                        _poseAdapter.DealMsgData(info.Msg.Data);
+                        _poseAdapter.DealMsgData(info.Msg.data);
                         buffer.Clear();
                     }
                 }
@@ -89,9 +89,9 @@ namespace DeepGlint.XR
 
         public void OnDestroy()
         {
-            if (ws != null && ws.State == WebSocketState.Open)
+            if (_ws is { State: WebSocketState.Open })
             {
-                ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "WebSocket connection closed by client",
+                _ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "WebSocket connection closed by client",
                     CancellationToken.None).Wait();
             }
         }
