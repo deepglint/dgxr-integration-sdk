@@ -73,8 +73,8 @@ lint_analyze:
   stage: build pre
   image: mcr.microsoft.com/dotnet/core/sdk:latest
   script:
-    - 'ls && dotnet build dgxr/Deepglint.XR.csproj --no-restore /p:RunAnalyzersDuringBuild=true'   # 运行 Roslyn 分析器
-    
+    - 'cd dgxr && ls && dotnet build dgxr/Deepglint.XR.csproj --no-restore /p:RunAnalyzersDuringBuild=true'   # 运行 Roslyn 分析器
+
 npm_publish:
   <<: *build
   image: node:18.12.1-alpine3.15
