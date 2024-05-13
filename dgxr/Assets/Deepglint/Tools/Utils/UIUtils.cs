@@ -1,4 +1,4 @@
-using Deepglint.Tools.Constant;
+using Deepglint.Tools.UIFrame;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -55,8 +55,8 @@ namespace Deepglint.Tools.Utils
 
             return null;
         }
-
-
+        
+        //TODO: 这个函数应该和Display的封装放一起
         public static Transform GetScreenCanvas(TargetDisplay display)
         {
             var uiRoot = GameObject.Find("UIRoot");

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Deepglint.Tools.Utils;
 using UnityEngine;
 
 namespace Deepglint.Tools.UIFrame
@@ -129,7 +130,7 @@ namespace Deepglint.Tools.UIFrame
         {
             var component = UnityEngine.Object.Instantiate(path == null
                 ? new GameObject()
-                : ResourcesManager.Instance.OnLoadAsset<GameObject>(path));
+                : Resources.Load<GameObject>(path));
 
             if (parent != null)
             {
@@ -137,7 +138,7 @@ namespace Deepglint.Tools.UIFrame
                 return component;
             }
 
-            var screen = ScreenCanvasManager.GetScreenCanvas(targetDisplay);
+            var screen = UIUtils.GetScreenCanvas(targetDisplay);
             component.transform.SetParent(screen, false);
             if (component.GetComponent<RectTransform>())
             {
