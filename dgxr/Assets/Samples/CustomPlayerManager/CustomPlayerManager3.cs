@@ -11,10 +11,6 @@ namespace Samples.CustomPlayerManager
     {
         private Character3 _matchStickMan;
 
-        public void Update()
-        {
-        }
-
         public void Start()
         {
             _matchStickMan = new Character3("火柴人", new ROI(){ Anchor = new Vector2(0, 0), Radius = 1.0f }); 
