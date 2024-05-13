@@ -1,4 +1,5 @@
 using Deepglint.Tools.DebugTool;
+using Deepglint.XR;
 using UnityEngine;
 
 namespace Deepglint.Tools.Manager
@@ -15,7 +16,7 @@ namespace Deepglint.Tools.Manager
             _fps = transform.GetComponent<FPS>();
             _versionCode = transform.GetComponent<VersionCode>();
             _inGameDebugConsole = GameObject.Find("IngameDebugConsole");
-            bool openDebug = DataManager.Config.OpenDebug;
+            bool openDebug = Global.Config.Debug;
             _fps.enabled = openDebug;
             _versionCode.enabled = openDebug;
             _inGameDebugConsole.SetActive(openDebug);
