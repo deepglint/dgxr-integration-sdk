@@ -1,12 +1,5 @@
 {
   "dependencies": {
-    "com.deepglint.ingamedebugconsole": {
-      "version": "1.6.7",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
-      "url": "http://package.nemoface.com/repository/unity"
-    },
     "com.unity.burst": {
       "version": "1.8.7",
       "depth": 1,
@@ -121,6 +114,13 @@
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
       }
+    },
+    "com.yasirkula.ingamedebugconsole": {
+      "version": "1.6.7",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
