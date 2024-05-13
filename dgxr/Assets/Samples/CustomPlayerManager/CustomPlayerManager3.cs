@@ -1,3 +1,4 @@
+using System;
 using DeepGlint.XR.Inputs.Devices;
 using DeepGlint.XR.Player;
 using UnityEngine;
@@ -9,6 +10,10 @@ namespace Samples.CustomPlayerManager
     public class CustomPlayerManager3 : MonoBehaviour
     {
         private Character3 _matchStickMan;
+
+        public void Update()
+        {
+        }
 
         public void Start()
         {
