@@ -12,6 +12,8 @@ namespace Deepglint.XR
             [System.Serializable]
             public struct ConfigInfo
             {
+                [JsonProperty("debug")]
+                public bool Debug { get; set; }
                 [JsonProperty("log")]
                 public LogInfo Log { get; set; }
                 [JsonProperty("space")]

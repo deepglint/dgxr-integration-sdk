@@ -2,7 +2,7 @@ using Deepglint.Tools.DebugTool;
 using Deepglint.XR;
 using UnityEngine;
 
-namespace Deepglint.Tools.Manager
+namespace Deepglint.Tool.Manager
 {
     public class ToolManager : MonoBehaviour
     {
@@ -12,7 +12,6 @@ namespace Deepglint.Tools.Manager
 
         void Start()
         {
-            DataManager.Init();
             _fps = transform.GetComponent<FPS>();
             _versionCode = transform.GetComponent<VersionCode>();
             _inGameDebugConsole = GameObject.Find("IngameDebugConsole");

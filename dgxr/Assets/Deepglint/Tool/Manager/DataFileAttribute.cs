@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Deepglint.Tools.Manager
+namespace Deepglint.Tool.Manager
 {
     public class DataFileAttribute : Attribute
     {

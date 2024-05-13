@@ -1,4 +1,5 @@
 {
+  "debug": true,
   "log":{
     "~level": "debug warn or error",
     "level": "debug",

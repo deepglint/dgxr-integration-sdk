@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Deepglint.Tools.Manager
+namespace Deepglint.Tool.Manager
 {
     public class EventCallBack
     {

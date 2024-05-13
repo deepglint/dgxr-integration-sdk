@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Deepglint.Tools.Manager
+namespace Deepglint.Tool.Manager
 {
     public enum AudioType
     {

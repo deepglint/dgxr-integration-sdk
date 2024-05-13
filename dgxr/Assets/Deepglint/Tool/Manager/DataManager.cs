@@ -1,21 +1,13 @@
 using System.IO;
 using System.Reflection;
-using Deepglint.Tools.Model;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Deepglint.Tools.Manager
+namespace Deepglint.Tool.Manager
 {
     public static class DataManager
     {
         private const string ConfigSubPath = "json";
-        public static Config Config { get; private set; }
-        
-        public static void Init()
-        {
-            Config = LoadData<Config>();
-        }
-        
         public static T LoadData<T>()
         {
             var type = typeof(T);

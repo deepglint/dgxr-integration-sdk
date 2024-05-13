@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Deepglint.Tools.Utils;
+using Deepglint.Tool.Utils;
 using UnityEngine;
 
-namespace Deepglint.Tools.UIFrame
+namespace Deepglint.Tool.UIFrame
 {
     [PrefabInfo(PathRule.NamespaceHierarchy)]
     public abstract class BaseComponent

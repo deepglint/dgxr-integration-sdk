@@ -268,7 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2772137157847648777}
   m_Layer: 0
-  m_Name: 3DCameraGroup
+  m_Name: PreviewCameraGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

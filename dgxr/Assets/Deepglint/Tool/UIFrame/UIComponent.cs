@@ -1,7 +1,7 @@
-﻿using Deepglint.Tools.Utils;
+﻿using Deepglint.Tool.Utils;
 using UnityEngine;
 
-namespace Deepglint.Tools.UIFrame
+namespace Deepglint.Tool.UIFrame
 {
     public abstract class UIComponent : BaseComponent
     {

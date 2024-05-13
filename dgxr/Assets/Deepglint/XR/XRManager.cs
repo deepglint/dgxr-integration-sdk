@@ -11,7 +11,7 @@ using UnityEngine.XR;
 
 namespace Deepglint.XR
 {
-    public class DGXRManager : MonoBehaviour
+    public class XRManager : MonoBehaviour
     {
         public bool isFilterZero;
         private DGXRNode _node;

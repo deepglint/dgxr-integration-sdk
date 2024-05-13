@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using DeepGlint.XR;
+using Deepglint.XR;
+using Deepglint.XR;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace Runtime.Scripts
+namespace Deepglint.XR 
 {
     [DefaultExecutionOrder(-100)]
     public class XRSpaceManager : MonoBehaviour

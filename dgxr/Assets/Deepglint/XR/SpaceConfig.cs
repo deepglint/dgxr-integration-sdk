@@ -1,6 +1,7 @@
+using Deepglint.XR;
 using UnityEngine;
 
-namespace DeepGlint.XR 
+namespace Deepglint.XR 
 {
     [ExecuteInEditMode]
     public class SpaceConfig : MonoBehaviour

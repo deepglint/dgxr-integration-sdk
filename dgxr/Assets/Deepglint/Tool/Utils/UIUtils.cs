@@ -1,9 +1,9 @@
-using Deepglint.Tools.UIFrame;
+using Deepglint.Tool.UIFrame;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Deepglint.Tools.Utils
+namespace Deepglint.Tool.Utils
 {
     public static class UIUtils
     {
