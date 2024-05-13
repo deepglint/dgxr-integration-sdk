@@ -71,11 +71,10 @@ get-activation-file:
 
 lint_analyze:
   stage: build pre
-  image: mcr.microsoft.com/dotnet/core/sdk:latest
   script:
     - cd dgxr
     - echo "Generating Unity solution..."
-    - unity -batchmode -nographics -silent-crashes -logFile -projectPath $(pwd) -executeMethod SolutionGenerater.Generate -quit
+    - ${UNITY_EXECUTABLE:-xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' unity-editor} -batchmode -nographics -silent-crashes -logFile -projectPath $(pwd) -executeMethod SolutionGenerater.Generate -quit
     - echo "Restoring NuGet packages..."
     - dotnet restore dgxr.sln
     - echo "Running Microsoft.Unity.Analyzers..."
