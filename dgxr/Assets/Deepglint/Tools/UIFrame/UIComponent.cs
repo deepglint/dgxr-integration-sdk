@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Deepglint.Tools.Constant;
-using Deepglint.Tools.Utils;
 using UnityEngine;
 
 namespace Deepglint.Tools.UIFrame
 {
     [PrefabInfo(PathRule.NamespaceHierarchy)]
-    public abstract class BaseComponent
+    public abstract class UIComponent
     {
-        private readonly List<BaseComponent> _children = new();
+        private readonly List<UIComponent> _children = new();
         private readonly string _prefab;
 
         public TargetDisplay Display;
@@ -21,12 +19,12 @@ namespace Deepglint.Tools.UIFrame
         public bool activeSelf => component.activeSelf;
 
 
-        protected BaseComponent()
+        protected UIComponent()
         {
             _prefab = GetPrefabPath();
         }
 
-        protected BaseComponent(string prefab)
+        protected UIComponent(string prefab)
         {
             _prefab = prefab;
         }
@@ -58,20 +56,20 @@ namespace Deepglint.Tools.UIFrame
         }
 
 
-        protected T CreateChild<T>() where T : BaseComponent
+        protected T CreateChild<T>() where T : UIComponent
         {
             return CreateChildOnDisplay<T>(Display);
             ;
         }
 
-        protected T CreateChildOnDisplay<T>(TargetDisplay display) where T : BaseComponent
+        protected T CreateChildOnDisplay<T>(TargetDisplay display) where T : UIComponent
         {
             var child = display == Display ? Create<T>(display, component) : Create<T>(display);
             _children.Add(child);
             return child;
         }
 
-        protected T CreateChildOnSubGameObject<T>(string name) where T : BaseComponent
+        protected T CreateChildOnSubGameObject<T>(string name) where T : UIComponent
         {
             var child = Create<T>(Display, component.FindChildGameObject(name));
             _children.Add(child);
@@ -117,7 +115,7 @@ namespace Deepglint.Tools.UIFrame
 
 
         public static T Create<T>(TargetDisplay targetDisplay, GameObject parent = null)
-            where T : BaseComponent
+            where T : UIComponent
         {
             var component = Activator.CreateInstance<T>();
             component.component = InitComponent(component._prefab, targetDisplay, parent);
