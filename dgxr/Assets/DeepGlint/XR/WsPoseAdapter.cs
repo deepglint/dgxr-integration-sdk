@@ -35,7 +35,7 @@ namespace DeepGlint.XR
         public async void Start()
         {
             _poseAdapter = new Ros2PoseAdapter();
-            Debug.LogError($"ws://{Global.Config.Space.EngineHost}:{Global.Config.Space.WsPort}");
+            Debug.Log($"ws://{Global.Config.Space.EngineHost}:{Global.Config.Space.WsPort}");
             Uri serverUri = new Uri($"ws://{Global.Config.Space.EngineHost}:{Global.Config.Space.WsPort}");
             ws = new ClientWebSocket();
             try
