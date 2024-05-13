@@ -45,3 +45,7 @@ public class Demo : MonoBehaviour
     }
 }
 ```
+
+
+lint 检查：
+`dotnet build Deepglint.XR.csproj  --no-restore /p:RunAnalyzersDuringBuild=true`
