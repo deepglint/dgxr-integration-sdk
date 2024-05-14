@@ -18,6 +18,17 @@ namespace DeepGlint.XR
         private DGXRNode _node;
         private ROS2UnityManager _ros;
         private WsPoseAdapter ws;
+        
+        private static readonly Queue<Action> ExecuteOnMainThreadQueue = new Queue<Action>();
+
+        private static void ExecuteDataLostActionInUpdate(Action action)
+        {
+            lock (ExecuteOnMainThreadQueue)
+            {
+                ExecuteOnMainThreadQueue.Enqueue(action);
+            }
+        }
+
 
         public void Awake()
         {
@@ -26,22 +37,21 @@ namespace DeepGlint.XR
             Global.SystemName = SystemInfo.operatingSystem;
             Global.Config = new Config().InitConfig();
             GameLogger.Init(Global.Config.Log);
-            if (Application.isEditor || Global.SystemName.Contains("Mac"))
-            {
-                ws = new WsPoseAdapter();
-                ws.Start();
-            }
-            else
+            if (UseRos())
             {
                 _ros = new ROS2UnityManager();
                 _ros.Start();
             }
+            else
+            {
+                ws = new WsPoseAdapter();
+                ws.Start();
+            }
         }
-
 
         public void Start()
         {
-            if (!Application.isEditor && !Global.SystemName.Contains("Mac"))
+            if (UseRos())
             {
                 _node = new DGXRNode();
             }
@@ -51,13 +61,31 @@ namespace DeepGlint.XR
 
         public void Update()
         {
-            if (!Application.isEditor && !Global.SystemName.Contains("Mac"))
+            if (UseRos())
             {
                 _ros.FixedUpdate();
                 _node.InitNode(_ros);
+                while (ExecuteOnMainThreadQueue.Count > 0)
+                {
+                    Action action;
+                    lock (ExecuteOnMainThreadQueue)
+                    {
+                        action = ExecuteOnMainThreadQueue.Dequeue();
+                    }
+                    action?.Invoke();
+                }
             }
         }
 
+        private bool UseRos()
+        {
+            if (!Application.isEditor && !Global.SystemName.Contains("Mac"))
+            {
+                return true;
+            }
+            
+            return false;
+        }
           
         private void OnEnable()
         {
@@ -75,7 +103,7 @@ namespace DeepGlint.XR
         
         public void OnDestroy()
         {
-            if (!Application.isEditor && !Global.SystemName.Contains("Mac"))
+            if (UseRos())
             {
                 _ros.OnApplicationQuit();
             }
@@ -87,10 +115,35 @@ namespace DeepGlint.XR
   
         private void OnMetaPoseDataLost(string key)
         {
-            DeviceManager.RemoveDevice(key);
+            if (UseRos())
+            {
+                ExecuteDataLostActionInUpdate(() =>
+                {
+                    DeviceManager.RemoveDevice(key);
+                }); 
+            }
+            else
+            {
+                DeviceManager.RemoveDevice(key);
+            }
         }
         
         private void OnMetaPoseDataReceived(Source.SourceData data)
+        {
+            if (UseRos())
+            {
+                ExecuteDataLostActionInUpdate(() =>
+                {
+                    HandleMetaPoseData(data); 
+                });
+            }
+            else
+            {
+                HandleMetaPoseData(data);
+            }
+        }
+
+        private void HandleMetaPoseData(Source.SourceData data)
         {
             InputDevice device = DeviceManager.AddOrActiveDevice(data.BodyId, nameof(DGXRController));
             if (device != null)
