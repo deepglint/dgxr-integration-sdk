@@ -276,13 +276,9 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: de4f99bb-576e-476d-b184-8f7d0d5ddf85
-    m_ActionName: DGXRActions/Join
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4550654615593993650}
-        m_TargetAssemblyTypeName: PlayerMotor, Assembly-CSharp
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
         m_MethodName: PoseControl
         m_Mode: 0
         m_Arguments:
@@ -294,11 +290,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 73fe1f94-f5ff-41bf-9032-10fd8b76977e
-    m_ActionName: DGXRActions/Pose
+    m_ActionName: Player/Pose
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4550654615593993650}
-        m_TargetAssemblyTypeName: PlayerMotor, Assembly-CSharp
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
         m_MethodName: RaiseRightHandControl
         m_Mode: 0
         m_Arguments:
@@ -310,10 +306,14 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 4cb50855-c11f-48d0-9f55-8e7682a14e62
-    m_ActionName: DGXRActions/RaiseRightHand
+    m_ActionName: Player/RaiseRightHand
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a1dd88d5-f972-4ad9-859c-210c9820d52d
+    m_ActionName: Player/Join
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: DGXRActions
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &4550654615593993650

@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Deepglint.XR.Interaction
@@ -5,20 +6,31 @@ namespace Deepglint.XR.Interaction
 #if UNITY_EDITOR
     [UnityEditor.InitializeOnLoad] 
 #endif
-    public class InteractionRegister
+    public static class InteractionRegister
     {
         static InteractionRegister()
         {
-            InputSystem.RegisterInteraction<RaiseHandInteraction>();
-            InputSystem.RegisterInteraction<RaiseLeftHandInteraction>();
-            InputSystem.RegisterInteraction<RaiseRightHandInteraction>();
-            InputSystem.RegisterInteraction<RaiseBothHandInteraction>();
-            InputSystem.RegisterInteraction<SlideRightArmToLeftInteraction>();
-            InputSystem.RegisterInteraction<SlideLeftArmToRightInteraction>();
-            InputSystem.RegisterInteraction<FreeSwimInteraction>();
-            InputSystem.RegisterInteraction<ButterflySwimInteraction>();
-            InputSystem.RegisterInteraction<HighKneeRunInteraction>();
-            InputSystem.RegisterInteraction<DeepSquatInteraction>();
+            Initialize();
+        }
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        public static void Initialize()
+        {
+            InputSystem.RegisterInteraction<RaiseHandInteraction>("RaiseHand");
+            InputSystem.RegisterInteraction<RaiseLeftHandInteraction>("RaiseLeftHand");
+            InputSystem.RegisterInteraction<RaiseRightHandInteraction>("RaiseRightHand");
+            InputSystem.RegisterInteraction<RaiseBothHandInteraction>("RaiseBothHand");
+            InputSystem.RegisterInteraction<SlideRightArmToLeftInteraction>("SlideRightArmToLeft");
+            InputSystem.RegisterInteraction<SlideLeftArmToRightInteraction>("SlideLeftArmToRight");
+            InputSystem.RegisterInteraction<FreeSwimInteraction>("FreeSwim");
+            InputSystem.RegisterInteraction<ButterflySwimInteraction>("ButterflySwim");
+            InputSystem.RegisterInteraction<HighKneeRunInteraction>("HighKneeRun");
+            InputSystem.RegisterInteraction<DeepSquatInteraction>("DeepSquat");
+        }
+
+        public static void RegisterInteraction<T>(string name = null)
+        {
+            InputSystem.RegisterInteraction<T>(name); 
         }
     }
 }
