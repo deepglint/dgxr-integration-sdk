@@ -19,14 +19,13 @@ namespace DeepGlint.XR.Inputs
     {
         static DeepglintInputLayoutLoader()
         {
-            RegisterInputLayouts();
+            Initialize();
         }
         
-#if UNITY_EDITOR
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad), Preserve]
-#endif    
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void Initialize()
         {
+            RegisterInputLayouts();
         }
     
 #if UNITY_EDITOR
