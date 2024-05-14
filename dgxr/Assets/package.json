@@ -9,6 +9,15 @@
     "com.unity.nuget.newtonsoft-json": "3.2.1",
     "com.yasirkula.ingamedebugconsole": "1.6.7"
   },
+  "scopedRegistries": [
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.yasirkula.ingamedebugconsole"
+      ]
+    }
+  ],
   "samples": [
     {
       "displayName": "Config",
