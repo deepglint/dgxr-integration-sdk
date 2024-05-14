@@ -24,11 +24,6 @@
       "displayName": "HumanBody",
       "description": "人体检测",
       "path": "Samples/HumanBody"
-    },
-    {
-      "displayName": "StreamingAssets",
-      "description": "配置文件",
-      "path": "StreamingAssets"
     }
   ]
 }
