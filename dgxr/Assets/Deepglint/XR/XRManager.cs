@@ -58,18 +58,18 @@ namespace Deepglint.XR
         }
 
           
-        private void OnEnable()
-        {
-            Global.OnMetaPoseDataReceived += OnMetaPoseDataReceived;
-            Global.OnMetaPoseDataLost += OnMetaPoseDataLost;
-        }
-
-        // 在禁用对象时取消订阅事件
-        private void OnDisable()
-        {
-            Global.OnMetaPoseDataReceived -= OnMetaPoseDataReceived;
-            Global.OnMetaPoseDataLost -= OnMetaPoseDataLost;
-        }
+        // private void OnEnable()
+        // {
+        //     Global.OnMetaPoseDataReceived += OnMetaPoseDataReceived;
+        //     Global.OnMetaPoseDataLost += OnMetaPoseDataLost;
+        // }
+        //
+        // // 在禁用对象时取消订阅事件
+        // private void OnDisable()
+        // {
+        //     Global.OnMetaPoseDataReceived -= OnMetaPoseDataReceived;
+        //     Global.OnMetaPoseDataLost -= OnMetaPoseDataLost;
+        // }
 
         
         public void OnDestroy()
