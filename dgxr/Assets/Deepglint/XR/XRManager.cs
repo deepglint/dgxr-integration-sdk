@@ -11,6 +11,7 @@ using UnityEngine.XR;
 
 namespace Deepglint.XR
 {
+    [DefaultExecutionOrder(-100)]
     public class XRManager : MonoBehaviour
     {
         public bool isFilterZero;

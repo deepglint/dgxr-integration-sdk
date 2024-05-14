@@ -254,6 +254,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: XRManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2847488905241543573, guid: dda7458cef82b624592ae773699d462a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4040898169980864492, guid: dda7458cef82b624592ae773699d462a,
         type: 3}
       propertyPath: m_AnchorMax.y

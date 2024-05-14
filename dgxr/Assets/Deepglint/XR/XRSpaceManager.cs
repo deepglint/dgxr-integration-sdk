@@ -7,9 +7,9 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace Deepglint.XR 
+namespace Deepglint.XR
 {
-    [DefaultExecutionOrder(-100)]
+    [DefaultExecutionOrder(-99)]
     public class XRSpaceManager : MonoBehaviour
     {
         [FormerlySerializedAs("UserViewCameraPrefab")]
@@ -50,7 +50,7 @@ namespace Deepglint.XR
         };
 #if !UNITY_EDITOR
         private RenderTexture _renderTexture;
-        
+
 #endif
         private void Awake()
         {
