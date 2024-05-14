@@ -50,10 +50,11 @@ namespace Deepglint.XR
         };
 #if !UNITY_EDITOR
         private RenderTexture _renderTexture;
+        
 #endif
         private void Awake()
         {
-            if (!Application.isEditor && !Global.SystemName.Contains("Mac"))
+            if (!Global.SystemName.Contains("Mac"))
             {
                 _screenWidth = GetSystemMetrics(SM_CXSCREEN);
                 _screenHeight = GetSystemMetrics(SM_CYSCREEN);
@@ -63,7 +64,7 @@ namespace Deepglint.XR
         void Start()
         {
             metaSpace.SetActive(false);
-            if (!Application.isEditor && !Global.SystemName.Contains("Mac"))
+            if (!Global.SystemName.Contains("Mac"))
             {
                 foreach (var display in Display.displays)
                 {
