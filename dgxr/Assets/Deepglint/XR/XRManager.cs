@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Deepglint.XR;
 using Deepglint.XR.Inputs;
 using Deepglint.XR.Inputs.Devices;
 using Deepglint.XR.Log;
@@ -11,7 +10,7 @@ using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.XR;
 using InputDevice = UnityEngine.InputSystem.InputDevice;
 
-namespace DeepGlint.XR
+namespace Deepglint.XR
 {
     [DefaultExecutionOrder(-100)]
     public class DGXRManager : MonoBehaviour

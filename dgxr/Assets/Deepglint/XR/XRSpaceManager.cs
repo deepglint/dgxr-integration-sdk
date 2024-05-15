@@ -1,11 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using Deepglint.XR;
-using Deepglint.XR;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace Deepglint.XR
 {
@@ -129,19 +125,7 @@ namespace Deepglint.XR
 
         private void SetHeadPosition()
         {
-            if (Global.CavePosition.x == 0 && Global.CavePosition.y == 0 && Global.CavePosition.z == 0)
-            {
-                foreach (var body in Source.Data)
-                {
-                    _head = body.Joints.HeadTop;
-                    break;
-                }
-            }
-            else
-            {
-                _head = Global.CavePosition;
-            }
-
+            _head = Global.CavePosition;
             Vector3 position = transform.position;
             _headLockPosition = _head + position;
             if (lockAll)
