@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Deepglint.XR
 {
@@ -21,9 +23,9 @@ namespace Deepglint.XR
         public Boolean lockAll;
 
         [FormerlySerializedAs("LockXZ")] public Boolean lockXZ;
-        [FormerlySerializedAs("EyeHeight")] public Vector3 eyePosition = new Vector3(0, 1.6f, 0);
+       
         [FormerlySerializedAs("SpaceScale")] public float spaceScale = 1;
-
+        private Vector3 _eyePosition = new Vector3(0, 1.6f, 0);
         private GameObject[] _screens;
         private readonly int _caveLayer = 31;
         private GameObject[,] _screenEdges;
@@ -125,16 +127,19 @@ namespace Deepglint.XR
 
         private void SetHeadPosition()
         {
-            _head = Global.CavePosition;
+            if (Global.CavePosition.x != 0 || Global.CavePosition.y != 0 || Global.CavePosition.z != 0)
+            {
+                _head = Global.CavePosition;
+            }
             Vector3 position = transform.position;
             _headLockPosition = _head + position;
             if (lockAll)
             {
-                _headLockPosition = position + eyePosition;
+                _headLockPosition = position + _eyePosition;
             }
             else if (lockXZ)
             {
-                _headLockPosition = new Vector3(eyePosition.x, _head.y, eyePosition.z) + position;
+                _headLockPosition = new Vector3(_eyePosition.x, _head.y, _eyePosition.z) + position;
             }
 
             foreach (var userCamera in Global.UserView.Cameras)
@@ -142,19 +147,6 @@ namespace Deepglint.XR
                 userCamera.transform.position = _headLockPosition;
             }
         }
-
-        // public Vector3 GetHeadPosition()
-        // {
-        // if (_head == null) return Vector3.zero;
-        // var localPosition = _head.transform.localPosition;
-        // Vector3 scaleHead = localPosition;
-        //
-        // // 基于空间点的移动偏移
-        // //TODO 临时设置，后面提供可配置面板修改这些值，人眼默认高度、跟随速度，空间比例
-        // float y = 1.6f + (1.6f - scaleHead.z) * 1;
-        // // 基于空间点的移动偏移
-        // return new Vector3(localPosition.x * 1, y, localPosition.y * -1 * 1);
-        // }
 
         private void SetHeadFovAndOrientationScreen(int index, Camera[] cameras, GameObject[,] edges)
         {
