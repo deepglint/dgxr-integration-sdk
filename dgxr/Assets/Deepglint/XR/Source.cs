@@ -59,6 +59,7 @@ namespace Deepglint.XR
 
         public struct SourceData
         {
+            public float RealtimeSinceStartup;
             public string FrameId;
             public string BodyId;
             public Dictionary<ActionType, float> Actions;

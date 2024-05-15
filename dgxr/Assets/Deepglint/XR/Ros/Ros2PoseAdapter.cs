@@ -84,9 +84,10 @@ namespace Deepglint.XR.Ros
 
         public void DealMsgData(string msg)
         {
+            float realtimeSinceStartup = Time.realtimeSinceStartup; 
             List<Source.SourceData> data = new List<Source.SourceData>();
             MetaPoseData info = JsonConvert.DeserializeObject<MetaPoseData>(msg);
-            HashSet<string> humans = new HashSet<string>();
+            //HashSet<string> humans = new HashSet<string>();
             if (info.Result != null && info.Result.TryGetValue("999001", out Result result))
             {
                 if (result == null)
@@ -102,7 +103,7 @@ namespace Deepglint.XR.Ros
 
                 foreach (var val in result.ThreeDim)
                 {
-                    humans.Add(val.Key);
+                    //humans.Add(val.Key);
                     var action = new Dictionary<ActionType, float>();
                     if (val.Value is { RecActions: not null })
                     {
@@ -345,12 +346,13 @@ namespace Deepglint.XR.Ros
 
                     var body = new Source.SourceData
                     {
+                        RealtimeSinceStartup = realtimeSinceStartup,
                         FrameId = info.FrameId,
                         BodyId = val.Key,
                         Actions = action,
                         Joints = joints,
                     };
-                    Global.TriggerMetaPoseDataReceived(body);
+                    //Global.TriggerMetaPoseDataReceived(body);
                     data.Add(body);
                     if (Global.IsFilterZero)
                     {
@@ -359,13 +361,13 @@ namespace Deepglint.XR.Ros
                 }
             }
 
-            foreach (var human in Source.Data)
-            {
-                if (!humans.Contains(human.BodyId))
-                {
-                    Global.TriggerMetaPostDataLost(human.BodyId);
-                }
-            }
+            // foreach (var human in Source.Data)
+            // {
+            //     if (!humans.Contains(human.BodyId))
+            //     {
+            //         Global.TriggerMetaPostDataLost(human.BodyId);
+            //     }
+            // }
 
             Source.Data = data;
         }
