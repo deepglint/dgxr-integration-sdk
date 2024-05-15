@@ -13,7 +13,7 @@ ${UNITY_EXECUTABLE:-xvfb-run --auto-servernum --server-args='-screen 0 640x480x2
   -quit \
   -batchmode \
   -nographics \
-  -exportPackage 'Assets/Runtime' 'Assets/StreamingAssets' $BUILD_PATH/dgxr.unitypackage
+  -exportPackage 'Assets' $BUILD_PATH/dgxr.unitypackage
  
 UNITY_EXIT_CODE=$?
 
