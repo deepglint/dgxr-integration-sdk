@@ -78,8 +78,6 @@ get-activation-file:
 npm_publish:
   <<: *build
   image: node:18.12.1-alpine3.15
-  needs:
-    - job: lint_analyze
   script:
     - echo "https://mirrors.ustc.edu.cn/alpine/v3.15/main" > /etc/apk/repositories
     - echo "https://mirrors.ustc.edu.cn/alpine/v3.15/community" >> /etc/apk/repositories

@@ -1,4 +1,4 @@
-using DeepGlint.XR;
+using Deepglint.XR;
 using UnityEngine;
 
 namespace Samples.HumanBody
