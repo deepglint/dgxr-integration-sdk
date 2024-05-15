@@ -9,6 +9,7 @@
   "space":{
     "engineHost": "192.168.103.61",
     "wsPort": "9090",
+    "protocol": "ros",
     "~Direction": "left or right or up or down",
     "xDirection": "right" ,
     "zDirection": "up"

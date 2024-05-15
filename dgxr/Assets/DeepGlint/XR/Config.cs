@@ -47,6 +47,8 @@ namespace DeepGlint.XR
                 public string EngineHost { get; set; }
                 [JsonProperty("wsPort")]
                 public string WsPort { get; set; }
+                [JsonProperty("protocol")]
+                public string Protocol { get; set; }
                 [JsonProperty("xDirection")]
                 public string XDirection { get; set; }
                 [JsonProperty("zDirection")]

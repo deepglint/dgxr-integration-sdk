@@ -79,7 +79,7 @@ namespace DeepGlint.XR
 
         private bool UseRos()
         {
-            if (!Global.SystemName.Contains("Mac"))
+            if (!Global.SystemName.Contains("Mac") && Global.Config.Space.Protocol == "ros")
             {
                 return true;
             }
