@@ -84,6 +84,7 @@ namespace DeepGlint.XR.Ros
 
         public void DealMsgData(string msg)
         {
+            float startTime = Time.realtimeSinceStartup;
             List<Source.SourceData> data = new List<Source.SourceData>();
             MetaPoseData info = JsonConvert.DeserializeObject<MetaPoseData>(msg);
             //HashSet<string> humans = new HashSet<string>();
@@ -368,6 +369,7 @@ namespace DeepGlint.XR.Ros
             // }
 
             Source.Data = data;
+            // Debug.Log("DealMsgData cost: " + (Time.realtimeSinceStartup-startTime) * 1000);
         }
 
 
