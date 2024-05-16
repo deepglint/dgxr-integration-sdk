@@ -70,7 +70,7 @@ namespace Deepglint.XR
             List<byte> buffer = new List<byte>();
             while (_ws.State == WebSocketState.Open)
             {
-                byte[] receiveBuffer = new byte[1024]; // 每次接收的缓冲区大小
+                byte[] receiveBuffer = new byte[20480]; // 每次接收的缓冲区大小
                 WebSocketReceiveResult result =
                     await _ws.ReceiveAsync(new ArraySegment<byte>(receiveBuffer), CancellationToken.None);
                 if (result.MessageType == WebSocketMessageType.Text)
