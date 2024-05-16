@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.hibzz.dependencyresolver": {
+      "version": "https://github.com/hibzzgames/Hibzz.DependencyResolver.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.0.0"
+      },
+      "hash": "ba720c2469967531274f1fde81e68ede4b59fbb6"
+    },
     "com.unity.burst": {
       "version": "1.8.7",
       "depth": 1,

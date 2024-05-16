@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.hibzz.dependencyresolver": "https://github.com/hibzzgames/Hibzz.DependencyResolver.git",
     "com.unity.ide.rider": "3.0.28",
     "com.unity.inputsystem": "1.6.3",
     "com.unity.nuget.newtonsoft-json": "3.2.1",
@@ -7,6 +8,7 @@
     "com.unity.test-framework": "1.1.33",
     "com.unity.textmeshpro": "3.0.8",
     "com.unity.ugui": "1.0.0",
+    "com.yasirkula.ingamedebugconsole": "1.6.7",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
@@ -37,8 +39,7 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0",
-    "com.yasirkula.ingamedebugconsole": "1.6.7"
+    "com.unity.modules.xr": "1.0.0"
   },
   "scopedRegistries": [
     {

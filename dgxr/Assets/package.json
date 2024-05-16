@@ -6,17 +6,10 @@
   "description": "Provides Deepglint XR support.",
   "dependencies": {
     "com.unity.inputsystem": "1.6.3",
-    "com.unity.nuget.newtonsoft-json": "3.2.1",
-    "com.yasirkula.ingamedebugconsole": "1.6.7"
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
-  "scopedRegistries": [
-    {
-      "name": "package.openupm.com",
-      "url": "https://package.openupm.com",
-      "scopes": [
-        "com.yasirkula.ingamedebugconsole"
-      ]
-    }
+  "git-dependencies": [
+    "https://github.com/yasirkula/UnityIngameDebugConsole.git"
   ],
   "samples": [
     {
