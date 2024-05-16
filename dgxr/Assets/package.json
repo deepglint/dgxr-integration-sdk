@@ -3,7 +3,9 @@
   "displayName": "DGXR Integration SDK",
   "version": "2.0.0",
   "unity": "2022.3",
-  "description": "Provides Deepglint XR support.",
+  "documentationUrl": "https://gitlab.deepglint.com/alpha/stardust/-/blob/main/dgxr/README.md",
+  "changelogUrl": "https://gitlab.deepglint.com/alpha/stardust/-/tags",
+  "description": "Provides Deepglint XR support",
   "dependencies": {
     "com.unity.inputsystem": "1.6.3",
     "com.unity.nuget.newtonsoft-json": "3.2.1",
