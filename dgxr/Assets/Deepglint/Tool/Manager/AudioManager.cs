@@ -90,6 +90,33 @@ namespace Deepglint.Tool.Manager
         }
 
         /// <summary>
+        /// 获取音频，如果是第一次获取会创建，否则拿存储
+        /// </summary>
+        /// <param name="audioName"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private static Audio GetAudio(string audioName, AudioType type = AudioType.Voice)
+        {
+            Audio audio = FindAudio(audioName, type);
+            if (audio is null)
+            {
+                Audio newAudio = CreateAudio(audioName);
+                if (newAudio != null)
+                {
+                    newAudio.Type = type;
+                    _audios.Add(newAudio);
+                    audio = newAudio;
+                }
+                else
+                {
+                    Debug.LogError("AudioManager " + type + " - " + audioName + " 音频不存在");
+                }
+            }
+
+            return audio;
+        }
+
+        /// <summary>
         /// 获取音频长度
         /// </summary>
         /// <param name="name"></param>
@@ -122,21 +149,10 @@ namespace Deepglint.Tool.Manager
         public static void PlayAudio(string audioName, AudioType type, bool iswait = false, bool loop = false,
             float volume = 1)
         {
-            Audio audio = FindAudio(audioName, type);
-            if (audio == null)
+            Audio audio = GetAudio(audioName, type);
+            if (audio is null)
             {
-                Audio newAudio = CreateAudio(audioName);
-                if (newAudio != null)
-                {
-                    newAudio.Type = type;
-                    _audios.Add(newAudio);
-                    audio = newAudio;
-                }
-                else
-                {
-                    Debug.LogError("AudioManager " + type + " - " + audioName + " 音频不存在");
-                    return;
-                }
+                return;
             }
 
             if (iswait)
@@ -161,7 +177,7 @@ namespace Deepglint.Tool.Manager
             List<Audio> audioList = new List<Audio>();
             foreach (var audioName in audioNameList)
             {
-                Audio audio = CreateAudio(audioName);
+                Audio audio = GetAudio(audioName);
                 if (audio != null)
                 {
                     audioList.Add(audio);

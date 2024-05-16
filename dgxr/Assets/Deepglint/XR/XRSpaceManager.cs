@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
 namespace Deepglint.XR
 {
@@ -97,11 +99,18 @@ namespace Deepglint.XR
                     {
                         Texture tex = ClippedRenderTexture(_renderTexture,
                             new Rect(render.Rect[0], render.Rect[1], render.Rect[2], render.Rect[3]));
+                        
+                        Stopwatch stopwatch = new Stopwatch();
+                        stopwatch.Start();
+
                         if (Global.UserView.DisplayImages[render.Display].texture != null)
                         {
                             Destroy(Global.UserView.DisplayImages[render.Display].texture);
                         }
                         Global.UserView.DisplayImages[render.Display].texture = tex;
+                        
+                        stopwatch.Stop();
+                        Debug.Log("Time UpdateTexture" + stopwatch.ElapsedMilliseconds);
                     }
                 }
             }
@@ -177,12 +186,17 @@ namespace Deepglint.XR
 
         private Texture ClippedRenderTexture(RenderTexture sourceTexture, Rect rect)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             RenderTexture.active = sourceTexture;
             Texture2D croppedTexture = new Texture2D((int)rect.width, (int)rect.height);
             Rect region = new Rect(rect.x, rect.y, rect.width, rect.height);
             croppedTexture.ReadPixels(region, 0, 0);
             RenderTexture.active = null;
             croppedTexture.Apply();
+            
+            stopwatch.Stop();
+            Debug.Log("Time ClippedRenderTexture " + stopwatch.ElapsedMilliseconds);
             return croppedTexture;
         }
 
