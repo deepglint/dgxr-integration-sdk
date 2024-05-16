@@ -9,6 +9,8 @@
 /.idea/
 **/Documentation
 **/Documentation.meta
+**/code_docs/html
+**/code_docs/html.meta
 
 .DS_store
 .idea
