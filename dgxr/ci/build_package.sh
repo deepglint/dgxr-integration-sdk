@@ -8,6 +8,18 @@ export BUILD_PATH=$UNITY_DIR/dgxr/Packages
 export PROJECT_PATH=$UNITY_DIR/dgxr
 mkdir -p $BUILD_PATH
 
+echo 'unity importPackage $UNITY_DIR/dgxr/Assets/Documentation'
+# 启动Unity来运行编辑器脚本
+${UNITY_EXECUTABLE:-unity-editor} \
+    -projectPath $PROJECT_PATH \
+    -quit \
+    -batchmode \
+    -importPackage \
+    "$UNITY_DIR/dgxr/Assets/Documentation/.."
+
+# 获取并执行导入脚本的退出代码
+UNITY_IMPORT_CODE=$?
+
 ${UNITY_EXECUTABLE:-xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' unity-editor} \
   -projectPath $PROJECT_PATH \
   -quit \
