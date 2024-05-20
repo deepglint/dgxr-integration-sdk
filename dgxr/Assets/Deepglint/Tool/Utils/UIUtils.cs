@@ -2,6 +2,7 @@ using Deepglint.Tool.UIFrame;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DisplayInfo = Deepglint.Tool.UIFrame.DisplayInfo;
 
 namespace Deepglint.Tool.Utils
 {
@@ -57,10 +58,10 @@ namespace Deepglint.Tool.Utils
         }
         
         //TODO: 这个函数应该和Display的封装放一起
-        public static Transform GetScreenCanvas(TargetDisplay display)
+        public static Transform GetScreenCanvas(DisplayInfo display)
         {
             var uiRoot = GameObject.Find("UIRoot");
-            return uiRoot.transform.Find(display.ToString());
+            return uiRoot.transform.Find(display.Name);
         }
     }
 }

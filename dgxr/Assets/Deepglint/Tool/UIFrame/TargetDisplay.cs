@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace Deepglint.Tool.UIFrame
 {
-    public struct TargetDisplay
+    public enum TargetDisplay
     {
-        public DisplayInfo Front;
-        public DisplayInfo Right;
-        public DisplayInfo Back;
-        public DisplayInfo Left;
-        public DisplayInfo Bottom;
+        Front,
+        Right,
+        Back,
+        Left,
+        Bottom,
     }
 
     public class DisplayInfo
@@ -16,9 +16,8 @@ namespace Deepglint.Tool.UIFrame
         public string Name;
         public GameObject Screen;
         public Camera UICamera;
-        public Camera SpaceCamera;
+        public Camera SpaceCamera; 
+        public float ScreenWidth; // 屏幕宽度
+        public float ScreenHeight; // 屏幕高度
     }
-
-    
-
 }

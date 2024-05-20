@@ -5,14 +5,14 @@ namespace Deepglint.Tool.UIFrame
 {
     public abstract class UIComponent : BaseComponent
     {
-        public TargetDisplay Display { get; private set; }
+        public DisplayInfo Display { get; private set; }
 
         protected new T CreateChild<T>() where T : UIComponent
         {
             return Create<T>(Display, GameObject);
         }
 
-        protected T CreateChildOnDisplay<T>(TargetDisplay display) where T : UIComponent
+        protected T CreateChildOnDisplay<T>(DisplayInfo display) where T : UIComponent
         {
             return Create<T>(display, GameObject);
         }
@@ -22,13 +22,13 @@ namespace Deepglint.Tool.UIFrame
             return Create<T>(Display, GameObject.FindChildGameObject(name));
         }
 
-        public void MoveToDisplay(TargetDisplay targetDisplay)
+        public void MoveToDisplay(DisplayInfo targetDisplay)
         {
             Display = targetDisplay;
             MoveToDisplay(GameObject, targetDisplay);
         }
 
-        public static T Create<T>(TargetDisplay targetDisplay, GameObject parent = null)
+        public static T Create<T>(DisplayInfo targetDisplay, GameObject parent = null)
             where T : UIComponent
         {
             var component = BaseComponent.Create<T>(parent);
@@ -38,7 +38,7 @@ namespace Deepglint.Tool.UIFrame
             return component;
         }
 
-        private static void MoveToDisplay(GameObject gameObject, TargetDisplay targetDisplay)
+        private static void MoveToDisplay(GameObject gameObject, DisplayInfo targetDisplay)
         {
             var screen = UIUtils.GetScreenCanvas(targetDisplay);
             gameObject.transform.SetParent(screen, false);

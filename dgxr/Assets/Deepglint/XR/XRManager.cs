@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Deepglint.Tool.UIFrame;
 using Deepglint.XR.Inputs;
 using Deepglint.XR.Inputs.Devices;
 using Deepglint.XR.Log;
@@ -8,6 +9,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.XR;
+using DisplayInfo = Deepglint.Tool.UIFrame.DisplayInfo;
 using InputDevice = UnityEngine.InputSystem.InputDevice;
 
 namespace Deepglint.XR
@@ -58,6 +60,7 @@ namespace Deepglint.XR
                 _node = new DGXRNode();
             }
 
+            Global.Displays = new Dictionary<TargetDisplay, DisplayInfo>();
             Global.IsFilterZero = isFilterZero;
         }
 

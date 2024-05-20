@@ -1,18 +1,17 @@
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Deepglint.XR;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.Serialization;
 
 namespace Samples.HumanBody
 {
     public class MoveJoints : MonoBehaviour
     {
-        [FormerlySerializedAs("BodyPrefab")]
-        public GameObject bodyPrefab;
+        public GameObject bodyPrefab; 
 
-        private Dictionary<string, Body> _bodyMap;
+        private ConcurrentDictionary<string, Body> _bodyMap ;
 
         private class Body
         {
@@ -48,7 +47,12 @@ namespace Samples.HumanBody
             public Transform Neck;
             public Transform Root;
         }
-        
+
+        private void Start()
+        {
+           _bodyMap	 = new ConcurrentDictionary<string, Body>();
+        }
+
         // Update is called once per frame
         void Update()
         {
@@ -56,24 +60,24 @@ namespace Samples.HumanBody
             {
                 return;
             }
-
-            foreach (var it in _bodyMap)
-            {
-                var result =Source.Data.FirstOrDefault(item => item.BodyId == it.Key);
-                if (EqualityComparer<Source.SourceData>.Default.Equals(result, default(Source.SourceData)))
-                {
-                    _bodyMap.Remove(it.Key);
-                }
-            }
             
-            foreach (var body in Source.Data)
+            foreach (var it in from it in _bodyMap let result = Source.Data.FirstOrDefault(item => item.BodyId == it.Key) where EqualityComparer<Source.SourceData>.Default.Equals(result, default(Source.SourceData)) select it)
+            {
+                Destroy	(it.Value.Obj);
+                _bodyMap.TryRemove(it.Key, out var body);
+            }
+            var bodyData = Source.Data;
+            
+            foreach (var body in bodyData)
             {
                 if (!_bodyMap.TryGetValue(body.BodyId, out var data))
                 {
                     var bodyInfo = new Body();
-                    bodyInfo.Obj = Instantiate(bodyPrefab, transform);
-                    _bodyMap[body.BodyId] = bodyInfo;
-                    InitObject(_bodyMap[body.BodyId]);
+                    var obj = Instantiate(bodyPrefab, transform);
+                    
+                    bodyInfo.Obj = obj;
+                    InitObject(bodyInfo);
+                    _bodyMap.TryAdd(body.BodyId, bodyInfo);
                 }
 
                 _bodyMap[body.BodyId].Nose.transform.localPosition = body.Joints.Nose;
@@ -171,10 +175,7 @@ namespace Samples.HumanBody
         void InitObject(Body body)
         {
             var parentObject = body.Obj.transform;
-            body.LineRenderer1.positionCount = 10;
-            body.LineRenderer2.positionCount = 10;
-            body.LineRenderer3.positionCount = 9;
-            body.LineRenderer4.positionCount = 4;
+           
             body.Nose = parentObject.Find("Nose");
             body.LeftEye = parentObject.Find("LeftEye");
             body.RightEye = parentObject.Find("RightEye");
@@ -207,6 +208,10 @@ namespace Samples.HumanBody
             body.LineRenderer2 = body.LeftHip.GetComponent<LineRenderer>();
             body.LineRenderer3 = body.LeftShoulder.GetComponent<LineRenderer>();
             body.LineRenderer4 = body.LeftElbow.GetComponent<LineRenderer>();
+            body.LineRenderer1.positionCount = 10;
+            body.LineRenderer2.positionCount = 10;
+            body.LineRenderer3.positionCount = 9;
+            body.LineRenderer4.positionCount = 4;
         }
     }
 }

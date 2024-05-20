@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Deepglint.Tool.UIFrame;
 using Deepglint.Tool.Utils;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -49,6 +50,8 @@ namespace Deepglint.XR
 
         private int _screenWidth; // 屏幕宽度
         private int _screenHeight; // 屏幕高度
+        
+        private Dictionary<int, RawImage> _displayImages;
 
         private RefreshRate _refreshRate = new RefreshRate
         {
@@ -66,6 +69,11 @@ namespace Deepglint.XR
             {
                 _screenWidth = GetSystemMetrics(SM_CXSCREEN);
                 _screenHeight = GetSystemMetrics(SM_CYSCREEN);
+            }
+            else
+            {
+                _screenWidth = 1920;
+                _screenHeight = 1200; 
             }
         }
 
@@ -86,7 +94,7 @@ namespace Deepglint.XR
             {
                 for (int corner = 0; corner < 4; corner++)
                 {
-                    var sc = NameToDisplay(screen.Name);
+                    var sc = Global.Displays[(TargetDisplay)(screen.Display - 1)];
                     _screenEdges[screen.Display-1, corner] = sc.Screen.transform.GetChild(corner).gameObject;
                 }
             }
@@ -119,11 +127,11 @@ namespace Deepglint.XR
                         
                         Texture tex = ClippedRenderTexture(_renderTexture,
                             rect);
-                        if (Global.UserView.DisplayImages[render.Display]?.texture != null)
+                        if (_displayImages[render.Display]?.texture != null)
                         {
-                            Destroy(Global.ViewData.DisplayImages[render.Display].texture);
+                            Destroy(_displayImages[render.Display].texture);
                         }
-                        Global.ViewData.DisplayImages[render.Display].texture = tex;
+                        _displayImages[render.Display].texture = tex;
                     }
                 }
             }
@@ -137,34 +145,14 @@ namespace Deepglint.XR
             SetHeadPosition();
             foreach (var screen in Global.Config.Space.Screens)
             {
-                var tarDisplay = NameToDisplay(screen.Name);
+                var tarDisplay =Global.Displays	[(TargetDisplay)(screen.Display - 1)];
+                
                 if (tarDisplay != null && tarDisplay.SpaceCamera != null)
                 {
                     SetHeadFovAndOrientationScreen(screen.Display-1, tarDisplay.SpaceCamera, _screenEdges); 
                 }
             }
         }
-
-        private DisplayInfo NameToDisplay(string disName)
-        {
-            switch (disName)
-            {
-               case "Front":
-                   return Global.ViewData.Displays.Front;
-               case "Right":
-                   return Global.ViewData.Displays.Right;
-                case "Back":
-                    return Global.ViewData.Displays.Back;
-                case "Left":
-                    return Global.ViewData.Displays.Left;
-                case "Bottom":
-                    return Global.ViewData.Displays.Bottom;
-                default:
-                    Debug.LogError("Display not match");
-                    return null;
-            }
-        }
-
 
         private void SetHeadPosition()
         {
@@ -186,7 +174,7 @@ namespace Deepglint.XR
             }
             foreach (var userCamera in Global.Config.Space.Screens)
             {
-                var cam = NameToDisplay(userCamera.Name);
+                var cam =Global.Displays	[(TargetDisplay)(userCamera.Display - 1)];
                 cam.SpaceCamera.transform.position = _headLockPosition;
             }
         }
@@ -245,6 +233,17 @@ namespace Deepglint.XR
                 var rotation = Quaternion.Euler(screen.Rotation.x, screen.Rotation.y, screen.Rotation.z);
                 var scale = new Vector3(screen.Size.x, screen.Size.y, screen.Size.z);
                 var dis = new DisplayInfo();
+                if (screen.Name == "Bottom")
+                {
+                    dis.ScreenHeight = _screenWidth;
+                    dis.ScreenWidth = _screenWidth;
+                }
+                else
+                {
+                    dis.ScreenHeight = _screenHeight;
+                    dis.ScreenWidth = _screenWidth; 
+                }
+                
                 dis.Name = screen.Name;
                 Transform quad  = space.Find(screen.Name);
                 Destroy(quad.gameObject);
@@ -283,37 +282,17 @@ namespace Deepglint.XR
                             can.targetDisplay = render.Display - 1;
                         }
                         RawImage[] drawImage = displayImage.GetComponentsInChildren<RawImage>();
-                        Global.ViewData.DisplayImages ??= new Dictionary<int, RawImage>();
+                        _displayImages ??= new Dictionary<int, RawImage>();
                         if (drawImage.Length > 0)
                         {
-                            Global.ViewData.DisplayImages[render.Display] = drawImage[0];
+                            _displayImages[render.Display] = drawImage[0];
                         }
                     }
                 }
 #endif
                 dis.SpaceCamera = spaceCamera;
                 dis.UICamera = uiCamera;
-                switch (screen.Name)
-                {
-                    case "Front":
-                        Global.ViewData.Displays.Front = dis;
-                        break;
-                    case "Right":
-                        Global.ViewData.Displays.Right = dis;
-                        break;
-                    case "Back":
-                        Global.ViewData.Displays.Back = dis;
-                        break;
-                    case "Left":
-                        Global.ViewData.Displays.Left = dis;
-                        break;
-                    case "Bottom":
-                        Global.ViewData.Displays.Bottom = dis;
-                        break;
-                    default:
-                        Debug.LogError("Display name not match");
-                        break;
-                }
+                Global.Displays[(TargetDisplay)(screen.Display - 1)] = dis;
             }
         }
     }

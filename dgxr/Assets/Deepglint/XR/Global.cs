@@ -4,6 +4,7 @@ using Deepglint.Tool.UIFrame;
 using Deepglint.XR.Ros;
 using UnityEngine;
 using UnityEngine.UI;
+using DisplayInfo = Deepglint.Tool.UIFrame.DisplayInfo;
 
 
 namespace Deepglint.XR
@@ -23,15 +24,15 @@ namespace Deepglint.XR
         public static string AppName;
         public static string SystemName;
         public static bool IsFilterZero;
-        public static ViewInfo ViewData;
+        public static Dictionary<TargetDisplay,DisplayInfo> Displays;
         public static Vector3 CavePosition;
         public const string PackageName = "com.deepglint.xr";
         
-        public struct ViewInfo
-        {
-            public TargetDisplay Displays;
-            public Dictionary<int, RawImage> DisplayImages;
-        } 
+        // public struct ViewInfo
+        // {
+        //     public TargetDisplay Displays;
+        //     public Dictionary<int, RawImage> DisplayImages;
+        // } 
         
        
         
