@@ -740,6 +740,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DGXRManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2130616676674699080, guid: 2914279f6ce81ee4aa71b386e3a86c9d,
+        type: 3}
+      propertyPath: shader
+      value: 
+      objectReference: {fileID: 4800000, guid: 5a791830fa5c8db47acf9dce4ce37e28, type: 3}
     - target: {fileID: 4084859617446587329, guid: 2914279f6ce81ee4aa71b386e3a86c9d,
         type: 3}
       propertyPath: m_LocalPosition.x
