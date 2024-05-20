@@ -3,17 +3,18 @@ using System.Reflection;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Deepglint.Tool.Manager
+namespace Deepglint.Tool.Utils
 {
-    public static class DataManager
+    public static class DataUtil
     {
         private const string ConfigSubPath = "json";
+        
         public static T LoadData<T>()
         {
             var type = typeof(T);
             var attribute = type.GetCustomAttribute<DataFileAttribute>();
-            string name = attribute != null ? attribute.Name : $"{type.Name.ToLower()}.json";
-            string path = Path.Combine(Application.streamingAssetsPath, ConfigSubPath, name);
+            var name = attribute != null ? attribute.Name : $"{type.Name.ToLower()}.json";
+            var path = Path.Combine(Application.streamingAssetsPath, ConfigSubPath, name);
             return ReadJsonFile<T>(path);
         }
         
@@ -23,6 +24,5 @@ namespace Deepglint.Tool.Manager
             // 支持数组嵌套的情况
             return JsonConvert.DeserializeObject<T>(readData);
         }
-
     }
 }

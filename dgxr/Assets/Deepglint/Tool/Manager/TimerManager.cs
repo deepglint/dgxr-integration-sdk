@@ -65,7 +65,7 @@ namespace Deepglint.Tool.Manager
         }
 
 
-        public async Task CustomTask(int duration)
+        public static async Task CustomTask(int duration)
         {
             var newDuration = (int)(duration / _speed);
             await Task.Delay(newDuration);

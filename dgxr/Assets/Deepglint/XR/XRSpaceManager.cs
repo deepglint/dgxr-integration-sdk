@@ -12,7 +12,6 @@ using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
-using DisplayInfo = Deepglint.Tool.UIFrame.DisplayInfo;
 
 namespace Deepglint.XR
 {
@@ -24,6 +23,7 @@ namespace Deepglint.XR
 
         [FormerlySerializedAs("ScreenPrefab")] public GameObject screenPrefab;
         public Shader shader;
+
         [FormerlySerializedAs("UserViewCameraPrefab")]
         public Camera userViewCameraPrefab;
 
@@ -50,7 +50,7 @@ namespace Deepglint.XR
 
         private int _screenWidth; // 屏幕宽度
         private int _screenHeight; // 屏幕高度
-        
+
         private Dictionary<int, RawImage> _displayImages;
 
         private RefreshRate _refreshRate = new RefreshRate
@@ -73,7 +73,7 @@ namespace Deepglint.XR
             else
             {
                 _screenWidth = 1920;
-                _screenHeight = 1200; 
+                _screenHeight = 1200;
             }
         }
 
@@ -85,8 +85,10 @@ namespace Deepglint.XR
                 {
                     display.Activate(display.systemWidth, display.systemHeight, _refreshRate);
                 }
+
                 Screen.SetResolution(_screenWidth, _screenHeight, true);
             }
+
             InstantiateXR();
             var numberScreens = Global.Config.Space.Screens.Count;
             _screenEdges = new GameObject[numberScreens, 4];
@@ -94,8 +96,9 @@ namespace Deepglint.XR
             {
                 for (int corner = 0; corner < 4; corner++)
                 {
-                    var sc = Global.Displays[(TargetDisplay)(screen.Display - 1)];
-                    _screenEdges[screen.Display-1, corner] = sc.Screen.transform.GetChild(corner).gameObject;
+                    var sc = Global.Screens[(TargetScreen)(screen.TargetScreen - 1)];
+                    _screenEdges[(int)screen.TargetScreen, corner] =
+                        sc.ScreenObject.transform.GetChild(corner).gameObject;
                 }
             }
 #if !UNITY_EDITOR
@@ -124,7 +127,7 @@ namespace Deepglint.XR
                     foreach (var render in screen.Render)
                     {
                         Rect rect = new Rect(render.Rect[0], render.Rect[1], render.Rect[2], render.Rect[3]);
-                        
+
                         Texture tex = ClippedRenderTexture(_renderTexture,
                             rect);
                         if (_displayImages[render.Display]?.texture != null)
@@ -145,11 +148,11 @@ namespace Deepglint.XR
             SetHeadPosition();
             foreach (var screen in Global.Config.Space.Screens)
             {
-                var tarDisplay =Global.Displays	[(TargetDisplay)(screen.Display - 1)];
-                
+                var tarDisplay = Global.Screens[(TargetScreen)(screen.TargetScreen - 1)];
+
                 if (tarDisplay != null && tarDisplay.SpaceCamera != null)
                 {
-                    SetHeadFovAndOrientationScreen(screen.Display-1, tarDisplay.SpaceCamera, _screenEdges); 
+                    SetHeadFovAndOrientationScreen((int)screen.TargetScreen, tarDisplay.SpaceCamera, _screenEdges);
                 }
             }
         }
@@ -172,9 +175,10 @@ namespace Deepglint.XR
             {
                 _headLockPosition = new Vector3(_eyePosition.x, _head.y, _eyePosition.z) + position;
             }
+
             foreach (var userCamera in Global.Config.Space.Screens)
             {
-                var cam =Global.Displays	[(TargetDisplay)(userCamera.Display - 1)];
+                var cam = Global.Screens[(TargetScreen)(userCamera.TargetScreen - 1)];
                 cam.SpaceCamera.transform.position = _headLockPosition;
             }
         }
@@ -189,9 +193,9 @@ namespace Deepglint.XR
                                       Mathf.Atan(bottomToTop.magnitude / 2 /
                                                  (cameraTransform.localPosition.z *
                                                   cameraTransform.parent.lossyScale.z));
-            float obV =cameraTransform.localPosition.y *
+            float obV = cameraTransform.localPosition.y *
                 cameraTransform.parent.lossyScale.y / (bottomToTop.magnitude / 2);
-            float obH =cameraTransform.localPosition.x *
+            float obH = cameraTransform.localPosition.x *
                 cameraTransform.parent.lossyScale.x / (leftToRight.magnitude / 2);
             SetObliqueness(-obH, -obV, spaceCamera);
         }
@@ -222,43 +226,44 @@ namespace Deepglint.XR
             return croppedTexture;
         }
 
+
         private void InstantiateXR()
         {
             Transform space = GameObject.Find("Space").transform;
             GameObject uiCameraGroup = GameObject.Find("2DCameraGroup");
-            
+
+            var uiRoot = GameObject.Find("UIRoot");
+
             foreach (var screen in Global.Config.Space.Screens)
             {
                 var position = new Vector3(screen.Position.x, screen.Position.y, screen.Position.z);
                 var rotation = Quaternion.Euler(screen.Rotation.x, screen.Rotation.y, screen.Rotation.z);
                 var scale = new Vector3(screen.Size.x, screen.Size.y, screen.Size.z);
-                var dis = new DisplayInfo();
-                if (screen.Name == "Bottom")
+                var dis = new ScreenInfo(config);
+
+                dis.Resolution = new Resolution
                 {
-                    dis.ScreenHeight = _screenWidth;
-                    dis.ScreenWidth = _screenWidth;
-                }
-                else
-                {
-                    dis.ScreenHeight = _screenHeight;
-                    dis.ScreenWidth = _screenWidth; 
-                }
-                
-                dis.Name = screen.Name;
-                Transform quad  = space.Find(screen.Name);
+                    width = _screenWidth,
+                    height = screen.TargetScreen == TargetScreen.Bottom ? _screenWidth : _screenHeight
+                };
+
+                dis.ScreenCanvas = uiRoot.transform.Find(screen.TargetScreen.ToString()).gameObject;
+
+                Transform quad = space.Find(screen.TargetScreen.ToString());
                 Destroy(quad.gameObject);
                 var displayQuad = Instantiate(screenPrefab, space.transform);
                 displayQuad.transform.localPosition = position;
                 displayQuad.transform.localRotation = rotation;
                 displayQuad.transform.localScale = scale;
-                displayQuad.name = screen.Name;
+                displayQuad.name = screen.TargetScreen.ToString();
                 var spaceCamera = Instantiate(userViewCameraPrefab, space.transform.position,
                     displayQuad.transform.rotation, displayQuad.transform);
-                
+
                 spaceCamera.gameObject.layer = _caveLayer;
-                spaceCamera.targetDisplay = screen.Display-1;
-                dis.Screen = displayQuad;
-                var uiCamera = UIUtils.FindChildGameObject(uiCameraGroup, screen.Name).GetComponent<Camera>();
+                spaceCamera.targetDisplay = (int)screen.TargetScreen;
+                dis.ScreenObject = displayQuad;
+                var uiCamera = Extends.FindChildGameObject(uiCameraGroup, screen.TargetScreen.ToString())
+                    .GetComponent<Camera>();
                 uiCamera.gameObject.SetActive(true);
                 spaceCamera.GetUniversalAdditionalCameraData().cameraStack.Add(uiCamera);
 #if !UNITY_EDITOR
@@ -292,7 +297,7 @@ namespace Deepglint.XR
 #endif
                 dis.SpaceCamera = spaceCamera;
                 dis.UICamera = uiCamera;
-                Global.Displays[(TargetDisplay)(screen.Display - 1)] = dis;
+                Screens.AddScreen(screen.TargetScreen,dis);
             }
         }
     }

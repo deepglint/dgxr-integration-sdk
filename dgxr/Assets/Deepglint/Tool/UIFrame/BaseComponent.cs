@@ -12,9 +12,9 @@ namespace Deepglint.Tool.UIFrame
     {
         private readonly List<BaseComponent> _children = new();
         private readonly string _prefab;
-        public GameObject GameObject { get; private set; }
-        public Transform transform => GameObject.transform;
-        public bool activeSelf => GameObject.activeSelf;
+        public GameObject gameObject { get; private set; }
+        public Transform transform => gameObject.transform;
+        public bool activeSelf => gameObject.activeSelf;
 
 
         protected BaseComponent()
@@ -32,10 +32,10 @@ namespace Deepglint.Tool.UIFrame
 
         public void SetActive(bool active)
         {
-            GameObject.SetActive(active);
+            gameObject.SetActive(active);
         }
 
-        protected T AddComponent<T>() where T : Component => GameObject.AddComponent<T>();
+        protected T AddComponent<T>() where T : Component => gameObject.AddComponent<T>();
 
         public void Destroy()
         {
@@ -45,13 +45,13 @@ namespace Deepglint.Tool.UIFrame
             }
 
             OnClose();
-            UnityEngine.Object.Destroy(GameObject);
+            UnityEngine.Object.Destroy(gameObject);
         }
 
 
         protected T CreateChild<T>() where T : BaseComponent
         {
-            var child = Create<T>(GameObject);
+            var child = Create<T>(gameObject);
             _children.Add(child);
             child.OnOpen();
             return child;
@@ -60,7 +60,7 @@ namespace Deepglint.Tool.UIFrame
 
         protected T CreateChildOnSubGameObject<T>(string name) where T : BaseComponent
         {
-            var child = Create<T>(GameObject.FindChildGameObject(name));
+            var child = Create<T>(gameObject.FindChildGameObject(name));
             _children.Add(child);
             child.OnOpen();
             return child;
@@ -78,7 +78,7 @@ namespace Deepglint.Tool.UIFrame
             where T : BaseComponent
         {
             var component = Activator.CreateInstance<T>();
-            component.GameObject = InitComponent(component._prefab, parent);
+            component.gameObject = InitComponent(component._prefab, parent);
             component.OnOpen();
             return component;
         }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Deepglint.Tool.UIFrame;
 using Deepglint.XR.Inputs;
 using Deepglint.XR.Inputs.Devices;
 using Deepglint.XR.Log;
@@ -9,8 +8,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.XR;
-using DisplayInfo = Deepglint.Tool.UIFrame.DisplayInfo;
-using InputDevice = UnityEngine.InputSystem.InputDevice;
 
 namespace Deepglint.XR
 {
@@ -21,8 +18,8 @@ namespace Deepglint.XR
         private DGXRNode _node;
         private ROS2UnityManager _ros;
         private WsPoseAdapter ws;
-        
-        
+
+
         private static readonly Queue<Action> ExecuteOnMainThreadQueue = new Queue<Action>();
 
         private static void ExecuteDataLostActionInUpdate(Action action)
@@ -60,7 +57,7 @@ namespace Deepglint.XR
                 _node = new DGXRNode();
             }
 
-            Global.Displays = new Dictionary<TargetDisplay, DisplayInfo>();
+            Global.Screens = Screens.Instance;
             Global.IsFilterZero = isFilterZero;
         }
 
@@ -88,10 +85,10 @@ namespace Deepglint.XR
             {
                 return true;
             }
-            
+
             return false;
         }
-          
+
         private void OnEnable()
         {
             Global.OnMetaPoseDataReceived += OnMetaPoseDataReceived;
@@ -105,7 +102,7 @@ namespace Deepglint.XR
             Global.OnMetaPoseDataLost -= OnMetaPoseDataLost;
         }
 
-        
+
         public void OnDestroy()
         {
             if (UseRos())
@@ -117,7 +114,7 @@ namespace Deepglint.XR
                 ws.OnDestroy();
             }
         }
-  
+
         private void OnMetaPoseDataLost(string key)
         {
             if (UseRos())
@@ -125,21 +122,21 @@ namespace Deepglint.XR
                 ExecuteDataLostActionInUpdate(() =>
                 {
                     DeviceManager.RemoveDevice(key);
-                }); 
+                });
             }
             else
             {
                 DeviceManager.RemoveDevice(key);
             }
         }
-        
+
         private void OnMetaPoseDataReceived(Source.SourceData data)
         {
             if (UseRos())
             {
                 ExecuteDataLostActionInUpdate(() =>
                 {
-                    HandleMetaPoseData(data); 
+                    HandleMetaPoseData(data);
                 });
             }
             else
@@ -150,7 +147,7 @@ namespace Deepglint.XR
 
         private void HandleMetaPoseData(Source.SourceData data)
         {
-            InputDevice device = DeviceManager.AddOrActiveDevice(data.BodyId, nameof(DGXRController));
+            var device = DeviceManager.AddOrActiveDevice(data.BodyId, nameof(DGXRController));
             if (device != null)
             {
                 var xrDevice = device as DGXRController;
@@ -163,7 +160,7 @@ namespace Deepglint.XR
                 }
             }
         }
-        
+
         private Quaternion GetQuaternion(Source.JointData data)
         {
             Vector3 hip = new Vector3(
@@ -184,33 +181,33 @@ namespace Deepglint.XR
                 (data.LeftHip.y + data.RightHip.y) * 0.5f,
                 (data.LeftHip.z + data.RightHip.z) * 0.5f
                 ), eventPtr);
-            
+
             xrDevice.HumanPose.Rotation.WriteValueIntoEvent(GetQuaternion(data), eventPtr);
-            
+
             xrDevice.HumanBody.HeadTop.position.WriteValueIntoEvent(data.HeadTop, eventPtr);
-            xrDevice.HumanBody.Nose.position.WriteValueIntoEvent(data.Nose, eventPtr); 
-            xrDevice.HumanBody.LeftEye.position.WriteValueIntoEvent(data.LeftEye, eventPtr); 
-            xrDevice.HumanBody.RightEye.position.WriteValueIntoEvent(data.RightEye, eventPtr); 
-            xrDevice.HumanBody.LeftEar.position.WriteValueIntoEvent(data.LeftEar, eventPtr); 
-            xrDevice.HumanBody.RightEar.position.WriteValueIntoEvent(data.RightEar, eventPtr); 
-            xrDevice.HumanBody.LeftShoulder.position.WriteValueIntoEvent(data.LeftShoulder, eventPtr); 
-            xrDevice.HumanBody.RightShoulder.position.WriteValueIntoEvent(data.RightShoulder, eventPtr); 
-            xrDevice.HumanBody.LeftElbow.position.WriteValueIntoEvent(data.LeftElbow, eventPtr); 
-            xrDevice.HumanBody.RightElbow.position.WriteValueIntoEvent(data.RightElbow, eventPtr); 
-            xrDevice.HumanBody.LeftWrist.position.WriteValueIntoEvent(data.LeftWrist, eventPtr); 
-            xrDevice.HumanBody.RightWrist.position.WriteValueIntoEvent(data.RightWrist, eventPtr); 
-            xrDevice.HumanBody.LeftHip.position.WriteValueIntoEvent(data.LeftHip, eventPtr); 
-            xrDevice.HumanBody.RightHip.position.WriteValueIntoEvent(data.RightHip, eventPtr); 
-            xrDevice.HumanBody.LeftKnee.position.WriteValueIntoEvent(data.LeftKnee, eventPtr); 
-            xrDevice.HumanBody.RightKnee.position.WriteValueIntoEvent(data.RightKnee, eventPtr); 
-            xrDevice.HumanBody.LeftAnkle.position.WriteValueIntoEvent(data.LeftAnkle, eventPtr); 
-            xrDevice.HumanBody.RightAnkle.position.WriteValueIntoEvent(data.RightAnkle, eventPtr); 
-            xrDevice.HumanBody.LeftTiptoe.position.WriteValueIntoEvent(data.LeftTiptoe, eventPtr); 
-            xrDevice.HumanBody.RightTiptoe.position.WriteValueIntoEvent(data.RightTiptoe, eventPtr); 
-            xrDevice.HumanBody.LeftHeel.position.WriteValueIntoEvent(data.LeftHeel, eventPtr); 
-            xrDevice.HumanBody.RightHeel.position.WriteValueIntoEvent(data.RightHeel, eventPtr); 
-            xrDevice.HumanBody.LeftHand.position.WriteValueIntoEvent(data.LeftHand, eventPtr); 
-            xrDevice.HumanBody.RightHand.position.WriteValueIntoEvent(data.RightHand, eventPtr); 
+            xrDevice.HumanBody.Nose.position.WriteValueIntoEvent(data.Nose, eventPtr);
+            xrDevice.HumanBody.LeftEye.position.WriteValueIntoEvent(data.LeftEye, eventPtr);
+            xrDevice.HumanBody.RightEye.position.WriteValueIntoEvent(data.RightEye, eventPtr);
+            xrDevice.HumanBody.LeftEar.position.WriteValueIntoEvent(data.LeftEar, eventPtr);
+            xrDevice.HumanBody.RightEar.position.WriteValueIntoEvent(data.RightEar, eventPtr);
+            xrDevice.HumanBody.LeftShoulder.position.WriteValueIntoEvent(data.LeftShoulder, eventPtr);
+            xrDevice.HumanBody.RightShoulder.position.WriteValueIntoEvent(data.RightShoulder, eventPtr);
+            xrDevice.HumanBody.LeftElbow.position.WriteValueIntoEvent(data.LeftElbow, eventPtr);
+            xrDevice.HumanBody.RightElbow.position.WriteValueIntoEvent(data.RightElbow, eventPtr);
+            xrDevice.HumanBody.LeftWrist.position.WriteValueIntoEvent(data.LeftWrist, eventPtr);
+            xrDevice.HumanBody.RightWrist.position.WriteValueIntoEvent(data.RightWrist, eventPtr);
+            xrDevice.HumanBody.LeftHip.position.WriteValueIntoEvent(data.LeftHip, eventPtr);
+            xrDevice.HumanBody.RightHip.position.WriteValueIntoEvent(data.RightHip, eventPtr);
+            xrDevice.HumanBody.LeftKnee.position.WriteValueIntoEvent(data.LeftKnee, eventPtr);
+            xrDevice.HumanBody.RightKnee.position.WriteValueIntoEvent(data.RightKnee, eventPtr);
+            xrDevice.HumanBody.LeftAnkle.position.WriteValueIntoEvent(data.LeftAnkle, eventPtr);
+            xrDevice.HumanBody.RightAnkle.position.WriteValueIntoEvent(data.RightAnkle, eventPtr);
+            xrDevice.HumanBody.LeftTiptoe.position.WriteValueIntoEvent(data.LeftTiptoe, eventPtr);
+            xrDevice.HumanBody.RightTiptoe.position.WriteValueIntoEvent(data.RightTiptoe, eventPtr);
+            xrDevice.HumanBody.LeftHeel.position.WriteValueIntoEvent(data.LeftHeel, eventPtr);
+            xrDevice.HumanBody.RightHeel.position.WriteValueIntoEvent(data.RightHeel, eventPtr);
+            xrDevice.HumanBody.LeftHand.position.WriteValueIntoEvent(data.LeftHand, eventPtr);
+            xrDevice.HumanBody.RightHand.position.WriteValueIntoEvent(data.RightHand, eventPtr);
             xrDevice.HumanBody.LeftFoot.position.WriteValueIntoEvent(new Vector3(
                 (data.LeftTiptoe.x + data.LeftHeel.x) * 0.5f,
                 (data.LeftTiptoe.y + data.LeftHeel.y) * 0.5f,

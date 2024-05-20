@@ -9,7 +9,7 @@ namespace Deepglint.XR
     {
         private const string ConfigName = "env.json";
         private const string FilePath = @"D:\meta\env\env.json";
-        
+
         public class ConfigData
         {
             [System.Serializable]
@@ -23,21 +23,21 @@ namespace Deepglint.XR
                 public SpaceInfo Space{ get; set; }
                 [JsonProperty("record")]
                 public RecordInfo Record { get; set; }
-                
-                
+
+
             }
 
             [System.Serializable]
             public struct RecordInfo
             {
-                [JsonProperty("saveDay")] 
+                [JsonProperty("saveDay")]
                 public int SaveDay { get; set; }
                 [JsonProperty("savePath")]
                 public string SavePath{ get; set; }
             }
 
             [System.Serializable]
-            public struct LogInfo 
+            public struct LogInfo
             {
                 [JsonProperty("level")]
                 public string Level { get; set; }
@@ -48,7 +48,7 @@ namespace Deepglint.XR
                 [JsonProperty("savePath")]
                 public string SavePath{ get; set; }
             }
-            
+
             [System.Serializable]
             public struct SpaceInfo{
                 [JsonProperty("engineHost")]
@@ -60,19 +60,19 @@ namespace Deepglint.XR
                 [JsonProperty("zDirection")]
                 public string ZDirection{ get; set; }
                 [JsonProperty("screens")]
-                public List<ScreenInfo> Screens { get; set; }
+                public List<ScreenConfig> Screens { get; set; }
             }
         }
 
         [System.Serializable]
-        public struct ScreenInfo
+        public class ScreenConfig
         {
-            [JsonProperty("name")]
-            public string Name { get; set; }
             [JsonProperty("display")]
-            public int Display { get; set; }
+            public TargetScreen TargetScreen { get; set; }
+
             [JsonProperty("render")]
-            public RenderInfo[] Render { get; set; } 
+            public RenderInfo[] Render { get; set; }
+
             [JsonProperty("position")]
             public CoordinateInfo Position{ get; set; }
             [JsonProperty("rotation")]
@@ -80,6 +80,7 @@ namespace Deepglint.XR
             [JsonProperty("size")]
             public CoordinateInfo Size{ get; set; }
         }
+
         [System.Serializable]
         public struct RenderInfo
         {
@@ -115,17 +116,17 @@ namespace Deepglint.XR
                     File.Copy(envJsonPath, sourceFilePath);
                     Debug.Log("copy file success !");
                 }
-                
+
                 using StreamReader srt =File.OpenText(Path.Combine(Application.streamingAssetsPath, ConfigName));
                 var data = srt.ReadToEnd();
                 srt.Close();
-                return data; 
+                return data;
             }
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
-            
+
 
             if (!File.Exists(FilePath))
             {
@@ -142,14 +143,14 @@ namespace Deepglint.XR
                     Application.Quit();
                 }
             }
-            
+
             using StreamReader sr =File.OpenText(FilePath);
             var readData = sr.ReadToEnd();
             sr.Close();
             return readData;
         }
         public ConfigData.ConfigInfo InitConfig()
-        { 
+        {
             var info = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadData());
             return info;
         }

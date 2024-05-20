@@ -1,7 +1,7 @@
-﻿{
+{
   "name": "com.deepglint.xr",
   "displayName": "DGXR Integration SDK",
-  "version": "2.0.0",
+  "version": "2.0.0-beta8",
   "unity": "2022.3",
   "documentationUrl": "https://gitlab.deepglint.com/alpha/stardust/-/blob/main/dgxr/README.md",
   "changelogUrl": "https://gitlab.deepglint.com/alpha/stardust/-/tags",

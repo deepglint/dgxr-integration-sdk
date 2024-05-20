@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -19,34 +20,51 @@ namespace Deepglint.Tool.Manager
         Voice
     }
 
-    public static class AudioManager
+    public class Audio
     {
-        public class Audio
-        {
-            public AudioType Type;
-            public AudioSource Source;
-            public string Name;
-        }
-
-        public class AudioList
-        {
-            public string Name;
-            public List<Audio> Audios;
-        }
-
-        private const string Path = "Audio/";
-        private static List<Audio> _audios = new List<Audio>();
-        private static List<AudioList> _audioLists = new List<AudioList>();
+        private const string BasePath = "Audio";
         private static GameObject _audioRoot;
+
+        public readonly string Name;
+        public readonly AudioType Type;
+        public readonly AudioSource Source;
+        public float Length => AudioLength(this);
+
+        public Audio(string name, AudioType type = AudioType.SoundEffect)
+        {
+            Name = name;
+            Type = type;
+            Source = CreateAudioSource(Name);
+        }
+
+        public void Play(bool ignoreIfPlaying = false, bool loop = false, float volume = 1)
+        {
+            AudioManager.PlayAudio(this, ignoreIfPlaying, loop, volume);
+        }
+
+
+        /// <summary>
+        /// 获取音频长度
+        /// </summary>
+        /// <param name="audio">音频</param>
+        /// <returns>视频长度，单位毫秒</returns>
+        public static float AudioLength(Audio audio)
+        {
+            if (audio == null)
+            {
+                throw new NullReferenceException("audio is null");
+            }
+
+            return audio.Source.clip.length * 1000f;
+        }
 
 
         /// <summary>
         /// 加载音频
         /// </summary>
         /// <param name="audioName">音频名称</param>
-        /// <param name="audioType">音频类型</param>
         /// <returns>是否成功在指定文件夹下Load传入音频</returns>
-        private static Audio CreateAudio(string audioName)
+        private static AudioSource CreateAudioSource(string audioName)
         {
             if (_audioRoot == null)
             {
@@ -54,175 +72,115 @@ namespace Deepglint.Tool.Manager
                 Object.DontDestroyOnLoad(_audioRoot);
             }
 
-            var audioClip = Resources.Load<AudioClip>(Path + audioName);
+            var audioClip = Resources.Load<AudioClip>(Path.Combine(BasePath, audioName));
             if (audioClip == null) return null;
             var obj = new GameObject(audioClip.name);
             obj.transform.SetParent(_audioRoot.transform);
             var source = obj.AddComponent<AudioSource>();
             source.clip = audioClip;
-            Audio audio = new Audio()
-            {
-                Name = audioName,
-                Source = source,
-            };
-            return audio;
+            return source;
         }
+    }
 
-        private static Audio FindAudio(string name, AudioType type = 0)
+    public class AudioList
+    {
+        public string Name;
+        public List<Audio> Audios;
+    }
+
+    public static class AudioManager
+    {
+        private static readonly List<Audio> Audios = new();
+        private static readonly List<AudioList> AudioLists = new();
+
+        private static Audio FindAudio(Audio audio)
         {
-            if (type != 0)
-            {
-                return _audios.FirstOrDefault(audio => audio.Name == name && audio.Type == type);
-            }
-
-            return _audios.FirstOrDefault(audio => audio.Name == name);
+            return Audios.FirstOrDefault(item => item == audio);
         }
 
         private static AudioList FindAudioList(string audioListName)
         {
-            return _audioLists.FirstOrDefault(audioList => audioList.Name == audioListName);
+            return AudioLists.FirstOrDefault(audioList => audioList.Name == audioListName);
         }
 
 
         private static List<Audio> FindAudiosByType(AudioType[] types)
         {
-            return _audios.Where(audio => types.Contains(audio.Type)).ToList();
-        }
-
-        /// <summary>
-        /// 获取音频，如果是第一次获取会创建，否则拿存储
-        /// </summary>
-        /// <param name="audioName"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        private static Audio GetAudio(string audioName, AudioType type = AudioType.Voice)
-        {
-            Audio audio = FindAudio(audioName, type);
-            if (audio is null)
-            {
-                Audio newAudio = CreateAudio(audioName);
-                if (newAudio != null)
-                {
-                    newAudio.Type = type;
-                    _audios.Add(newAudio);
-                    audio = newAudio;
-                }
-                else
-                {
-                    Debug.LogError("AudioManager " + type + " - " + audioName + " 音频不存在");
-                }
-            }
-
-            return audio;
-        }
-
-        /// <summary>
-        /// 获取音频长度
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns>视频长度，单位毫秒</returns>
-        public static float GetAudioLength(string name)
-        {
-            Audio audio = FindAudio(name);
-            if (audio != null)
-            {
-                return audio.Source.clip.length * 1000f;
-            }
-
-            Debug.LogError("AudioManager " + name + " 音频不存在");
-            return 0;
-        }
-
-        public static float GetAudioLength(AudioSource source)
-        {
-            return source.clip.length * 1000f;
+            return Audios.Where(audio => types.Contains(audio.Type)).ToList();
         }
 
         /// <summary>
         /// 播放指定音频
         /// </summary>
-        /// <param name="audioName">音频名称</param>
-        /// <param name="type">音频类型</param>
-        /// <param name="iswait"></param>
+        /// <param name="audio">音频</param>
+        /// <param name="ignoreIfPlaying">是否等待播放完</param>
         /// <param name="loop">是否循环播放</param>
         /// <param name="volume">音量</param>
-        public static void PlayAudio(string audioName, AudioType type, bool iswait = false, bool loop = false,
+        public static void PlayAudio(Audio audio, bool ignoreIfPlaying = false, bool loop = false,
             float volume = 1)
         {
-            Audio audio = GetAudio(audioName, type);
-            if (audio is null)
+            if (audio == null)
             {
-                return;
+                throw new NullReferenceException();
             }
 
-            if (iswait)
+            if (FindAudio(audio) != null)
             {
-                if (!audio.Source.isPlaying)
-                {
-                    audio.Source.Play();
-                    audio.Source.volume = volume;
-                    audio.Source.loop = loop;
-                }
+                Audios.Add(audio);
+            }
+
+            if (ignoreIfPlaying)
+            {
+                if (audio.Source.isPlaying) return;
             }
             else
             {
                 audio.Source.Play();
-                audio.Source.volume = volume;
-                audio.Source.loop = loop;
             }
+
+            audio.Source.volume = volume;
+            audio.Source.loop = loop;
         }
 
-        public static async void PlayAudioList(List<string> audioNameList, string audioListName, float volume = 1)
-        {
-            List<Audio> audioList = new List<Audio>();
-            foreach (var audioName in audioNameList)
-            {
-                Audio audio = GetAudio(audioName);
-                if (audio != null)
-                {
-                    audioList.Add(audio);
-                }
-            }
 
-            AudioList list = new AudioList()
-            {
-                Name = audioListName,
-                Audios = audioList
-            };
-            _audioLists.Add(list);
+        public static async void PlayAudioList(AudioList list, string audioListName, float volume = 1)
+        {
+            AudioLists.Add(list);
             foreach (var audio in list.Audios)
             {
                 audio.Source.Play();
                 audio.Source.volume = volume;
-                await Task.Delay(TimeSpan.FromMilliseconds(GetAudioLength(audio.Source)));
+                await Task.Delay(TimeSpan.FromMilliseconds(audio.Length));
                 if (list.Audios.Count == 0)
                 {
                     break;
                 }
             }
 
-            _audioLists.RemoveAll(item => item.Name == audioListName);
+            AudioLists.RemoveAll(item => item.Name == audioListName);
         }
 
-        public static void StopAudioList(string audioListName)
+        public static void StopAudioListByName(string audioListName)
         {
-            AudioList list = FindAudioList(audioListName);
-            if (list != null)
+            var list = FindAudioList(audioListName);
+            StopAudioList(list);
+        }
+
+        private static void StopAudioList(AudioList list)
+        {
+            if (list == null) return;
+            foreach (var listAudio in list.Audios)
             {
-                foreach (var listAudio in list.Audios)
-                {
-                    listAudio.Source.Stop();
-                }
-
-                list.Audios.Clear();
-
-                _audioLists.RemoveAll(item => item.Name == audioListName);
+                listAudio.Source.Stop();
             }
+
+            list.Audios.Clear();
+            AudioLists.RemoveAll(item => item.Name == list.Name);
         }
 
         public static float GetAudioListLength(string audioListName)
         {
-            AudioList list = FindAudioList(audioListName);
+            var list = FindAudioList(audioListName);
             float length = 0;
             if (list != null)
             {
@@ -242,18 +200,15 @@ namespace Deepglint.Tool.Manager
         /// <summary>
         /// 停止指定音频播放
         /// </summary>
-        /// <param name="audioName">音频名称</param>
-        public static void StopAudio(string audioName)
+        /// <param name="audio">音频</param>
+        public static void StopAudio(Audio audio)
         {
-            Audio audio = FindAudio(audioName);
-            if (audio != null)
+            if (audio == null)
             {
-                audio.Source.Stop();
+                throw new NullReferenceException("audio is null");
             }
-            else
-            {
-                Debug.LogWarning("AudioManager " + audioName + " 音频不存在");
-            }
+
+            audio.Source.Stop();
         }
 
         /// <summary>
@@ -262,26 +217,34 @@ namespace Deepglint.Tool.Manager
         /// <param name="types">音频类型</param>
         public static void StopAudioByType(AudioType[] types)
         {
-            List<Audio> typeAudios = FindAudiosByType(types);
-            if (typeAudios.Count > 0)
+            var typeAudios = FindAudiosByType(types);
+            if (typeAudios.Count <= 0) return;
+            foreach (var typeAudio in typeAudios)
             {
-                foreach (var typeAudio in typeAudios)
-                {
-                    typeAudio.Source.Stop();
-                }
+                typeAudio.Source.Stop();
             }
         }
 
         public static void StopAudioByType(AudioType type)
         {
             AudioType[] types = { type };
-            List<Audio> typeAudios = FindAudiosByType(types);
-            if (typeAudios.Count > 0)
+            var typeAudios = FindAudiosByType(types);
+            if (typeAudios.Count <= 0) return;
+            foreach (var typeAudio in typeAudios)
             {
-                foreach (var typeAudio in typeAudios)
-                {
-                    typeAudio.Source.Stop();
-                }
+                typeAudio.Source.Stop();
+            }
+        }
+
+
+        /// <summary>
+        /// 停止所有音频
+        /// </summary>
+        public static void StopAll()
+        {
+            foreach (var typeAudio in Audios)
+            {
+                typeAudio.Source.Stop();
             }
         }
     }

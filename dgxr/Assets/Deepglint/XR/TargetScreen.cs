@@ -1,0 +1,142 @@
+using System;
+using UnityEngine;
+
+namespace Deepglint.XR
+{
+    public enum TargetScreen
+    {
+        Front,
+        Right,
+        Back,
+        Left,
+        Bottom,
+    }
+
+    public class ScreenInfo : Config.ScreenConfig
+    {
+        public ScreenInfo(Config.ScreenConfig config)
+        {
+            TargetScreen = config.TargetScreen;
+            Render = config.Render;
+            Position = config.Position;
+            Rotation = config.Rotation;
+            Size = config.Size;
+        }
+        public GameObject ScreenObject { get; internal set; }
+        public Camera UICamera { get; internal set; }
+
+        public Camera SpaceCamera { get; internal set; }
+
+        public Resolution Resolution { get; internal set; }
+        public GameObject ScreenCanvas { get; internal set; }
+
+
+        public Vector2 ProjectionVector3(Vector3 point)
+        {
+            return ProjectionVector3(point, this);
+        }
+
+        public float DistanceToScreen(Vector3 point)
+        {
+            return DistanceToScreen(point, this);
+        }
+
+        public Vector2 SpaceToPixelOnScreen(Vector2 point)
+        {
+            return SpaceToPixelOnScreen(point, this);
+        }
+
+        public Vector2 BottomRelativeToScreen(Vector2 point)
+        {
+            return BottomRelativeToScreen(point, this);
+        }
+
+        public static Vector2 ProjectionVector3(Vector3 point, ScreenInfo screen)
+        {
+            return ProjectionVector3(point, screen.TargetScreen);
+        }
+
+
+        public static Vector2 ProjectionVector3(Vector3 point, TargetScreen screen)
+        {
+            var res = screen switch
+            {
+                TargetScreen.Front => new Vector2(point.x, point.y),
+                TargetScreen.Back => new Vector2(-point.x, point.y),
+                TargetScreen.Left => new Vector2(point.z, point.y),
+                TargetScreen.Right => new Vector2(-point.z, point.y),
+                TargetScreen.Bottom => new Vector2(point.x, point.z),
+                _ => throw new ArgumentOutOfRangeException(nameof(screen), screen, null)
+            };
+            return res;
+        }
+
+
+        public static float DistanceToScreen(Vector3 point, ScreenInfo screen)
+        {
+            int  zRange = screen.Resolution.height / 2;
+            int xRange = screen.Resolution.width / 2;
+
+            float res = screen.TargetScreen switch
+            {
+                TargetScreen.Front => zRange - point.z,
+                TargetScreen.Back => zRange + point.z,
+                TargetScreen.Left => xRange - point.x,
+                TargetScreen.Right => xRange + point.x,
+                TargetScreen.Bottom => point.y,
+                _ => throw new ArgumentOutOfRangeException(nameof(screen), screen, null)
+            };
+            return res;
+        }
+
+
+        //TODO: 地面原点在啥地方
+        // TODO: 用vector3
+        public static Vector2 SpaceToPixelOnScreen(Vector2 spacePosition, ScreenInfo screen)
+        {
+            float xRatio = screen.Resolution.width/ screen.Size.x;
+            float yRatio = screen.Resolution.height / screen.Size.z;
+
+            if (screen.TargetScreen == TargetScreen.Bottom)
+            {
+                yRatio = screen.Resolution.width/ screen.Size.x;
+
+            }
+            else
+            {
+                // 真实空间z轴起点在空间地面中心，而不是空间的几何中心，几何中心在空中，不好对齐和使用
+                spacePosition.y -= screen.Size.z/2;
+            }
+
+            int x = Mathf.RoundToInt(spacePosition.x * xRatio);
+            int y = Mathf.RoundToInt(spacePosition.y * yRatio);
+
+            return new Vector2(x, y);
+        }
+
+        // 参数 position 为地屏与当前侧屏相交线中点为原点的坐标
+        public static Vector2 BottomRelativeToScreen(Vector2 position, ScreenInfo screen)
+        {
+            // 前提是地屏长与宽分辨率相等（实际长度可以不等，但是最终拼接的分辨率长宽相等，等于侧屏分辨率）
+            int baseline = screen.Resolution.width /2;
+            return screen.TargetScreen switch
+            {
+                TargetScreen.Front => new Vector2(position.x, baseline - position.y),
+                TargetScreen.Left => new Vector2(position.y - baseline, -position.x),
+                TargetScreen.Right => new Vector2(baseline - position.y, -position.x),
+                TargetScreen.Back => new Vector2(-position.x, position.y - baseline),
+                TargetScreen.Bottom => position,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
+
+
+        public new string ToString()
+        {
+            return TargetScreen.ToString();
+        }
+    }
+
+
+}

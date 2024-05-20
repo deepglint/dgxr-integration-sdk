@@ -1,8 +1,6 @@
-using Deepglint.Tool.UIFrame;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using DisplayInfo = Deepglint.Tool.UIFrame.DisplayInfo;
 
 namespace Deepglint.Tool.Utils
 {
@@ -33,35 +31,7 @@ namespace Deepglint.Tool.Utils
             if (imageObj != null) imageObj.texture = Resources.Load<Texture2D>("Image/" + textureName);
         }
 
-
-        /// <summary>
-        /// 通过名称查找子对象
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="childName">名称</param>
-        /// <returns></returns>
-        public static GameObject FindChildGameObject(this GameObject obj, string childName)
-        {
-            if (obj != null)
-            {
-                var children = obj.GetComponentsInChildren<Transform>(true);
-
-                foreach (var child in children)
-                    if (child.name == childName)
-                        return child.gameObject;
-
-                Debug.LogWarning($"{obj.name}里找不到名为{childName}的子对象");
-                return null;
-            }
-
-            return null;
-        }
         
-        //TODO: 这个函数应该和Display的封装放一起
-        public static Transform GetScreenCanvas(DisplayInfo display)
-        {
-            var uiRoot = GameObject.Find("UIRoot");
-            return uiRoot.transform.Find(display.Name);
-        }
+        
     }
 }
