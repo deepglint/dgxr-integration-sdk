@@ -20,6 +20,7 @@ namespace Deepglint.XR
         private ROS2UnityManager _ros;
         private WsPoseAdapter ws;
         
+        
         private static readonly Queue<Action> ExecuteOnMainThreadQueue = new Queue<Action>();
 
         private static void ExecuteDataLostActionInUpdate(Action action)

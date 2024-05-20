@@ -154,6 +154,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2629426390934413297, guid: 36a32e2a2e662dc4eb41903bbbd132a5,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.49803922
+      objectReference: {fileID: 0}
     - target: {fileID: 3528234280019784684, guid: 36a32e2a2e662dc4eb41903bbbd132a5,
         type: 3}
       propertyPath: m_Layer
@@ -266,7 +271,7 @@ PrefabInstance:
     - target: {fileID: 2004426611228676228, guid: ace4ea8648eeab04cbf95accb296d658,
         type: 3}
       propertyPath: m_Size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2004426611240732322, guid: ace4ea8648eeab04cbf95accb296d658,
         type: 3}
@@ -740,6 +745,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DGXRManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2130616676674699080, guid: 2914279f6ce81ee4aa71b386e3a86c9d,
+        type: 3}
+      propertyPath: shader
+      value: 
+      objectReference: {fileID: 4800000, guid: 5a791830fa5c8db47acf9dce4ce37e28, type: 3}
     - target: {fileID: 4084859617446587329, guid: 2914279f6ce81ee4aa71b386e3a86c9d,
         type: 3}
       propertyPath: m_LocalPosition.x

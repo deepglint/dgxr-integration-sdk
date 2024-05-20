@@ -1,9 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
 namespace Deepglint.XR
 {
@@ -18,12 +22,13 @@ namespace Deepglint.XR
 
         [FormerlySerializedAs("ScreenPrefab")] public GameObject screenPrefab;
         [FormerlySerializedAs("MetaSpace")] public GameObject metaSpace;
+        public Shader shader;
 
         [FormerlySerializedAs("LockAll")] [Header("视角跟随相关设置")]
         public Boolean lockAll;
 
         [FormerlySerializedAs("LockXZ")] public Boolean lockXZ;
-       
+
         [FormerlySerializedAs("SpaceScale")] public float spaceScale = 1;
         private Vector3 _eyePosition = new Vector3(0, 1.6f, 0);
         private GameObject[] _screens;
@@ -41,11 +46,13 @@ namespace Deepglint.XR
 
         private int _screenWidth; // 屏幕宽度
         private int _screenHeight; // 屏幕高度
+
         private RefreshRate _refreshRate = new RefreshRate
         {
             numerator = 30,
             denominator = 1
         };
+
 #if !UNITY_EDITOR
         private RenderTexture _renderTexture;
 
@@ -82,22 +89,36 @@ namespace Deepglint.XR
                     _screenEdges[screen, corner] = _screens[screen].transform.GetChild(corner).gameObject;
                 }
             }
+#if !UNITY_EDITOR
+            RenderPipelineManager.endFrameRendering += HandleSplitScreen;
+#endif
         }
 
+#if !UNITY_EDITOR
+        private void OnApplicationQuit()
+        {
+            RenderPipelineManager.endFrameRendering -= HandleSplitScreen;
+        }
+#endif
         void Update()
         {
-            SetScale();
             SetHead();
+        }
+
 #if !UNITY_EDITOR
+        public void HandleSplitScreen(ScriptableRenderContext paramContext, Camera[] paramCamera)
+        {
             foreach (var screen in Global.Config.Space.Screens)
             {
                 if (screen.Render.Length > 0)
                 {
                     foreach (var render in screen.Render)
                     {
+                        Rect rect = new Rect(render.Rect[0], render.Rect[1], render.Rect[2], render.Rect[3]);
+                        
                         Texture tex = ClippedRenderTexture(_renderTexture,
-                            new Rect(render.Rect[0], render.Rect[1], render.Rect[2], render.Rect[3]));
-                        if (Global.UserView.DisplayImages[render.Display].texture != null)
+                            rect);
+                        if (Global.UserView.DisplayImages[render.Display]?.texture != null)
                         {
                             Destroy(Global.UserView.DisplayImages[render.Display].texture);
                         }
@@ -105,16 +126,11 @@ namespace Deepglint.XR
                     }
                 }
             }
+        }
 #endif
-        }
-
-        private void SetScale()
-        {
-            gameObject.transform.localScale = new Vector3(spaceScale, spaceScale, spaceScale);
-        }
-
         public void SetHead()
         {
+            gameObject.transform.localScale = new Vector3(spaceScale, spaceScale, spaceScale);
             // 处理坐标的比例关系
             //Set the position
             SetHeadPosition();
@@ -131,6 +147,7 @@ namespace Deepglint.XR
             {
                 _head = Global.CavePosition;
             }
+
             Vector3 position = transform.position;
             _headLockPosition = _head + position;
             if (lockAll)
@@ -177,12 +194,19 @@ namespace Deepglint.XR
 
         private Texture ClippedRenderTexture(RenderTexture sourceTexture, Rect rect)
         {
+            int width = (int)rect.width;
+            int height = (int)rect.height;
+            RenderTexture croppedTexture = new RenderTexture(width, height, 24);
+            croppedTexture.Create();
             RenderTexture.active = sourceTexture;
-            Texture2D croppedTexture = new Texture2D((int)rect.width, (int)rect.height);
-            Rect region = new Rect(rect.x, rect.y, rect.width, rect.height);
-            croppedTexture.ReadPixels(region, 0, 0);
+            Material cropMaterial = new Material(shader);
+            cropMaterial.SetTexture("_MainTex", sourceTexture);
+            cropMaterial.SetFloat("_OffsetX", rect.x / sourceTexture.width);
+            cropMaterial.SetFloat("_OffsetY", rect.y / sourceTexture.height);
+            cropMaterial.SetFloat("_ScaleX", rect.width / sourceTexture.width);
+            cropMaterial.SetFloat("_ScaleY", rect.height / sourceTexture.height);
+            Graphics.Blit(sourceTexture, croppedTexture, cropMaterial);
             RenderTexture.active = null;
-            croppedTexture.Apply();
             return croppedTexture;
         }
 
