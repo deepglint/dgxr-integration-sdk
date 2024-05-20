@@ -42,7 +42,9 @@ cache: # 缓存
     - $UNITY_DIR/code_docs
 
 generate_doc:
-  stage: build pre
+  stage: build stardust
+  needs:
+    - job: lint_analyze
   script:
     - echo "Installing dependencies for Doxygen generation..."
     - apt-get update 
@@ -53,9 +55,6 @@ generate_doc:
     paths:
       - $UNITY_DIR/code_docs
     name: dgxr-doc-$CI_COMMIT_TAG
-  rules:
-    - if: $CI_PIPELINE_SOURCE != "schedule"
-      when: manual
 
 .unity_before_script: &unity_before_script
   before_script:
