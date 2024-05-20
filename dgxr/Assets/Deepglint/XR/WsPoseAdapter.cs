@@ -62,7 +62,8 @@ namespace Deepglint.XR
         async Task SendMessageAsync(string message)
         {
             byte[] buffer = Encoding.UTF8.GetBytes(message);
-            await _ws.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+            await _ws.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true,
+                CancellationToken.None);
         }
 
         async Task ReceiveLoop()
@@ -71,6 +72,7 @@ namespace Deepglint.XR
             while (_ws.State == WebSocketState.Open)
             {
                 byte[] receiveBuffer = new byte[20480]; // 每次接收的缓冲区大小
+
                 WebSocketReceiveResult result =
                     await _ws.ReceiveAsync(new ArraySegment<byte>(receiveBuffer), CancellationToken.None);
                 if (result.MessageType == WebSocketMessageType.Text)
@@ -87,6 +89,7 @@ namespace Deepglint.XR
             }
         }
 
+ 
         public void OnDestroy()
         {
             if (_ws is { State: WebSocketState.Open })

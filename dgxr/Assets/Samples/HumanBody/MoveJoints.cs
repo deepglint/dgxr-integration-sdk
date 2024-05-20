@@ -1,180 +1,212 @@
+using System.Collections.Generic;
+using System.Linq;
 using Deepglint.XR;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
+using UnityEngine.Serialization;
 
 namespace Samples.HumanBody
 {
     public class MoveJoints : MonoBehaviour
     {
-        #region definition
-        public Transform parentObject;
-        public float speed = 5f;
-        //line renderer*4  
-        private LineRenderer _lineRenderer1;
-        private LineRenderer _lineRenderer2;
-        private LineRenderer _lineRenderer3;
-        private LineRenderer _lineRenderer4;
-        private const int LineLength = 300;
+        [FormerlySerializedAs("BodyPrefab")]
+        public GameObject bodyPrefab;
 
-        private Transform _nose;
-        private Transform _leftEye;
-        private Transform _rightEye;
-        private Transform _leftEar;
-        private Transform _rightEar;
-        private Transform _leftShoulder;
-        private Transform _rightShoulder;
-        private Transform _leftElbow;
-        private Transform _rightElbow;
-        private Transform _leftWrist;
-        private Transform _rightWrist;
-        private Transform _leftHip;
-        private Transform _rightHip;
-        private Transform _leftKnee;
-        private Transform _rightKnee;
-        private Transform _leftAnkle;
-        private Transform _rightAnkle;
-        private Transform _leftTiptoe;
-        private Transform _rightTiptoe;
-        private Transform _leftHeel;
-        private Transform _rightHeel;
-        private Transform _headTop;
-        private Transform _leftHand;
-        private Transform _rightHand;
+        private Dictionary<string, Body> _bodyMap;
 
-        private Transform _neck;
-        private Transform _root;
-
-        #endregion
-
-        //将场景的物体关联到该脚本中
-        void InitObject()
+        private class Body
         {
-            _nose = parentObject.Find("Nose");
-            _leftEye = parentObject.Find("LeftEye");
-            _rightEye = parentObject.Find("RightEye");
-            _leftEar = parentObject.Find("LeftEar");
-            _rightEar = parentObject.Find("RightEar");
-            _leftShoulder = parentObject.Find("LeftShoulder");
-            _rightShoulder = parentObject.Find("RightShoulder");
-            _leftElbow = parentObject.Find("LeftElbow");
-            _rightElbow = parentObject.Find("RightElbow");
-            _leftWrist = parentObject.Find("LeftWrist");
-            _rightWrist = parentObject.Find("RightWrist");
-            _leftHip = parentObject.Find("LeftHip");
-            _rightHip = parentObject.Find("RightHip");
-            _leftKnee = parentObject.Find("LeftKnee");
-            _rightKnee = parentObject.Find("RightKnee");
-            _leftAnkle = parentObject.Find("LeftAnkle");
-            _rightAnkle = parentObject.Find("RightAnkle");
-            _leftTiptoe = parentObject.Find("LeftTiptoe");
-            _rightTiptoe = parentObject.Find("RightTiptoe");
-            _leftHeel = parentObject.Find("LeftHeel");
-            _rightHeel = parentObject.Find("RightHeel");
-            _headTop = parentObject.Find("HeadTop");
-            _leftHand = parentObject.Find("LeftHand");
-            _rightHand = parentObject.Find("RightHand");
-
-            _neck= parentObject.Find("Neck");
-            _root = parentObject.Find("Root");
-
-            _lineRenderer1 =_nose.GetComponent<LineRenderer>();
-            _lineRenderer2 = _leftHip.GetComponent<LineRenderer>();
-            _lineRenderer3 = _leftShoulder.GetComponent<LineRenderer>();
-            _lineRenderer4 = _leftElbow.GetComponent<LineRenderer>();
+            public GameObject Obj;
+            public LineRenderer LineRenderer1;
+            public LineRenderer LineRenderer2;
+            public LineRenderer LineRenderer3;
+            public LineRenderer LineRenderer4;
+            public Transform Nose;
+            public Transform LeftEye;
+            public Transform RightEye;
+            public Transform LeftEar;
+            public Transform RightEar;
+            public Transform LeftShoulder;
+            public Transform RightShoulder;
+            public Transform LeftElbow;
+            public Transform RightElbow;
+            public Transform LeftWrist;
+            public Transform RightWrist;
+            public Transform LeftHip;
+            public Transform RightHip;
+            public Transform LeftKnee;
+            public Transform RightKnee;
+            public Transform LeftAnkle;
+            public Transform RightAnkle;
+            public Transform LeftTiptoe;
+            public Transform RightTiptoe;
+            public Transform LeftHeel;
+            public Transform RightHeel;
+            public Transform HeadTop;
+            public Transform LeftHand;
+            public Transform RightHand;
+            public Transform Neck;
+            public Transform Root;
         }
-
-        void Start()
-        {
-            InitObject();
-            _lineRenderer1.positionCount = LineLength;
-            _lineRenderer2.positionCount = LineLength;
-            _lineRenderer3.positionCount = LineLength;
-            _lineRenderer4.positionCount = LineLength;
-
-            _lineRenderer1.positionCount = 10;
-            _lineRenderer2.positionCount = 10;
-            _lineRenderer3.positionCount = 9;
-            _lineRenderer4.positionCount = 4;
-        }
-
+        
         // Update is called once per frame
         void Update()
         {
-            float step = speed * Time.deltaTime;
-
-            if (Source.Data.Count==0)
+            if (Source.Data.Count == 0)
             {
-                // GameLogger.LogRed("errr");
                 return;
             }
 
-            var body = Source.Data[0];
-            _nose.transform.localPosition = body.Joints.Nose;
-            _leftEye.transform.localPosition = body.Joints.LeftEye;
-            _rightEye.transform.localPosition = body.Joints.RightEye;
-            _leftEar.transform.localPosition = body.Joints.LeftEar;
-            _rightEar.transform.localPosition = body.Joints.RightEar;
-            _leftShoulder.transform.localPosition = body.Joints.LeftShoulder;
-            _rightShoulder.transform.localPosition = body.Joints.RightShoulder;
-            _leftElbow.transform.localPosition = body.Joints.LeftElbow;
-            _rightElbow.transform.localPosition = body.Joints.RightElbow;
-            _leftWrist.transform.localPosition = body.Joints.LeftWrist;
-            _rightWrist.transform.localPosition = body.Joints.RightWrist;
-            _leftHip.transform.localPosition = body.Joints.LeftHip;
-            _rightHip.transform.localPosition = body.Joints.RightHip;
-            _leftKnee.transform.localPosition = body.Joints.LeftKnee;
-            _rightKnee.transform.localPosition = body.Joints.RightKnee;
-            _leftAnkle.transform.localPosition = body.Joints.LeftAnkle;
-            _rightAnkle.transform.localPosition = body.Joints.RightAnkle;
-            _leftTiptoe.transform.localPosition = body.Joints.LeftTiptoe;
-            _rightTiptoe.transform.localPosition = body.Joints.RightTiptoe;
-            _leftHeel.transform.localPosition = body.Joints.LeftHeel;
-            _rightHeel.transform.localPosition = body.Joints.RightHeel;
-            _headTop.transform.localPosition = body.Joints.HeadTop;
-            _leftHand.transform.localPosition = body.Joints.LeftHand;
-            _rightHand.transform.localPosition = body.Joints.RightHand;
-            _neck.transform.localPosition = (body.Joints.LeftShoulder+body.Joints.RightShoulder)/2;
-            _root.transform.localPosition = (body.Joints.LeftHip + body.Joints.RightHip) / 2;
-        
-            //it requires 4 lines to connect all the joints
-            _lineRenderer1.SetPosition(0, _leftEar.transform.localPosition);
-            _lineRenderer1.SetPosition(1, _leftEye.transform.localPosition);
-            _lineRenderer1.SetPosition(2, _nose.transform.localPosition);
-            _lineRenderer1.SetPosition(3, _neck.transform.localPosition);
-            _lineRenderer1.SetPosition(4, _root.transform.localPosition);
-            _lineRenderer1.SetPosition(5, _rightHip.transform.localPosition);
-            _lineRenderer1.SetPosition(6, _rightKnee.transform.localPosition);
-            _lineRenderer1.SetPosition(7, _rightHeel.transform.localPosition);
-            _lineRenderer1.SetPosition(8, _rightAnkle.transform.localPosition);
-            _lineRenderer1.SetPosition(9, _rightTiptoe.transform.localPosition);
+            foreach (var it in _bodyMap)
+            {
+                var result =Source.Data.FirstOrDefault(item => item.BodyId == it.Key);
+                if (EqualityComparer<Source.SourceData>.Default.Equals(result, default(Source.SourceData)))
+                {
+                    _bodyMap.Remove(it.Key);
+                }
+            }
+            
+            foreach (var body in Source.Data)
+            {
+                if (!_bodyMap.TryGetValue(body.BodyId, out var data))
+                {
+                    var bodyInfo = new Body();
+                    bodyInfo.Obj = Instantiate(bodyPrefab, transform);
+                    _bodyMap[body.BodyId] = bodyInfo;
+                    InitObject(_bodyMap[body.BodyId]);
+                }
+
+                _bodyMap[body.BodyId].Nose.transform.localPosition = body.Joints.Nose;
+                _bodyMap[body.BodyId].LeftEye.transform.localPosition = body.Joints.LeftEye;
+                _bodyMap[body.BodyId].RightEye.transform.localPosition = body.Joints.RightEye;
+                _bodyMap[body.BodyId].LeftEar.transform.localPosition = body.Joints.LeftEar;
+                _bodyMap[body.BodyId].RightEar.transform.localPosition = body.Joints.RightEar;
+                _bodyMap[body.BodyId].LeftShoulder.transform.localPosition = body.Joints.LeftShoulder;
+                _bodyMap[body.BodyId].RightShoulder.transform.localPosition = body.Joints.RightShoulder;
+                _bodyMap[body.BodyId].LeftElbow.transform.localPosition = body.Joints.LeftElbow;
+                _bodyMap[body.BodyId].RightElbow.transform.localPosition = body.Joints.RightElbow;
+                _bodyMap[body.BodyId].LeftWrist.transform.localPosition = body.Joints.LeftWrist;
+                _bodyMap[body.BodyId].RightWrist.transform.localPosition = body.Joints.RightWrist;
+                _bodyMap[body.BodyId].LeftHip.transform.localPosition = body.Joints.LeftHip;
+                _bodyMap[body.BodyId].RightHip.transform.localPosition = body.Joints.RightHip;
+                _bodyMap[body.BodyId].LeftKnee.transform.localPosition = body.Joints.LeftKnee;
+                _bodyMap[body.BodyId].RightKnee.transform.localPosition = body.Joints.RightKnee;
+                _bodyMap[body.BodyId].LeftAnkle.transform.localPosition = body.Joints.LeftAnkle;
+                _bodyMap[body.BodyId].RightAnkle.transform.localPosition = body.Joints.RightAnkle;
+                _bodyMap[body.BodyId].LeftTiptoe.transform.localPosition = body.Joints.LeftTiptoe;
+                _bodyMap[body.BodyId].RightTiptoe.transform.localPosition = body.Joints.RightTiptoe;
+                _bodyMap[body.BodyId].LeftHeel.transform.localPosition = body.Joints.LeftHeel;
+                _bodyMap[body.BodyId].RightHeel.transform.localPosition = body.Joints.RightHeel;
+                _bodyMap[body.BodyId].HeadTop.transform.localPosition = body.Joints.HeadTop;
+                _bodyMap[body.BodyId].LeftHand.transform.localPosition = body.Joints.LeftHand;
+                _bodyMap[body.BodyId].RightHand.transform.localPosition = body.Joints.RightHand;
+                _bodyMap[body.BodyId].Neck.transform.localPosition =
+                    (body.Joints.LeftShoulder + body.Joints.RightShoulder) / 2;
+                _bodyMap[body.BodyId].Root.transform.localPosition = (body.Joints.LeftHip + body.Joints.RightHip) / 2;
+
+                //it requires 4 lines to connect all the joints
+                _bodyMap[body.BodyId].LineRenderer1
+                    .SetPosition(0, _bodyMap[body.BodyId].LeftEar.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer1
+                    .SetPosition(1, _bodyMap[body.BodyId].LeftEye.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer1.SetPosition(2, _bodyMap[body.BodyId].Nose.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer1.SetPosition(3, _bodyMap[body.BodyId].Neck.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer1.SetPosition(4, _bodyMap[body.BodyId].Root.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer1
+                    .SetPosition(5, _bodyMap[body.BodyId].RightHip.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer1
+                    .SetPosition(6, _bodyMap[body.BodyId].RightKnee.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer1
+                    .SetPosition(7, _bodyMap[body.BodyId].RightHeel.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer1
+                    .SetPosition(8, _bodyMap[body.BodyId].RightAnkle.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer1
+                    .SetPosition(9, _bodyMap[body.BodyId].RightTiptoe.transform.localPosition);
 
 
-            _lineRenderer2.SetPosition(0, _rightEar.transform.localPosition);
-            _lineRenderer2.SetPosition(1, _rightEye.transform.localPosition);
-            _lineRenderer2.SetPosition(2, _nose.transform.localPosition);
-            _lineRenderer2.SetPosition(3, _neck.transform.localPosition);
-            _lineRenderer2.SetPosition(4, _root.transform.localPosition);
-            _lineRenderer2.SetPosition(5, _leftHip.transform.localPosition);
-            _lineRenderer2.SetPosition(6, _leftKnee.transform.localPosition);
-            _lineRenderer2.SetPosition(7, _leftHeel.transform.localPosition);
-            _lineRenderer2.SetPosition(8, _leftAnkle.transform.localPosition);
-            _lineRenderer2.SetPosition(9, _leftTiptoe.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer2
+                    .SetPosition(0, _bodyMap[body.BodyId].RightEar.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer2
+                    .SetPosition(1, _bodyMap[body.BodyId].RightEye.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer2.SetPosition(2, _bodyMap[body.BodyId].Nose.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer2.SetPosition(3, _bodyMap[body.BodyId].Neck.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer2.SetPosition(4, _bodyMap[body.BodyId].Root.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer2
+                    .SetPosition(5, _bodyMap[body.BodyId].LeftHip.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer2
+                    .SetPosition(6, _bodyMap[body.BodyId].LeftKnee.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer2
+                    .SetPosition(7, _bodyMap[body.BodyId].LeftHeel.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer2
+                    .SetPosition(8, _bodyMap[body.BodyId].LeftAnkle.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer2
+                    .SetPosition(9, _bodyMap[body.BodyId].LeftTiptoe.transform.localPosition);
 
-            _lineRenderer3.SetPosition(0, _leftHand.transform.localPosition);
-            _lineRenderer3.SetPosition(1, _leftWrist.transform.localPosition);
-            _lineRenderer3.SetPosition(2, _leftElbow.transform.localPosition);
-            _lineRenderer3.SetPosition(3, _leftShoulder.transform.localPosition);
-            _lineRenderer3.SetPosition(4, _neck.transform.localPosition);
-            _lineRenderer3.SetPosition(5, _rightShoulder.transform.localPosition);
-            _lineRenderer3.SetPosition(6, _rightElbow.transform.localPosition);
-            _lineRenderer3.SetPosition(7, _rightWrist.transform.localPosition);
-            _lineRenderer3.SetPosition(8, _rightHand.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer3
+                    .SetPosition(0, _bodyMap[body.BodyId].LeftHand.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer3
+                    .SetPosition(1, _bodyMap[body.BodyId].LeftWrist.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer3
+                    .SetPosition(2, _bodyMap[body.BodyId].LeftElbow.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer3
+                    .SetPosition(3, _bodyMap[body.BodyId].LeftShoulder.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer3.SetPosition(4, _bodyMap[body.BodyId].Neck.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer3
+                    .SetPosition(5, _bodyMap[body.BodyId].RightShoulder.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer3
+                    .SetPosition(6, _bodyMap[body.BodyId].RightElbow.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer3
+                    .SetPosition(7, _bodyMap[body.BodyId].RightWrist.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer3
+                    .SetPosition(8, _bodyMap[body.BodyId].RightHand.transform.localPosition);
 
-            _lineRenderer4.SetPosition(0,_headTop.transform.localPosition);
-            _lineRenderer4.SetPosition(1, _nose.transform.localPosition);
-            _lineRenderer4.SetPosition(2, _neck.transform.localPosition);
-            _lineRenderer4.SetPosition(3, _root.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer4
+                    .SetPosition(0, _bodyMap[body.BodyId].HeadTop.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer4.SetPosition(1, _bodyMap[body.BodyId].Nose.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer4.SetPosition(2, _bodyMap[body.BodyId].Neck.transform.localPosition);
+                _bodyMap[body.BodyId].LineRenderer4.SetPosition(3, _bodyMap[body.BodyId].Root.transform.localPosition);
+            }
         }
-   
+
+        void InitObject(Body body)
+        {
+            var parentObject = body.Obj.transform;
+            body.LineRenderer1.positionCount = 10;
+            body.LineRenderer2.positionCount = 10;
+            body.LineRenderer3.positionCount = 9;
+            body.LineRenderer4.positionCount = 4;
+            body.Nose = parentObject.Find("Nose");
+            body.LeftEye = parentObject.Find("LeftEye");
+            body.RightEye = parentObject.Find("RightEye");
+            body.LeftEar = parentObject.Find("LeftEar");
+            body.RightEar = parentObject.Find("RightEar");
+            body.LeftShoulder = parentObject.Find("LeftShoulder");
+            body.RightShoulder = parentObject.Find("RightShoulder");
+            body.LeftElbow = parentObject.Find("LeftElbow");
+            body.RightElbow = parentObject.Find("RightElbow");
+            body.LeftWrist = parentObject.Find("LeftWrist");
+            body.RightWrist = parentObject.Find("RightWrist");
+            body.LeftHip = parentObject.Find("LeftHip");
+            body.RightHip = parentObject.Find("RightHip");
+            body.LeftKnee = parentObject.Find("LeftKnee");
+            body.RightKnee = parentObject.Find("RightKnee");
+            body.LeftAnkle = parentObject.Find("LeftAnkle");
+            body.RightAnkle = parentObject.Find("RightAnkle");
+            body.LeftTiptoe = parentObject.Find("LeftTiptoe");
+            body.RightTiptoe = parentObject.Find("RightTiptoe");
+            body.LeftHeel = parentObject.Find("LeftHeel");
+            body.RightHeel = parentObject.Find("RightHeel");
+            body.HeadTop = parentObject.Find("HeadTop");
+            body.LeftHand = parentObject.Find("LeftHand");
+            body.RightHand = parentObject.Find("RightHand");
+
+            body.Neck = parentObject.Find("Neck");
+            body.Root = parentObject.Find("Root");
+
+            body.LineRenderer1 = body.Nose.GetComponent<LineRenderer>();
+            body.LineRenderer2 = body.LeftHip.GetComponent<LineRenderer>();
+            body.LineRenderer3 = body.LeftShoulder.GetComponent<LineRenderer>();
+            body.LineRenderer4 = body.LeftElbow.GetComponent<LineRenderer>();
+        }
     }
 }
-

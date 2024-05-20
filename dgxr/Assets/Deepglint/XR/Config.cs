@@ -7,6 +7,9 @@ namespace Deepglint.XR
 {
     public class Config
     {
+        private const string ConfigName = "env.json";
+        private const string FilePath = @"D:\meta\env\env.json";
+        
         public class ConfigData
         {
             [System.Serializable]
@@ -64,6 +67,8 @@ namespace Deepglint.XR
         [System.Serializable]
         public struct ScreenInfo
         {
+            [JsonProperty("name")]
+            public string Name { get; set; }
             [JsonProperty("display")]
             public int Display { get; set; }
             [JsonProperty("render")]
@@ -98,11 +103,20 @@ namespace Deepglint.XR
 
         private static string ReadData()
         {
-            string filePath = "D:\\meta\\env\\config.json";
-            var path = Path.GetDirectoryName(filePath);
-            if(Global.SystemName.Contains("Mac"))
+            var path = Path.GetDirectoryName(FilePath);
+            if(Application.isEditor || Global.SystemName.Contains("Mac"))
             {
-                using StreamReader srt =File.OpenText(Path.Combine(Application.streamingAssetsPath, "config.json"));
+                string packagePath = Path.GetFullPath(Path.Combine("Packages", Global.PackageName));
+                string envJsonPath = Path.Combine(packagePath, "StreamingAssets", ConfigName);
+                string streamingAssetsPath = Application.streamingAssetsPath;
+                string sourceFilePath = Path.Combine(streamingAssetsPath, ConfigName);
+                if (!File.Exists(sourceFilePath))
+                {
+                    File.Copy(envJsonPath, sourceFilePath);
+                    Debug.Log("copy file success !");
+                }
+                
+                using StreamReader srt =File.OpenText(Path.Combine(Application.streamingAssetsPath, ConfigName));
                 var data = srt.ReadToEnd();
                 srt.Close();
                 return data; 
@@ -113,23 +127,23 @@ namespace Deepglint.XR
             }
             
 
-            if (!File.Exists(filePath))
+            if (!File.Exists(FilePath))
             {
                 // copy 文件到env
                 string streamingAssetsPath = Application.streamingAssetsPath;
-                string sourceFilePath = Path.Combine(streamingAssetsPath, "config.json");
+                string sourceFilePath = Path.Combine(streamingAssetsPath, ConfigName);
                 if (File.Exists(sourceFilePath))
                 {
-                    File.Copy(sourceFilePath, filePath);
+                    File.Copy(sourceFilePath, FilePath);
                 }
                 else
                 {
-                    Debug.LogError("config.json does not exist in StreamingAssets folder.");
+                    Debug.LogError("env.json does not exist in StreamingAssets folder.");
                     Application.Quit();
                 }
             }
             
-            using StreamReader sr =File.OpenText(filePath);
+            using StreamReader sr =File.OpenText(FilePath);
             var readData = sr.ReadToEnd();
             sr.Close();
             return readData;
