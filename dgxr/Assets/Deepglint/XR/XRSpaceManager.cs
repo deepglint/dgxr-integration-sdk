@@ -89,13 +89,12 @@ namespace Deepglint.XR
                     _screenEdges[screen, corner] = _screens[screen].transform.GetChild(corner).gameObject;
                 }
             }
-        }
 #if !UNITY_EDITOR
-        private void RegisterFrameRender()
-        {
             RenderPipelineManager.endFrameRendering += HandleSplitScreen;
+#endif
         }
 
+#if !UNITY_EDITOR
         private void OnApplicationQuit()
         {
             RenderPipelineManager.endFrameRendering -= HandleSplitScreen;
