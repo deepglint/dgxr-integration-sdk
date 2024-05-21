@@ -25,9 +25,9 @@ namespace Deepglint.XR.Interaction
         
         public void Process(ref InputInteractionContext context)
         {
-            if (context.control.device is DGXRController dgXRDevice)
+            if (context.control.device is DGXRHumanController dgXRDevice)
             {
-                if (IsRaiseRightHandHappening(dgXRDevice, RequiredArmAngle))
+                if (IsRaiseLeftHandHappening(dgXRDevice, RequiredArmAngle))
                 {
                     if (_hitDictionary.ContainsKey(dgXRDevice.deviceId))
                     {
@@ -62,23 +62,23 @@ namespace Deepglint.XR.Interaction
             }
         }
 
-        internal static bool IsRaiseRightHandHappening(DGXRController dgXRDevice, float armAngle)
+        internal static bool IsRaiseLeftHandHappening(DGXRHumanController dgXRDevice, float armAngle)
         {
             if (dgXRDevice.HumanBody is null)
             {
                 return false;
             }
             
-            if (dgXRDevice.HumanBody.RightWrist.position.y.ReadValue() <=
+            if (dgXRDevice.HumanBody.LeftWrist.position.y.ReadValue() <=
                 dgXRDevice.HumanBody.HeadTop.position.y.ReadValue())
             {
                 return false;
             }
             
-            float rightArmAngle = Vector3.Angle(
-                dgXRDevice.HumanBody.RightWrist.position.ReadValue() - dgXRDevice.HumanBody.RightElbow.position.ReadValue(),
-                dgXRDevice.HumanBody.RightShoulder.position.ReadValue() - dgXRDevice.HumanBody.RightElbow.position.ReadValue());
-            if (rightArmAngle < armAngle)
+            float leftArmAngle = Vector3.Angle(
+                dgXRDevice.HumanBody.LeftWrist.position.ReadValue() - dgXRDevice.HumanBody.LeftElbow.position.ReadValue(),
+                dgXRDevice.HumanBody.LeftShoulder.position.ReadValue() - dgXRDevice.HumanBody.LeftElbow.position.ReadValue());
+            if (leftArmAngle < armAngle)
             {
                 return false;
             }

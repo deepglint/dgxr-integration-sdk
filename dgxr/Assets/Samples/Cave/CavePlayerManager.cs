@@ -24,7 +24,7 @@ namespace Samples.Cave
                 {
                     foreach (var device in _videoWatcher.Player.PairedDevices)
                     {
-                        if (device is DGXRController dgXRDevice)
+                        if (device is DGXRHumanController dgXRDevice)
                         {
                             Vector3 position = dgXRDevice.HumanBody.HeadTop.position.ReadValue();
                             Global.CavePosition = position;

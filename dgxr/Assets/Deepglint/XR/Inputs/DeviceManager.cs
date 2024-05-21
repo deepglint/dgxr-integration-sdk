@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using Deepglint.XR.Inputs.Devices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
@@ -7,7 +9,7 @@ using UnityEngine.InputSystem.Utilities;
 
 namespace Deepglint.XR.Inputs
 {
-    public delegate void TooManyActiveDevicesDelegate();
+    public delegate void TooManyActiveHumanDevicesDelegate();
     
     /// <summary>
     /// Manage all the Deepglint XR devices
@@ -22,9 +24,9 @@ namespace Deepglint.XR.Inputs
         /// <summary>
         /// max count of all the active Deepglint XR devices
         /// </summary>
-        public static int MaxActiveDeviceCount { get; set; }
+        public static int MaxActiveHumanDeviceCount { get; set; }
 
-        public static TooManyActiveDevicesDelegate OnTooManyActiveDevices;
+        public static TooManyActiveHumanDevicesDelegate OnTooManyActiveHumanDevices;
 
         /// <summary>
         /// all the active Deepglint XR devices
@@ -35,11 +37,35 @@ namespace Deepglint.XR.Inputs
         /// all the Deepglint XR devices 
         /// </summary>
         private static ConcurrentDictionary<string, InputDevice> _devices =  new ConcurrentDictionary<string, InputDevice>();
+
+        /// <summary>
+        /// callback when device is added
+        /// </summary>
+        public static Action<int> OnDeviceAdd;
         
         /// <summary>
-        /// all the active Deepglint XR devices
+        /// callback when device is lost
         /// </summary>
-        public static ReadOnlyArray<InputDevice> AllActiveDevices => new ReadOnlyArray<InputDevice>(m_ActiveDevices.Values.ToArray(), 0, m_ActiveDeviceCount);
+        public static Action<int> OnDeviceLost;
+        
+        /// <summary>
+        /// callback when device is regain
+        /// </summary>
+        public static Action<int> OnDeviceRegain;
+        
+        /// <summary>
+        /// all the active Deepglint XR Human devices
+        /// </summary>
+        public static ReadOnlyArray<DGXRHumanController> AllActiveXRHumanDevices
+        {
+            get
+            {
+                var filteredDevices = m_ActiveDevices.Values
+                    .OfType<DGXRHumanController>() 
+                    .ToArray(); 
+                return new ReadOnlyArray<DGXRHumanController>(filteredDevices);
+            }
+        } 
 
         /// <summary>
         /// Get an active device by the serial
@@ -69,6 +95,7 @@ namespace Deepglint.XR.Inputs
                 {
                     device = _devices[serial];
                     InputSystem.AddDevice(device); 
+                    OnDeviceRegain?.Invoke(device.deviceId);
                 }
                 else
                 {
@@ -80,13 +107,14 @@ namespace Deepglint.XR.Inputs
                         manufacturer = "deepglint",
                     });
                     _devices[serial] = device; 
+                    OnDeviceAdd?.Invoke(device.deviceId);
                 }
                 m_ActiveDevices[serial] = device;
                 m_ActiveDeviceCount++;
                 Debug.LogFormat("Device {0} which serial is {1} which type is {2} was created", device.deviceId, serial, product);
-                if (m_ActiveDeviceCount >= MaxActiveDeviceCount)
+                if (m_ActiveDeviceCount >= MaxActiveHumanDeviceCount)
                 {
-                    OnTooManyActiveDevices?.Invoke();
+                    OnTooManyActiveHumanDevices?.Invoke();
                 }
             }
 
@@ -105,6 +133,7 @@ namespace Deepglint.XR.Inputs
                 InputSystem.RemoveDevice(device);
                 m_ActiveDeviceCount--;
                 m_ActiveDevices.TryRemove(serial, out device);
+                OnDeviceLost?.Invoke(device.deviceId);
                 Debug.LogFormat("Device {0} which serial is {1} was removed", device.deviceId, serial);
             }
         }

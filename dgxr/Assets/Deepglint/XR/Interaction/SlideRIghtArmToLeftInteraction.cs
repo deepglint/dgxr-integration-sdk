@@ -22,7 +22,7 @@ namespace Deepglint.XR.Interaction
         
         public void Process(ref InputInteractionContext context)
         {
-            if (context.control.device is DGXRController dgXRDevice)
+            if (context.control.device is DGXRHumanController dgXRDevice)
             {
                 if (IsSlideRightArmToLeftHappening(dgXRDevice))
                 {
@@ -66,7 +66,7 @@ namespace Deepglint.XR.Interaction
         /// </summary>
         /// <param name="dgXRDevice"></param>
         /// <returns></returns>
-        private bool IsSlideRightArmToLeftHappening(DGXRController dgXRDevice)
+        private bool IsSlideRightArmToLeftHappening(DGXRHumanController dgXRDevice)
         {
             if (dgXRDevice.HumanBody is null)
             {

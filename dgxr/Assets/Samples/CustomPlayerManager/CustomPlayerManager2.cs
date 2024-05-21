@@ -41,7 +41,7 @@ namespace Samples.CustomPlayerManager
             {
                 if (IsBindable())
                 {
-                    if (device is DGXRController dgXRDevice)
+                    if (device is DGXRHumanController dgXRDevice)
                     {
                         Vector3 position = dgXRDevice.HumanPose.Position.ReadValue();
                         if (Vector2.Distance(Roi.Anchor,new Vector2(position.x, position.z)) < Roi.Radius)

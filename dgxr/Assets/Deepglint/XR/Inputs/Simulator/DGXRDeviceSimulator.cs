@@ -10,7 +10,7 @@ using UnityEngine.InputSystem.LowLevel;
 using UnityEditor;
 #endif
 
-[InputControlLayout(stateType = typeof(DGXRControllerState), isGenericTypeOfDevice = false, displayName = "DGXR Controller Simulator", updateBeforeRender = true)]
+[InputControlLayout(stateType = typeof(DGXRHumanControllerState), isGenericTypeOfDevice = false, displayName = "DGXR Controller Simulator", updateBeforeRender = true)]
 public class DGXRDeviceSimulator : InputDevice, IInputUpdateCallbackReceiver 
 {
     public AxisControl trigger { get; private set; }
@@ -74,7 +74,7 @@ public class DGXRDeviceSimulator : InputDevice, IInputUpdateCallbackReceiver
         if (keyboard == null)
             return;
 
-        var state = new DGXRControllerState();
+        var state = new DGXRHumanControllerState();
 
         state.x = 127;
         state.y = 127;

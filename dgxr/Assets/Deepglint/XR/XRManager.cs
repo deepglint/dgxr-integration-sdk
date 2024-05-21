@@ -5,11 +5,11 @@ using Deepglint.XR.Inputs.Devices;
 using Deepglint.XR.Log;
 using Deepglint.XR.Ros;
 using Deepglint.XR.Source;
+using Deepglint.XR.Space;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.XR;
-using Deepglint.XR.Space;
 
 namespace Deepglint.XR
 {
@@ -149,10 +149,10 @@ namespace Deepglint.XR
 
         private void HandleMetaPoseData(Source.Source.SourceData data)
         {
-            var device = DeviceManager.AddOrActiveDevice(data.BodyId, nameof(DGXRController));
+            var device = DeviceManager.AddOrActiveDevice(data.BodyId, nameof(DGXRHumanController));
             if (device != null)
             {
-                var xrDevice = device as DGXRController;
+                var xrDevice = device as DGXRHumanController;
                 if (xrDevice == null) return;
                 using (StateEvent.From(xrDevice, out var eventPtr))
                 {
@@ -174,7 +174,7 @@ namespace Deepglint.XR
             return Quaternion.LookRotation(forward);
         }
 
-        private void HandleJointsData(Source.Source.JointData data, DGXRController xrDevice, InputEventPtr eventPtr)
+        private void HandleJointsData(Source.Source.JointData data, DGXRHumanController xrDevice, InputEventPtr eventPtr)
         {
             xrDevice.HumanPose.IsTracked.WriteValueIntoEvent(1.0f, eventPtr);
             xrDevice.HumanPose.TrackingState.WriteValueIntoEvent((int)(InputTrackingState.Position | InputTrackingState.Rotation), eventPtr);
@@ -222,7 +222,7 @@ namespace Deepglint.XR
                 ), eventPtr);
         }
 
-        private void HandleActionsData(Dictionary<ActionType, float> actions, DGXRController xrDevice, InputEventPtr eventPtr)
+        private void HandleActionsData(Dictionary<ActionType, float> actions, DGXRHumanController xrDevice, InputEventPtr eventPtr)
         {
             foreach (var action in actions)
             {

@@ -25,7 +25,7 @@ namespace Samples.CustomPlayerManager
                 // check and unpair device manually
                 foreach (var device in _character.Player.PairedDevices)
                 {
-                    if (device is DGXRController dgXRDevice)
+                    if (device is DGXRHumanController dgXRDevice)
                     {
                         Vector3 position = dgXRDevice.HumanPose.Position.ReadValue();
                         if (Vector2.Distance(_character.Roi.Anchor, new Vector2(position.x, position.z)) > _character.Roi.Radius)
@@ -44,13 +44,13 @@ namespace Samples.CustomPlayerManager
                 // check and pair device manually
                 if (_character.Player.PairedDevices.Count == 0)
                 {
-                    var devices = DeviceManager.AllActiveDevices;
+                    var devices = DeviceManager.AllActiveXRHumanDevices;
                     var allPairedDevices = PlayerManager.Instance.AllPairedDevices.ToArray();
                     foreach (var device in devices)
                     {
-                        if (!ArrayHelper.Contains(allPairedDevices, device) &&  device is DGXRController dgXRDevice)
+                        if (!ArrayHelper.Contains(allPairedDevices, device)) 
                         {
-                            Vector3 position = dgXRDevice.HumanPose.Position.ReadValue();
+                            Vector3 position = device.HumanPose.Position.ReadValue();
                             if (Vector2.Distance(_character.Roi.Anchor, new Vector2(position.x, position.z)) < _character.Roi.Radius)
                             {
                                 Debug.LogFormat("device {0} steeped into {1}'s roi", device.deviceId, _character.Name); 
@@ -84,7 +84,7 @@ namespace Samples.CustomPlayerManager
             {
                 if (IsBindable())
                 {
-                    if (device is DGXRController dgXRDevice)
+                    if (device is DGXRHumanController dgXRDevice)
                     {
                         Vector3 position = dgXRDevice.HumanPose.Position.ReadValue();
                         if (Vector2.Distance(Roi.Anchor,new Vector2(position.x, position.z)) <= Roi.Radius)
