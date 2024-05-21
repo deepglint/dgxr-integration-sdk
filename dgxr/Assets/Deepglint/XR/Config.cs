@@ -59,6 +59,14 @@ namespace Deepglint.XR
                 public string XDirection { get; set; }
                 [JsonProperty("zDirection")]
                 public string ZDirection{ get; set; }
+                [JsonProperty("length")]
+                public float Length { get; set; }
+                [JsonProperty("width")]
+                public float Width { get; set; }
+                [JsonProperty("height")]
+                public float Height { get; set; }
+                [JsonProperty("roi")]
+                public float[] Roi { get; set; }
                 [JsonProperty("screens")]
                 public List<ScreenConfig> Screens { get; set; }
             }

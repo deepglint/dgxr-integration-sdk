@@ -1,17 +1,12 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using Deepglint.Tool.UIFrame;
 using Deepglint.Tool.Utils;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Debug = UnityEngine.Debug;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.Serialization;
 
 namespace Deepglint.XR
 {
@@ -142,13 +137,15 @@ namespace Deepglint.XR
 #endif
         public void SetHead()
         {
+            Transform space = GameObject.Find("Space").transform;
+            Space.Instance.Origin = Vector3.zero + space.transform.position;
             gameObject.transform.localScale = new Vector3(spaceScale, spaceScale, spaceScale);
             // 处理坐标的比例关系
             //Set the position
             SetHeadPosition();
             foreach (var screen in Global.Config.Space.Screens)
             {
-                var tarDisplay = Global.Space[(TargetScreen)(screen.TargetScreen - 1)];
+                var tarDisplay = Global.Space[screen.TargetScreen];
 
                 if (tarDisplay != null && tarDisplay.SpaceCamera != null)
                 {
@@ -178,7 +175,7 @@ namespace Deepglint.XR
 
             foreach (var userCamera in Global.Config.Space.Screens)
             {
-                var cam = Global.Space[(TargetScreen)(userCamera.TargetScreen - 1)];
+                var cam = Global.Space[userCamera.TargetScreen];
                 cam.SpaceCamera.transform.position = _headLockPosition;
             }
         }
@@ -230,9 +227,15 @@ namespace Deepglint.XR
         private void InstantiateXR()
         {
             Transform space = GameObject.Find("Space").transform;
+            Space.Instance.Origin = Vector3.zero + space.transform.position;
             GameObject uiCameraGroup = GameObject.Find("2DCameraGroup");
 
             var uiRoot = GameObject.Find("UIRoot");
+            Space.Instance.Length = Global.Config.Space.Length;
+            Space.Instance.Width = Global.Config.Space.Width;
+            Space.Instance.Height = Global.Config.Space.Height;
+            // Space.Instance.Roi = new Rect(Global.Config.Space.Roi[0], Global.Config.Space.Roi[1],
+            //     Global.Config.Space.Roi[2], Global.Config.Space.Roi[3]);
 
             foreach (var screen in Global.Config.Space.Screens)
             {
@@ -265,12 +268,17 @@ namespace Deepglint.XR
                 var uiCamera = Extends.FindChildGameObject(uiCameraGroup, screen.TargetScreen.ToString())
                     .GetComponent<Camera>();
                 uiCamera.gameObject.SetActive(true);
-                spaceCamera.GetUniversalAdditionalCameraData().cameraStack.Add(uiCamera);
+                if (uiCamera != null)
+                {
+                    UniversalAdditionalCameraData cameraData = uiCamera.GetUniversalAdditionalCameraData();
+                    cameraData.renderType = CameraRenderType.Overlay;
+                    spaceCamera.GetUniversalAdditionalCameraData().cameraStack.Add(uiCamera);
+                }
+
 #if !UNITY_EDITOR
                 if (screen.Render.Length > 0)
                 {
-                    // Camera buttonCam = Global.ViewData.Displays.Bottom.SpaceCamera;
-                    var _renderTexture = new RenderTexture(1920, 1920, 24);
+                    var _renderTexture = new RenderTexture(_screenWidth	, _screenWidth, 24);
                     spaceCamera.targetTexture = _renderTexture;
                     spaceCamera.Render();
                     RenderTexture.active = _renderTexture;
@@ -284,7 +292,7 @@ namespace Deepglint.XR
                         foreach (var can in displayCanvas)
                         {
                             can.renderMode = RenderMode.ScreenSpaceOverlay;
-                            can.targetDisplay = render.Display - 1;
+                            can.targetDisplay = render.Display;
                         }
                         RawImage[] drawImage = displayImage.GetComponentsInChildren<RawImage>();
                         _displayImages ??= new Dictionary<int, RawImage>();
@@ -297,7 +305,7 @@ namespace Deepglint.XR
 #endif
                 dis.SpaceCamera = spaceCamera;
                 dis.UICamera = uiCamera;
-                Space.AddScreen(screen.TargetScreen,dis);
+                Space.AddScreen(screen.TargetScreen, dis);
             }
         }
     }

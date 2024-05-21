@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.TerrainTools;
 using UnityEngine;
 
 namespace Deepglint.XR
@@ -97,7 +96,6 @@ namespace Deepglint.XR
         }
 
 
-        //TODO: 地面原点在啥地方
         // TODO: 用vector3
         public static Vector2 SpaceToPixelOnScreen(Vector2 spacePosition, ScreenInfo screen)
         {
@@ -140,28 +138,19 @@ namespace Deepglint.XR
 
         public static bool RayTo(Ray ray, ScreenInfo screen, out Vector2 intersection)
         {
-            // var plane = screen switch
-            // {
-            //     TargetDisplay.Front => Front,
-            //     TargetDisplay.Back => Back,
-            //     TargetDisplay.Left => Left,
-            //     TargetDisplay.Right => Right,
-            //     TargetDisplay.Bottom => Bottom,
-            //     _ => throw new ArgumentOutOfRangeException(nameof(screen), screen, null)
-            // };
-
-            if (screen.ScreenObject.Raycast(ray, out float distance))
+            intersection = Vector2.zero;
+            MeshCollider meshCollider = screen.ScreenObject.GetComponent<MeshCollider>();
+            if (meshCollider == null)
             {
-                var point = ray.GetPoint(distance);
-                intersection = screen.ProjectionVector3(point);
+                meshCollider = screen.ScreenObject.AddComponent<MeshCollider>();
+            }
+            if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider == meshCollider)
+            {
+                intersection = hit.point;
                 return true;
             }
-
-            intersection = Vector2.zero;
             return false;
         }
-
-
 
         public new string ToString()
         {
