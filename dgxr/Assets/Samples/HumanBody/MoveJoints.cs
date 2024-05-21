@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Deepglint.XR;
+using Deepglint.XR.Source;
 using UnityEngine;
 
 namespace Samples.HumanBody

@@ -1,8 +1,9 @@
-﻿using Deepglint.Tool.Utils;
-using Deepglint.XR;
+﻿using Deepglint.Tool.UIFrame;
+using Deepglint.Tool.Utils;
+using Deepglint.XR.Space;
 using UnityEngine;
 
-namespace Deepglint.Tool.UIFrame
+namespace Deepglint.XR.Tool.UIFrame
 {
     public abstract class UIComponent : BaseComponent
     {

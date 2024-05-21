@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Deepglint.XR
+namespace Deepglint.XR.Space
 {
-    public class Space
+    public class XRSpace
     {
-        private static Space _instance;
+        private static XRSpace _instance;
         private readonly Dictionary<TargetScreen,ScreenInfo> _screenDic;
 
         public GameObject gameObject { get; internal set; }
@@ -20,16 +20,16 @@ namespace Deepglint.XR
 
         public Rect Roi { get; internal set; }
 
-        private Space()
+        private XRSpace()
         {
             _screenDic = new Dictionary<TargetScreen, ScreenInfo>();
         }
 
-        internal static Space Instance
+        internal static XRSpace Instance
         {
             get
             {
-                return _instance ??= new Space();
+                return _instance ??= new XRSpace();
             }
         }
 

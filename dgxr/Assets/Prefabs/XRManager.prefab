@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7010167309383420016}
-  - component: {fileID: 7205381674605343584}
   - component: {fileID: 4099795695692259410}
+  - component: {fileID: 7714738920680356628}
   m_Layer: 0
   m_Name: XRManager
   m_TagString: Untagged
@@ -37,19 +37,6 @@ Transform:
   - {fileID: 7832718003715713285}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7205381674605343584
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244439037946830548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ea6475435a940239dca203a6d32eb75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isFilterZero: 1
 --- !u!114 &4099795695692259410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,6 +59,19 @@ MonoBehaviour:
   lockAll: 0
   lockXZ: 0
   spaceScale: 1
+--- !u!114 &7714738920680356628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244439037946830548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea6475435a940239dca203a6d32eb75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFilterZero: 0
 --- !u!1 &486550265539237202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1122,7 +1122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 687937230464493743}
   m_Layer: 0
-  m_Name: Space
+  m_Name: XRSpace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2044,7 +2044,7 @@ PrefabInstance:
     - target: {fileID: 2004426611228676228, guid: ace4ea8648eeab04cbf95accb296d658,
         type: 3}
       propertyPath: m_Size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2004426611228676228, guid: ace4ea8648eeab04cbf95accb296d658,
         type: 3}

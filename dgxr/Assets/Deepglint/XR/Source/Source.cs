@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Deepglint.XR
+namespace Deepglint.XR.Source
 {
     public enum Joint
     {

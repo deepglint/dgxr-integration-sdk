@@ -3,12 +3,13 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Deepglint.XR
+namespace Deepglint.XR.Space
 {
+#if UNITY_EDITOR
     [InitializeOnLoad]
-    public static class ResourceUpdate
+    public static class ScreenUpdate
     {
-        static ResourceUpdate()
+        static ScreenUpdate()
         {
             Global.SystemName =  SystemInfo.operatingSystem;
             CheckResourceUpdates();
@@ -17,7 +18,7 @@ namespace Deepglint.XR
         {
             var config = new Config().InitConfig();
             var cameraGroup = GameObject.Find("2DCameraGroup");
-            var space = GameObject.Find("Space");
+            var space = GameObject.Find("XRSpace");
             if (cameraGroup ==null || space == null)
             {
                 return;
@@ -39,4 +40,5 @@ namespace Deepglint.XR
             }
         }
     }
+#endif
 }

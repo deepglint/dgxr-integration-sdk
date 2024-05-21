@@ -4,15 +4,17 @@ using Deepglint.XR.Inputs;
 using Deepglint.XR.Inputs.Devices;
 using Deepglint.XR.Log;
 using Deepglint.XR.Ros;
+using Deepglint.XR.Source;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.XR;
+using Deepglint.XR.Space;
 
 namespace Deepglint.XR
 {
     [DefaultExecutionOrder(-100)]
-    public class DGXRManager : MonoBehaviour
+    public class XRManager : MonoBehaviour
     {
         public bool isFilterZero;
         private DGXRNode _node;
@@ -57,7 +59,7 @@ namespace Deepglint.XR
                 _node = new DGXRNode();
             }
 
-            Global.Space = Space.Instance;
+            Global.Space = XRSpace.Instance;
             Global.IsFilterZero = isFilterZero;
         }
 
@@ -130,7 +132,7 @@ namespace Deepglint.XR
             }
         }
 
-        private void OnMetaPoseDataReceived(Source.SourceData data)
+        private void OnMetaPoseDataReceived(Source.Source.SourceData data)
         {
             if (UseRos())
             {
@@ -145,7 +147,7 @@ namespace Deepglint.XR
             }
         }
 
-        private void HandleMetaPoseData(Source.SourceData data)
+        private void HandleMetaPoseData(Source.Source.SourceData data)
         {
             var device = DeviceManager.AddOrActiveDevice(data.BodyId, nameof(DGXRController));
             if (device != null)
@@ -161,7 +163,7 @@ namespace Deepglint.XR
             }
         }
 
-        private Quaternion GetQuaternion(Source.JointData data)
+        private Quaternion GetQuaternion(Source.Source.JointData data)
         {
             Vector3 hip = new Vector3(
                 (data.LeftHip.x + data.RightHip.x) * 0.5f,
@@ -172,7 +174,7 @@ namespace Deepglint.XR
             return Quaternion.LookRotation(forward);
         }
 
-        private void HandleJointsData(Source.JointData data, DGXRController xrDevice, InputEventPtr eventPtr)
+        private void HandleJointsData(Source.Source.JointData data, DGXRController xrDevice, InputEventPtr eventPtr)
         {
             xrDevice.HumanPose.IsTracked.WriteValueIntoEvent(1.0f, eventPtr);
             xrDevice.HumanPose.TrackingState.WriteValueIntoEvent((int)(InputTrackingState.Position | InputTrackingState.Rotation), eventPtr);

@@ -10,7 +10,7 @@ using Deepglint.XR.Ros;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Deepglint.XR
+namespace Deepglint.XR.Source
 {
     public class WsPoseAdapter : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Deepglint.XR
+namespace Deepglint.XR.Space
 {
     public enum TargetScreen
     {
