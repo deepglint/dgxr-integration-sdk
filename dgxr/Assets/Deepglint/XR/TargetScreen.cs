@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.TerrainTools;
 using UnityEngine;
 
 namespace Deepglint.XR
@@ -51,10 +52,16 @@ namespace Deepglint.XR
             return BottomRelativeToScreen(point, this);
         }
 
+        public bool RayTo(Ray ray, out Vector2 intersection)
+        {
+            return RayTo(ray, this, out intersection);
+        }
+
         public static Vector2 ProjectionVector3(Vector3 point, ScreenInfo screen)
         {
             return ProjectionVector3(point, screen.TargetScreen);
         }
+
 
 
         public static Vector2 ProjectionVector3(Vector3 point, TargetScreen screen)
@@ -128,6 +135,30 @@ namespace Deepglint.XR
                 TargetScreen.Bottom => position,
                 _ => throw new ArgumentOutOfRangeException()
             };
+        }
+
+
+        public static bool RayTo(Ray ray, ScreenInfo screen, out Vector2 intersection)
+        {
+            // var plane = screen switch
+            // {
+            //     TargetDisplay.Front => Front,
+            //     TargetDisplay.Back => Back,
+            //     TargetDisplay.Left => Left,
+            //     TargetDisplay.Right => Right,
+            //     TargetDisplay.Bottom => Bottom,
+            //     _ => throw new ArgumentOutOfRangeException(nameof(screen), screen, null)
+            // };
+
+            if (screen.ScreenObject.Raycast(ray, out float distance))
+            {
+                var point = ray.GetPoint(distance);
+                intersection = screen.ProjectionVector3(point);
+                return true;
+            }
+
+            intersection = Vector2.zero;
+            return false;
         }
 
 

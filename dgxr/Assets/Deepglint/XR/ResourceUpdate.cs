@@ -26,20 +26,16 @@ namespace Deepglint.XR
             for (int i = 0; i < cameraGroup.transform.childCount; i++)
             {
                 Transform camera = cameraGroup.transform.GetChild(i);
-                Transform spaceScreen = space.transform.GetChild(i);
-                var result =config.Space.Screens.FirstOrDefault(item => item.Name == camera.name);
+                var result =config.Space.Screens.FirstOrDefault(item => item.TargetScreen.ToString() == camera.name);
                 camera.gameObject.SetActive(
-                    !EqualityComparer<Config.ScreenInfo>.Default.Equals(result, default(Config.ScreenInfo)));
-                var resultScreen =config.Space.Screens.FirstOrDefault(item => item.Name == spaceScreen.name);
-                spaceScreen.gameObject.SetActive(
-                    !EqualityComparer<Config.ScreenInfo>.Default.Equals(result, default(Config.ScreenInfo)));
+                    !EqualityComparer<Config.ScreenConfig>.Default.Equals(result, default));
             }
             for (int i = 0; i < space.transform.childCount; i++)
             {
                 Transform spaceScreen = space.transform.GetChild(i);
-                var resultScreen =config.Space.Screens.FirstOrDefault(item => item.Name == spaceScreen.name);
+                var resultScreen =config.Space.Screens.FirstOrDefault(item => item.TargetScreen.ToString() == spaceScreen.name);
                 spaceScreen.gameObject.SetActive(
-                    !EqualityComparer<Config.ScreenInfo>.Default.Equals(resultScreen, default(Config.ScreenInfo)));
+                    !EqualityComparer<Config.ScreenConfig>.Default.Equals(resultScreen, default));
             }
         }
     }

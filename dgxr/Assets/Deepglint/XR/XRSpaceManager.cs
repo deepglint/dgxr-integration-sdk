@@ -96,7 +96,7 @@ namespace Deepglint.XR
             {
                 for (int corner = 0; corner < 4; corner++)
                 {
-                    var sc = Global.Screens[(TargetScreen)(screen.TargetScreen - 1)];
+                    var sc = Global.Screens[screen.TargetScreen];
                     _screenEdges[(int)screen.TargetScreen, corner] =
                         sc.ScreenObject.transform.GetChild(corner).gameObject;
                 }
@@ -239,15 +239,15 @@ namespace Deepglint.XR
                 var position = new Vector3(screen.Position.x, screen.Position.y, screen.Position.z);
                 var rotation = Quaternion.Euler(screen.Rotation.x, screen.Rotation.y, screen.Rotation.z);
                 var scale = new Vector3(screen.Size.x, screen.Size.y, screen.Size.z);
-                var dis = new ScreenInfo(config);
-
-                dis.Resolution = new Resolution
+                var dis = new ScreenInfo(screen)
                 {
-                    width = _screenWidth,
-                    height = screen.TargetScreen == TargetScreen.Bottom ? _screenWidth : _screenHeight
+                    Resolution = new Resolution
+                    {
+                        width = _screenWidth,
+                        height = screen.TargetScreen == TargetScreen.Bottom ? _screenWidth : _screenHeight
+                    },
+                    ScreenCanvas = uiRoot.transform.Find(screen.TargetScreen.ToString()).gameObject
                 };
-
-                dis.ScreenCanvas = uiRoot.transform.Find(screen.TargetScreen.ToString()).gameObject;
 
                 Transform quad = space.Find(screen.TargetScreen.ToString());
                 Destroy(quad.gameObject);
