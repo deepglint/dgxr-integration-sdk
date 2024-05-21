@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "RaiseBothHand",
+                    "type": "Value",
+                    "id": "2f4949bb-0c4b-4c8e-8d91-b6e096e40baf",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -48,7 +57,7 @@
                 {
                     "name": "",
                     "id": "de994201-1856-47e0-a0ba-0a6a6548774e",
-                    "path": "<DGXRController>/HumanBody",
+                    "path": "<DGXRHumanController>/HumanBody",
                     "interactions": "RaiseRightHand",
                     "processors": "",
                     "groups": "",
@@ -59,11 +68,22 @@
                 {
                     "name": "",
                     "id": "a40044dc-5020-4752-9134-c7db308756f3",
-                    "path": "<DGXRController>/HumanBody",
+                    "path": "<DGXRHumanController>/HumanBody",
                     "interactions": "RaiseBothHand",
                     "processors": "",
                     "groups": "",
                     "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0cf77e15-0b49-490c-afee-2487f21e3d0a",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "RaiseBothHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RaiseBothHand",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

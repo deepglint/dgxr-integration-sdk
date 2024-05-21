@@ -12,7 +12,7 @@ namespace Deepglint.XR.Interaction
     {
         public void Process(ref InputInteractionContext context)
         {
-            if (context.control.device is DGXRController dgXRDevice)
+            if (context.control.device is DGXRHumanController dgXRDevice)
             {
                 if (IsButterflySwimHappening(dgXRDevice))
                 {
@@ -46,7 +46,7 @@ namespace Deepglint.XR.Interaction
             }
         }
 
-        private bool IsButterflySwimHappening(DGXRController dgXRDevice)
+        private bool IsButterflySwimHappening(DGXRHumanController dgXRDevice)
         {
             if (dgXRDevice.ButterflySwim.ReadValue() > Confidence)
             {
@@ -57,7 +57,7 @@ namespace Deepglint.XR.Interaction
             return false;
         }
 
-        private bool IsButterflySwimStart(DGXRController device)
+        private bool IsButterflySwimStart(DGXRHumanController device)
         {
             return device.HumanBody.LeftWrist.position.y.ReadValue() > 
                    device.HumanBody.LeftElbow.position.y.ReadValue() && 
@@ -65,7 +65,7 @@ namespace Deepglint.XR.Interaction
                    device.HumanBody.RightElbow.position.y.ReadValue(); 
         }
 
-        private bool IsButterflySwimHit(DGXRController device)
+        private bool IsButterflySwimHit(DGXRHumanController device)
         {
             return device.HumanBody.LeftWrist.position.y.ReadValue() > 
                    device.HumanBody.HeadTop.position.y.ReadValue() && 

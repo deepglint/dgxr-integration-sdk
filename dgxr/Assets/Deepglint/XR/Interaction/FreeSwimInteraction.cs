@@ -14,7 +14,7 @@ namespace Deepglint.XR.Interaction
 
         public void Process(ref InputInteractionContext context)
         {
-            if (context.control.device is DGXRController dgXRDevice)
+            if (context.control.device is DGXRHumanController dgXRDevice)
             {
                 if (IsFreeSwimHappening(dgXRDevice))
                 {
@@ -54,7 +54,7 @@ namespace Deepglint.XR.Interaction
             }
         }
 
-        private bool IsFreeSwimHappening(DGXRController dgXRDevice)
+        private bool IsFreeSwimHappening(DGXRHumanController dgXRDevice)
         {
             if (dgXRDevice.FreeSwim.ReadValue() > Confidence)
             {
@@ -65,7 +65,7 @@ namespace Deepglint.XR.Interaction
             return false;
         }
 
-        private bool IsFreeSwimHit(DGXRController device, bool leftHand = false)
+        private bool IsFreeSwimHit(DGXRHumanController device, bool leftHand = false)
         {
             return leftHand
                 ? device.HumanBody.LeftWrist.position.y.ReadValue() >

@@ -127,13 +127,21 @@ namespace Samples.CustomPlayerManager
                 Debug.LogFormat("deep-squat count: {0}", _deepSquatCount);
             }
         }
-    
+
+        public void RaiseBothHandControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                Debug.Log("raise both hand");
+            }
+        }
+
         public void RaiseRightHandControl(InputAction.CallbackContext value)
         {
             //Debug.Log("on callback");
             if(value.performed)
             {
-                //Debug.Log("raise right hand, " + isOnGround);
+                Debug.Log("raise right hand");
                 if (_isOnGround)
                 {
                     // 实现跳跃效果

@@ -35,9 +35,9 @@ namespace Deepglint.XR.Inputs
         {
             InputSystem.RegisterLayout<HumanPoseControl>("HumanPose");
             InputSystem.RegisterLayout<HumanBodyControl>("HumanBody");
-            InputSystem.RegisterLayout<DGXRController>(
+            InputSystem.RegisterLayout<DGXRHumanController>(
                 matches: new InputDeviceMatcher()
-                    .WithProduct(nameof(DGXRController)));
+                    .WithProduct(nameof(DGXRHumanController)));
             InputSystem.RegisterLayout<DGXRDeviceSimulator>(
                 matches: new InputDeviceMatcher()
                     .WithProduct(nameof(DGXRDeviceSimulator))); 

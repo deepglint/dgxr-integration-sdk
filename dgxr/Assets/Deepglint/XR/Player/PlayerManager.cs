@@ -240,7 +240,7 @@ namespace Deepglint.XR.Player
             {
                 foreach (var pairedDevice in playerInput.devices)
                 {
-                    if (pairedDevice is DGXRController)
+                    if (pairedDevice is DGXRHumanController)
                     {
                         // forbidden pair duplicate DGXRController device to one player.
                         return false;

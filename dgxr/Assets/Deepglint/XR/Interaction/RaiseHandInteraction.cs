@@ -24,7 +24,7 @@ namespace Deepglint.XR.Interaction
         
         public void Process(ref InputInteractionContext context)
         {
-            if (context.control.device is DGXRController dgXRDevice)
+            if (context.control.device is DGXRHumanController dgXRDevice)
             {
                 if (IsRaiseHandHappening(dgXRDevice, RequiredArmAngle))
                 {
@@ -61,10 +61,10 @@ namespace Deepglint.XR.Interaction
             }
         }
 
-        internal static bool IsRaiseHandHappening(DGXRController dgXRDevice, float armAngle)
+        internal static bool IsRaiseHandHappening(DGXRHumanController dgXRDevice, float armAngle)
         {
             if (RaiseRightHandInteraction.IsRaiseRightHandHappening(dgXRDevice, armAngle) ||
-                RaiseLeftHandInteraction.IsRaiseRightHandHappening(dgXRDevice, armAngle))
+                RaiseLeftHandInteraction.IsRaiseLeftHandHappening(dgXRDevice, armAngle))
             {
                 return true;
             }

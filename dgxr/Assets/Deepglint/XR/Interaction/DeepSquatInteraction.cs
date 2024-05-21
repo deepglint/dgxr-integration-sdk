@@ -13,7 +13,7 @@ namespace Deepglint.XR.Interaction
     {
         public void Process(ref InputInteractionContext context)
         {
-            if (context.control.device is DGXRController dgXRDevice)
+            if (context.control.device is DGXRHumanController dgXRDevice)
             {
                 if (IsDeepSquatHappening(dgXRDevice))
                 {
@@ -48,7 +48,7 @@ namespace Deepglint.XR.Interaction
             }
         }
 
-        private bool IsDeepSquatHappening(DGXRController dgXRDevice)
+        private bool IsDeepSquatHappening(DGXRHumanController dgXRDevice)
         {
             if (dgXRDevice.DeepSquat.ReadValue() > Confidence)
             {
@@ -59,7 +59,7 @@ namespace Deepglint.XR.Interaction
             return false;
         }
 
-        private bool IsDeepSquatActionStart(DGXRController device)
+        private bool IsDeepSquatActionStart(DGXRHumanController device)
         {
             float legLength = Vector3.Distance(device.HumanBody.LeftHip.position.ReadValue(),
                 device.HumanBody.LeftKnee.position.ReadValue());
@@ -67,7 +67,7 @@ namespace Deepglint.XR.Interaction
                     device.HumanBody.LeftKnee.position.y.ReadValue()) <= legLength * 0.5f;
         }
 
-        private bool IsDeepSquatActionHit(DGXRController device)
+        private bool IsDeepSquatActionHit(DGXRHumanController device)
         {
             return device.HumanBody.RightHip.position.y.ReadValue() -
                             device.HumanBody.RightKnee.position.y.ReadValue() <= 0f;

@@ -23,16 +23,16 @@ namespace Deepglint.XR.Inputs.Devices
     }
     
     [StructLayout(LayoutKind.Sequential)]
-    public struct DGXRControllerState : IInputStateTypeInfo
+    public struct DGXRHumanControllerState : IInputStateTypeInfo
     {
         internal static readonly FourCC m_Format = new FourCC('D', 'G', 'X', 'R');
 
         public FourCC format => m_Format;
         
-        [InputControl(name = nameof(DGXRController.HumanPose), layout = "HumanPose")]
+        [InputControl(name = nameof(DGXRHumanController.HumanPose), layout = "HumanPose")]
         public HumanPoseState humanPose;
         
-        [InputControl(name = nameof(DGXRController.HumanBody), layout = "HumanBody")]
+        [InputControl(name = nameof(DGXRHumanController.HumanBody), layout = "HumanBody")]
         public HumanBodyState humanBody;
     
         [InputControl(name = "stick", format = "VC2B", layout = "Stick", displayName = "Main Stick")]
@@ -66,22 +66,22 @@ namespace Deepglint.XR.Inputs.Devices
         [InputControl( layout = "Axis")]
         public float deepSquat;
         
-        [InputControl(name = nameof(DGXRController.GripButton), usage = "GripButton", layout = "Button", 
+        [InputControl(name = nameof(DGXRHumanController.GripButton), usage = "GripButton", layout = "Button", 
             bit = (uint)DGXRControllerButton.GripButton, alias = "gripPressed")]
-        [InputControl(name = nameof(DGXRController.TriggerButton), usage = "TriggerButton", layout = "Button", 
+        [InputControl(name = nameof(DGXRHumanController.TriggerButton), usage = "TriggerButton", layout = "Button", 
             bit = (uint)DGXRControllerButton.TriggerButton, alias = "triggerPressed")]
         public ushort buttons;
     }
     
     [Preserve]
     [InputControlLayout(
-            stateType = typeof(DGXRControllerState), 
+            stateType = typeof(DGXRHumanControllerState), 
             isGenericTypeOfDevice = false, 
             displayName = "DGXR Controller", 
             updateBeforeRender = true
         )
     ]
-    public class DGXRController : InputDevice
+    public class DGXRHumanController : InputDevice
     {
         public HumanPoseControl HumanPose { get; private set; }
         public HumanBodyControl HumanBody { get; private set; }
