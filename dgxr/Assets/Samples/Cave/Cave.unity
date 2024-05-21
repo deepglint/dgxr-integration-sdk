@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -407,21 +407,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2181fc1d6858e4354afd832ee8e2dbb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 6151027616301016623, guid: c77f5e56570df184d965e995a4448567,
-    type: 3}
-  joinAction:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Join
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: bc5677c4-f95d-412a-bd05-aa8f878e6f44
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 8736505977054623469, guid: d884681a0f32fe5408278134d3b3cf22,
-      type: 3}
 --- !u!114 &240965764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1107,6 +1092,29 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4099795695692259410, guid: 7d7e241a0de3c43d5b528d0a56cc3c67,
+        type: 3}
+      propertyPath: shader
+      value: 
+      objectReference: {fileID: 4800000, guid: 5a791830fa5c8db47acf9dce4ce37e28, type: 3}
+    - target: {fileID: 4099795695692259410, guid: 7d7e241a0de3c43d5b528d0a56cc3c67,
+        type: 3}
+      propertyPath: screenPrefab
+      value: 
+      objectReference: {fileID: 7038691051360226002, guid: 06396d2cee4a448a7a749543841d56c4,
+        type: 3}
+    - target: {fileID: 4099795695692259410, guid: 7d7e241a0de3c43d5b528d0a56cc3c67,
+        type: 3}
+      propertyPath: displayImagePrefab
+      value: 
+      objectReference: {fileID: 153969597885996290, guid: 40bd8c06629c64ed58c578d837f603d2,
+        type: 3}
+    - target: {fileID: 4099795695692259410, guid: 7d7e241a0de3c43d5b528d0a56cc3c67,
+        type: 3}
+      propertyPath: userViewCameraPrefab
+      value: 
+      objectReference: {fileID: 1853268713308010614, guid: bf3abd3ef0209432e81aa1fc3add93c3,
+        type: 3}
     - target: {fileID: 6559789430594547342, guid: 7d7e241a0de3c43d5b528d0a56cc3c67,
         type: 3}
       propertyPath: m_HDR

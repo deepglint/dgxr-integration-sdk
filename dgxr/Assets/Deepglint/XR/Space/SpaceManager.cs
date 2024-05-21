@@ -54,8 +54,9 @@ namespace Deepglint.XR.Space
             denominator = 1
         };
 
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
         private RenderTexture _renderTexture;
+        private RenderTexture _uiRenderTexture;
 
 #endif
         private void Awake()
@@ -83,6 +84,10 @@ namespace Deepglint.XR.Space
 
                 Screen.SetResolution(_screenWidth, _screenHeight, true);
             }
+#if UNITY_EDITOR
+            _uiRenderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
+#endif
+
 
             InstantiateXR();
             var numberScreens = Global.Config.Space.Screens.Count;
@@ -96,12 +101,12 @@ namespace Deepglint.XR.Space
                         sc.ScreenObject.transform.GetChild(corner).gameObject;
                 }
             }
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
             RenderPipelineManager.endFrameRendering += HandleSplitScreen;
 #endif
         }
 
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
         private void OnApplicationQuit()
         {
             RenderPipelineManager.endFrameRendering -= HandleSplitScreen;
@@ -112,7 +117,7 @@ namespace Deepglint.XR.Space
             SetHead();
         }
 
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
         public void HandleSplitScreen(ScriptableRenderContext paramContext, Camera[] paramCamera)
         {
             foreach (var screen in Global.Config.Space.Screens)
@@ -125,10 +130,12 @@ namespace Deepglint.XR.Space
 
                         Texture tex = ClippedRenderTexture(_renderTexture,
                             rect);
+
                         if (_displayImages[render.Display]?.texture != null)
                         {
                             Destroy(_displayImages[render.Display].texture);
                         }
+
                         _displayImages[render.Display].texture = tex;
                     }
                 }
@@ -263,21 +270,21 @@ namespace Deepglint.XR.Space
                     displayQuad.transform.rotation, displayQuad.transform);
 
                 spaceCamera.gameObject.layer = _caveLayer;
-                spaceCamera.targetDisplay = (int)screen.TargetScreen;
+
                 dis.ScreenObject = displayQuad;
                 var uiCamera = Extends.FindChildGameObject(uiCameraGroup, screen.TargetScreen.ToString())
                     .GetComponent<Camera>();
                 uiCamera.gameObject.SetActive(true);
+                spaceCamera.targetDisplay = (int)screen.TargetScreen;
                 if (uiCamera != null)
                 {
                     spaceCamera.GetUniversalAdditionalCameraData().cameraStack.Add(uiCamera);
-                    uiCamera.targetDisplay = (int)screen.TargetScreen;
                 }
-
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
                 if (screen.Render.Length > 0)
                 {
-                    _renderTexture = new RenderTexture(_screenWidth	, _screenWidth, 24);
+                    uiCamera.targetTexture = _uiRenderTexture;
+                    _renderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
                     spaceCamera.targetTexture = _renderTexture;
                     spaceCamera.Render();
                     RenderTexture.active = _renderTexture;
@@ -293,6 +300,7 @@ namespace Deepglint.XR.Space
                             can.renderMode = RenderMode.ScreenSpaceOverlay;
                             can.targetDisplay = render.Display;
                         }
+
                         RawImage[] drawImage = displayImage.GetComponentsInChildren<RawImage>();
                         _displayImages ??= new Dictionary<int, RawImage>();
                         if (drawImage.Length > 0)
@@ -302,6 +310,7 @@ namespace Deepglint.XR.Space
                     }
                 }
 #endif
+
                 dis.SpaceCamera = spaceCamera;
                 dis.UICamera = uiCamera;
                 XRSpace.AddScreen(screen.TargetScreen, dis);
