@@ -26,12 +26,8 @@ namespace Deepglint.XR
             for (int i = 0; i < cameraGroup.transform.childCount; i++)
             {
                 Transform camera = cameraGroup.transform.GetChild(i);
-                Transform spaceScreen = space.transform.GetChild(i);
                 var result =config.Space.Screens.FirstOrDefault(item => item.Name == camera.name);
                 camera.gameObject.SetActive(
-                    !EqualityComparer<Config.ScreenInfo>.Default.Equals(result, default(Config.ScreenInfo)));
-                var resultScreen =config.Space.Screens.FirstOrDefault(item => item.Name == spaceScreen.name);
-                spaceScreen.gameObject.SetActive(
                     !EqualityComparer<Config.ScreenInfo>.Default.Equals(result, default(Config.ScreenInfo)));
             }
             for (int i = 0; i < space.transform.childCount; i++)

@@ -22,11 +22,6 @@
   ],
   "samples": [
     {
-      "displayName": "Config",
-      "description": "配置文件",
-      "path": "StreamingAssets"
-    },
-    {
       "displayName": "PlayerManager",
       "description": "玩家管理",
       "path": "Samples/CustomPlayerManager"
