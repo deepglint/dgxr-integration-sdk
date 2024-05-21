@@ -24,7 +24,7 @@ namespace Deepglint.XR
         public static string AppName;
         public static string SystemName;
         public static bool IsFilterZero;
-        public static Screens Screens;
+        public static Space Space;
         public static Vector3 CavePosition;
         public const string PackageName = "com.deepglint.xr";
 

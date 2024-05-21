@@ -57,7 +57,7 @@ namespace Deepglint.XR
                 _node = new DGXRNode();
             }
 
-            Global.Screens = Screens.Instance;
+            Global.Space = Space.Instance;
             Global.IsFilterZero = isFilterZero;
         }
 

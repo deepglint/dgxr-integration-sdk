@@ -96,7 +96,7 @@ namespace Deepglint.XR
             {
                 for (int corner = 0; corner < 4; corner++)
                 {
-                    var sc = Global.Screens[screen.TargetScreen];
+                    var sc = Global.Space[screen.TargetScreen];
                     _screenEdges[(int)screen.TargetScreen, corner] =
                         sc.ScreenObject.transform.GetChild(corner).gameObject;
                 }
@@ -148,7 +148,7 @@ namespace Deepglint.XR
             SetHeadPosition();
             foreach (var screen in Global.Config.Space.Screens)
             {
-                var tarDisplay = Global.Screens[(TargetScreen)(screen.TargetScreen - 1)];
+                var tarDisplay = Global.Space[(TargetScreen)(screen.TargetScreen - 1)];
 
                 if (tarDisplay != null && tarDisplay.SpaceCamera != null)
                 {
@@ -178,7 +178,7 @@ namespace Deepglint.XR
 
             foreach (var userCamera in Global.Config.Space.Screens)
             {
-                var cam = Global.Screens[(TargetScreen)(userCamera.TargetScreen - 1)];
+                var cam = Global.Space[(TargetScreen)(userCamera.TargetScreen - 1)];
                 cam.SpaceCamera.transform.position = _headLockPosition;
             }
         }
@@ -297,7 +297,7 @@ namespace Deepglint.XR
 #endif
                 dis.SpaceCamera = spaceCamera;
                 dis.UICamera = uiCamera;
-                Screens.AddScreen(screen.TargetScreen,dis);
+                Space.AddScreen(screen.TargetScreen,dis);
             }
         }
     }

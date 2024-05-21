@@ -1,22 +1,35 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Deepglint.XR
 {
-    public class Screens
+    public class Space
     {
-        private static Screens _instance;
+        private static Space _instance;
         private readonly Dictionary<TargetScreen,ScreenInfo> _screenDic;
 
-        private Screens()
+        public GameObject gameObject { get; internal set; }
+
+        public float Length { get; internal set; }
+        public float Width { get; internal set; }
+        public float Height { get; internal set; }
+
+        public int ActiveScreens => _screenDic.Count;
+
+        public Vector3 Origin { get; internal set; }
+
+        public Rect Roi { get; internal set; }
+
+        private Space()
         {
             _screenDic = new Dictionary<TargetScreen, ScreenInfo>();
         }
 
-        internal static Screens Instance
+        internal static Space Instance
         {
             get
             {
-                return _instance ??= new Screens();
+                return _instance ??= new Space();
             }
         }
 

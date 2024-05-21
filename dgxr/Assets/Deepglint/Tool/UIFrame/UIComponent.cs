@@ -42,7 +42,7 @@ namespace Deepglint.Tool.UIFrame
         public static T Create<T>(TargetScreen target, GameObject parent = null)
             where T : UIComponent
         {
-            var screen = Global.Screens[target];
+            var screen = Global.Space[target];
             return Create<T>(screen, parent);
         }
 
