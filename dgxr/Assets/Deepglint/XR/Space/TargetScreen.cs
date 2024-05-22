@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace Deepglint.XR.Space
 {
@@ -30,7 +31,77 @@ namespace Deepglint.XR.Space
         public Resolution Resolution { get; internal set; }
         public GameObject ScreenCanvas { get; internal set; }
 
+        public void AddCameraToStack(Camera camera)
+        {
+            if (SpaceCamera == null || camera == null)
+            {
+                Debug.LogError("SpaceCamera or the camera to be added is null.");
+                return;
+            }
 
+            UniversalAdditionalCameraData spaceCameraData = SpaceCamera.GetUniversalAdditionalCameraData();
+
+            if (spaceCameraData == null)
+            {
+                Debug.LogError("SpaceCamera does not have UniversalAdditionalCameraData component.");
+                return;
+            }
+
+            if (camera.GetUniversalAdditionalCameraData() == null)
+            {
+                Debug.LogError("The camera to be added does not have UniversalAdditionalCameraData component.");
+                return;
+            }
+
+
+            if (!spaceCameraData.cameraStack.Contains(camera))
+            {
+#if !UNITY_EDITOR
+                if (TargetScreen.Bottom == TargetScreen)
+                {
+                    var rotation = camera.transform.localRotation;
+                    camera.transform.rotation = Quaternion.Euler(rotation.x	, rotation.y, rotation.z+(int)Rotation.z);
+                }
+#endif
+                spaceCameraData.cameraStack.Add(camera);
+            }
+            else
+            {
+                Debug.LogWarning("Camera is already in the stack.");
+            }
+        }
+        
+        /// <summary>
+        /// Removes a camera from the SpaceCamera's stack.
+        /// </summary>
+        /// <param name="camera">The camera to remove.</param>
+        public void RemoveCameraFromStack(Camera camera)
+        {
+            if (SpaceCamera == null || camera == null)
+            {
+                Debug.LogError("SpaceCamera or the camera to be removed is null.");
+                return;
+            }
+
+            UniversalAdditionalCameraData spaceCameraData = SpaceCamera.GetUniversalAdditionalCameraData();
+            if (spaceCameraData == null)
+            {
+                Debug.LogError("SpaceCamera does not have UniversalAdditionalCameraData component.");
+                return;
+            }
+
+            if (spaceCameraData.cameraStack.Contains(camera))
+            {
+                spaceCameraData.cameraStack.Remove(camera);
+            }
+            else
+            {
+                Debug.LogWarning("Camera is not in the stack.");
+            }
+        }
+    
+
+        
         public Vector2 ProjectionVector3(Vector3 point)
         {
             return ProjectionVector3(point, this);

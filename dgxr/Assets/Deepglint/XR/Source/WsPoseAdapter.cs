@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Deepglint.XR.Source
 {
-    public class WsPoseAdapter : MonoBehaviour
+    public class WsPoseAdapter
     {
         private Ros2PoseAdapter _poseAdapter;
         private ClientWebSocket _ws;
@@ -100,7 +100,8 @@ namespace Deepglint.XR.Source
             byte[] buffer = Encoding.UTF8.GetBytes(message);
             try
             {
-                await _ws.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, _cancellationTokenSource.Token);
+                await _ws.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true,
+                    _cancellationTokenSource.Token);
             }
             catch (Exception ex)
             {
@@ -117,7 +118,8 @@ namespace Deepglint.XR.Source
             {
                 try
                 {
-                    WebSocketReceiveResult result = await _ws.ReceiveAsync(new ArraySegment<byte>(receiveBuffer), _cancellationTokenSource.Token);
+                    WebSocketReceiveResult result = await _ws.ReceiveAsync(new ArraySegment<byte>(receiveBuffer),
+                        _cancellationTokenSource.Token);
 
                     if (result.MessageType == WebSocketMessageType.Text)
                     {
@@ -136,7 +138,8 @@ namespace Deepglint.XR.Source
                 {
                     break;
                 }
-                catch (WebSocketException wse) when (wse.WebSocketErrorCode == WebSocketError.ConnectionClosedPrematurely)
+                catch (WebSocketException wse) when (wse.WebSocketErrorCode ==
+                                                     WebSocketError.ConnectionClosedPrematurely)
                 {
                     break;
                 }
@@ -147,6 +150,7 @@ namespace Deepglint.XR.Source
                     {
                         await Reconnect();
                     }
+
                     break;
                 }
             }
@@ -161,12 +165,22 @@ namespace Deepglint.XR.Source
         {
             _isRunning = false;
             _cancellationTokenSource.Cancel();
-            if (_ws is { State: WebSocketState.Open })
+            try
             {
-                _ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "WebSocket connection closed by client",
-                    CancellationToken.None).Wait();
+                if (_ws is { State: WebSocketState.Open })
+                {
+                    _ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "WebSocket connection closed by client",
+                        CancellationToken.None).Wait();
+                }
             }
-            _ws?.Dispose();
+            catch (Exception ex)
+            {
+                Debug.LogWarning("Error when closing WebSocket: " + ex.Message);
+            }
+            finally
+            {
+                _ws?.Dispose();
+            }
         }
     }
 }

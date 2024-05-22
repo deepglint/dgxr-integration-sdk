@@ -78,7 +78,7 @@ namespace Deepglint.XR.Ros
         private readonly Record _record = new(Global.Config.Record.SavePath,
             "Ros2");
 
-        private readonly Dictionary<String, Source.Source.SourceData> _oldData = new Dictionary<string, Source.Source.SourceData>();
+        private readonly Dictionary<String, Source.SourceData> _oldData = new Dictionary<string, Source.SourceData>();
 
         public void DealMsg(std_msgs.msg.String msg)
         {
@@ -87,7 +87,7 @@ namespace Deepglint.XR.Ros
 
         public void DealMsgData(string msg)
         {
-            List<Source.Source.SourceData> data = new List<Source.Source.SourceData>();
+            List<SourceData> data = new List<SourceData>();
             MetaPoseData info = JsonConvert.DeserializeObject<MetaPoseData>(msg);
             HashSet<string> humans = new HashSet<string>();
             if (info.Result != null && info.Result.TryGetValue("999001", out Result result))
@@ -115,13 +115,13 @@ namespace Deepglint.XR.Ros
                         }
                     }
 
-                    Source.Source.JointData joints = new Source.Source.JointData();
+                    JointData joints = new JointData();
                     if (val.Value.Objs.Count >= 24)
                     {
                         for (var i = 0; i < 24; i++)
                         {
                             var pose = val.Value.Objs[i].Value;
-                            (bool isZero, Source.Source.SourceData sourceData) = IsZero(pose, val.Key);
+                            (bool isZero, SourceData sourceData) = IsZero(pose, val.Key);
                             switch ((Joint)i)
                             {
                                 case Joint.Nose:
@@ -346,14 +346,14 @@ namespace Deepglint.XR.Ros
                         }
                     }
 
-                    var body = new Source.Source.SourceData
+                    var body = new SourceData
                     {
                         FrameId = info.FrameId,
                         BodyId = val.Key,
                         Actions = action,
                         Joints = joints,
                     };
-                    Global.TriggerMetaPoseDataReceived(body);
+                    Source.Source.TriggerMetaPoseDataReceived(body);
                     data.Add(body);
                     if (Global.IsFilterZero)
                     {
@@ -366,15 +366,16 @@ namespace Deepglint.XR.Ros
             {
                 if (!humans.Contains(human.BodyId))
                 {
-                    Global.TriggerMetaPostDataLost(human.BodyId);
+                    Source.Source.TriggerMetaPostDataLost(human.BodyId);
                 }
             }
-
+            
             Source.Source.Data = data;
+            Source.Source.TriggerMetaPoseFrameDataReceived(data);
         }
 
 
-        private (bool, Source.Source.SourceData) IsZero(IReadOnlyList<float> pose, string key)
+        private (bool, SourceData) IsZero(IReadOnlyList<float> pose, string key)
         {
             if (Global.IsFilterZero && pose[0] == 0 && pose[1] == 0 && pose[2] == 0 &&
                 _oldData.TryGetValue(key, out var sourceData))
@@ -382,7 +383,7 @@ namespace Deepglint.XR.Ros
                 return (true, sourceData);
             }
 
-            return (false, new Source.Source.SourceData());
+            return (false, new SourceData());
         }
 
         private Vector3 UnifyCoordinate(List<float> pose)
