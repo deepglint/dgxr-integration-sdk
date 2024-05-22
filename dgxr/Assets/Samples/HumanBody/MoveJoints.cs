@@ -62,7 +62,7 @@ namespace Samples.HumanBody
                 return;
             }
             
-            foreach (var it in from it in _bodyMap let result = Source.Data.FirstOrDefault(item => item.BodyId == it.Key) where EqualityComparer<Source.SourceData>.Default.Equals(result, default(Source.SourceData)) select it)
+            foreach (var it in from it in _bodyMap let result = Source.Data.FirstOrDefault(item => item.BodyId == it.Key) where EqualityComparer<SourceData>.Default.Equals(result, default(SourceData)) select it)
             {
                 Destroy	(it.Value.Obj);
                 _bodyMap.TryRemove(it.Key, out var body);

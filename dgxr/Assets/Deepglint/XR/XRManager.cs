@@ -35,6 +35,7 @@ namespace Deepglint.XR
 
         public void Awake()
         {
+            DontDestroyOnLoad(this.gameObject);
             Global.UniqueID = SystemInfo.deviceUniqueIdentifier;
             Global.AppName = Application.productName;
             Global.SystemName = SystemInfo.operatingSystem;
@@ -83,7 +84,6 @@ namespace Deepglint.XR
 
         private bool UseRos()
         {
-            return true;
             if (!Application.isEditor && !Global.SystemName.Contains("Mac"))
             {
                 return true;
@@ -94,15 +94,15 @@ namespace Deepglint.XR
 
         private void OnEnable()
         {
-            Global.OnMetaPoseDataReceived += OnMetaPoseDataReceived;
-            Global.OnMetaPoseDataLost += OnMetaPoseDataLost;
+            Source.Source.OnMetaPoseDataReceived += OnMetaPoseDataReceived;
+            Source.Source.OnMetaPoseDataLost += OnMetaPoseDataLost;
         }
 
         // 在禁用对象时取消订阅事件
         private void OnDisable()
         {
-            Global.OnMetaPoseDataReceived -= OnMetaPoseDataReceived;
-            Global.OnMetaPoseDataLost -= OnMetaPoseDataLost;
+            Source.Source.OnMetaPoseDataReceived -= OnMetaPoseDataReceived;
+            Source.Source.OnMetaPoseDataLost -= OnMetaPoseDataLost;
         }
 
 
@@ -133,7 +133,7 @@ namespace Deepglint.XR
             }
         }
 
-        private void OnMetaPoseDataReceived(Source.Source.SourceData data)
+        private void OnMetaPoseDataReceived(SourceData data)
         {
             if (UseRos())
             {
@@ -148,7 +148,7 @@ namespace Deepglint.XR
             }
         }
 
-        private void HandleMetaPoseData(Source.Source.SourceData data)
+        private void HandleMetaPoseData(SourceData data)
         {
             var device = DeviceManager.AddOrActiveDevice(data.BodyId, nameof(DGXRHumanController));
             if (device != null)
@@ -164,7 +164,7 @@ namespace Deepglint.XR
             }
         }
 
-        private Quaternion GetQuaternion(Source.Source.JointData data)
+        private Quaternion GetQuaternion(JointData data)
         {
             Vector3 hip = new Vector3(
                 (data.LeftHip.x + data.RightHip.x) * 0.5f,
@@ -175,7 +175,7 @@ namespace Deepglint.XR
             return Quaternion.LookRotation(forward);
         }
 
-        private void HandleJointsData(Source.Source.JointData data, DGXRHumanController xrDevice, InputEventPtr eventPtr)
+        private void HandleJointsData(JointData data, DGXRHumanController xrDevice, InputEventPtr eventPtr)
         {
             xrDevice.HumanPose.IsTracked.WriteValueIntoEvent(1.0f, eventPtr);
             xrDevice.HumanPose.TrackingState.WriteValueIntoEvent((int)(InputTrackingState.Position | InputTrackingState.Rotation), eventPtr);

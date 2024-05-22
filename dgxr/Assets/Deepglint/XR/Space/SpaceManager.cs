@@ -280,14 +280,16 @@ namespace Deepglint.XR.Space
                     .GetComponent<Camera>();
                 uiCamera.gameObject.SetActive(true);
                 spaceCamera.targetDisplay = (int)screen.TargetScreen;
-                if (uiCamera != null)
-                {
-                    spaceCamera.GetUniversalAdditionalCameraData().cameraStack.Add(uiCamera);
-                }
+                dis.SpaceCamera = spaceCamera;
+                dis.UICamera = uiCamera;
+                dis.AddCameraToStack(uiCamera);
 #if !UNITY_EDITOR
                 if (screen.Render.Length > 0)
                 {
+<<<<<<< Updated upstream
                     uiCamera.transform.localRotation = Quaternion.Euler(0, 0, (int)screen.Rotation.z);
+=======
+>>>>>>> Stashed changes
                     uiCamera.targetTexture = _uiRenderTexture;
                     _renderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
                     spaceCamera.targetTexture = _renderTexture;
@@ -315,9 +317,6 @@ namespace Deepglint.XR.Space
                     }
                 }
 #endif
-
-                dis.SpaceCamera = spaceCamera;
-                dis.UICamera = uiCamera;
                 XRSpace.AddScreen(screen.TargetScreen, dis);
             }
         }
