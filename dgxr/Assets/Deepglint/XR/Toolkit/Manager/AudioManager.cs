@@ -108,6 +108,11 @@ namespace Deepglint.XR.Toolkit.Manager
         {
             return Audios.Where(audio => types.Contains(audio.Type)).ToList();
         }
+        
+        private static List<Audio> FindAudiosByType(AudioType type)
+        {
+            return Audios.Where(audio => audio.Type == type).ToList();
+        }
 
         /// <summary>
         /// 播放指定音频
@@ -245,6 +250,18 @@ namespace Deepglint.XR.Toolkit.Manager
             foreach (var typeAudio in Audios)
             {
                 typeAudio.Source.Stop();
+            }
+        }
+
+        public static void SetVolumeByType(AudioType type, int volume)
+        {
+            List<Audio> lists = FindAudiosByType(type);
+            if (lists.Count > 0)
+            {
+                foreach (var audio in lists)
+                {
+                    audio.Source.volume = volume;
+                }
             }
         }
     }
