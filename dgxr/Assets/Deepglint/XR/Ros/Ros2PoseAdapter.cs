@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading;
 using Deepglint.XR.Source;
+using Deepglint.XR.Toolkit.Utils;
 using Newtonsoft.Json;
 using UnityEngine;
 using Joint = Deepglint.XR.Source.Joint;

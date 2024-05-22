@@ -1,6 +1,6 @@
 using System;
 
-namespace Deepglint.Tool.UIFrame
+namespace Deepglint.XR.Toolkit.UIFrame
 {
     public enum PathRule
     {

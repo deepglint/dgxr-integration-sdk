@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Deepglint.Tool.Utils
+namespace Deepglint.XR.Toolkit.Utils
 {
     public static class UIUtils
     {

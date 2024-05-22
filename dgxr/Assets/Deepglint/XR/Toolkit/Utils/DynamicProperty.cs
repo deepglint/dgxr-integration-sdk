@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Deepglint.Tool.Utils
+namespace Deepglint.XR.Toolkit.Utils
 {
     /// <summary>
     /// 属性绑定，属性动态更新

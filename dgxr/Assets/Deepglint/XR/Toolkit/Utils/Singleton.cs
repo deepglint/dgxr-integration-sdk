@@ -1,4 +1,4 @@
-﻿namespace Deepglint.Tool.Utils
+﻿namespace Deepglint.XR.Toolkit.Utils
 {
     public class Singleton<T>
         where T : class, new()

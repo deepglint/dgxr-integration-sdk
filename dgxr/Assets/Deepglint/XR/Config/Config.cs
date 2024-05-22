@@ -4,7 +4,7 @@ using Deepglint.XR.Space;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Deepglint.XR
+namespace Deepglint.XR.Config
 {
     public class Config
     {

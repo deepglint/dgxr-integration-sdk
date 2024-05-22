@@ -38,7 +38,7 @@ namespace Deepglint.XR
             Global.UniqueID = SystemInfo.deviceUniqueIdentifier;
             Global.AppName = Application.productName;
             Global.SystemName = SystemInfo.operatingSystem;
-            Global.Config = new Config().InitConfig();
+            Global.Config = new Config.Config().InitConfig();
             GameLogger.Init(Global.Config.Log);
             if (UseRos())
             {

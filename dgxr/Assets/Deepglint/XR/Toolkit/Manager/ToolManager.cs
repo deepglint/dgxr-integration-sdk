@@ -1,9 +1,8 @@
-using Deepglint.Tool.Utils;
-using Deepglint.Tools.DebugTool;
-using Deepglint.XR;
+using Deepglint.XR.Toolkit.DebugTool;
+using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 
-namespace Deepglint.Tool.Manager
+namespace Deepglint.XR.Toolkit.Manager
 {
     public class ToolManager : MonoBehaviour
     {

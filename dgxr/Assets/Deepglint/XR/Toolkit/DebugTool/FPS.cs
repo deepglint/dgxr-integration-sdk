@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Deepglint.Tools.DebugTool
+namespace Deepglint.XR.Toolkit.DebugTool
 {
     public class FPS : MonoBehaviour
     {

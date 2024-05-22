@@ -12,9 +12,9 @@ namespace Deepglint.XR.Space
         Bottom,
     }
 
-    public class ScreenInfo : Config.ScreenConfig
+    public class ScreenInfo : Config.Config.ScreenConfig
     {
-        public ScreenInfo(Config.ScreenConfig config)
+        public ScreenInfo(Config.Config.ScreenConfig config)
         {
             TargetScreen = config.TargetScreen;
             Render = config.Render;

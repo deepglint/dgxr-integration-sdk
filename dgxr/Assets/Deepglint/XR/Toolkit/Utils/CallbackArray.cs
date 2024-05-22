@@ -1,4 +1,4 @@
-namespace Deepglint.XR.Utils
+namespace Deepglint.XR.Toolkit.Utils
 {
     public struct CallbackArray<TDelegate>
         where TDelegate : System.Delegate

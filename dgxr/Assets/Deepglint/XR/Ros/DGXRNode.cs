@@ -1,7 +1,6 @@
-using Deepglint.XR.Ros;
 using ROS2;
 
-namespace Deepglint.XR
+namespace Deepglint.XR.Ros
 {
     public class DGXRNode
     {

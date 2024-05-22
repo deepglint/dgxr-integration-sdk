@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Profiling;
 
-namespace Deepglint.XR.Utils
+namespace Deepglint.XR.Toolkit.Utils
 {
     public static class DelegateHelper
     {

@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Deepglint.Toolkit.Utils
+namespace Deepglint.XR.Toolkit.Utils
 {
     public class GameExit : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Deepglint.Tool.Utils
+namespace Deepglint.XR.Toolkit.Utils
 {
     public static class Extends
     {

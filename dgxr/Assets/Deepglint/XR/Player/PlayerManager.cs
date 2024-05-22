@@ -1,6 +1,6 @@
 using System;
 using Deepglint.XR.Inputs.Devices;
-using Deepglint.XR.Utils;
+using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;

@@ -1,8 +1,7 @@
 using Deepglint.XR.Inputs;
 using Deepglint.XR.Inputs.Devices;
 using Deepglint.XR.Player;
-using Deepglint.Tool.Utils;
-using Deepglint.XR.Utils;
+using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

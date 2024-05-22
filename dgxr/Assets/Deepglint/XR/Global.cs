@@ -8,7 +8,7 @@ namespace Deepglint.XR
 {
     public static class Global
     {
-        public static Config.ConfigData.ConfigInfo Config;
+        public static Config.Config.ConfigData.ConfigInfo Config;
 
         //TODO: 怎么用事件获取同一帧的数据
         public delegate void MetaPoseDataEventHandler(Source.Source.SourceData data);

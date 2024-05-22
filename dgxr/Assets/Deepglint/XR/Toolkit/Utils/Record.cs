@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Deepglint.XR
+namespace Deepglint.XR.Toolkit.Utils
 {
     public class Record
     {

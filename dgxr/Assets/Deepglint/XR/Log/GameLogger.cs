@@ -22,7 +22,7 @@ namespace Deepglint.XR.Log
         /// <summary>
         /// 初始化，在游戏启动的入口脚本的Awake函数中调用GameLogger.Init
         /// </summary>
-        public static void Init(Config.ConfigData.LogInfo logInfo)
+        public static void Init(Config.Config.ConfigData.LogInfo logInfo)
         {
             switch (logInfo.Level)
             {

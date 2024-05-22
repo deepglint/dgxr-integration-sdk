@@ -5,7 +5,7 @@ using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
-namespace Deepglint.XR.Utils
+namespace Deepglint.XR.Toolkit.Utils
 {
     public static class ArrayHelper
     {

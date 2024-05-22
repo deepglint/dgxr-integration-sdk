@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Deepglint.Tool.Manager
+namespace Deepglint.XR.Toolkit.Manager
 {
     public delegate void Handler();
 
