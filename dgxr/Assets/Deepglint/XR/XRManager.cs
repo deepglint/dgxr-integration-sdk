@@ -83,7 +83,7 @@ namespace Deepglint.XR
 
         private bool UseRos()
         {
-            if (!Application.isEditor && !Global.SystemName.Contains("Mac"))
+            if (!Global.SystemName.Contains("Mac"))
             {
                 return true;
             }
