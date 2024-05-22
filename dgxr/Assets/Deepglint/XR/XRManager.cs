@@ -47,8 +47,8 @@ namespace Deepglint.XR
             }
             else
             {
-                ws = new WsPoseAdapter();
-                ws.Start();
+                // ws = new WsPoseAdapter();
+                // ws.Start();
             }
         }
 
@@ -83,7 +83,7 @@ namespace Deepglint.XR
 
         private bool UseRos()
         {
-            if (!Global.SystemName.Contains("Mac"))
+            if (!Application.isEditor && !Global.SystemName.Contains("Mac"))
             {
                 return true;
             }
@@ -113,7 +113,7 @@ namespace Deepglint.XR
             }
             else
             {
-                ws.OnDestroy();
+                // ws.OnDestroy();
             }
         }
 
