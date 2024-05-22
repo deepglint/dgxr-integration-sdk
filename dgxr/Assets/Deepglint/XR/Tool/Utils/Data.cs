@@ -18,6 +18,15 @@ namespace Deepglint.Tool.Utils
             return ReadJsonFile<T>(path);
         }
         
+        public static T LoadData<T>(string filePath)
+        {
+            var type = typeof(T);
+            var attribute = type.GetCustomAttribute<DataFileAttribute>();
+            var name = attribute != null ? attribute.Name : $"{type.Name.ToLower()}.json";
+            var path = Path.Combine(filePath, name);
+            return ReadJsonFile<T>(path);
+        }
+        
         public static T ReadJsonFile<T>(string filePath)
         {
             var readData = File.ReadAllText(filePath);

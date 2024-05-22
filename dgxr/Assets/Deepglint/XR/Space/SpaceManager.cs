@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Deepglint.Tool.Utils;
 using UnityEngine;
@@ -7,6 +8,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Debug = UnityEngine.Debug;
 
 namespace Deepglint.XR.Space
 {
@@ -16,7 +18,9 @@ namespace Deepglint.XR.Space
         [FormerlySerializedAs("DisplayImagePrefab")]
         public GameObject displayImagePrefab;
 
-        [FormerlySerializedAs("ScreenPrefab")] public GameObject screenPrefab;
+        [FormerlySerializedAs("ScreenPrefab")] public 
+            
+            GameObject screenPrefab;
         public Shader shader;
 
         [FormerlySerializedAs("UserViewCameraPrefab")]
@@ -135,7 +139,7 @@ namespace Deepglint.XR.Space
                         {
                             Destroy(_displayImages[render.Display].texture);
                         }
-
+                        
                         _displayImages[render.Display].texture = tex;
                     }
                 }
@@ -283,7 +287,7 @@ namespace Deepglint.XR.Space
 #if !UNITY_EDITOR
                 if (screen.Render.Length > 0)
                 {
-                    uiCamera.transform.localRotation =Quaternion.Euler(0, 0, (int)screen.Rotation.z);
+                    uiCamera.transform.localRotation = Quaternion.Euler(0, 0, (int)screen.Rotation.z);
                     uiCamera.targetTexture = _uiRenderTexture;
                     _renderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
                     spaceCamera.targetTexture = _renderTexture;
