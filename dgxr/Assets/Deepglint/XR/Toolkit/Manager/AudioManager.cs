@@ -165,12 +165,21 @@ namespace Deepglint.XR.Toolkit.Manager
             AudioLists.RemoveAll(item => item.Name == audioListName);
         }
 
+        
+        /// <summary>
+        /// 停止音频列表播放
+        /// </summary>
+        /// <param name="audioListName">音频列表名称</param>
         public static void StopAudioListByName(string audioListName)
         {
             var list = FindAudioList(audioListName);
             StopAudioList(list);
         }
 
+        /// <summary>
+        /// 停止音频列表播放
+        /// </summary>
+        /// <param name="list">音频列表</param>
         private static void StopAudioList(AudioList list)
         {
             if (list == null) return;
@@ -183,6 +192,11 @@ namespace Deepglint.XR.Toolkit.Manager
             AudioLists.RemoveAll(item => item.Name == list.Name);
         }
 
+        /// <summary>
+        /// 获取音频列表中所有音频长度之和
+        /// </summary>
+        /// <param name="audioListName">音频列表名称</param>
+        /// <returns>音频列表中所有音频长度之和，单位ms</returns>
         public static float GetAudioListLength(string audioListName)
         {
             var list = FindAudioList(audioListName);
@@ -219,7 +233,7 @@ namespace Deepglint.XR.Toolkit.Manager
         /// <summary>
         /// 停止所有指定类型音频
         /// </summary>
-        /// <param name="types">音频类型</param>
+        /// <param name="types">音频类型，传递多个type拼成的数组</param>
         public static void StopAudioByType(AudioType[] types)
         {
             var typeAudios = FindAudiosByType(types);
@@ -230,6 +244,10 @@ namespace Deepglint.XR.Toolkit.Manager
             }
         }
 
+        /// <summary>
+        /// 停止所有指定类型音频
+        /// </summary>
+        /// <param name="type">音频类型，传递一个type</param>
         public static void StopAudioByType(AudioType type)
         {
             AudioType[] types = { type };
@@ -253,6 +271,11 @@ namespace Deepglint.XR.Toolkit.Manager
             }
         }
 
+        /// <summary>
+        /// 给某类音频设置音量
+        /// </summary>
+        /// <param name="type">音频类型</param>
+        /// <param name="volume">音量</param>
         public static void SetVolumeByType(AudioType type, int volume)
         {
             List<Audio> lists = FindAudiosByType(type);
