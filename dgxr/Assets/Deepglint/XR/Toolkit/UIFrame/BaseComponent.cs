@@ -56,7 +56,7 @@ namespace Deepglint.XR.Toolkit.UIFrame
             child.OnOpen();
             return child;
         }
-        
+
 
         protected T CreateChildOnSubGameObject<T>(string name) where T : BaseComponent
         {
@@ -79,7 +79,6 @@ namespace Deepglint.XR.Toolkit.UIFrame
         {
             var component = Activator.CreateInstance<T>();
             component.gameObject = InitComponent(component._prefab, parent);
-            component.OnOpen();
             return component;
         }
 
@@ -95,8 +94,8 @@ namespace Deepglint.XR.Toolkit.UIFrame
             }
             return component;
         }
-        
-        
+
+
         private string GetPrefabPath()
         {
             var prefabInfo = GetType().GetCustomAttribute<PrefabInfoAttribute>(inherit: true);
