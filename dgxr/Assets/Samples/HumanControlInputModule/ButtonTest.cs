@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Samples.UI
+namespace Samples.HumanControlInputModule
 {
-    public class ButtonTest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class ButtonTest : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
     {
         private Button _button;
 
@@ -45,6 +45,16 @@ namespace Samples.UI
         public void OnPointerExit(PointerEventData eventData)
         {
             Debug.LogFormat("human {0} exit button {1}", eventData.pointerId, _button.name);
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            Debug.LogFormat("human {0} down at button {1}", eventData.pointerId, _button.name);
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            Debug.LogFormat("human {0} up from button {1}", eventData.pointerId, _button.name);
         }
     }
 }

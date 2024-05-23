@@ -27,6 +27,11 @@
       "path": "Samples/CustomPlayerManager"
     },
     {
+      "displayName": "HumanControlInputModule",
+      "description": "UI元素的人体交互控制",
+      "path": "Samples/HumanControlInputModule" 
+    },
+    {
       "displayName": "HumanBody",
       "description": "人体检测",
       "path": "Samples/HumanBody"
