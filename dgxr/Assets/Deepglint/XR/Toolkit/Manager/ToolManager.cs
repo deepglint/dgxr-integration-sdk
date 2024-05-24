@@ -12,6 +12,9 @@ namespace Deepglint.XR.Toolkit.Manager
 
         void Start()
         {
+#if !UNITY_EDITOR
+            Cursor.visible = false;
+#endif
             GameObject uiBackGround = GameObject.Find("UIRoot")?.FindChildGameObject("UI_BackGround");
             if (uiBackGround != null)
             {

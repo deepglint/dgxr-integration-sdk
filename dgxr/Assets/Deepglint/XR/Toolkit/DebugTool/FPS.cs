@@ -18,7 +18,6 @@ namespace Deepglint.XR.Toolkit.DebugTool
         {
             Application.targetFrameRate = 60;
             QualitySettings.vSyncCount = 0;
-            Cursor.visible = false;
             _lastUpdateShowTime = Time.realtimeSinceStartup;
             _guiFps = new Rect(0, 0, 100, 100);
             _style.fontSize = 60;
