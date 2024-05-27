@@ -42,6 +42,11 @@ namespace Deepglint.XR.Toolkit.Manager
             AudioManager.PlayAudio(this, ignoreIfPlaying, loop, volume);
         }
 
+        public void Stop()
+        {
+            AudioManager.StopAudio(this);
+        }
+
 
         /// <summary>
         /// 获取音频长度
@@ -84,8 +89,31 @@ namespace Deepglint.XR.Toolkit.Manager
 
     public class AudioList
     {
-        public string Name;
-        public List<Audio> Audios;
+        public string Name { get; private set; }
+
+        public List<Audio> Audios { get; private set; }
+
+        public AudioList(string name)
+        {
+            Name = name;
+            Audios = new List<Audio>();
+        }
+
+        public AudioList(string name, List<Audio> list)
+        {
+            Name = name;
+            Audios = list;
+        }
+
+        public void Add(Audio audio)
+        {
+            Audios.Add(audio);
+        }
+
+        public void Play()
+        {
+            AudioManager.PlayAudioList(this);
+        }
     }
 
     public static class AudioManager
@@ -108,7 +136,7 @@ namespace Deepglint.XR.Toolkit.Manager
         {
             return Audios.Where(audio => types.Contains(audio.Type)).ToList();
         }
-        
+
         private static List<Audio> FindAudiosByType(AudioType type)
         {
             return Audios.Where(audio => audio.Type == type).ToList();
@@ -138,17 +166,14 @@ namespace Deepglint.XR.Toolkit.Manager
             {
                 if (audio.Source.isPlaying) return;
             }
-            else
-            {
-                audio.Source.Play();
-            }
 
+            audio.Source.Play();
             audio.Source.volume = volume;
             audio.Source.loop = loop;
         }
 
 
-        public static async void PlayAudioList(AudioList list, string audioListName, float volume = 1)
+        public static async void PlayAudioList(AudioList list, float volume = 1)
         {
             AudioLists.Add(list);
             foreach (var audio in list.Audios)
@@ -162,10 +187,10 @@ namespace Deepglint.XR.Toolkit.Manager
                 }
             }
 
-            AudioLists.RemoveAll(item => item.Name == audioListName);
+            AudioLists.RemoveAll(item => item.Name == list.Name);
         }
 
-        
+
         /// <summary>
         /// 停止音频列表播放
         /// </summary>

@@ -8,16 +8,16 @@ using UnityEngine;
 namespace Deepglint.XR.Toolkit.UIFrame
 {
     [PrefabInfo(PathRule.NamespaceHierarchy)]
-    public abstract class BaseComponent
+    public abstract class BaseModule
     {
-        private readonly List<BaseComponent> _children = new();
+        private readonly List<BaseModule> _children = new();
         private readonly string _prefab;
         public GameObject gameObject { get; private set; }
         public Transform transform => gameObject.transform;
         public bool activeSelf => gameObject.activeSelf;
 
 
-        protected BaseComponent()
+        protected BaseModule()
         {
             _prefab = GetPrefabPath();
         }
@@ -49,7 +49,7 @@ namespace Deepglint.XR.Toolkit.UIFrame
         }
 
 
-        protected T CreateChild<T>() where T : BaseComponent
+        protected T CreateChild<T>() where T : BaseModule
         {
             var child = Create<T>(gameObject);
             _children.Add(child);
@@ -58,7 +58,7 @@ namespace Deepglint.XR.Toolkit.UIFrame
         }
 
 
-        protected T CreateChildOnSubGameObject<T>(string name) where T : BaseComponent
+        protected T CreateChildOnSubGameObject<T>(string name) where T : BaseModule
         {
             var child = Create<T>(gameObject.FindChildGameObject(name));
             _children.Add(child);
@@ -75,25 +75,24 @@ namespace Deepglint.XR.Toolkit.UIFrame
         }
 
         public static T Create<T>(GameObject parent = null)
-            where T : BaseComponent
+            where T : BaseModule
         {
-            var component = Activator.CreateInstance<T>();
-            component.gameObject = InitComponent(component._prefab, parent);
-            return component;
-        }
+            var module = Activator.CreateInstance<T>();
 
-        private static GameObject InitComponent(string path, GameObject parent = null)
-        {
-            var component = UnityEngine.Object.Instantiate(path == null
-                ? new GameObject()
-                : Resources.Load<GameObject>(path));
+            var gameObject = UnityEngine.Object.Instantiate(module._prefab == null
+                ? new GameObject(typeof(T).Name)
+                : Resources.Load<GameObject>(module._prefab));
 
             if (parent != null)
             {
-                component.transform.SetParent(parent.transform, false);
+                gameObject.transform.SetParent(parent.transform, false);
             }
-            return component;
+
+            module.gameObject = gameObject;
+
+            return module;
         }
+
 
 
         private string GetPrefabPath()
@@ -110,13 +109,13 @@ namespace Deepglint.XR.Toolkit.UIFrame
 
         private string GetPathByNamespace()
         {
-            var ns = GetType().Namespace ?? throw new InvalidOperationException("Component script namespace not found.");
+            var ns = GetType().Namespace ?? throw new InvalidOperationException("mudule script namespace not found.");
 
             var arr = ns.Split(".");
             // QUESTION: 我们能把Scene这一层去了吗，从Scripts找就行了
             if (arr[0] != "Scene")
             {
-                throw new Exception("component script must under /Assets/Scripts/Scene folder");
+                throw new Exception("module script must under /Assets/Scripts/Scene folder");
             }
 
             arr[0] = "Prefabs";

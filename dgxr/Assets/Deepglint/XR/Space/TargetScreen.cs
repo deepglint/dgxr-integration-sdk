@@ -70,7 +70,7 @@ namespace Deepglint.XR.Space
                 Debug.LogWarning("Camera is already in the stack.");
             }
         }
-        
+
         /// <summary>
         /// Removes a camera from the SpaceCamera's stack.
         /// </summary>
@@ -99,9 +99,9 @@ namespace Deepglint.XR.Space
                 Debug.LogWarning("Camera is not in the stack.");
             }
         }
-    
 
-        
+
+
         public Vector2 ProjectionVector3(Vector3 point)
         {
             return ProjectionVector3(point, this);
@@ -223,7 +223,7 @@ namespace Deepglint.XR.Space
             return false;
         }
 
-        public new string ToString()
+        public override string ToString()
         {
             return TargetScreen.ToString();
         }
