@@ -159,7 +159,7 @@ namespace Deepglint.XR.Toolkit.Manager
 
 
 
-        public static void doFrameOnce(float delay, Handler method)
+        public static void DoFrameOnce(float delay, Handler method)
         {
             Create(true, false, delay, method);
         }
@@ -170,17 +170,17 @@ namespace Deepglint.XR.Toolkit.Manager
         /// <param name="delay">延迟时间(单位为帧)</param>
         /// <param name="method">结束时的回调方法</param>
         /// <param name="args">回调参数</param>
-        public static void doFrameOnce<T1>(float delay, Handler<T1> method, params object[] args)
+        public static void DoFrameOnce<T1>(float delay, Handler<T1> method, params object[] args)
         {
             Create(true, false, delay, method, args);
         }
 
-        public static void doFrameOnce<T1, T2>(float delay, Handler<T1, T2> method, params object[] args)
+        public static void DoFrameOnce<T1, T2>(float delay, Handler<T1, T2> method, params object[] args)
         {
             Create(true, false, delay, method, args);
         }
 
-        public static void doFrameOnce<T1, T2, T3>(float delay, Handler<T1, T2, T3> method, params object[] args)
+        public static void DoFrameOnce<T1, T2, T3>(float delay, Handler<T1, T2, T3> method, params object[] args)
         {
             Create(true, false, delay, method, args);
         }

@@ -42,6 +42,11 @@ namespace Deepglint.XR.Toolkit.Manager
             AudioManager.PlayAudio(this, ignoreIfPlaying, loop, volume);
         }
 
+        public void Stop()
+        {
+            AudioManager.StopAudio(this);
+        }
+
 
         /// <summary>
         /// 获取音频长度
@@ -148,7 +153,7 @@ namespace Deepglint.XR.Toolkit.Manager
         }
 
 
-        public static async void PlayAudioList(AudioList list, string audioListName, float volume = 1)
+        public static async void PlayAudioList(AudioList list, float volume = 1)
         {
             AudioLists.Add(list);
             foreach (var audio in list.Audios)
@@ -162,7 +167,7 @@ namespace Deepglint.XR.Toolkit.Manager
                 }
             }
 
-            AudioLists.RemoveAll(item => item.Name == audioListName);
+            AudioLists.RemoveAll(item => item.Name == list.Name);
         }
 
         
