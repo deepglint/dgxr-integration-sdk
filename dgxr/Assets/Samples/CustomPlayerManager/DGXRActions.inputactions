@@ -31,6 +31,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SlideRightArmToLeft",
+                    "type": "Value",
+                    "id": "cc8b60e6-4c6c-414e-969f-c091351d0de4",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SlideLeftArmToRight",
+                    "type": "Value",
+                    "id": "eacb7c5c-7fbd-402f-94d6-7b6f11864799",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -64,6 +82,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f94cea1e-499a-4522-a3bf-e95f0279d070",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "SlideRightArmToLeft",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SlideRightArmToLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "48e18058-8b8c-4f41-a0e7-696df3ef26ce",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "SlideLeftArmToRight",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SlideLeftArmToRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

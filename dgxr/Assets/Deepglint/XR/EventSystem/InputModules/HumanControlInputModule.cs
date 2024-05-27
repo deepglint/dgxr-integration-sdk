@@ -7,13 +7,20 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace Deepglint.XR.EventSystem.InputModules
 {
+    /// <summary>
+    ///  A InputModule designed for DGXRHumanControl input.
+    /// </summary>
     [AddComponentMenu("Event/Human Control Input Module")]
     public class HumanControlInputModule : PointerInputModule
     {
+        /// <summary>
+        /// Determine whether the foot is on the bottom screen based on the height above the ground.
+        /// </summary>
         [SerializeField]
         private float footTouchThreshold = 0.03f;
 
         private const float DoubleClickTime = 0.3f;
+        
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -37,31 +44,33 @@ namespace Deepglint.XR.EventSystem.InputModules
             m_PointerData.Remove(deviceId);
         }
         
+        /// <summary>
+        /// Process the DGXRHumanControl event.
+        /// </summary>
         private void ProcessHumanControlEvent()
         {
             if (DeviceManager.m_ActiveDeviceCount > 0)
             {
                 foreach (var device in DeviceManager.AllActiveXRHumanDevices)
                 {
-                    // PointerEventData left = GetFootPointerEventData(device);
-                    // ProcessMove(left);
-                    // PointerEventData right = GetFootPointerEventData(device, true);
-                    // ProcessMove(right);
-
                     var humanData = GetHumanControlState(device);
                     var leftFootData = humanData.GetButtonState(HumanPointerEventData.InputButton.LeftFoot).EventData;
-                    //ProcessFootTouch(leftFootData);
+                    ProcessFootTouch(leftFootData);
                     ProcessHumanMove(leftFootData.ButtonData);
-                    //ProcessDrag(leftFootData.ButtonData);
+                    ProcessDrag(leftFootData.ButtonData);
                     
                     var rightFootData = humanData.GetButtonState(HumanPointerEventData.InputButton.RightFoot).EventData;
-                    //ProcessFootTouch(rightFootData);
+                    ProcessFootTouch(rightFootData);
                     ProcessHumanMove(rightFootData.ButtonData);
-                    //ProcessDrag(rightFootData.ButtonData);
+                    ProcessDrag(rightFootData.ButtonData);
                 }
             }
         }
 
+        /// <summary>
+        /// Process event data when foot is touching on the ground
+        /// </summary>
+        /// <param name="data"></param>
         private void ProcessFootTouch(HumanButtonEventData data)
         {
             var pointerEvent = data.ButtonData;
@@ -75,8 +84,8 @@ namespace Deepglint.XR.EventSystem.InputModules
                 pointerEvent.pressPosition = pointerEvent.position;
                 pointerEvent.pointerPressRaycast = pointerEvent.pointerCurrentRaycast;
                 
-                // todo DeselectIfSelectionChanged
-                
+                DeselectIfSelectionChanged(currentOverGo, pointerEvent);
+               
                 var resetDiffTime = Time.unscaledTime - pointerEvent.clickTime;
                 if (resetDiffTime >= DoubleClickTime)
                 {
@@ -145,19 +154,29 @@ namespace Deepglint.XR.EventSystem.InputModules
 
                 pointerEvent.dragging = false;
                 pointerEvent.pointerDrag = null;
-
-                // send exit events as we need to simulate this on touch up on touch device
-                ExecuteEvents.ExecuteHierarchy(pointerEvent.pointerEnter, pointerEvent, ExecuteEvents.pointerExitHandler);
-                pointerEvent.pointerEnter = null;
+                if (currentOverGo != pointerEvent.pointerEnter)
+                {
+                    HandlePointerExitAndEnter(pointerEvent, null);
+                    HandlePointerExitAndEnter(pointerEvent, currentOverGo);
+                }
             }
         }
 
+        /// <summary>
+        /// Process event data when foot is moving on the ground
+        /// </summary>
+        /// <param name="pointerData"></param>
         private void ProcessHumanMove(PointerEventData pointerData)
         {
             GameObject hoverTarget = pointerData.pointerCurrentRaycast.gameObject;
             HandlePointerExitAndEnter(pointerData, hoverTarget);
         }
 
+        /// <summary>
+        /// Retrieve data from DGXRHumanController and convert it to HumanControlState status data. 
+        /// </summary>
+        /// <param name="device"></param>
+        /// <returns></returns>
         private HumanControlState GetHumanControlState(DGXRHumanController device)
         {
             HumanControlState humanState = new HumanControlState();
@@ -172,6 +191,12 @@ namespace Deepglint.XR.EventSystem.InputModules
             return humanState;
         }
 
+        /// <summary>
+        /// Convert the foot data from 'DGXRHumanController' to 'PointerEventData'
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         private PointerEventData GetFootPointerEventData(DGXRHumanController device, bool right = false)
         {
             PointerEventData data;
@@ -180,12 +205,12 @@ namespace Deepglint.XR.EventSystem.InputModules
             if (right)
             {
                 created = GetPointerData(device.deviceId, out data, true);
-                currentFootPos = WorldToBottomUIPosition(device.HumanBody.RightFoot.position.value);
+                currentFootPos = WorldToBottomScreenPosition(device.HumanBody.RightFoot.position.value);
             }
             else
             {
                 created = GetPointerData(-device.deviceId, out data, true);
-                currentFootPos = WorldToBottomUIPosition(device.HumanBody.LeftFoot.position.value);
+                currentFootPos = WorldToBottomScreenPosition(device.HumanBody.LeftFoot.position.value);
             }
             data.Reset();
 
@@ -208,7 +233,12 @@ namespace Deepglint.XR.EventSystem.InputModules
             return data;
         }
 
-        private Vector2 WorldToBottomUIPosition(Vector3 position)
+        /// <summary>
+        /// Convert world position to bottom screen position.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        private Vector2 WorldToBottomScreenPosition(Vector3 position)
         {
             // Debug.Log("foot height: " + position.y);
             return new Vector2(
@@ -218,6 +248,12 @@ namespace Deepglint.XR.EventSystem.InputModules
                 + Global.Space.Bottom.Resolution.height * 0.5f);
         }
 
+        /// <summary>
+        /// Get the state of a human button.
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="buttonId"></param>
+        /// <returns></returns>
         private PointerEventData.FramePressState StateForHumanButton(DGXRHumanController device,
             HumanPointerEventData.InputButton buttonId)
         {
@@ -234,7 +270,7 @@ namespace Deepglint.XR.EventSystem.InputModules
         }
 
         /// <summary>
-        /// Check if foot is touched on the floor
+        /// Check if foot is touching on the floor.
         /// </summary>
         /// <param name="device"></param>
         /// <param name="buttonId"></param>
@@ -258,6 +294,9 @@ namespace Deepglint.XR.EventSystem.InputModules
             return touched;
         }
 
+        /// <summary>
+        /// State of HumanButton
+        /// </summary>
         private class HumanButtonState
         {
             public HumanButtonEventData EventData { get; set; }
@@ -285,7 +324,12 @@ namespace Deepglint.XR.EventSystem.InputModules
             /// </summary>
             public bool PressedThisFrame()
             {
-                return ButtonState == PointerEventData.FramePressState.Pressed || ButtonState == PointerEventData.FramePressState.PressedAndReleased;
+                if (ButtonData.eligibleForClick == false)
+                {
+                    return ButtonState == PointerEventData.FramePressState.Pressed || ButtonState == PointerEventData.FramePressState.PressedAndReleased;
+                }
+
+                return false;
             }
 
             /// <summary>
@@ -293,10 +337,18 @@ namespace Deepglint.XR.EventSystem.InputModules
             /// </summary>
             public bool ReleasedThisFrame()
             {
-                return ButtonState == PointerEventData.FramePressState.Released || ButtonState == PointerEventData.FramePressState.PressedAndReleased;
+                if (ButtonData.eligibleForClick == true)
+                {
+                    return ButtonState == PointerEventData.FramePressState.Released || ButtonState == PointerEventData.FramePressState.PressedAndReleased;
+                }
+
+                return false;
             }
         }
 
+        /// <summary>
+        /// State of DGXRHumanControl
+        /// </summary>
         private class HumanControlState
         {
             private List<HumanButtonState> _trackedButtons = new List<HumanButtonState>();
