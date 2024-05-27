@@ -315,7 +315,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4550654615593993650}
         m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
-        m_MethodName: RaiseBothHandControl
+        m_MethodName: SlideRightArmToLeftControl
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -325,8 +325,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 2f4949bb-0c4b-4c8e-8d91-b6e096e40baf
-    m_ActionName: Player/RaiseBothHand[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody,/DGXRHumanController18/HumanBody,/DGXRHumanController19/HumanBody,/DGXRHumanController20/HumanBody,/DGXRHumanController21/HumanBody,/DGXRHumanController22/HumanBody,/DGXRHumanController23/HumanBody,/DGXRHumanController24/HumanBody,/DGXRHumanController25/HumanBody,/DGXRHumanController26/HumanBody]
+    m_ActionId: cc8b60e6-4c6c-414e-969f-c091351d0de4
+    m_ActionName: Player/SlideRightArmToLeft
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: SlideLeftArmToRightControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: eacb7c5c-7fbd-402f-94d6-7b6f11864799
+    m_ActionName: Player/SlideLeftArmToRight
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
