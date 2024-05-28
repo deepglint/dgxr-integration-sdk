@@ -15,14 +15,14 @@ namespace Deepglint.XR.Player
     /// <summary>
     /// Manages joining and leaving of players.
     /// </summary>
-    public class PlayerManager : MonoBehaviour 
+    public class PlayerManager : MonoBehaviour
     {
         /// <summary>
         /// Prefab that the manager will instantiate when players join.
         /// </summary>
-        [SerializeField] 
-        private GameObject playerPrefab; 
-        
+        [SerializeField]
+        private GameObject playerPrefab;
+
         /// <summary>
         /// The input action that a player must trigger to join the game.
         /// </summary>
@@ -34,25 +34,25 @@ namespace Deepglint.XR.Player
         /// for gamepad for example, and the first player joined using the keyboard, the expectation is that the next player
         /// could still join by pressing the gamepad join button. Without the cloning behavior, the gamepad input would have
         /// been disabled.
-        /// </remarks> 
+        /// </remarks>
         [SerializeField]
         private InputActionProperty joinAction;
-        
+
         /// <summary>
         /// Manages all the playerInputs
         /// </summary>
         private PlayerInputManager _playerInputManager;
-        
+
         /// <summary>
         /// All the active PlayerInput count managed by the PlayerManager instance
         /// </summary>
         private static int _allActivePlayersCount;
-        
+
         /// <summary>
-        /// All the active PlayerInputs managed by the PlayerManager instance 
+        /// All the active PlayerInputs managed by the PlayerManager instance
         /// </summary>
         private static PlayerInput[] _allActivePlayers;
-        
+
         public GameObject PlayerPrefab
         {
             get => playerPrefab;
@@ -63,13 +63,13 @@ namespace Deepglint.XR.Player
         /// Singleton instance of the manager.
         /// </summary>
         public static PlayerManager Instance { get; private set; }
-        
+
         /// <summary>
-        /// Callback array to save all the OnTryToJoin delegate 
+        /// Callback array to save all the OnTryToJoin delegate
         /// </summary>
-        private static CallbackArray<Func<InputDevice, object>> _tryToJoinDelegate;
-        
-        public static event Func<InputDevice, ICharacter> OnTryToJoinWithICharacter
+        private CallbackArray<Func<InputDevice, object>> _tryToJoinDelegate;
+
+        public event Func<InputDevice, ICharacter> OnTryToJoinWithICharacter
         {
             add
             {
@@ -84,8 +84,8 @@ namespace Deepglint.XR.Player
                 _tryToJoinDelegate.RemoveCallback(value);
             }
         }
-        
-        public static event Func<InputDevice, Character> OnTryToJoinWithCharacter
+
+        public event Func<InputDevice, Character> OnTryToJoinWithCharacter
         {
             add
             {
@@ -100,7 +100,7 @@ namespace Deepglint.XR.Player
                 _tryToJoinDelegate.RemoveCallback(value);
             }
         }
-        
+
         private void Awake()
         {
             _playerInputManager = gameObject.AddComponent<PlayerInputManager>();
@@ -115,7 +115,7 @@ namespace Deepglint.XR.Player
             // }
             _playerInputManager.playerPrefab = playerPrefab;
             _playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersManually;
-        
+
             _playerInputManager.onPlayerJoined += OnPlayerJoined;
             _playerInputManager.onPlayerLeft += OnPlayerLeft;
         }
@@ -131,7 +131,7 @@ namespace Deepglint.XR.Player
                 Debug.LogWarning("Multiple PlayerManagers in the game. There should only be one PlayerManager", this);
                 return;
             }
-        
+
             // if the join action is a reference, clone it so we don't run into problems with the action being disabled by
             // PlayerInput when devices are assigned to individual players
             if (joinAction.reference != null && joinAction.action?.actionMap?.asset != null)
@@ -141,12 +141,12 @@ namespace Deepglint.XR.Player
                 joinAction = new InputActionProperty(inputActionReference);
                 joinAction.action.performed += OnJoinActionPerformed;
                 joinAction.action.Enable();
-            }          
+            }
             _playerInputManager.EnableJoining();
 
             InputUser.onChange += OnInputUserChange;
         }
-        
+
         private void OnDisable()
         {
             if (Instance == this)
@@ -207,7 +207,7 @@ namespace Deepglint.XR.Player
 
                 return;
             }
-            
+
             if (obj is ICharacter iCharacter)
             {
                 // Initiate a new player for the character and pair the device to the new player.
@@ -217,7 +217,7 @@ namespace Deepglint.XR.Player
                     iCharacter.Join(playerInput.gameObject);
                     Debug.LogFormat("player {0} which paired to {1} joined with ICharacter succeed", playerInput.user.id, device.deviceId);
                 }
-                
+
                 return;
             }
 
@@ -226,7 +226,7 @@ namespace Deepglint.XR.Player
 
         public bool PairDeviceToPlayer(GameObject player, InputDevice device)
         {
-            
+
 #if UNITY_EDITOR
             GameObject prefabSource = PrefabUtility.GetCorrespondingObjectFromSource(player) as GameObject;
             if (prefabSource != playerPrefab)
@@ -251,13 +251,13 @@ namespace Deepglint.XR.Player
                 InputUser.PerformPairingWithDevice(device, playerInput.user);
                 return true;
             }
-            
+
             return false;
         }
 
         public void UnpairDeviceFromPlayer(GameObject player, InputDevice device)
         {
-            
+
 #if UNITY_EDITOR
             GameObject prefabSource = PrefabUtility.GetCorrespondingObjectFromSource(player) as GameObject;
             if (prefabSource != playerPrefab)
@@ -265,7 +265,7 @@ namespace Deepglint.XR.Player
                 return;
             }
 #endif
-            
+
             var playerInput = player.GetComponent<PlayerInput>();
             if (playerInput != null)
             {
@@ -317,7 +317,7 @@ namespace Deepglint.XR.Player
 
             return true;
         }
-    
+
         /// <summary>
         /// callback invoked when a PlayerInput component is enabled.
         /// </summary>
@@ -343,7 +343,7 @@ namespace Deepglint.XR.Player
         }
 
         /// <summary>
-        /// callback invoked when a paired device is lost. 
+        /// callback invoked when a paired device is lost.
         /// </summary>
         /// <param name="pi"></param>
         /// <param name="device"></param>
@@ -352,9 +352,9 @@ namespace Deepglint.XR.Player
             pi.user.UnpairDevice(device);
             Debug.LogFormat("device {0} was unpaired from player {1}, current player device count is {2}", device.deviceId, pi.user.id, pi.devices.Count);
         }
-        
+
         /// <summary>
-        /// callback invoked when a paired device is regained. 
+        /// callback invoked when a paired device is regained.
         /// </summary>
         /// <param name="pi"></param>
         /// <param name="device"></param>
@@ -376,7 +376,7 @@ namespace Deepglint.XR.Player
             {
                 Debug.LogFormat("unpair device {0} from player {1}, cause over size", device.deviceId, pi.user.id);
                 pi.user.UnpairDevice(device);
-            } 
+            }
         }
 
         /// <summary>
@@ -398,7 +398,7 @@ namespace Deepglint.XR.Player
                             OnDeviceLost(player, device);
                         }
                     }
-                    
+
                     break;
                 case InputUserChange.DeviceRegained:
                     for (var i = 0; i < _allActivePlayersCount; ++i)
@@ -406,7 +406,7 @@ namespace Deepglint.XR.Player
                         var player = _allActivePlayers[i];
                         if (player.user == user)
                         {
-                            OnDeviceRegained(player, device); 
+                            OnDeviceRegained(player, device);
                         }
                     }
 
@@ -417,12 +417,21 @@ namespace Deepglint.XR.Player
                         var player = _allActivePlayers[i];
                         if (player.user == user)
                         {
-                            OnDevicePaired(player, device); 
+                            OnDevicePaired(player, device);
                         }
-                    } 
-                    
+                    }
+
                     break;
             }
+        }
+
+        private void OnDestroy()
+        {
+            InputUser.onChange -= OnInputUserChange;
+            _playerInputManager.onPlayerJoined -= OnPlayerJoined;
+            _playerInputManager.onPlayerLeft -= OnPlayerLeft;
+            joinAction.action.performed -= OnJoinActionPerformed;
+            Instance = null;
         }
     }
 }

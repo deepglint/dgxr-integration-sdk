@@ -14,7 +14,7 @@ namespace Deepglint.XR.Toolkit.UIFrame
         private readonly string _prefab;
         public GameObject gameObject { get; private set; }
         public Transform transform => gameObject.transform;
-        public bool activeSelf => gameObject.activeSelf;
+        public bool activeSelf => gameObject != null && gameObject.activeSelf;
 
 
         protected BaseModule()
@@ -57,6 +57,15 @@ namespace Deepglint.XR.Toolkit.UIFrame
             return child;
         }
 
+        protected void AddChild(BaseModule child)
+        {
+            _children.Add(child);
+        }
+
+        protected void SetParent(BaseModule parent)
+        {
+            parent.AddChild(this);
+        }
 
         protected T CreateChildOnSubGameObject<T>(string name) where T : BaseModule
         {

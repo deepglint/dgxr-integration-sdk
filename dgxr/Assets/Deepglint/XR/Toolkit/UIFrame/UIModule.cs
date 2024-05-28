@@ -12,7 +12,7 @@ namespace Deepglint.XR.Toolkit.UIFrame
 
         protected new T CreateChild<T>() where T : UIModule
         {
-            return Create<T>(Screen, gameObject);
+            return Create<T>(Screen, this, gameObject);
         }
 
         protected T CreateChildOnScreen<T>(ScreenInfo screen, GameObject parent=null) where T : UIModule
@@ -21,12 +21,13 @@ namespace Deepglint.XR.Toolkit.UIFrame
             {
                 parent = screen.ScreenCanvas;
             }
-            return Create<T>(screen, parent);
+            return Create<T>(screen, this, parent);
         }
+
 
         protected new T CreateChildOnSubGameObject<T>(string name) where T : UIModule
         {
-            return Create<T>(Screen, gameObject.FindChildGameObject(name));
+            return Create<T>(Screen, this, gameObject.FindChildGameObject(name));
         }
 
         public void MoveToScreen(ScreenInfo screen, GameObject parent=null)
@@ -49,7 +50,7 @@ namespace Deepglint.XR.Toolkit.UIFrame
             Screen = parent.Screen;
         }
 
-        public static T Create<T>(ScreenInfo screen, GameObject parent = null)
+        public static T Create<T>(ScreenInfo screen,UIModule moduleParent=null, GameObject parent = null)
             where T : UIModule
         {
             if (parent == null)
@@ -58,16 +59,21 @@ namespace Deepglint.XR.Toolkit.UIFrame
             }
 
             var module = BaseModule.Create<T>(parent);
+            if (moduleParent != null)
+            {
+                module.SetParent(moduleParent);
+            }
+
             module.Screen = screen;
             module.OnOpen();
             return module;
         }
 
-        public static T Create<T>(TargetScreen target, GameObject parent = null)
+        public static T Create<T>(TargetScreen target, UIModule moduleParent=null, GameObject parent = null)
             where T : UIModule
         {
             var screen = Global.Space[target];
-            return Create<T>(screen, parent);
+            return Create<T>(screen, moduleParent, parent);
         }
 
         protected new object CreateChildByClass(Type type)
