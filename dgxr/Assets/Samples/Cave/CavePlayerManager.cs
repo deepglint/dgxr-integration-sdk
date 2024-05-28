@@ -13,7 +13,7 @@ namespace Samples.Cave
         private void Start()
         {
             _videoWatcher = new VideoWatcherCharacter("videoWatcher");
-            PlayerManager.OnTryToJoinWithCharacter += _videoWatcher.OnTryToJoin;
+            PlayerManager.Instance.OnTryToJoinWithCharacter += _videoWatcher.OnTryToJoin;
         }
 
         private void Update()
@@ -35,7 +35,7 @@ namespace Samples.Cave
                 {
                     Global.CavePosition = new Vector3(0, 1.6f, 0);
                 }
-            
+
             }
         }
 

@@ -14,14 +14,14 @@ namespace Samples.CustomPlayerManager
 
         public void Start()
         {
-            _character1 = new Character2("小红", new ROI(){ Anchor = new Vector2(-1, 0), Radius = 1.0f }); 
-            _character2 = new Character2("蓝蓝", new ROI(){ Anchor = Vector2.zero, Radius = 1.0f }); 
-            _character3 = new Character2("阿强", new ROI(){ Anchor = new Vector2(1, 0), Radius = 1.0f }); 
-            PlayerManager.OnTryToJoinWithCharacter += _character1.OnTryToJoin;
-            PlayerManager.OnTryToJoinWithCharacter += _character2.OnTryToJoin;
-            PlayerManager.OnTryToJoinWithCharacter += _character3.OnTryToJoin;
+            _character1 = new Character2("小红", new ROI(){ Anchor = new Vector2(-1, 0), Radius = 1.0f });
+            _character2 = new Character2("蓝蓝", new ROI(){ Anchor = Vector2.zero, Radius = 1.0f });
+            _character3 = new Character2("阿强", new ROI(){ Anchor = new Vector2(1, 0), Radius = 1.0f });
+            PlayerManager.Instance.OnTryToJoinWithCharacter += _character1.OnTryToJoin;
+            PlayerManager.Instance.OnTryToJoinWithCharacter += _character2.OnTryToJoin;
+            PlayerManager.Instance.OnTryToJoinWithCharacter += _character3.OnTryToJoin;
         }
-    
+
         public struct ROI
         {
             public Vector2 Anchor;
@@ -36,7 +36,7 @@ namespace Samples.CustomPlayerManager
                 Name = name;
                 Roi = roi;
             }
-        
+
             public override Character OnTryToJoin(InputDevice device)
             {
                 if (IsBindable())
@@ -47,7 +47,7 @@ namespace Samples.CustomPlayerManager
                         if (Vector2.Distance(Roi.Anchor,new Vector2(position.x, position.z)) < Roi.Radius)
                         {
                             Debug.LogFormat("character {0} is bindable", Name);
-                            return this; 
+                            return this;
                         }
                     }
                 }
