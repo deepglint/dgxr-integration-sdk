@@ -65,10 +65,10 @@ namespace Deepglint.XR.Toolkit.Manager
         }
 
 
-        public static async Task CustomTask(int duration)
+        public static async Task CustomTask(float duration)
         {
-            var newDuration = (int)(duration / _speed);
-            await Task.Delay(newDuration);
+            var newDuration = (float)(duration / _speed);
+            await Task.Delay((int)newDuration);
         }
 
         private static void Create(bool useFrame, bool repeat, float delay, Delegate method, params object[] args)

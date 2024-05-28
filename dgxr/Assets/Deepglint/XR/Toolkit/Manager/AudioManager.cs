@@ -121,23 +121,28 @@ namespace Deepglint.XR.Toolkit.Manager
         private static readonly List<Audio> Audios = new();
         private static readonly List<AudioList> AudioLists = new();
 
-        private static Audio FindAudio(Audio audio)
+        public static Audio FindAudio(Audio audio)
         {
             return Audios.FirstOrDefault(item => item == audio);
         }
 
-        private static AudioList FindAudioList(string audioListName)
+        public static Audio FindAudio(string audioName)
+        {
+            return Audios.FirstOrDefault(item => item.Name == audioName);
+        }
+
+        public static AudioList FindAudioList(string audioListName)
         {
             return AudioLists.FirstOrDefault(audioList => audioList.Name == audioListName);
         }
 
 
-        private static List<Audio> FindAudiosByType(AudioType[] types)
+        public static List<Audio> FindAudiosByType(AudioType[] types)
         {
             return Audios.Where(audio => types.Contains(audio.Type)).ToList();
         }
 
-        private static List<Audio> FindAudiosByType(AudioType type)
+        public static List<Audio> FindAudiosByType(AudioType type)
         {
             return Audios.Where(audio => audio.Type == type).ToList();
         }
@@ -172,6 +177,28 @@ namespace Deepglint.XR.Toolkit.Manager
             audio.Source.loop = loop;
         }
 
+        public static void PlayAudio(string audioName, bool ignoreIfPlaying = false, bool loop = false,
+            float volume = 1)
+        {
+            Audio audio = FindAudio(audioName);
+
+            if (audio == null)
+            {
+                throw new NullReferenceException();
+            }
+            Audios.Add(audio);
+            if (ignoreIfPlaying)
+            {
+                if (audio.Source.isPlaying) return;
+            }
+            else
+            {
+                audio.Source.Play();
+            }
+
+            audio.Source.volume = volume;
+            audio.Source.loop = loop;
+        }
 
         public static async void PlayAudioList(AudioList list, float volume = 1)
         {
