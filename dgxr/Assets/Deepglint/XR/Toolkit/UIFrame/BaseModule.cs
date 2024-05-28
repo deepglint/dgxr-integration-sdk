@@ -88,9 +88,9 @@ namespace Deepglint.XR.Toolkit.UIFrame
         {
             var module = Activator.CreateInstance<T>();
 
-            var gameObject = UnityEngine.Object.Instantiate(module._prefab == null
+            var gameObject = module._prefab == null
                 ? new GameObject(typeof(T).Name)
-                : Resources.Load<GameObject>(module._prefab));
+                : UnityEngine.Object.Instantiate(Resources.Load<GameObject>(module._prefab));
 
             if (parent != null)
             {
@@ -101,7 +101,6 @@ namespace Deepglint.XR.Toolkit.UIFrame
 
             return module;
         }
-
 
 
         private string GetPrefabPath()
