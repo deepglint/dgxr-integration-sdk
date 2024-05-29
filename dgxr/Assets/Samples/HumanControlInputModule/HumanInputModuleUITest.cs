@@ -59,6 +59,7 @@ namespace Samples.HumanControlInputModule
                 {
                     Debug.LogFormat("slider value: {0}", value);
                 });
+                Debug.Log("slider ready");
             }
             
             _toggle = GetComponent<Toggle>();
