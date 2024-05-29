@@ -67,7 +67,7 @@ namespace Deepglint.XR.Toolkit.Manager
         {
             Name = name;
             Type = type;
-            Source = CreateAudioSource(Name);
+            Source = CreateAudioSource(Name, Type);
         }
 
         /// <summary>
@@ -110,8 +110,9 @@ namespace Deepglint.XR.Toolkit.Manager
         /// 加载音频
         /// </summary>
         /// <param name="audioName">音频名称</param>
+        /// <param name="audioType">音频类型</param>
         /// <returns>是否成功在指定文件夹下Load传入音频</returns>
-        private static AudioSource CreateAudioSource(string audioName)
+        private static AudioSource CreateAudioSource(string audioName, AudioType audioType)
         {
             if (_audioRoot == null)
             {
@@ -119,7 +120,7 @@ namespace Deepglint.XR.Toolkit.Manager
                 Object.DontDestroyOnLoad(_audioRoot);
             }
 
-            var audioClip = Resources.Load<AudioClip>(Path.Combine(BasePath, audioName));
+            var audioClip = Resources.Load<AudioClip>(Path.Combine(BasePath, audioType.ToString() ,audioName));
             if (audioClip == null) return null;
             var obj = new GameObject(audioClip.name);
             obj.transform.SetParent(_audioRoot.transform);
