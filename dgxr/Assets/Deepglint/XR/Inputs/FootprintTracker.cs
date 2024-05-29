@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using Deepglint.XR;
-using Deepglint.XR.Inputs;
 using UnityEngine;
 
-namespace Samples.HumanControlInputModule
+namespace Deepglint.XR.Inputs
 {
-    public class Footprint : MonoBehaviour
+    public class FootprintTracker : MonoBehaviour
     {
         [SerializeField] 
         private GameObject leftFootPrefab;

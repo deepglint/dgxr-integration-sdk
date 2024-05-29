@@ -80,6 +80,16 @@ namespace Deepglint.XR.Inputs
             }
             return null;
         }
+        
+        /// <summary>
+        /// Get an active device by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static InputDevice GetActiveDeviceById(int id)
+        {
+            return InputSystem.GetDeviceById(id);
+        }
 
         /// <summary>
         /// Add or active a Deepglint XR device with serial to the InputSystem
