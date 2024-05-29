@@ -2044,7 +2044,12 @@ PrefabInstance:
     - target: {fileID: 2004426611228676228, guid: ace4ea8648eeab04cbf95accb296d658,
         type: 3}
       propertyPath: m_Size
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2004426611228676228, guid: ace4ea8648eeab04cbf95accb296d658,
+        type: 3}
+      propertyPath: m_Value
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2004426611240732322, guid: ace4ea8648eeab04cbf95accb296d658,
         type: 3}
@@ -2214,7 +2219,7 @@ PrefabInstance:
     - target: {fileID: 2004426611240990048, guid: ace4ea8648eeab04cbf95accb296d658,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 263.99994
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2550038083683111452, guid: ace4ea8648eeab04cbf95accb296d658,
         type: 3}
@@ -2403,8 +2408,34 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2579590279852452919, guid: 36a32e2a2e662dc4eb41903bbbd132a5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4784967940889920478}
   m_SourcePrefab: {fileID: 100100000, guid: 36a32e2a2e662dc4eb41903bbbd132a5, type: 3}
+--- !u!1 &5428689361199872993 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2579590279852452919, guid: 36a32e2a2e662dc4eb41903bbbd132a5,
+    type: 3}
+  m_PrefabInstance: {fileID: 7537371591356012502}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4784967940889920478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5428689361199872993}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fd08e70c4ed4b928b098a0f5ecf1cd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftFootPrefab: {fileID: 2479837965968629493, guid: a7f6fb75f1dbd47199d0d47278280491,
+    type: 3}
+  rightFootPrefab: {fileID: 2479837965968629493, guid: 0810b4bbf95664465a22ada37c6b203a,
+    type: 3}
 --- !u!224 &7832718003715713285 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 299902797223919315, guid: 36a32e2a2e662dc4eb41903bbbd132a5,

@@ -1,9 +1,11 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Deepglint.XR.Space
 {
-    public class XRSpace
+    public class XRSpace: IEnumerable<ScreenInfo>
     {
         private static XRSpace _instance;
         private readonly Dictionary<TargetScreen,ScreenInfo> _screenDic;
@@ -57,6 +59,16 @@ namespace Deepglint.XR.Space
         public ScreenInfo Bottom => _screenDic[TargetScreen.Bottom];
 
         public ScreenInfo this[TargetScreen screen] => _screenDic[screen];
+
+        public IEnumerator<ScreenInfo> GetEnumerator()
+        {
+            return _screenDic.Values.ToList().GetEnumerator();
+        }
+        
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
     }
 }
