@@ -30,11 +30,11 @@ namespace Deepglint.XR.Toolkit.Manager
         public readonly AudioSource Source;
         public float Length => AudioLength(this);
 
-        public Audio(string name, AudioType type)
+        public Audio(string name, AudioType type = AudioType.SoundEffect)
         {
             Name = name;
             Type = type;
-            Source = CreateAudioSource(Name, Type);
+            Source = CreateAudioSource(Name);
         }
 
         public void Play(bool ignoreIfPlaying = false, bool loop = false, float volume = 1)
@@ -69,7 +69,7 @@ namespace Deepglint.XR.Toolkit.Manager
         /// </summary>
         /// <param name="audioName">音频名称</param>
         /// <returns>是否成功在指定文件夹下Load传入音频</returns>
-        private static AudioSource CreateAudioSource(string audioName, AudioType type)
+        private static AudioSource CreateAudioSource(string audioName)
         {
             if (_audioRoot == null)
             {
@@ -77,7 +77,7 @@ namespace Deepglint.XR.Toolkit.Manager
                 Object.DontDestroyOnLoad(_audioRoot);
             }
 
-            var audioClip = Resources.Load<AudioClip>(Path.Combine(BasePath, type.ToString(), audioName));
+            var audioClip = Resources.Load<AudioClip>(Path.Combine(BasePath, audioName));
             if (audioClip == null) return null;
             var obj = new GameObject(audioClip.name);
             obj.transform.SetParent(_audioRoot.transform);
@@ -186,7 +186,6 @@ namespace Deepglint.XR.Toolkit.Manager
             {
                 throw new NullReferenceException();
             }
-
             Audios.Add(audio);
             if (ignoreIfPlaying)
             {
