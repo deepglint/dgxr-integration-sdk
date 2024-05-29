@@ -36,7 +36,6 @@ namespace Deepglint.XR
         public void Awake()
         {
             Cursor.visible = false;
-            DontDestroyOnLoad(this.gameObject);
             Global.UniqueID = SystemInfo.deviceUniqueIdentifier;
             Global.AppName = Application.productName;
             Global.SystemName = SystemInfo.operatingSystem;

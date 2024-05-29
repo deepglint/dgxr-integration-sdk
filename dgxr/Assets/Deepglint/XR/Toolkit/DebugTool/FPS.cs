@@ -1,40 +1,37 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Deepglint.XR.Toolkit.DebugTool
 {
     public class FPS : MonoBehaviour
     {
-        private float _lastUpdateShowTime;
-        private const float UpdateTime = 0.05f;
-        private int _frames;
+        public float frequency = 0.5f;
         private float _fPS;
         private Rect _guiFps;
         private readonly GUIStyle _style = new();
-
-        private bool _showDebug;
-
-
+        
         private void Start()
         {
             Application.targetFrameRate = 60;
             QualitySettings.vSyncCount = 0;
-            _lastUpdateShowTime = Time.realtimeSinceStartup;
+            Cursor.visible = false;
             _guiFps = new Rect(0, 0, 100, 100);
             _style.fontSize = 60;
             _style.normal.textColor = Color.red;
+            StartCoroutine(fps());
         }
-
-        private void Update()
-        {
-            _frames++;
-            if (Time.realtimeSinceStartup - _lastUpdateShowTime >= UpdateTime)
-            {
-                _fPS = _frames / (Time.realtimeSinceStartup - _lastUpdateShowTime);
-                _frames = 0;
-                _lastUpdateShowTime = Time.realtimeSinceStartup;
+       
+        private IEnumerator fps() {
+            for(;;){
+                int lastFrameCount = Time.frameCount;
+                float lastTime = Time.realtimeSinceStartup;
+                yield return new WaitForSeconds(frequency);
+                float timeSpan = Time.realtimeSinceStartup - lastTime;
+                int frameCount = Time.frameCount - lastFrameCount;
+                _fPS = frameCount / timeSpan;
             }
         }
-
+        
         private void OnGUI()
         {
             GUI.Label(_guiFps, "FPS: " + Mathf.RoundToInt(_fPS), _style);

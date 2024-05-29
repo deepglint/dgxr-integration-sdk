@@ -95,6 +95,8 @@ namespace Deepglint.XR.Config
         {
             [JsonProperty("display")]
             public int Display{ get; set; }
+            [JsonProperty("tarDisplay")]
+            public int[] TarDisplay{ get; set; }
             [JsonProperty("rect")]
             public float[] Rect{ get; set; }
         }
