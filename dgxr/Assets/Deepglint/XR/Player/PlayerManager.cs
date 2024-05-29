@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using Deepglint.XR.Inputs;
-using Deepglint.XR.Inputs.Devices;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -71,7 +71,7 @@ namespace Deepglint.XR.Player
         /// <summary>
         /// Manages all the playerInputs
         /// </summary>
-        private PlayerInputManager _playerInputManager;
+        private static PlayerInputManager _playerInputManager;
         
         /// <summary>
         /// All the active PlayerInput count managed by the PlayerManager instance
@@ -82,6 +82,9 @@ namespace Deepglint.XR.Player
         /// All the active PlayerInputs managed by the PlayerManager instance 
         /// </summary>
         private static PlayerInput[] _allActivePlayers;
+
+        private static Dictionary<int, ICharacter> _characters = new Dictionary<int, ICharacter>();
+        private static Dictionary<int, PlayerInput> _players = new Dictionary<int, PlayerInput>();
         
         public GameObject PlayerPrefab
         {
@@ -99,19 +102,21 @@ namespace Deepglint.XR.Player
         /// </summary>
         private CallbackArray<Func<InputDevice, object>> _tryToJoinDelegate;
         
-        public event Func<InputDevice, ICharacter> OnTryToJoinWithICharacter
+        private CallbackArray<Func<PlayerInput, object>> _playerJoinDelegate;
+        
+        public event Func<PlayerInput, ICharacter> OnTryToJoinWithICharacter
         {
             add
             {
                 if (value == null)
                     throw new ArgumentNullException(nameof(value));
-                _tryToJoinDelegate.AddCallback(value);
+                _playerJoinDelegate.AddCallback(value);
             }
             remove
             {
                 if (value == null)
                     throw new ArgumentNullException(nameof(value));
-                _tryToJoinDelegate.RemoveCallback(value);
+                _playerJoinDelegate.RemoveCallback(value);
             }
         }
         
@@ -133,7 +138,16 @@ namespace Deepglint.XR.Player
         
         private void Awake()
         {
-            _playerInputManager = gameObject.AddComponent<PlayerInputManager>();
+            if (_playerInputManager == null)
+            {
+                _playerInputManager = gameObject.AddComponent<PlayerInputManager>();
+                _playerInputManager.playerPrefab = playerPrefab;
+                _playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersManually;
+        
+                _playerInputManager.onPlayerJoined += OnPlayerJoined;
+                _playerInputManager.onPlayerLeft += OnPlayerLeft;
+                DeviceManager.OnDeviceLost += OnDeviceRemoved;
+            }
             // todo check player prefab exist;
             // if (playerPrefab == null)
             // {
@@ -143,11 +157,6 @@ namespace Deepglint.XR.Player
             //         Debug.LogError("Player perfab not found");
             //     }
             // }
-            _playerInputManager.playerPrefab = playerPrefab;
-            _playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersManually;
-        
-            _playerInputManager.onPlayerJoined += OnPlayerJoined;
-            _playerInputManager.onPlayerLeft += OnPlayerLeft;
         }
 
         private void OnEnable()
@@ -201,6 +210,11 @@ namespace Deepglint.XR.Player
                     
                     break;
                 case PlayerJoinBehaviour.JoinFromUI:
+                    if (joinUI == null)
+                    {
+                        Debug.LogError("joinUI should not be null");
+                        break;
+                    }
                     EventTrigger trigger = joinUI.GetComponent<EventTrigger>();
                     if (trigger == null)
                     {
@@ -318,29 +332,41 @@ namespace Deepglint.XR.Player
             // PlayerInput playerInput = null;
             var obj = DelegateHelper.InvokeCallbacksSafe_AnyCallbackReturnsObject(
                 ref _tryToJoinDelegate, device, "PlayerManager.onTryToJoin");
-            if (obj is Character character)
+            if (obj != null)
             {
-                if (PairDeviceToCharacter(character, device))
+                if (obj is Character character)
                 {
-                    Debug.LogFormat("succeed to bind device {0} to player {1}", device.deviceId, character.Name);
+                    if (PairDeviceToCharacter(character, device))
+                    {
+                        Debug.LogFormat("succeed to bind device {0} to player {1}", device.deviceId, character.Name);
+                    }
+                    else
+                    {
+                        Debug.LogFormat("failed to bind device {0} to player {1}", device.deviceId, character.Name);
+                    }
                 }
-                else
-                {
-                    Debug.LogFormat("failed to bind device {0} to player {1}", device.deviceId, character.Name);
-                }
-
-                return;
             }
-            
-            if (obj is ICharacter iCharacter)
+            else
             {
-                // Initiate a new player for the character and pair the device to the new player.
+                // Initiate a new player and pair the device to the new player.
                 var playerInput = _playerInputManager.JoinPlayer(pairWithDevice: device);
                 if (playerInput != null)
                 {
-                    iCharacter.Join(playerInput.gameObject);
-                    Debug.LogFormat("player {0} which paired to {1} joined with ICharacter succeed", playerInput.user.id, device.deviceId);
+                    obj = DelegateHelper.InvokeCallbacksSafe_AnyCallbackReturnsObject(
+                        ref _playerJoinDelegate, playerInput, "PlayerManager.onTryToJoin");
+                    if (obj != null)
+                    {
+                        playerInput.gameObject.AddComponent<PlayerGarbageCollector>();
+                        _characters.Add(device.deviceId, (ICharacter)obj);
+                        _players.Add(device.deviceId, playerInput);
+                        Debug.LogFormat("player {0} which paired to {1} joined with ICharacter succeed", playerInput.user.id, device.deviceId);
+                    }
+                    else
+                    {
+                        Destroy(playerInput.gameObject);
+                    }
                 }
+                
             }
         }
         
@@ -358,34 +384,50 @@ namespace Deepglint.XR.Player
             }
         }
 
-        public bool PairDeviceToPlayer(GameObject player, InputDevice device)
+        public bool PairDeviceToPlayerManually(PlayerInput pi, InputDevice device)
         {
-            var playerInput = player.GetComponent<PlayerInput>();
-            if (playerInput != null)
+            if (pi != null)
             {
-                foreach (var pairedDevice in playerInput.devices)
-                {
-                    if (pairedDevice is DGXRHumanController)
-                    {
-                        // forbidden pair duplicate DGXRController device to one player.
-                        return false;
-                    }
-                }
+                // todo forbidden pair duplicate DGXRController device to one player.
+                // foreach (var pairedDevice in pi.devices)
+                // {
+                //     if (pairedDevice is DGXRHumanController)
+                //     {
+                //        
+                //         return false;
+                //     }
+                // }
 
                 // Pair the device to the given player
-                InputUser.PerformPairingWithDevice(device, playerInput.user);
+                InputUser.PerformPairingWithDevice(device, pi.user);
                 return true;
             }
             
             return false;
         }
 
-        public void UnpairDeviceFromPlayer(GameObject player, InputDevice device)
+        public void UnpairDeviceFromPlayerManually(PlayerInput pi, InputDevice device)
         {
-            var playerInput = player.GetComponent<PlayerInput>();
-            if (playerInput != null)
+            if (pi != null)
             {
-                playerInput.user.UnpairDevice(device);
+                pi.user.UnpairDevice(device);
+            }
+        }
+
+        internal void DestroyPlayer(PlayerInput pi)
+        {
+            if (pi == null)
+            {
+                return;
+            }
+            foreach (var device in pi.devices)
+            {
+                if (_characters.TryGetValue(device.deviceId, out var iCharacter))
+                {
+                    iCharacter.OnPlayerLeft();
+                    _characters.Remove(device.deviceId);
+                    Debug.LogFormat("player on character {0} was destroyed", iCharacter.GetHashCode());
+                }
             }
         }
 
@@ -464,7 +506,21 @@ namespace Deepglint.XR.Player
         private static void OnDeviceLost(PlayerInput pi, InputDevice device)
         {
             pi.user.UnpairDevice(device);
+            if (_characters.TryGetValue(device.deviceId, out var iCharacter))
+            {
+                iCharacter.OnPlayerLeft();
+                _characters.Remove(device.deviceId);
+            }
             Debug.LogFormat("device {0} was unpaired from player {1}, current player device count is {2}", device.deviceId, pi.user.id, pi.devices.Count);
+        }
+
+        private static void OnDeviceRemoved(int deviceId)
+        {
+            if (_players.TryGetValue(deviceId, out var pi))
+            {
+                _players.Remove(deviceId);
+                Destroy(pi.gameObject);
+            }
         }
         
         /// <summary>
@@ -541,6 +597,7 @@ namespace Deepglint.XR.Player
 
         private void OnDestroy()
         {
+            DeviceManager.OnDeviceLost -= OnDeviceRemoved;
             InputUser.onChange -= OnInputUserChange;
             _playerInputManager.onPlayerJoined -= OnPlayerJoined;
             _playerInputManager.onPlayerLeft -= OnPlayerLeft;

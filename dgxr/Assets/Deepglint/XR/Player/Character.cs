@@ -12,21 +12,21 @@ namespace Deepglint.XR.Player
     public interface ICharacter
     {
         /// <summary>
-        /// OnTryToJoin is a callback function.
-        /// When a player paired with the param device is trying to join the game, 
-        /// this "OnTryToJoin" function will be invoked.
-        /// When consenting to a player joining, return an ICharacter， if not, just return null.
+        /// When a player paired with a device which performed the join action is trying to join the game, 
+        /// this "OnPlayerJoin" function will be invoked.
+        /// When consenting to a player joining, return an ICharacter，if not, just return null.
         /// </summary>
-        /// <param name="device"></param>
+        /// <param name="pi">
+        /// pi is a PlayerInput component instantiated from the PlayerManager.playerPrefab prefab.
+        /// </param>
         /// <returns> this </returns>
-        public ICharacter OnTryToJoin(InputDevice device);
+        public ICharacter OnPlayerJoin(PlayerInput pi);
         
         /// <summary>
-        /// When consenting to a player joining by OnTryToJoin,
-        /// this Join function will be called with a player created by the PlayerManager.
+        /// When the player join to current character is left this function will be called by the PlayerManager,
+        /// after that the player will be destroyed by PlayerManager.
         /// </summary>
-        /// <param name="player"></param>
-        public void Join(GameObject player);
+        public void OnPlayerLeft();
     }
     
     /// <summary>

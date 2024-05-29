@@ -8,12 +8,12 @@ namespace Samples.CustomPlayerManager
 {
     public class CustomPlayerManager3 : MonoBehaviour
     {
-        private Character3 _matchStickMan;
+        private Character3 _character;
 
         public void Start()
         {
-            _matchStickMan = new Character3("火柴人", new ROI(){ Anchor = new Vector2(0, 0), Radius = 1.0f });
-            PlayerManager.Instance.OnTryToJoinWithICharacter += _matchStickMan.OnTryToJoin;
+            _character = new Character3("火柴人", new ROI(){ Anchor = new Vector2(0, 0), Radius = 1.0f });
+            PlayerManager.Instance.OnTryToJoinWithICharacter += _character.OnPlayerJoin;
         }
 
         public struct ROI
@@ -37,27 +37,33 @@ namespace Samples.CustomPlayerManager
                 _roi = roi;
             }
 
-            public ICharacter OnTryToJoin(InputDevice device)
+            public ICharacter OnPlayerJoin(PlayerInput pi)
             {
                 if (_player is null)
                 {
-                    if (device is DGXRHumanController dgXRDevice)
+                    foreach (var device in pi.devices)
                     {
-                        Vector3 position = dgXRDevice.HumanPose.Position.ReadValue();
-                        if (Vector2.Distance(_roi.Anchor,new Vector2(position.x, position.z)) < _roi.Radius)
+                        if (device is DGXRHumanController dgXRDevice)
                         {
-                            Debug.LogFormat("character {0} is bindable", Name);
-                            return this;
+                            Vector3 position = dgXRDevice.HumanPose.Position.ReadValue();
+                            if (Vector2.Distance(_roi.Anchor,new Vector2(position.x, position.z)) < _roi.Radius)
+                            {
+                                Debug.LogFormat("character {0} is bindable", Name);
+                                _player = pi.gameObject;
+                                return this;
+                            }
                         }
                     }
                 }
+
                 Debug.LogFormat("character {0} is not bindable", Name);
                 return null;
             }
 
-            public void Join(GameObject player)
+            public void OnPlayerLeft()
             {
-                _player = player;
+                Debug.LogFormat("player {0} is left", Name);
+                _player = null;
             }
         }
     }
