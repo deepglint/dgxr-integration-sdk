@@ -40,7 +40,7 @@ namespace Samples.CustomPlayerManager
             
             PlayerManager.Instance.joinUI = ui;
             PlayerManager.Instance.JoinBehavior = PlayerJoinBehaviour.JoinFromUI;
-            PlayerManager.OnTryToJoinWithICharacter += _character.OnTryToJoin;
+            PlayerManager.Instance.OnTryToJoinWithICharacter += _character.OnTryToJoin;
         }
     
         public class Character4 : ICharacter
