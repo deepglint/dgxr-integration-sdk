@@ -34,7 +34,6 @@ namespace Deepglint.XR.Interaction
                                 dgXRDevice.HumanBody.LeftShoulder.position.ReadValue());
                             if (_armAngle >= StartArmAngle && distance < _distance)
                             {
-                                Debug.LogFormat("started");
                                 context.Started();
                             }
                             break;
