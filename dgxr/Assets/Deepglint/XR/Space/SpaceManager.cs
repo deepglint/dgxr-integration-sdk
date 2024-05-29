@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -18,9 +19,9 @@ namespace Deepglint.XR.Space
         [FormerlySerializedAs("DisplayImagePrefab")]
         public GameObject displayImagePrefab;
 
-        [FormerlySerializedAs("ScreenPrefab")] public 
-            
+        [FormerlySerializedAs("ScreenPrefab")] public
             GameObject screenPrefab;
+
         public Shader shader;
 
         [FormerlySerializedAs("UserViewCameraPrefab")]
@@ -61,7 +62,8 @@ namespace Deepglint.XR.Space
 #if !UNITY_EDITOR
         private RenderTexture _renderTexture;
         private RenderTexture _uiRenderTexture;
-
+        private RenderTexture _frontBottomTex;
+        private RenderTexture _backBottomTex;
 #endif
         private void Awake()
         {
@@ -90,6 +92,10 @@ namespace Deepglint.XR.Space
             }
 #if !UNITY_EDITOR
             _uiRenderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
+            _frontBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
+            _backBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
+            _frontBottomTex.Create();
+            _backBottomTex.Create();
 #endif
 
 
@@ -122,7 +128,7 @@ namespace Deepglint.XR.Space
         }
 
 #if !UNITY_EDITOR
-        public void HandleSplitScreen(ScriptableRenderContext paramContext, Camera[] paramCamera)
+        private IEnumerator ProcessRendersCoroutine()
         {
             foreach (var screen in Global.Config.Space.Screens)
             {
@@ -130,20 +136,54 @@ namespace Deepglint.XR.Space
                 {
                     foreach (var render in screen.Render)
                     {
-                        Rect rect = new Rect(render.Rect[0], render.Rect[1], render.Rect[2], render.Rect[3]);
-
-                        Texture tex = ClippedRenderTexture(_renderTexture,
-                            rect);
-
-                        if (_displayImages[render.Display]?.texture != null)
-                        {
-                            Destroy(_displayImages[render.Display].texture);
-                        }
-                        
-                        _displayImages[render.Display].texture = tex;
+                        yield return StartCoroutine(ProcessSingleRender(render));
                     }
                 }
             }
+        }
+
+        private IEnumerator ProcessSingleRender(Config.Config.RenderInfo render)
+        {
+            Rect rect = new Rect(render.Rect[0], render.Rect[1], render.Rect[2], render.Rect[3]);
+            ClippedRenderTexture(_renderTexture, rect, render.Display);
+            foreach (var tarDisplay in render.TarDisplay)
+            {
+                if (render.Display == 4)
+                {
+                    _displayImages[tarDisplay].texture = _frontBottomTex;
+                }
+                else if (render.Display == 5)
+                {
+                    _displayImages[tarDisplay].texture = _backBottomTex;
+                }
+            }
+
+            yield return null;
+        }
+
+        public void HandleSplitScreen(ScriptableRenderContext paramContext, Camera[] paramCamera)
+        {
+            StartCoroutine(ProcessRendersCoroutine());
+        }
+
+        private void ClippedRenderTexture(RenderTexture sourceTexture, Rect rect, int display)
+        {
+            Material cropMaterial = new Material(shader);
+            cropMaterial.SetTexture("_MainTex", sourceTexture);
+            cropMaterial.SetFloat("_OffsetX", rect.x / sourceTexture.width);
+            cropMaterial.SetFloat("_OffsetY", rect.y / sourceTexture.height);
+            cropMaterial.SetFloat("_ScaleX", rect.width / sourceTexture.width);
+            cropMaterial.SetFloat("_ScaleY", rect.height / sourceTexture.height);
+            if (display == 4)
+            {
+                Graphics.Blit(sourceTexture, _frontBottomTex, cropMaterial);
+            }
+            else if (display == 5)
+            {
+                Graphics.Blit(sourceTexture, _backBottomTex, cropMaterial);
+            }
+
+            RenderTexture.active = null;
         }
 #endif
         public void SetHead()
@@ -216,25 +256,6 @@ namespace Deepglint.XR.Space
             cam.projectionMatrix = mat;
         }
 
-        private Texture ClippedRenderTexture(RenderTexture sourceTexture, Rect rect)
-        {
-            int width = (int)rect.width;
-            int height = (int)rect.height;
-            RenderTexture croppedTexture = new RenderTexture(width, height, 24);
-            croppedTexture.Create();
-            RenderTexture.active = sourceTexture;
-            Material cropMaterial = new Material(shader);
-            cropMaterial.SetTexture("_MainTex", sourceTexture);
-            cropMaterial.SetFloat("_OffsetX", rect.x / sourceTexture.width);
-            cropMaterial.SetFloat("_OffsetY", rect.y / sourceTexture.height);
-            cropMaterial.SetFloat("_ScaleX", rect.width / sourceTexture.width);
-            cropMaterial.SetFloat("_ScaleY", rect.height / sourceTexture.height);
-            Graphics.Blit(sourceTexture, croppedTexture, cropMaterial);
-            RenderTexture.active = null;
-            return croppedTexture;
-        }
-
-
         private void InstantiateXR()
         {
             Transform space = GameObject.Find("XRSpace").transform;
@@ -293,22 +314,25 @@ namespace Deepglint.XR.Space
                     RenderTexture.active = _renderTexture;
                     foreach (var render in screen.Render)
                     {
-                        GameObject displayImage = Instantiate(displayImagePrefab,
-                            spaceCamera.transform.position,
-                            spaceCamera.transform.rotation,
-                            spaceCamera.transform);
-                        Canvas[] displayCanvas = displayImage.GetComponentsInChildren<Canvas>();
-                        foreach (var can in displayCanvas)
+                        foreach (var tarDisplay in render.TarDisplay)
                         {
-                            can.renderMode = RenderMode.ScreenSpaceOverlay;
-                            can.targetDisplay = render.Display;
-                        }
+                            GameObject displayImage = Instantiate(displayImagePrefab,
+                                spaceCamera.transform.position,
+                                spaceCamera.transform.rotation,
+                                spaceCamera.transform);
+                            Canvas[] displayCanvas = displayImage.GetComponentsInChildren<Canvas>();
+                            foreach (var can in displayCanvas)
+                            {
+                                can.renderMode = RenderMode.ScreenSpaceOverlay;
+                                can.targetDisplay = tarDisplay;
+                            }
 
-                        RawImage[] drawImage = displayImage.GetComponentsInChildren<RawImage>();
-                        _displayImages ??= new Dictionary<int, RawImage>();
-                        if (drawImage.Length > 0)
-                        {
-                            _displayImages[render.Display] = drawImage[0];
+                            RawImage[] drawImage = displayImage.GetComponentsInChildren<RawImage>();
+                            _displayImages ??= new Dictionary<int, RawImage>();
+                            if (drawImage.Length > 0)
+                            {
+                                _displayImages[tarDisplay] = drawImage[0];
+                            }
                         }
                     }
                 }
