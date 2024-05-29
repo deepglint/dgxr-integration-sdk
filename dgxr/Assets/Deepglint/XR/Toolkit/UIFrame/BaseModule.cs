@@ -8,13 +8,30 @@ using UnityEngine;
 namespace Deepglint.XR.Toolkit.UIFrame
 {
     
+    /// <summary>
+    /// BaseModule类是用于实现模块的抽象基类，模块包含了关联的 gameObject 和对应的控制逻辑，用于关联阈值件与控制逻辑，解决大量脚本挂载混乱的问题
+    /// 实例化模块时会按规则从对应的预制件创建gameObject
+    /// 模块以树形方式添加和管理，在父销毁时销毁所有的子模块及其 gameObject
+    /// </summary>
     [PrefabInfo(PathRule.NamespaceHierarchy)]
     public abstract class BaseModule
     {
         private readonly List<BaseModule> _children = new();
         private readonly string _prefab;
+        
+        /// <summary>
+        /// 模块包含的 gameObject
+        /// </summary>
         public GameObject gameObject { get; private set; }
+        
+        /// <summary>
+        /// 获取模块包含的 gameObject 的 transform 属性，gameObject.transform 的包装
+        /// </summary>
         public Transform transform => gameObject.transform;
+        
+        /// <summary>
+        /// 获取模块包含的 gameObject 的 activeSelf 属性，gameObject.activeSelf 的包装
+        /// </summary>
         public bool activeSelf => gameObject != null && gameObject.activeSelf;
 
 
@@ -23,14 +40,24 @@ namespace Deepglint.XR.Toolkit.UIFrame
             _prefab = GetPrefabPath();
         }
 
+        /// <summary>
+        /// 该方法在模块的gameObject资源创建后回调
+        /// </summary>
         public virtual void OnOpen()
         {
         }
 
+        /// <summary>
+        /// 该方法在模块的Destroy方法调用时回调
+        /// </summary>
         public virtual void OnClose()
         {
         }
 
+        /// <summary>
+        /// 设置模块包含的 gameObject 的Active状态，是对gameObject.SetActive的包装
+        /// </summary>
+        /// <param name="active"></param>
         public void SetActive(bool active)
         {
             gameObject.SetActive(active);
@@ -117,11 +144,11 @@ namespace Deepglint.XR.Toolkit.UIFrame
         }
 
         /// <summary>
-        /// 通过范型方法添加
+        /// 通过创建模块
         /// </summary>
-        /// <param name="parent"></param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <param name="parent">模块的gameObject要挂载的gameObject</param>
+        /// <typeparam name="T">模块类型</typeparam>
+        /// <returns>创建的模块</returns>
         public static T Create<T>(GameObject parent = null)
             where T : BaseModule
         {
