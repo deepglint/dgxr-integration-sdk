@@ -20,11 +20,7 @@ namespace Deepglint.XR.Toolkit.Utils
         
         public static T LoadData<T>(string filePath)
         {
-            var type = typeof(T);
-            var attribute = type.GetCustomAttribute<DataFileAttribute>();
-            var name = attribute != null ? attribute.Name : $"{type.Name.ToLower()}.json";
-            var path = Path.Combine(filePath, name);
-            return ReadJsonFile<T>(path);
+            return ReadJsonFile<T>(filePath + ".json");
         }
         
         public static T ReadJsonFile<T>(string filePath)
