@@ -469,7 +469,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 29039780555ee4c70ba417711c95d088, type: 2}
+  - {fileID: 2100000, guid: 51900e88de1a8421b883660e213be7b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -611,7 +611,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 29039780555ee4c70ba417711c95d088, type: 2}
+  - {fileID: 2100000, guid: 51900e88de1a8421b883660e213be7b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -922,7 +922,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 29039780555ee4c70ba417711c95d088, type: 2}
+  - {fileID: 2100000, guid: 51900e88de1a8421b883660e213be7b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1407,7 +1407,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 29039780555ee4c70ba417711c95d088, type: 2}
+  - {fileID: 2100000, guid: 51900e88de1a8421b883660e213be7b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1890,7 +1890,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 29039780555ee4c70ba417711c95d088, type: 2}
+  - {fileID: 2100000, guid: 51900e88de1a8421b883660e213be7b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2049,7 +2049,7 @@ PrefabInstance:
     - target: {fileID: 2004426611228676228, guid: ace4ea8648eeab04cbf95accb296d658,
         type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2004426611240732322, guid: ace4ea8648eeab04cbf95accb296d658,
         type: 3}
@@ -2219,7 +2219,7 @@ PrefabInstance:
     - target: {fileID: 2004426611240990048, guid: ace4ea8648eeab04cbf95accb296d658,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -0.00012207031
       objectReference: {fileID: 0}
     - target: {fileID: 2550038083683111452, guid: ace4ea8648eeab04cbf95accb296d658,
         type: 3}

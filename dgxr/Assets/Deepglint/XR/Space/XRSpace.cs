@@ -9,7 +9,6 @@ namespace Deepglint.XR.Space
     {
         private static XRSpace _instance;
         private readonly Dictionary<TargetScreen,ScreenInfo> _screenDic;
-
         public GameObject gameObject { get; internal set; }
 
         public float Length { get; internal set; }

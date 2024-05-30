@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Deepglint.XR.Source
@@ -90,9 +92,13 @@ namespace Deepglint.XR.Source
         public JointData Joints;
     }
 
-    public static class Source
+
+    public class Source : IEnumerable<SourceData>
     {
-        public static List<SourceData> Data = new List<SourceData>();
+        private static Source _instance;
+        private Dictionary<string, SourceData>  _dataDic;
+        
+        // public static List<SourceData> Data = new List<SourceData>();
         public delegate void MetaPoseDataEventHandler(SourceData data);
         public delegate void MetaPoseFrameDataEventHandler(List<SourceData> data);
         
@@ -100,6 +106,27 @@ namespace Deepglint.XR.Source
         public static  event MetaPoseFrameDataEventHandler OnMetaPoseFrameDataReceived;
 
         public static  Action<string> OnMetaPoseDataLost;
+       
+        public int Count => _dataDic.Count;
+        public SourceData this[string id] => _dataDic[id];
+        
+        private Source()
+        {
+            _dataDic = new Dictionary<string, SourceData>();
+        }
+
+        public static Source Data
+        {
+            get
+            {
+                return _instance ??= new Source();
+            }
+        }
+        
+        internal static void SetData(Dictionary<string, SourceData> data)
+        {
+            Data._dataDic = data;
+        }
         
         public static void TriggerMetaPoseDataReceived(SourceData data)
         {
@@ -114,6 +141,16 @@ namespace Deepglint.XR.Source
         public static void TriggerMetaPostDataLost(string key)
         {
             OnMetaPoseDataLost?.Invoke(key);
+        }
+        
+        public IEnumerator<SourceData> GetEnumerator()
+        {
+            return _dataDic.Values.ToList().GetEnumerator();
+        }
+        
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

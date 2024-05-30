@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using Deepglint.XR.Source;
@@ -87,7 +88,8 @@ namespace Deepglint.XR.Ros
 
         public void DealMsgData(string msg)
         {
-            List<SourceData> data = new List<SourceData>();
+            // List<SourceData> data = new List<SourceData>();
+            Dictionary<string, SourceData> data = new Dictionary<string, SourceData>();
             MetaPoseData info = JsonConvert.DeserializeObject<MetaPoseData>(msg);
             HashSet<string> humans = new HashSet<string>();
             if (info.Result != null && info.Result.TryGetValue("999001", out Result result))
@@ -354,7 +356,7 @@ namespace Deepglint.XR.Ros
                         Joints = joints,
                     };
                     Source.Source.TriggerMetaPoseDataReceived(body);
-                    data.Add(body);
+                    data[val.Key] = body;
                     if (Global.IsFilterZero)
                     {
                         _oldData[val.Key] = body;
@@ -369,9 +371,8 @@ namespace Deepglint.XR.Ros
                     Source.Source.TriggerMetaPostDataLost(human.BodyId);
                 }
             }
-            
-            Source.Source.Data = data;
-            Source.Source.TriggerMetaPoseFrameDataReceived(data);
+            Source.Source.SetData(data); 
+            Source.Source.TriggerMetaPoseFrameDataReceived(data.Values.ToList());
         }
 
 

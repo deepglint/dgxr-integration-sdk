@@ -128,7 +128,7 @@ namespace Deepglint.XR.Space
         }
 
 #if !UNITY_EDITOR
-        private IEnumerator ProcessRendersCoroutine()
+        private void ProcessRendersCoroutine()
         {
             foreach (var screen in Global.Config.Space.Screens)
             {
@@ -136,18 +136,23 @@ namespace Deepglint.XR.Space
                 {
                     foreach (var render in screen.Render)
                     {
-                        yield return StartCoroutine(ProcessSingleRender(render));
+                        ProcessSingleRender(render);
                     }
                 }
             }
         }
 
-        private IEnumerator ProcessSingleRender(Config.Config.RenderInfo render)
+        private void ProcessSingleRender(Config.Config.RenderInfo render)
         {
             Rect rect = new Rect(render.Rect[0], render.Rect[1], render.Rect[2], render.Rect[3]);
             ClippedRenderTexture(_renderTexture, rect, render.Display);
             foreach (var tarDisplay in render.TarDisplay)
             {
+                if (!_displayImages.TryGetValue(tarDisplay, out var dis))
+                {
+                    return;
+                }
+
                 if (render.Display == 4)
                 {
                     _displayImages[tarDisplay].texture = _frontBottomTex;
@@ -157,13 +162,11 @@ namespace Deepglint.XR.Space
                     _displayImages[tarDisplay].texture = _backBottomTex;
                 }
             }
-
-            yield return null;
         }
 
         public void HandleSplitScreen(ScriptableRenderContext paramContext, Camera[] paramCamera)
         {
-            StartCoroutine(ProcessRendersCoroutine());
+            ProcessRendersCoroutine();
         }
 
         private void ClippedRenderTexture(RenderTexture sourceTexture, Rect rect, int display)
@@ -338,6 +341,7 @@ namespace Deepglint.XR.Space
                 }
 #endif
                 XRSpace.AddScreen(screen.TargetScreen, dis);
+                
             }
         }
     }
