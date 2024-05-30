@@ -122,18 +122,15 @@ namespace Samples.CustomPlayerManager
                 }
             }
 
-            public ICharacter OnPlayerJoin(PlayerInput pi)
+            public ICharacter OnPlayerJoin(PlayerInput pi, InputDevice device)
             {
                 if (pi is null)
                 {
-                    foreach (var device in pi.devices)
+                    if (device is DGXRHumanController)
                     {
-                        if (device is DGXRHumanController)
-                        {
-                            Debug.LogFormat("character {0} is bindable", Name);
-                            _playerInput = pi;
-                            return this;
-                        }
+                        Debug.LogFormat("character {0} is bindable", Name);
+                        _playerInput = pi;
+                        return this;
                     }
                 }
                 

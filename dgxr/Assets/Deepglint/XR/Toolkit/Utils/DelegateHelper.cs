@@ -191,5 +191,46 @@ namespace Deepglint.XR.Toolkit.Utils
             Profiler.EndSample();
             return null;
         }
+        
+        /// <summary>
+        /// Invokes the given callbacks and returns object if any of them returned a non-null result.
+        /// </summary>
+        /// <remarks>
+        /// Returns null if every callback invocation returned null.
+        /// </remarks>
+        public static object InvokeCallbacksSafe_AnyCallbackReturnsObject<TValue1, TValue2, TReturn>(
+            ref CallbackArray<Func<TValue1, TValue2, TReturn>> callbacks, TValue1 argument1, TValue2 argument2,
+            string callbackName, object context = null)
+        {
+            if (callbacks.Length == 0)
+                return null;
+
+            Profiler.BeginSample(callbackName);
+            callbacks.LockForChanges();
+            for (var i = 0; i < callbacks.Length; ++i)
+            {
+                try
+                {
+                    var ret = callbacks[i](argument1, argument2);
+                    if (ret != null)
+                    {
+                        callbacks.UnlockForChanges();
+                        Profiler.EndSample();
+                        return ret;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Debug.LogException(exception);
+                    if (context != null)
+                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks of '{context}'");
+                    else
+                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks");
+                }
+            }
+            callbacks.UnlockForChanges();
+            Profiler.EndSample();
+            return null;
+        }
     }
 }

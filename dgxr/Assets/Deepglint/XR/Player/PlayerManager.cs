@@ -102,9 +102,9 @@ namespace Deepglint.XR.Player
         /// </summary>
         private CallbackArray<Func<InputDevice, object>> _tryToJoinDelegate;
         
-        private CallbackArray<Func<PlayerInput, object>> _playerJoinDelegate;
+        private CallbackArray<Func<PlayerInput, InputDevice, object>> _playerJoinDelegate;
         
-        public event Func<PlayerInput, ICharacter> OnTryToJoinWithICharacter
+        public event Func<PlayerInput, InputDevice, ICharacter> OnTryToJoinWithICharacter
         {
             add
             {
@@ -353,7 +353,7 @@ namespace Deepglint.XR.Player
                 if (playerInput != null)
                 {
                     obj = DelegateHelper.InvokeCallbacksSafe_AnyCallbackReturnsObject(
-                        ref _playerJoinDelegate, playerInput, "PlayerManager.onTryToJoin");
+                        ref _playerJoinDelegate, playerInput, device, "PlayerManager.onTryToJoin");
                     if (obj != null)
                     {
                         playerInput.gameObject.AddComponent<PlayerGarbageCollector>();

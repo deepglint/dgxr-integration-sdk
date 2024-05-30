@@ -37,21 +37,18 @@ namespace Samples.CustomPlayerManager
                 _roi = roi;
             }
 
-            public ICharacter OnPlayerJoin(PlayerInput pi)
+            public ICharacter OnPlayerJoin(PlayerInput pi, InputDevice device)
             {
                 if (_player is null)
                 {
-                    foreach (var device in pi.devices)
+                    if (device is DGXRHumanController dgXRDevice)
                     {
-                        if (device is DGXRHumanController dgXRDevice)
+                        Vector3 position = dgXRDevice.HumanPose.Position.ReadValue();
+                        if (Vector2.Distance(_roi.Anchor,new Vector2(position.x, position.z)) < _roi.Radius)
                         {
-                            Vector3 position = dgXRDevice.HumanPose.Position.ReadValue();
-                            if (Vector2.Distance(_roi.Anchor,new Vector2(position.x, position.z)) < _roi.Radius)
-                            {
-                                Debug.LogFormat("character {0} is bindable", Name);
-                                _player = pi.gameObject;
-                                return this;
-                            }
+                            Debug.LogFormat("character {0} is bindable", Name);
+                            _player = pi.gameObject;
+                            return this;
                         }
                     }
                 }

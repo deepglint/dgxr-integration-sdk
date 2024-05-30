@@ -19,8 +19,9 @@ namespace Deepglint.XR.Player
         /// <param name="pi">
         /// pi is a PlayerInput component instantiated from the PlayerManager.playerPrefab prefab.
         /// </param>
+        /// <param name="device"></param>
         /// <returns> this </returns>
-        public ICharacter OnPlayerJoin(PlayerInput pi);
+        public ICharacter OnPlayerJoin(PlayerInput pi, InputDevice device);
         
         /// <summary>
         /// When the player join to current character is left this function will be called by the PlayerManager,
