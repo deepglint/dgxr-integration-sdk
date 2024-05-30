@@ -357,7 +357,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 6151027616301016623, guid: 78fe134d7b2914eaaa5a35875d278385,
     type: 3}
-  m_JoinBehavior: 0
+  m_JoinBehavior: 1
   joinAction:
     m_UseReference: 1
     m_Action:
