@@ -42,17 +42,17 @@ namespace Deepglint.XR.Toolkit.Manager
         /// 加载的音频资源名称
         /// </summary>
         public readonly string Name;
-        
+
         /// <summary>
         /// 音频类型
         /// </summary>
         public readonly AudioType Type;
-        
+
         /// <summary>
         /// 实际播放时使用的 Unity AudioSource
         /// </summary>
         public readonly AudioSource Source;
-        
+
         /// <summary>
         /// 音频时长，单位：毫秒
         /// </summary>
@@ -120,7 +120,7 @@ namespace Deepglint.XR.Toolkit.Manager
                 Object.DontDestroyOnLoad(_audioRoot);
             }
 
-            var audioClip = Resources.Load<AudioClip>(Path.Combine(BasePath, audioType.ToString() ,audioName));
+            var audioClip = Resources.Load<AudioClip>(Path.Combine(BasePath, audioName));
             if (audioClip == null) return null;
             var obj = new GameObject(audioClip.name);
             obj.transform.SetParent(_audioRoot.transform);
@@ -191,7 +191,7 @@ namespace Deepglint.XR.Toolkit.Manager
     {
         private static readonly List<Audio> Audios = new();
         private static readonly List<AudioList> AudioLists = new();
-        
+
         /// <summary>
         /// 查找音频
         /// </summary>
@@ -211,7 +211,7 @@ namespace Deepglint.XR.Toolkit.Manager
         {
             return AudioLists.FirstOrDefault(audioList => audioList.Name == audioListName);
         }
-        
+
         /// <summary>
         /// 通过音频类型查找音频
         /// </summary>
@@ -221,7 +221,7 @@ namespace Deepglint.XR.Toolkit.Manager
         {
             return Audios.Where(audio => audio.Type == type).ToList();
         }
-        
+
         /// <summary>
         /// 通过音频类型数组查找音频
         /// </summary>
@@ -231,7 +231,7 @@ namespace Deepglint.XR.Toolkit.Manager
         {
             return Audios.Where(audio => types.Contains(audio.Type)).ToList();
         }
-        
+
 
         /// <summary>
         /// 播放指定音频
@@ -264,25 +264,6 @@ namespace Deepglint.XR.Toolkit.Manager
         }
 
         /// <summary>
-        /// 通过名称播放指定音频
-        /// </summary>
-        /// <param name="audioName">音频名称</param>
-        /// <param name="ignoreIfPlaying">是否等待播放完</param>
-        /// <param name="loop">是否循环播放</param>
-        /// <param name="volume">音量</param>
-        /// <exception cref="NullReferenceException"></exception>
-        public static void PlayAudio(string audioName, bool ignoreIfPlaying = false, bool loop = false,
-            float volume = 1)
-        {
-            var audio = FindAudio(audioName);
-            if (audio == null)
-            {
-                throw new NullReferenceException();
-            }
-            PlayAudio(audio,ignoreIfPlaying, loop, volume);
-        }
-
-        /// <summary>
         /// 播放音频列表
         /// </summary>
         /// <param name="list">音频列表</param>
@@ -300,6 +281,7 @@ namespace Deepglint.XR.Toolkit.Manager
                     break;
                 }
             }
+
             AudioLists.RemoveAll(item => item.Name == list.Name);
         }
 
