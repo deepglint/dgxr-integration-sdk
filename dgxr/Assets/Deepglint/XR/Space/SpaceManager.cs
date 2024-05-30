@@ -59,7 +59,7 @@ namespace Deepglint.XR.Space
             denominator = 1
         };
 
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
         private RenderTexture _renderTexture;
         private RenderTexture _uiRenderTexture;
         private RenderTexture _frontBottomTex;
@@ -90,7 +90,7 @@ namespace Deepglint.XR.Space
 
                 Screen.SetResolution(_screenWidth, _screenHeight, true);
             }
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
             _uiRenderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
             _frontBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
             _backBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
@@ -111,12 +111,12 @@ namespace Deepglint.XR.Space
                         sc.ScreenObject.transform.GetChild(corner).gameObject;
                 }
             }
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
             RenderPipelineManager.endFrameRendering += HandleSplitScreen;
 #endif
         }
 
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
         private void OnApplicationQuit()
         {
             RenderPipelineManager.endFrameRendering -= HandleSplitScreen;
@@ -127,8 +127,8 @@ namespace Deepglint.XR.Space
             SetHead();
         }
 
-#if !UNITY_EDITOR
-        private IEnumerator ProcessRendersCoroutine()
+#if UNITY_EDITOR
+        private void ProcessRendersCoroutine()
         {
             foreach (var screen in Global.Config.Space.Screens)
             {
@@ -136,13 +136,13 @@ namespace Deepglint.XR.Space
                 {
                     foreach (var render in screen.Render)
                     {
-                        yield return StartCoroutine(ProcessSingleRender(render));
+                        ProcessSingleRender(render);
                     }
                 }
             }
         }
 
-        private IEnumerator ProcessSingleRender(Config.Config.RenderInfo render)
+        private void ProcessSingleRender(Config.Config.RenderInfo render)
         {
             Rect rect = new Rect(render.Rect[0], render.Rect[1], render.Rect[2], render.Rect[3]);
             ClippedRenderTexture(_renderTexture, rect, render.Display);
@@ -157,13 +157,11 @@ namespace Deepglint.XR.Space
                     _displayImages[tarDisplay].texture = _backBottomTex;
                 }
             }
-
-            yield return null;
         }
 
         public void HandleSplitScreen(ScriptableRenderContext paramContext, Camera[] paramCamera)
         {
-            StartCoroutine(ProcessRendersCoroutine());
+            ProcessRendersCoroutine();
         }
 
         private void ClippedRenderTexture(RenderTexture sourceTexture, Rect rect, int display)
@@ -304,7 +302,7 @@ namespace Deepglint.XR.Space
                 dis.SpaceCamera = spaceCamera;
                 dis.UICamera = uiCamera;
                 dis.AddCameraToStack(uiCamera);
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
                 if (screen.Render.Length > 0)
                 {
                     uiCamera.targetTexture = _uiRenderTexture;
