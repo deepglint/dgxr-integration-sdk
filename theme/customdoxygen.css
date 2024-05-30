@@ -15,7 +15,7 @@ html {
 	/* header */
 	--header-background-color: #fff;
 	--header-separator-color: #C4CFE5;
-	--header-gradient-image: url('nav_h.png');
+	--header-gradient-image: none;
 	--group-header-separator-color: #879ECB;
 	--group-header-color: #354C7B;
 	--inherit-header-color: gray;
@@ -2302,6 +2302,9 @@ html {
 			background-color: #5373b4;
 			text-shadow: none;
 	}
+	#nav-tree .selected a {
+		color: #fff;
+	}
 	
 	#nav-tree .label > a {
 			font-size: 14px;
@@ -2357,16 +2360,21 @@ html {
 
 	#MSearchField {
 		height: 28px;
-    background: #fff;
+		background: rgba(0, 0, 0, 0);
     position: relative;
     top: -1px;
-    width: 160px;
+		left: 16px;
+		width: 160px;
 	}
 
 	.left #MSearchSelect {
 		left: 4px;
     top: 5px;
     position: absolute;
+	}
+
+	#MSearchBox {
+		width: 220px;
 	}
 
 	#MSearchBox .right {
