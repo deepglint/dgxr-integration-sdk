@@ -117,14 +117,15 @@ namespace Samples.CustomPlayerManager
                     position.z * Global.Space.Bottom.Resolution.width / Global.Space.Bottom.Size.y);
                 if (!RectTransformUtility.RectangleContainsScreenPoint(_characterUI.GetComponent<RectTransform>(), screenPoint))
                 {
-                    Destroy(_playerInput.gameObject);
-                    _playerInput = null;
+                    Debug.LogFormat("character {0} is out of circle", Name);
+                    PlayerManager.Instance.UnpairDeviceFromPlayerManually(_playerInput, device);
+                    _playerInput.gameObject.SetActive(false);
                 }
             }
 
             public ICharacter OnPlayerJoin(PlayerInput pi, InputDevice device)
             {
-                if (pi is null)
+                if (pi is not null)
                 {
                     if (device is DGXRHumanController)
                     {

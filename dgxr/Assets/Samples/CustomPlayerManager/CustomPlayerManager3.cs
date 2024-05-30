@@ -39,7 +39,7 @@ namespace Samples.CustomPlayerManager
 
             public ICharacter OnPlayerJoin(PlayerInput pi, InputDevice device)
             {
-                if (_player is null)
+                if (_player is not null)
                 {
                     if (device is DGXRHumanController dgXRDevice)
                     {

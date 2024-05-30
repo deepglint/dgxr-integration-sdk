@@ -363,7 +363,9 @@ namespace Deepglint.XR.Player
                     }
                     else
                     {
-                        Destroy(playerInput.gameObject);
+                        playerInput.user.UnpairDevices();
+                        playerInput.gameObject.SetActive(false);
+                        // todo Destroy(playerInput.gameObject);
                     }
                 }
                 
