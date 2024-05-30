@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using System.Collections.Generic;
 using Deepglint.XR.Player;
 using UnityEditor;
@@ -63,3 +65,5 @@ namespace Editor
         }
     }
 }
+
+#endif
