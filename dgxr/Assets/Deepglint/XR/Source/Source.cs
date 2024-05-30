@@ -115,7 +115,7 @@ namespace Deepglint.XR.Source
             _dataDic = new Dictionary<string, SourceData>();
         }
 
-        internal static Source Data
+        public static Source Data
         {
             get
             {
