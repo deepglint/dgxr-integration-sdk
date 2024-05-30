@@ -6,6 +6,7 @@ using UnityEngine;
 namespace Editor
 {
     [CustomEditor(typeof(PlayerManager))]
+    [InitializeOnLoad]
     public class PlayerManagerJoinBehaviourEditor : UnityEditor.Editor
     {
         private const string JoinActionBehaviour = "joinAction";
