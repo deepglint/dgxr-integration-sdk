@@ -341,6 +341,7 @@ namespace Deepglint.XR.Space
                 }
 #endif
                 XRSpace.AddScreen(screen.TargetScreen, dis);
+                
             }
         }
     }
