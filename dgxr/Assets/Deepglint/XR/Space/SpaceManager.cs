@@ -59,7 +59,7 @@ namespace Deepglint.XR.Space
             denominator = 1
         };
 
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
         private RenderTexture _renderTexture;
         private RenderTexture _uiRenderTexture;
         private RenderTexture _frontBottomTex;
@@ -90,7 +90,7 @@ namespace Deepglint.XR.Space
 
                 Screen.SetResolution(_screenWidth, _screenHeight, true);
             }
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
             _uiRenderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
             _frontBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
             _backBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
@@ -111,12 +111,12 @@ namespace Deepglint.XR.Space
                         sc.ScreenObject.transform.GetChild(corner).gameObject;
                 }
             }
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
             RenderPipelineManager.endFrameRendering += HandleSplitScreen;
 #endif
         }
 
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
         private void OnApplicationQuit()
         {
             RenderPipelineManager.endFrameRendering -= HandleSplitScreen;
@@ -127,7 +127,7 @@ namespace Deepglint.XR.Space
             SetHead();
         }
 
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
         private void ProcessRendersCoroutine()
         {
             foreach (var screen in Global.Config.Space.Screens)
@@ -148,6 +148,11 @@ namespace Deepglint.XR.Space
             ClippedRenderTexture(_renderTexture, rect, render.Display);
             foreach (var tarDisplay in render.TarDisplay)
             {
+                if (!_displayImages.TryGetValue(tarDisplay, out var dis))
+                {
+                    return;
+                }
+
                 if (render.Display == 4)
                 {
                     _displayImages[tarDisplay].texture = _frontBottomTex;
@@ -302,7 +307,7 @@ namespace Deepglint.XR.Space
                 dis.SpaceCamera = spaceCamera;
                 dis.UICamera = uiCamera;
                 dis.AddCameraToStack(uiCamera);
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
                 if (screen.Render.Length > 0)
                 {
                     uiCamera.targetTexture = _uiRenderTexture;
