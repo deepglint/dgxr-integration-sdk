@@ -38,7 +38,7 @@ namespace Samples.CustomPlayerManager
             
             _character = new Character4("UICharacter", ui);
             
-            PlayerManager.Instance.joinUI = ui;
+            PlayerManager.Instance.JoinUI = ui;
             PlayerManager.Instance.JoinBehavior = PlayerJoinBehaviour.JoinFromUI;
             PlayerManager.Instance.OnTryToJoinWithICharacter += _character.OnPlayerJoin;
         }
@@ -46,7 +46,7 @@ namespace Samples.CustomPlayerManager
         public class Character4 : ICharacter
         {
             private readonly GameObject _characterUI;
-            private PlayerInput _playerInput;
+            private GameObject _player;
 
             public readonly string Name;
             
@@ -70,69 +70,48 @@ namespace Samples.CustomPlayerManager
                 trigger.triggers.Add(entry);
             }
 
-            // public ICharacter OnTryToJoin(InputDevice device)
-            // {
-            //     if (_playerInput is null)
-            //     {
-            //         if (device is DGXRHumanController)
-            //         {
-            //             Debug.LogFormat("character {0} is bindable", Name);
-            //             return this;
-            //         }
-            //     }
-            //     else
-            //     {
-            //         if (device is DGXRHumanController && _playerInput.devices.Count == 0)
-            //         {
-            //             Debug.LogFormat("character {0} is bindable", Name);
-            //             _player.SetActive(true);
-            //             PlayerManager.Instance.PairDeviceToPlayer(_player, device);
-            //             Debug.LogFormat("device {0} is paired to character {1}", device.deviceId, Name);
-            //             return null;
-            //         }
-            //     }
-            //
-            //     Debug.LogFormat("character {0} is not bindable", Name);
-            //     return null;
-            // }
-
             public void Left(PointerEventData eventData)
             {
-                var device = (DGXRHumanController)DeviceManager.GetActiveDeviceById(Math.Abs(eventData.pointerId));
+                var device = DeviceManager.GetActiveDeviceById(Math.Abs(eventData.pointerId));
                 if (device == null)
                 {
                     return;
                 }
 
-                Vector3 position;
-                if (eventData.pointerId > 0)
+                if (device is DGXRHumanController xrDevice)
                 {
-                    position = device.HumanBody.LeftFoot.position.value;
+                    Vector3 position;
+                    if (eventData.pointerId > 0)
+                    {
+                        position = xrDevice.HumanBody.LeftFoot.position.value;
+                    }
+                    else
+                    {
+                        position = xrDevice.HumanBody.RightFoot.position.value;
+                    }
+                    var screenPoint = new Vector2(position.x * Global.Space.Bottom.Resolution.width / Global.Space.Bottom.Size.x, 
+                        position.z * Global.Space.Bottom.Resolution.width / Global.Space.Bottom.Size.y);
+                    if (!RectTransformUtility.RectangleContainsScreenPoint(_characterUI.GetComponent<RectTransform>(), screenPoint))
+                    {
+                        Destroy(_player);
+                        _player = null;
+                    } 
                 }
                 else
                 {
-                    position = device.HumanBody.RightFoot.position.value;
+                    Destroy(_player);
+                    _player = null; 
                 }
-                var screenPoint = new Vector2(position.x * Global.Space.Bottom.Resolution.width / Global.Space.Bottom.Size.x, 
-                    position.z * Global.Space.Bottom.Resolution.width / Global.Space.Bottom.Size.y);
-                if (!RectTransformUtility.RectangleContainsScreenPoint(_characterUI.GetComponent<RectTransform>(), screenPoint))
-                {
-                    Debug.LogFormat("character {0} is out of circle", Name);
-                    PlayerManager.Instance.UnpairDeviceFromPlayerManually(_playerInput, device);
-                    _playerInput.gameObject.SetActive(false);
-                }
+                Debug.LogFormat("character {0} is out of circle", Name);
             }
 
-            public ICharacter OnPlayerJoin(PlayerInput pi, InputDevice device)
+            public ICharacter OnPlayerJoin(GameObject player, InputDevice device)
             {
-                if (pi is not null)
+                if (_player == null)
                 {
-                    if (device is DGXRHumanController)
-                    {
-                        Debug.LogFormat("character {0} is bindable", Name);
-                        _playerInput = pi;
-                        return this;
-                    }
+                    Debug.LogFormat("character {0} is bindable", Name);
+                    _player = player;
+                    return this;
                 }
                 
                 Debug.LogFormat("character {0} is not bindable", Name);
@@ -141,8 +120,9 @@ namespace Samples.CustomPlayerManager
 
             public void OnPlayerLeft()
             {
+                // pass left triggered by PlayerManager when device is lost.
                 Debug.LogFormat("player {0} is left", Name);
-                _playerInput = null;
+                _player = null;
             }
         }
     }
