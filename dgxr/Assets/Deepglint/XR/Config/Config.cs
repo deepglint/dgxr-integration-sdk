@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Deepglint.XR.Config
 {
+    /// <summary>
+    /// 配置类，根据空间和操作系统读取配置文件
+    /// </summary>
     public class Config
     {
         private const string ConfigName = "env.json";
@@ -112,7 +115,9 @@ namespace Deepglint.XR.Config
             public float z{ get; set; }
         }
 
-
+        /// <summary>
+        /// 读取空间配置文件，根据操作系统不同、空间不同、环境不同读取相应的文件
+        /// </summary>
         private static string ReadData()
         {
             var path = Path.GetDirectoryName(FilePath);

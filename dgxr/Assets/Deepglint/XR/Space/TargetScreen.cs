@@ -31,6 +31,10 @@ namespace Deepglint.XR.Space
         public Resolution Resolution { get; internal set; }
         public GameObject ScreenCanvas { get; internal set; }
 
+        /// <summary>
+        /// 增加相机到当前渲染屏幕
+        /// </summary>
+        /// <param name="camera">相机对象</param>
         public void AddCameraToStack(Camera camera)
         {
             if (SpaceCamera == null || camera == null)
@@ -72,9 +76,9 @@ namespace Deepglint.XR.Space
         }
 
         /// <summary>
-        /// Removes a camera from the SpaceCamera's stack.
+        /// 移除相机到当前渲染屏幕
         /// </summary>
-        /// <param name="camera">The camera to remove.</param>
+        /// <param name="camera">移除的相机对象</param>
         public void RemoveCameraFromStack(Camera camera)
         {
             if (SpaceCamera == null || camera == null)

@@ -97,8 +97,6 @@ namespace Deepglint.XR.Source
     {
         private static Source _instance;
         private Dictionary<string, SourceData>  _dataDic;
-        
-        // public static List<SourceData> Data = new List<SourceData>();
         public delegate void MetaPoseDataEventHandler(SourceData data);
         public delegate void MetaPoseFrameDataEventHandler(List<SourceData> data);
         
@@ -123,21 +121,34 @@ namespace Deepglint.XR.Source
             }
         }
         
+        /// <summary>
+        /// 设置数据源Data
+        /// </summary> 
         internal static void SetData(Dictionary<string, SourceData> data)
         {
             Data._dataDic = data;
         }
-        
+       
+        /// <summary>
+        /// 设置数据单个人骨骼数据到订阅
+        /// </summary> 
         public static void TriggerMetaPoseDataReceived(SourceData data)
         {
             OnMetaPoseDataReceived?.Invoke(data);
         }
-        
+       
+        /// <summary>
+        /// 设置当前帧所有骨骼数据到订阅
+        /// </summary> 
         public static void TriggerMetaPoseFrameDataReceived( List<SourceData> data)
         {
             OnMetaPoseFrameDataReceived?.Invoke(data);
         }
         
+        /// <summary>
+        /// 设置具体人员骨骼消失到订阅
+        /// </summary>
+        /// <param name="key">人员 id</param>
         public static void TriggerMetaPostDataLost(string key)
         {
             OnMetaPoseDataLost?.Invoke(key);

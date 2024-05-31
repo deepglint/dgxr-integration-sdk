@@ -34,19 +34,25 @@ namespace Deepglint.XR.Space
             }
         }
 
-
+        /// <summary>
+        /// 增加空间屏幕
+        /// </summary>
+        /// <param name="target">屏幕枚举值</param>
+        /// <param name="screen">屏幕类对象</param>
         internal static void AddScreen(TargetScreen target, ScreenInfo screen)
         {
             Instance._screenDic[target] = screen;
         }
-
+        
+        /// <summary>
+        /// 删除空间屏幕
+        /// </summary>
+        /// <param name="target">屏幕枚举值</param>
         internal static void RemoveScreen(TargetScreen target)
         {
             Instance._screenDic.Remove(target);
         }
-
-
-
+        
         public ScreenInfo Front => _screenDic[TargetScreen.Front];
 
         public ScreenInfo Left => _screenDic[TargetScreen.Left];

@@ -74,6 +74,9 @@ namespace Deepglint.XR.Ros
         [DataMember(Name = "int")] public int Int { get; set; }
     }
 
+    /// <summary>
+    /// ros2人体骨骼适配器，处理算法推出人体关节点的消息映射和转换
+    /// </summary>
     public class Ros2PoseAdapter
     {
         private readonly Record _record = new(Global.Config.Record.SavePath,
@@ -85,7 +88,11 @@ namespace Deepglint.XR.Ros
         {
             DealMsgData(msg.Data);
         }
-
+        
+        /// <summary>
+        /// 人体骨骼消息处理
+        /// </summary>
+        /// <param name="msg">ros 接收到的string消息</param> 
         public void DealMsgData(string msg)
         {
             // List<SourceData> data = new List<SourceData>();
@@ -374,19 +381,27 @@ namespace Deepglint.XR.Ros
             Source.Source.SetData(data); 
             Source.Source.TriggerMetaPoseFrameDataReceived(data.Values.ToList());
         }
-
-
-        private (bool, SourceData) IsZero(IReadOnlyList<float> pose, string key)
+        
+        /// <summary>
+        /// 出去骨骼抖动零点
+        /// </summary>
+        /// <param name="pose">人体骨骼点</param>
+        /// /// <param name="BodyId">人员 id</param>  
+        private (bool, SourceData) IsZero(IReadOnlyList<float> pose, string BodyId)
         {
             if (Global.IsFilterZero && pose[0] == 0 && pose[1] == 0 && pose[2] == 0 &&
-                _oldData.TryGetValue(key, out var sourceData))
+                _oldData.TryGetValue(BodyId, out var sourceData))
             {
                 return (true, sourceData);
             }
 
             return (false, new SourceData());
         }
-
+        
+        /// <summary>
+        /// 坐标标准化处理
+        /// </summary>
+        /// <param name="pose">人体骨骼点</param>
         private Vector3 UnifyCoordinate(List<float> pose)
         {
             switch (Global.Config.Space.XDirection, Global.Config.Space.ZDirection)

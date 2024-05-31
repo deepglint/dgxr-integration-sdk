@@ -14,6 +14,10 @@ namespace Deepglint.XR.Space
             Global.SystemName =  SystemInfo.operatingSystem;
             CheckResourceUpdates();
         }
+        
+        /// <summary>
+        /// 检查并更新sdk 必要的资源
+        /// </summary>
         private static void CheckResourceUpdates()
         {
             var config = new Config.Config().InitConfig();

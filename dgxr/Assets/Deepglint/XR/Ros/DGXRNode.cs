@@ -2,9 +2,17 @@ using ROS2;
 
 namespace Deepglint.XR.Ros
 {
+    /// <summary>
+    /// Node节点管理类
+    /// </summary> 
     public class DGXRNode
     {
         private ROS2Node _ros2Node;
+        
+        /// <summary>
+        /// 订阅node topic 
+        /// </summary>
+        /// <param name="ros">ros实体对象</param> 
         public void InitNode(ROS2UnityManager ros)
         {
             if (_ros2Node == null && ros.Ok())

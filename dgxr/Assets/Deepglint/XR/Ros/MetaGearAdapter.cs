@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Deepglint.XR.Ros
 {
+    /// <summary>
+    /// metaGear管理类 
+    /// </summary> 
     public class MetaGearInfo
     {
         public enum Event
@@ -60,6 +63,10 @@ namespace Deepglint.XR.Ros
     
     public class MetaGearAdapter
     {
+        /// <summary>
+        /// metaGear消息格式化处理
+        /// </summary>
+        /// <param name="msg">ros 接收到的msg 消息</param> 
         public void DealMsg(std_msgs.msg.String msg)
         {
             MetaGearInfo.MetaGearData info = JsonConvert.DeserializeObject<MetaGearInfo.MetaGearData>(msg.Data);

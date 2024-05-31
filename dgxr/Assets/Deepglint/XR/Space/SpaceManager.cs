@@ -189,6 +189,9 @@ namespace Deepglint.XR.Space
             RenderTexture.active = null;
         }
 #endif
+        /// <summary>
+        /// 设置空间中人的位置 
+        /// </summary>
         public void SetHead()
         {
             Transform space = GameObject.Find("XRSpace").transform;
@@ -207,7 +210,10 @@ namespace Deepglint.XR.Space
                 }
             }
         }
-
+        
+        /// <summary>
+        /// 设置空间中人的位置3d坐标 
+        /// </summary>
         private void SetHeadPosition()
         {
             if (Global.CavePosition.x != 0 || Global.CavePosition.y != 0 || Global.CavePosition.z != 0)
@@ -233,7 +239,9 @@ namespace Deepglint.XR.Space
                 cam.SpaceCamera.transform.position = _headLockPosition;
             }
         }
-
+        /// <summary>
+        /// 计算根据人和屏幕位置计算相机 fov 
+        /// </summary>
         private void SetHeadFovAndOrientationScreen(int index, Camera spaceCamera, GameObject[,] edges)
         {
             var cameraTransform = spaceCamera.transform;
@@ -258,7 +266,10 @@ namespace Deepglint.XR.Space
             mat[1, 2] = vertObl;
             cam.projectionMatrix = mat;
         }
-
+        
+        /// <summary>
+        /// 初始化 XR空间
+        /// </summary> 
         private void InstantiateXR()
         {
             Transform space = GameObject.Find("XRSpace").transform;
