@@ -84,8 +84,12 @@ namespace Deepglint.XR.Space
 
         private void OnValidate()
         {
-            var space = GameObject.Find("XRSpace").transform;
-            space.transform.localScale = new Vector3(spaceScale, spaceScale, spaceScale);
+            var space = GameObject.Find("XRSpace");
+            if (space is not null)
+            {
+                space.transform.localScale = new Vector3(spaceScale, spaceScale, spaceScale);
+            }
+            
         }
 
         void Start()
