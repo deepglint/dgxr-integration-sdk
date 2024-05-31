@@ -306,6 +306,10 @@ namespace Deepglint.XR.Space
                 };
 
                 Transform quad = space.Find(screen.TargetScreen.ToString());
+                var uiCamera = Extends.FindChildGameObject(uiCameraGroup, screen.TargetScreen.ToString())
+                    .GetComponent<Camera>();
+                uiCamera.gameObject.SetActive(true);
+                dis.UICamera = uiCamera;
                 Camera spaceCamera;
                 if (isCave)
                 {
@@ -322,6 +326,7 @@ namespace Deepglint.XR.Space
                     spaceCamera.targetDisplay = (int)screen.TargetScreen;
                     dis.ScreenObject = displayQuad;
                     dis.SpaceCamera = spaceCamera;
+                    dis.AddCameraToStack(uiCamera);
                 }
                 else
                 {
@@ -335,12 +340,7 @@ namespace Deepglint.XR.Space
                         .GetComponent<Camera>();
                     dis.SpaceCamera = spaceCamera;
                 }
-                
-                var uiCamera = Extends.FindChildGameObject(uiCameraGroup, screen.TargetScreen.ToString())
-                    .GetComponent<Camera>();
-                uiCamera.gameObject.SetActive(true);
-                dis.UICamera = uiCamera;
-                dis.AddCameraToStack(uiCamera);
+               
 #if !UNITY_EDITOR
                 if (screen.Render.Length > 0)
                 {
