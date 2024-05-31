@@ -1044,7 +1044,7 @@ PrefabInstance:
     - target: {fileID: 4099795695692259410, guid: 7d7e241a0de3c43d5b528d0a56cc3c67,
         type: 3}
       propertyPath: isCave
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4099795695692259410, guid: 7d7e241a0de3c43d5b528d0a56cc3c67,
         type: 3}
