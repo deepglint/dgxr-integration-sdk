@@ -51,11 +51,11 @@ namespace Deepglint.XR.Log
             if (!string.IsNullOrEmpty(Global.Config.Log.SavePath))
             {
                 _logFileSavePath =
-                    $"{Global.Config.Log.SavePath}/{Global.AppName}/DGXR_{t}.log";
+                    $"{Global.Config.Log.SavePath}/{Global.AppName}/DGXR_{Global.Version}_{t}.log";
             }
             else
             {
-                _logFileSavePath = $"{Application.persistentDataPath}/{Global.AppName}/DGXR_{t}.log";
+                _logFileSavePath = $"{Application.persistentDataPath}/{Global.AppName}/DGXR_{Global.Version}_{t}.log";
             }
 
             if (!Directory.Exists(Path.GetDirectoryName(_logFileSavePath)))

@@ -23,6 +23,7 @@ namespace Deepglint.XR
         public static event MetaGearDataEventHandler OnMetaGearDataReceived;
         public static string UniqueID;
         public static string AppName;
+        public static string Version;
         public static string SystemName;
         public static bool IsFilterZero;
         public static XRSpace Space;

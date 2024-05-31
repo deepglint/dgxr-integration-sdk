@@ -125,17 +125,21 @@ namespace Deepglint.XR.Config
                 {
                     Directory.CreateDirectory(streamingAssetsPath); 
                 }
-                
-                string[] files = Directory.GetFiles(envJsonPath);
-                foreach (var file in files)
+
+                if (Directory.Exists(envJsonPath))
                 {
-                    string fileName = Path.GetFileName(file);
-                    string destFile = Path.Combine(streamingAssetsPath, fileName);
-                    if (!File.Exists(destFile))
+                    string[] files = Directory.GetFiles(envJsonPath);
+                    foreach (var file in files)
                     {
-                        File.Copy(file, destFile, true);
+                        string fileName = Path.GetFileName(file);
+                        string destFile = Path.Combine(streamingAssetsPath, fileName);
+                        if (!File.Exists(destFile))
+                        {
+                            File.Copy(file, destFile, true);
+                        }
                     }
                 }
+                
                 using StreamReader srt =File.OpenText(Path.Combine(Application.streamingAssetsPath, ConfigName));
                 var data = srt.ReadToEnd();
                 srt.Close();
