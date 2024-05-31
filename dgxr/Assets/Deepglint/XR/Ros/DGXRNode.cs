@@ -9,7 +9,7 @@ namespace Deepglint.XR.Ros
         {
             if (_ros2Node == null && ros.Ok())
             {
-                _ros2Node = ros.CreateNode("unity-"+Global.UniqueID);
+                _ros2Node = ros.CreateNode("unity_"+Global.UniqueID);
                 QualityOfServiceProfile qualityOfServiceProfille = new QualityOfServiceProfile();
                 qualityOfServiceProfille.SetReliability(ReliabilityPolicy.QOS_POLICY_RELIABILITY_BEST_EFFORT);
                 _ros2Node.CreateSubscription<std_msgs.msg.String>("/metapose/pose3d", new Ros2PoseAdapter().DealMsg,
