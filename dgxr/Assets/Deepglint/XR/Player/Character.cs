@@ -16,12 +16,12 @@ namespace Deepglint.XR.Player
         /// this "OnPlayerJoin" function will be invoked.
         /// When consenting to a player joining, return an ICharacter，if not, just return null.
         /// </summary>
-        /// <param name="pi">
-        /// pi is a PlayerInput component instantiated from the PlayerManager.playerPrefab prefab.
+        /// <param name="player">
+        /// player is a instance instantiated from the PlayerManager.playerPrefab prefab.
         /// </param>
         /// <param name="device"></param>
         /// <returns> this </returns>
-        public ICharacter OnPlayerJoin(PlayerInput pi, InputDevice device);
+        public ICharacter OnPlayerJoin(GameObject player, InputDevice device);
         
         /// <summary>
         /// When the player join to current character is left this function will be called by the PlayerManager,
