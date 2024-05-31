@@ -19,7 +19,7 @@ namespace Deepglint.XR.Space
 
         public Vector3 Origin { get; internal set; }
 
-        public Rect Roi { get; internal set; }
+        public Vector2 Roi { get; internal set; }
 
         private XRSpace()
         {

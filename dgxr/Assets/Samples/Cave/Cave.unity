@@ -801,6 +801,11 @@ PrefabInstance:
       propertyPath: m_HDR
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 607231863425968516, guid: 7d7e241a0de3c43d5b528d0a56cc3c67,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 622375911885722526, guid: 7d7e241a0de3c43d5b528d0a56cc3c67,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1064,6 +1069,16 @@ PrefabInstance:
     - target: {fileID: 2249833559639240280, guid: 7d7e241a0de3c43d5b528d0a56cc3c67,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099795695692259410, guid: 7d7e241a0de3c43d5b528d0a56cc3c67,
+        type: 3}
+      propertyPath: isCave
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099795695692259410, guid: 7d7e241a0de3c43d5b528d0a56cc3c67,
+        type: 3}
+      propertyPath: lockXZ
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4099795695692259410, guid: 7d7e241a0de3c43d5b528d0a56cc3c67,
