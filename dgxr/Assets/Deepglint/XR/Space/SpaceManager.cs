@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
@@ -79,6 +80,12 @@ namespace Deepglint.XR.Space
                 _screenWidth = 1920;
                 _screenHeight = 1200;
             }
+        }
+
+        private void OnValidate()
+        {
+            var space = GameObject.Find("XRSpace").transform;
+            space.transform.localScale = new Vector3(spaceScale, spaceScale, spaceScale);
         }
 
         void Start()
@@ -224,7 +231,7 @@ namespace Deepglint.XR.Space
 
             var space = GameObject.Find("XRSpace");
             Vector3 position = space.transform.position;
-            _headLockPosition = _head + position;
+            _headLockPosition = _head*spaceScale + position;
             if (lockAll)
             {
                 _headLockPosition = position + _eyePosition;
