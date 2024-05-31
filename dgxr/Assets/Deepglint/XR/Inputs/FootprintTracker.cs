@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Deepglint.XR.Inputs
 {
@@ -14,18 +15,18 @@ namespace Deepglint.XR.Inputs
         private Dictionary<int, RectTransform> _leftFoots;
         private Dictionary<int, RectTransform> _rightFoots;
         
-        private void OnDeviceLost(int deviceId)
+        private void OnDeviceLost(InputDevice device)
         {
-            if (_leftFoots.ContainsKey(deviceId))
+            if (_leftFoots.ContainsKey(device.deviceId))
             {
-                Destroy(_leftFoots[deviceId].gameObject);
-                _leftFoots.Remove(deviceId);
+                Destroy(_leftFoots[device.deviceId].gameObject);
+                _leftFoots.Remove(device.deviceId);
             }
 
-            if (_rightFoots.ContainsKey(deviceId))
+            if (_rightFoots.ContainsKey(device.deviceId))
             {
-                Destroy(_rightFoots[deviceId].gameObject);
-                _rightFoots.Remove(deviceId);
+                Destroy(_rightFoots[device.deviceId].gameObject);
+                _rightFoots.Remove(device.deviceId);
             }
         }
 

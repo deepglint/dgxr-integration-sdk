@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
@@ -48,9 +49,18 @@ namespace Deepglint.XR.Player
         /// <exception cref="ArgumentNullException"><paramref name="device"/> is <c>null</c>.</exception>
         public void UnPairDeviceManually(InputDevice device)
         {
-            if (m_PlayerInput is not null)
+            if (m_PlayerInput != null)
             {
                 m_PlayerInput.user.UnpairDevice(device);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (m_PlayerInput != null)
+            {
+                // m_PlayerInput.user.UnpairDevices();
+                Debug.LogFormat("player {0} was destoryed", m_PlayerInput.user.id);
             }
         }
     }

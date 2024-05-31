@@ -41,17 +41,17 @@ namespace Deepglint.XR.Inputs
         /// <summary>
         /// callback when device is added
         /// </summary>
-        public static Action<int> OnDeviceAdd;
+        public static Action<InputDevice> OnDeviceAdd;
         
         /// <summary>
         /// callback when device is lost
         /// </summary>
-        public static Action<int> OnDeviceLost;
+        public static Action<InputDevice> OnDeviceLost;
         
         /// <summary>
         /// callback when device is regain
         /// </summary>
-        public static Action<int> OnDeviceRegain;
+        public static Action<InputDevice> OnDeviceRegain;
         
         /// <summary>
         /// all the active Deepglint XR Human devices
@@ -105,7 +105,7 @@ namespace Deepglint.XR.Inputs
                 {
                     device = _devices[serial];
                     InputSystem.AddDevice(device); 
-                    OnDeviceRegain?.Invoke(device.deviceId);
+                    OnDeviceRegain?.Invoke(device);
                 }
                 else
                 {
@@ -117,7 +117,7 @@ namespace Deepglint.XR.Inputs
                         manufacturer = "deepglint",
                     });
                     _devices[serial] = device; 
-                    OnDeviceAdd?.Invoke(device.deviceId);
+                    OnDeviceAdd?.Invoke(device);
                 }
                 m_ActiveDevices[serial] = device;
                 m_ActiveDeviceCount++;
@@ -143,7 +143,7 @@ namespace Deepglint.XR.Inputs
                 InputSystem.RemoveDevice(device);
                 m_ActiveDeviceCount--;
                 m_ActiveDevices.TryRemove(serial, out device);
-                OnDeviceLost?.Invoke(device.deviceId);
+                OnDeviceLost?.Invoke(device);
                 Debug.LogFormat("Device {0} which serial is {1} was removed", device.deviceId, serial);
             }
         }
