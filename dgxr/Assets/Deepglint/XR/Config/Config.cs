@@ -119,15 +119,23 @@ namespace Deepglint.XR.Config
             if(Application.isEditor || Global.SystemName.Contains("Mac"))
             {
                 string packagePath = Path.GetFullPath(Path.Combine("Packages", Global.PackageName));
-                string envJsonPath = Path.Combine(packagePath, "StreamingAssets", ConfigName);
+                string envJsonPath = Path.Combine(packagePath, "StreamingAssets");
                 string streamingAssetsPath = Application.streamingAssetsPath;
-                string sourceFilePath = Path.Combine(streamingAssetsPath, ConfigName);
-                if (!File.Exists(sourceFilePath))
+                if (!Directory.Exists(streamingAssetsPath))
                 {
-                    File.Copy(envJsonPath, sourceFilePath);
-                    Debug.Log("copy file success !");
+                    Directory.CreateDirectory(streamingAssetsPath); 
                 }
-
+                
+                string[] files = Directory.GetFiles(envJsonPath);
+                foreach (var file in files)
+                {
+                    string fileName = Path.GetFileName(file);
+                    string destFile = Path.Combine(streamingAssetsPath, fileName);
+                    if (!File.Exists(destFile))
+                    {
+                        File.Copy(file, destFile, true);
+                    }
+                }
                 using StreamReader srt =File.OpenText(Path.Combine(Application.streamingAssetsPath, ConfigName));
                 var data = srt.ReadToEnd();
                 srt.Close();
@@ -138,10 +146,8 @@ namespace Deepglint.XR.Config
                 Directory.CreateDirectory(path);
             }
 
-
             if (!File.Exists(FilePath))
             {
-                // copy 文件到env
                 string streamingAssetsPath = Application.streamingAssetsPath;
                 string sourceFilePath = Path.Combine(streamingAssetsPath, ConfigName);
                 if (File.Exists(sourceFilePath))
