@@ -2273,6 +2273,10 @@ html {
 			width: 1px;
 			background-color: var(--toc-border-color);
 	}
+
+	#nav-tree {
+		background-color: rgba(255, 255, 255, 0)!important;
+	}
 	
 	#nav-tree ul {
 			padding: 0 12px;
