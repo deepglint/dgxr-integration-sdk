@@ -3,6 +3,7 @@ using Deepglint.XR.Inputs;
 using Deepglint.XR.Inputs.Devices;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Deepglint.XR.EventSystem.InputModules
@@ -38,10 +39,10 @@ namespace Deepglint.XR.EventSystem.InputModules
             ProcessHumanControlEvent();
         }
 
-        private void OnDeviceLost(int deviceId)
+        private void OnDeviceLost(InputDevice device)
         {
-            m_PointerData.Remove(-deviceId);
-            m_PointerData.Remove(deviceId);
+            m_PointerData.Remove(-device.deviceId);
+            m_PointerData.Remove(device.deviceId);
         }
         
         /// <summary>

@@ -37,9 +37,9 @@ namespace Samples.CustomPlayerManager
                 _roi = roi;
             }
 
-            public ICharacter OnPlayerJoin(PlayerInput pi, InputDevice device)
+            public ICharacter OnPlayerJoin(GameObject player, InputDevice device)
             {
-                if (_player is not null)
+                if (_player is null)
                 {
                     if (device is DGXRHumanController dgXRDevice)
                     {
@@ -47,7 +47,7 @@ namespace Samples.CustomPlayerManager
                         if (Vector2.Distance(_roi.Anchor,new Vector2(position.x, position.z)) < _roi.Radius)
                         {
                             Debug.LogFormat("character {0} is bindable", Name);
-                            _player = pi.gameObject;
+                            _player = player;
                             return this;
                         }
                     }

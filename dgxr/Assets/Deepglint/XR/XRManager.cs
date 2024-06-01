@@ -20,8 +20,6 @@ namespace Deepglint.XR
         private DGXRNode _node;
         private ROS2UnityManager _ros;
         private WsPoseAdapter ws;
-
-
         private static readonly Queue<Action> ExecuteOnMainThreadQueue = new Queue<Action>();
 
         private static void ExecuteDataLostActionInUpdate(Action action)
@@ -35,10 +33,10 @@ namespace Deepglint.XR
 
         public void Awake()
         {
-            
             Cursor.visible = false;
             Global.UniqueID = SystemInfo.deviceUniqueIdentifier;
             Global.AppName = Application.productName;
+            Global.Version = Application.version;
             Global.SystemName = SystemInfo.operatingSystem;
             Global.Config = new Config.Config().InitConfig();
             GameLogger.Init(Global.Config.Log);
@@ -92,7 +90,8 @@ namespace Deepglint.XR
 
             return false;
         }
-
+        
+        // TODO @张梦豪 把inputSystem相关逻辑单独拆成脚本和预制体
         private void OnEnable()
         {
             Source.Source.OnMetaPoseDataReceived += OnMetaPoseDataReceived;
@@ -100,6 +99,7 @@ namespace Deepglint.XR
         }
 
         // 在禁用对象时取消订阅事件
+        // TODO @张梦豪 把inputSystem相关逻辑单独拆成脚本和预制体
         private void OnDisable()
         {
             Source.Source.OnMetaPoseDataReceived -= OnMetaPoseDataReceived;

@@ -120,7 +120,7 @@ namespace Deepglint.XR.Toolkit.Manager
                 Object.DontDestroyOnLoad(_audioRoot);
             }
 
-            var audioClip = Resources.Load<AudioClip>(Path.Combine(BasePath, audioName));
+            var audioClip = Resources.Load<AudioClip>(Path.Combine(BasePath, audioType.ToString(), audioName));
             if (audioClip == null)
             {
                 throw new FileNotFoundException($"audio file {audioType}/{audioName} not found");

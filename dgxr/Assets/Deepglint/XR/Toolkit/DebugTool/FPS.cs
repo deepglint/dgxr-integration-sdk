@@ -18,7 +18,10 @@ namespace Deepglint.XR.Toolkit.DebugTool
             _style.normal.textColor = Color.red;
             StartCoroutine(fps());
         }
-       
+        
+        /// <summary>
+        /// fps 计算
+        /// </summary>
         private IEnumerator fps() {
             for(;;){
                 int lastFrameCount = Time.frameCount;

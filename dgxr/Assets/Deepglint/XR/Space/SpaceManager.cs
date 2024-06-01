@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
@@ -31,6 +32,8 @@ namespace Deepglint.XR.Space
         public Boolean lockAll;
 
         [FormerlySerializedAs("LockXZ")] public Boolean lockXZ;
+
+        public Boolean isCave;
 
         private GameObject[] _screens;
         [FormerlySerializedAs("SpaceScale")] public float spaceScale = 1;
@@ -79,6 +82,16 @@ namespace Deepglint.XR.Space
             }
         }
 
+        private void OnValidate()
+        {
+            var space = GameObject.Find("XRSpace");
+            if (space is not null)
+            {
+                space.transform.localScale = new Vector3(spaceScale, spaceScale, spaceScale);
+            }
+            
+        }
+
         void Start()
         {
             if (!Global.SystemName.Contains("Mac"))
@@ -97,8 +110,6 @@ namespace Deepglint.XR.Space
             _frontBottomTex.Create();
             _backBottomTex.Create();
 #endif
-
-
             InstantiateXR();
             var numberScreens = Global.Config.Space.Screens.Count;
             _screenEdges = new GameObject[numberScreens, 4];
@@ -124,7 +135,10 @@ namespace Deepglint.XR.Space
 #endif
         void Update()
         {
-            SetHead();
+            if (isCave)
+            {
+                SetHead();
+            }
         }
 
 #if !UNITY_EDITOR
@@ -189,25 +203,29 @@ namespace Deepglint.XR.Space
             RenderTexture.active = null;
         }
 #endif
+        /// <summary>
+        /// 设置空间中人的位置 
+        /// </summary>
         public void SetHead()
         {
             Transform space = GameObject.Find("XRSpace").transform;
             XRSpace.Instance.Origin = Vector3.zero + space.transform.position;
             gameObject.transform.localScale = new Vector3(spaceScale, spaceScale, spaceScale);
-            // 处理坐标的比例关系
-            //Set the position
+            
             SetHeadPosition();
             foreach (var screen in Global.Config.Space.Screens)
             {
                 var tarDisplay = Global.Space[screen.TargetScreen];
-
                 if (tarDisplay != null && tarDisplay.SpaceCamera != null)
                 {
                     SetHeadFovAndOrientationScreen((int)screen.TargetScreen, tarDisplay.SpaceCamera, _screenEdges);
                 }
             }
         }
-
+        
+        /// <summary>
+        /// 设置空间中人的位置3d坐标 
+        /// </summary>
         private void SetHeadPosition()
         {
             if (Global.CavePosition.x != 0 || Global.CavePosition.y != 0 || Global.CavePosition.z != 0)
@@ -217,7 +235,7 @@ namespace Deepglint.XR.Space
 
             var space = GameObject.Find("XRSpace");
             Vector3 position = space.transform.position;
-            _headLockPosition = _head + position;
+            _headLockPosition = _head*spaceScale + position;
             if (lockAll)
             {
                 _headLockPosition = position + _eyePosition;
@@ -233,7 +251,9 @@ namespace Deepglint.XR.Space
                 cam.SpaceCamera.transform.position = _headLockPosition;
             }
         }
-
+        /// <summary>
+        /// 计算根据人和屏幕位置计算相机 fov 
+        /// </summary>
         private void SetHeadFovAndOrientationScreen(int index, Camera spaceCamera, GameObject[,] edges)
         {
             var cameraTransform = spaceCamera.transform;
@@ -258,7 +278,10 @@ namespace Deepglint.XR.Space
             mat[1, 2] = vertObl;
             cam.projectionMatrix = mat;
         }
-
+        
+        /// <summary>
+        /// 初始化 XR空间
+        /// </summary> 
         private void InstantiateXR()
         {
             Transform space = GameObject.Find("XRSpace").transform;
@@ -269,8 +292,7 @@ namespace Deepglint.XR.Space
             XRSpace.Instance.Length = Global.Config.Space.Length;
             XRSpace.Instance.Width = Global.Config.Space.Width;
             XRSpace.Instance.Height = Global.Config.Space.Height;
-            // XRSpace.Instance.Roi = new Rect(Global.Config.XRSpace.Roi[0], Global.Config.XRSpace.Roi[1],
-            //     Global.Config.XRSpace.Roi[2], Global.Config.XRSpace.Roi[3]);
+            XRSpace.Instance.Roi = new Vector2(Global.Config.Space.Roi[0], Global.Config.Space.Roi[1]);
 
             foreach (var screen in Global.Config.Space.Screens)
             {
@@ -288,25 +310,41 @@ namespace Deepglint.XR.Space
                 };
 
                 Transform quad = space.Find(screen.TargetScreen.ToString());
-                Destroy(quad.gameObject);
-                var displayQuad = Instantiate(screenPrefab, space.transform);
-                displayQuad.transform.localPosition = position;
-                displayQuad.transform.localRotation = rotation;
-                displayQuad.transform.localScale = scale;
-                displayQuad.name = screen.TargetScreen.ToString();
-                var spaceCamera = Instantiate(userViewCameraPrefab, space.transform.position,
-                    displayQuad.transform.rotation, displayQuad.transform);
-
-                spaceCamera.gameObject.layer = _caveLayer;
-
-                dis.ScreenObject = displayQuad;
                 var uiCamera = Extends.FindChildGameObject(uiCameraGroup, screen.TargetScreen.ToString())
                     .GetComponent<Camera>();
                 uiCamera.gameObject.SetActive(true);
-                spaceCamera.targetDisplay = (int)screen.TargetScreen;
-                dis.SpaceCamera = spaceCamera;
                 dis.UICamera = uiCamera;
-                dis.AddCameraToStack(uiCamera);
+                Camera spaceCamera;
+                if (isCave)
+                {
+                    Destroy(quad.gameObject);
+                    var displayQuad = Instantiate(screenPrefab, space.transform);
+                    displayQuad.transform.localPosition = position;
+                    displayQuad.transform.localRotation = rotation;
+                    displayQuad.transform.localScale = scale;
+                    displayQuad.name = screen.TargetScreen.ToString();
+                    spaceCamera = Instantiate(userViewCameraPrefab, space.transform.position,
+                        displayQuad.transform.rotation, displayQuad.transform);
+
+                    spaceCamera.gameObject.layer = _caveLayer;
+                    spaceCamera.targetDisplay = (int)screen.TargetScreen;
+                    dis.ScreenObject = displayQuad;
+                    dis.SpaceCamera = spaceCamera;
+                    dis.AddCameraToStack(uiCamera);
+                }
+                else
+                {
+                    dis.ScreenObject = quad.gameObject;
+                    MeshRenderer meshRenderer = quad.GetComponent<MeshRenderer>();
+                    if (meshRenderer != null)
+                    {
+                        meshRenderer.enabled = false;
+                    }
+                    spaceCamera = Extends.FindChildGameObject(dis.ScreenObject, "UserViewCamera")
+                        .GetComponent<Camera>();
+                    dis.SpaceCamera = spaceCamera;
+                }
+               
 #if !UNITY_EDITOR
                 if (screen.Render.Length > 0)
                 {
