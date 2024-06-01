@@ -121,7 +121,11 @@ namespace Deepglint.XR.Toolkit.Manager
             }
 
             var audioClip = Resources.Load<AudioClip>(Path.Combine(BasePath, audioName));
-            if (audioClip == null) return null;
+            if (audioClip == null)
+            {
+                throw new FileNotFoundException($"audio file {audioType}/{audioName} not found");
+            }
+
             var obj = new GameObject(audioClip.name);
             obj.transform.SetParent(_audioRoot.transform);
             var source = obj.AddComponent<AudioSource>();
