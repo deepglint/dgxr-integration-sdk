@@ -104,8 +104,7 @@ namespace Deepglint.XR.Toolkit.Manager
 
             return audio.Source.clip.length * 1000f;
         }
-
-
+        
         /// <summary>
         /// 加载音频
         /// </summary>
@@ -117,7 +116,10 @@ namespace Deepglint.XR.Toolkit.Manager
             if (_audioRoot == null)
             {
                 _audioRoot = new GameObject("AudioRoot");
-                Object.DontDestroyOnLoad(_audioRoot);
+                if (Application.isPlaying)
+                {
+                    Object.DontDestroyOnLoad(_audioRoot);
+                }
             }
 
             var audioClip = Resources.Load<AudioClip>(Path.Combine(BasePath, audioType.ToString(), audioName));
@@ -133,7 +135,7 @@ namespace Deepglint.XR.Toolkit.Manager
             return source;
         }
     }
-
+    
     /// <summary>
     /// 音频列表，列表中的音频可以按序播放
     /// </summary>
