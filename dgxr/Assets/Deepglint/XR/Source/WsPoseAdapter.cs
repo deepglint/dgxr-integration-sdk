@@ -145,7 +145,7 @@ namespace Deepglint.XR.Source
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError($"Error receiving message: {ex.Message}");
+                    Debug.LogError($"Error receiving message: {ex}");
                     if (_isRunning)
                     {
                         await Reconnect();

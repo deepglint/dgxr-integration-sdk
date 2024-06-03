@@ -90,7 +90,7 @@ namespace Deepglint.XR.Config
             [JsonProperty("rotation")]
             public CoordinateInfo Rotation{ get; set; }
             [JsonProperty("size")]
-            public CoordinateInfo Size{ get; set; }
+            public CoordinateInfo Scale{ internal get; set; }
         }
 
         [System.Serializable]

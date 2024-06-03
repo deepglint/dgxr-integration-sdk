@@ -135,6 +135,7 @@ namespace Deepglint.XR.Space
 #endif
         void Update()
         {
+            XRSpace.Instance.Scale = spaceScale;
             if (isCave)
             {
                 SetHead();
@@ -289,16 +290,18 @@ namespace Deepglint.XR.Space
             GameObject uiCameraGroup = GameObject.Find("2DCameraGroup");
 
             var uiRoot = GameObject.Find("UIRoot");
+            XRSpace.Instance.gameObject = space.gameObject;
+            XRSpace.Instance.Scale = spaceScale;
             XRSpace.Instance.Length = Global.Config.Space.Length;
             XRSpace.Instance.Width = Global.Config.Space.Width;
             XRSpace.Instance.Height = Global.Config.Space.Height;
             XRSpace.Instance.Roi = new Vector2(Global.Config.Space.Roi[0], Global.Config.Space.Roi[1]);
-
+            
             foreach (var screen in Global.Config.Space.Screens)
             {
                 var position = new Vector3(screen.Position.x, screen.Position.y, screen.Position.z);
                 var rotation = Quaternion.Euler(screen.Rotation.x, screen.Rotation.y, screen.Rotation.z);
-                var scale = new Vector3(screen.Size.x, screen.Size.y, screen.Size.z);
+                var scale = new Vector3(screen.Scale.x, screen.Scale.y, screen.Scale.z);
                 var dis = new ScreenInfo(screen)
                 {
                     Resolution = new Resolution
@@ -308,7 +311,7 @@ namespace Deepglint.XR.Space
                     },
                     ScreenCanvas = uiRoot.transform.Find(screen.TargetScreen.ToString()).gameObject
                 };
-
+                // TODO 设置 size 大小
                 Transform quad = space.Find(screen.TargetScreen.ToString());
                 var uiCamera = Extends.FindChildGameObject(uiCameraGroup, screen.TargetScreen.ToString())
                     .GetComponent<Camera>();
@@ -334,7 +337,7 @@ namespace Deepglint.XR.Space
                 }
                 else
                 {
-                    uiCamera.transform.rotation = rotation;
+                    uiCamera.gameObject.transform.rotation = rotation;
                     quad.rotation = rotation;
                     dis.ScreenObject = quad.gameObject;
                     MeshRenderer meshRenderer = quad.GetComponent<MeshRenderer>();

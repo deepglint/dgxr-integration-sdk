@@ -83,7 +83,7 @@ namespace Deepglint.XR.Ros
             "Ros2");
 
         private readonly Dictionary<String, Source.SourceData> _oldData = new Dictionary<string, Source.SourceData>();
-
+        
         public void DealMsg(std_msgs.msg.String msg)
         {
             DealMsgData(msg.Data);
@@ -328,7 +328,7 @@ namespace Deepglint.XR.Ros
                                         joints.HeadTop = sourceData.Joints.HeadTop;
                                         continue;
                                     }
-
+                                    Debug.LogError("top");
                                     joints.HeadTop = UnifyCoordinate(pose);
                                     break;
                                 case Joint.LeftHand:
@@ -402,28 +402,43 @@ namespace Deepglint.XR.Ros
         /// 坐标标准化处理
         /// </summary>
         /// <param name="pose">人体骨骼点</param>
-        private Vector3 UnifyCoordinate(List<float> pose)
+        private Vector3 UnifyCoordinate(List<float> poseList)
         {
+            // 真实骨骼 5*5 为例
+            // (（5*scale)/真实大小)*pose
+            // Global.Space.Bottom.ScreenObject.transform.localScale.x
+            //  判断space 不是空。
+            Vector3 pose =Global.Space.gameObject.transform.position;
+            if (Global.Space != null&&Global.Space.Bottom!=null)
+            {
+                var scale = Global.Space.Bottom.ScreenObject.transform.localScale;
+                poseList[0] = (scale.x * Global.Space.Scale / Global.Space.Length) *
+                    poseList[0];
+                poseList[1] = (scale.y * Global.Space.Scale / Global.Space.Width) *
+                              poseList[1];  
+                pose += new Vector3(poseList[0], poseList[2], poseList[1]);
+            }
+           
             switch (Global.Config.Space.XDirection, Global.Config.Space.ZDirection)
             {
                 case ("left", "up"):
-                    return new Vector3(-pose[0], pose[2], pose[1]);
+                    return new Vector3(-pose.x, pose.y, pose.z);
                 case ("left", "down"):
-                    return new Vector3(-pose[0], pose[2], -pose[1]);
+                    return new Vector3(-pose.x, pose.y, -pose.z);
                 case ("right", "up"):
-                    return new Vector3(pose[0], pose[2], pose[1]);
+                    return new Vector3(pose.x, pose.y, pose.z);
                 case ("right", "down"):
-                    return new Vector3(pose[0], pose[2], -pose[1]);
+                    return new Vector3(pose.x, pose.y, -pose.z);
                 case ("up", "left"):
-                    return new Vector3(pose[1], pose[2], -pose[0]);
+                    return new Vector3(pose.z, pose.y, -pose.x);
                 case ("up", "right"):
-                    return new Vector3(-pose[1], pose[2], pose[0]);
+                    return new Vector3(-pose.z, pose.y, pose.x);
                 case ("down", "left"):
-                    return new Vector3(-pose[1], pose[2], -pose[0]);
+                    return new Vector3(-pose.z, pose.y, -pose.x);
                 case ("down", "right"):
-                    return new Vector3(pose[1], pose[2], -pose[0]);
+                    return new Vector3(pose.z, pose.y, -pose.x);
                 default:
-                    return new Vector3(pose[0], pose[2], pose[1]);
+                    return new Vector3(pose.x, pose.y, pose.z);
             }
         }
     }

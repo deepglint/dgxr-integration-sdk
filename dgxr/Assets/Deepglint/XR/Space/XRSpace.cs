@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace Deepglint.XR.Space
 {
-    public class XRSpace: IEnumerable<ScreenInfo>
+    public class XRSpace : IEnumerable<ScreenInfo>
     {
         private static XRSpace _instance;
-        private readonly Dictionary<TargetScreen,ScreenInfo> _screenDic;
+        private readonly Dictionary<TargetScreen, ScreenInfo> _screenDic;
         public GameObject gameObject { get; internal set; }
-
+        public float Scale { get; internal set; }
         public float Length { get; internal set; }
         public float Width { get; internal set; }
         public float Height { get; internal set; }
@@ -21,6 +21,7 @@ namespace Deepglint.XR.Space
 
         public Vector2 Roi { get; internal set; }
 
+
         private XRSpace()
         {
             _screenDic = new Dictionary<TargetScreen, ScreenInfo>();
@@ -28,10 +29,7 @@ namespace Deepglint.XR.Space
 
         internal static XRSpace Instance
         {
-            get
-            {
-                return _instance ??= new XRSpace();
-            }
+            get { return _instance ??= new XRSpace(); }
         }
 
         /// <summary>
@@ -43,7 +41,7 @@ namespace Deepglint.XR.Space
         {
             Instance._screenDic[target] = screen;
         }
-        
+
         /// <summary>
         /// 删除空间屏幕
         /// </summary>
@@ -52,7 +50,7 @@ namespace Deepglint.XR.Space
         {
             Instance._screenDic.Remove(target);
         }
-        
+
         public ScreenInfo Front => _screenDic[TargetScreen.Front];
 
         public ScreenInfo Left => _screenDic[TargetScreen.Left];
@@ -69,11 +67,10 @@ namespace Deepglint.XR.Space
         {
             return _screenDic.Values.ToList().GetEnumerator();
         }
-        
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
-
     }
 }

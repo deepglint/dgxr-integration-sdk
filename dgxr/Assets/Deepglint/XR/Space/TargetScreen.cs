@@ -21,7 +21,7 @@ namespace Deepglint.XR.Space
             Render = config.Render;
             Position = config.Position;
             Rotation = config.Rotation;
-            Size = config.Size;
+            Scale = config.Scale;
         }
         public GameObject ScreenObject { get; internal set; }
         public Camera UICamera { get; internal set; }
@@ -30,6 +30,8 @@ namespace Deepglint.XR.Space
 
         public Resolution Resolution { get; internal set; }
         public GameObject ScreenCanvas { get; internal set; }
+        
+        public Vector2 Size { get; internal set; }
 
         /// <summary>
         /// 增加相机到当前渲染屏幕
@@ -57,7 +59,7 @@ namespace Deepglint.XR.Space
                 return;
             }
 
-
+    
             if (!spaceCameraData.cameraStack.Contains(camera))
             {
 #if !UNITY_EDITOR
@@ -174,18 +176,22 @@ namespace Deepglint.XR.Space
         // TODO: 用vector3
         public static Vector2 SpaceToPixelOnScreen(Vector2 spacePosition, ScreenInfo screen)
         {
-            float xRatio = screen.Resolution.width/ screen.Size.x;
-            float yRatio = screen.Resolution.height / screen.Size.z;
+            // todo 增加 realSize 属性，真实空间属性
+            // 动态计算真实 size 大小
+            // 提供一个方法给出相对于屏幕的 position
+            // 提供一个方法的获取真实世界坐标
+            // 提供一个方法获取
+            float xRatio = screen.Resolution.width/ screen.Scale.x;
+            float yRatio = screen.Resolution.height / screen.Scale.z;
 
             if (screen.TargetScreen == TargetScreen.Bottom)
             {
-                yRatio = screen.Resolution.width/ screen.Size.x;
-
+                yRatio = screen.Resolution.width/ screen.Scale.x;
             }
             else
             {
                 // 真实空间z轴起点在空间地面中心，而不是空间的几何中心，几何中心在空中，不好对齐和使用
-                spacePosition.y -= screen.Size.z/2;
+                spacePosition.y -= screen.Scale.z/2;
             }
 
             int x = Mathf.RoundToInt(spacePosition.x * xRatio);
