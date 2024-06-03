@@ -35,7 +35,7 @@ namespace Deepglint.XR.Toolkit.Manager
     /// </summary>
     public class Audio
     {
-        private const string BasePath = "Audio";
+        private const string BasePath = "Audios";
         private static GameObject _audioRoot;
 
         /// <summary>
