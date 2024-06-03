@@ -334,6 +334,7 @@ namespace Deepglint.XR.Space
                 }
                 else
                 {
+                    uiCamera.transform.rotation = rotation;
                     quad.rotation = rotation;
                     dis.ScreenObject = quad.gameObject;
                     MeshRenderer meshRenderer = quad.GetComponent<MeshRenderer>();
