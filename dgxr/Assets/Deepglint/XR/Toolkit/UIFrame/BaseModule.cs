@@ -33,6 +33,8 @@ namespace Deepglint.XR.Toolkit.UIFrame
         /// 获取模块包含的 gameObject 的 activeSelf 属性，gameObject.activeSelf 的包装
         /// </summary>
         public bool activeSelf => gameObject != null && gameObject.activeSelf;
+        
+        public bool isDestroyed { get; private set; }
 
 
         protected BaseModule()
@@ -82,6 +84,7 @@ namespace Deepglint.XR.Toolkit.UIFrame
 
             OnClose();
             UnityEngine.Object.Destroy(gameObject);
+            isDestroyed = true;
         }
 
 

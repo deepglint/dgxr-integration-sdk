@@ -68,6 +68,7 @@ namespace Deepglint.XR.Toolkit.Manager
             Name = name;
             Type = type;
             Source = CreateAudioSource(Name, Type);
+            AudioManager.Audios.Add(this);
         }
 
         /// <summary>
@@ -125,9 +126,8 @@ namespace Deepglint.XR.Toolkit.Manager
             var audioClip = Resources.Load<AudioClip>(Path.Combine(BasePath, audioType.ToString(), audioName));
             if (audioClip == null)
             {
-                throw new FileNotFoundException($"audio file {audioType}/{audioName} not found");
+                throw new FileNotFoundException($"audio file {Path.Combine(BasePath, audioType.ToString(), audioName)} not found");
             }
-
             var obj = new GameObject(audioClip.name);
             obj.transform.SetParent(_audioRoot.transform);
             var source = obj.AddComponent<AudioSource>();
@@ -195,7 +195,7 @@ namespace Deepglint.XR.Toolkit.Manager
     /// </summary>
     public static class AudioManager
     {
-        private static readonly List<Audio> Audios = new();
+        public static readonly List<Audio> Audios = new();
         private static readonly List<AudioList> AudioLists = new();
 
         /// <summary>
@@ -237,6 +237,7 @@ namespace Deepglint.XR.Toolkit.Manager
         {
             return Audios.Where(audio => types.Contains(audio.Type)).ToList();
         }
+        
 
 
         /// <summary>
@@ -252,11 +253,6 @@ namespace Deepglint.XR.Toolkit.Manager
             if (audio == null)
             {
                 throw new NullReferenceException();
-            }
-
-            if (Audios.FirstOrDefault(item => item == audio) != null)
-            {
-                Audios.Add(audio);
             }
 
             if (ignoreIfPlaying)

@@ -12,7 +12,10 @@ namespace Deepglint.XR.Toolkit.DebugTool
         
         private void Start()
         {
+#if !UNITY_EDITOR
             Cursor.visible = false;
+#endif
+            
             _guiFps = new Rect(0, 0, 100, 100);
             _style.fontSize = 60;
             _style.normal.textColor = Color.red;
