@@ -1,28 +1,22 @@
 using System;
-using UnityEngine;
-using System.Text;
 using System.IO;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using UnityEngine;
 
-namespace Runtime.Scripts.Log
+namespace Deepglint.XR.Log
 {
-    public class GameLogger
+    public static class GameLogger
     {
-        // 普通调试日志开关
         private static bool _debugLogEnable = true;
-
-        // 警告日志开关
         private static bool _warningLogEnable = true;
-
-        // 使用StringBuilder来优化字符串的重复构造
         private static readonly StringBuilder LogStr = new StringBuilder();
-
-        // 日志文件存储位置
         private static string _logFileSavePath;
+        private static readonly object FileLock = new object();
+        private static Timer _logFlushTimer;
 
-        /// <summary>
-        /// 初始化，在游戏启动的入口脚本的Awake函数中调用GameLogger.Init
-        /// </summary>
-        public static void Init(Config.ConfigData.LogInfo logInfo)
+        public static void Init(Config.Config.ConfigData.LogInfo logInfo)
         {
             switch (logInfo.Level)
             {
@@ -39,44 +33,42 @@ namespace Runtime.Scripts.Log
 
             if (!Global.SystemName.Contains("Mac"))
             {
-                CreatLogFile();
+                CreateLogFile();
                 Application.logMessageReceived += OnLogCallBack;
+                _logFlushTimer = new Timer(FlushLogToFile, null, 5000, 5000);
             }
         }
 
-        public static void CreatLogFile()
+        public static void CreateLogFile()
         {
             var t = DateTime.Now.ToString("yyyyMMddhhmmss");
 
             if (!string.IsNullOrEmpty(Global.Config.Log.SavePath))
             {
                 _logFileSavePath =
-                    $"{Global.Config.Log.SavePath}/{Global.AppName}/DGXR_{t}.log";
+                    $"{Global.Config.Log.SavePath}/{Global.AppName}/DGXR_{Global.Version}_{t}.log";
             }
             else
             {
-                _logFileSavePath = $"{Application.persistentDataPath}/{Global.AppName}/DGXR_{t}.log";
+                _logFileSavePath = $"{Application.persistentDataPath}/{Global.AppName}/DGXR_{Global.Version}_{t}.log";
             }
 
-            if (!Directory.Exists(Path.GetDirectoryName(_logFileSavePath)))
+            var logDirectory = Path.GetDirectoryName(_logFileSavePath);
+            if (!Directory.Exists(logDirectory))
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(_logFileSavePath) ?? string.Empty);
+                Directory.CreateDirectory(logDirectory);
             }
 
-            if (LogStr.Length <= 0) return;
-            if (!File.Exists(_logFileSavePath))
+            if (LogStr.Length > 0)
             {
-                var fs = File.Create(_logFileSavePath);
-                fs.Close();
+                if (!File.Exists(_logFileSavePath))
+                {
+                    var fs = File.Create(_logFileSavePath);
+                    fs.Close();
+                }
             }
         }
 
-        /// <summary>
-        /// 打印日志回调
-        /// </summary>
-        /// <param name="condition">日志文本</param>
-        /// <param name="stackTrace">调用堆栈</param>
-        /// <param name="type">日志类型</param>
         private static void OnLogCallBack(string condition, string stackTrace, LogType type)
         {
             if ((type == LogType.Log && !_debugLogEnable) || (type == LogType.Warning && !_warningLogEnable))
@@ -84,44 +76,79 @@ namespace Runtime.Scripts.Log
                 return;
             }
 
-            CheckLogFileSize();
-            string logMessage = $"{DateTime.Now} - {condition}\n{stackTrace}\n";
-            LogStr.Append(logMessage);
-
-            using (var sw = File.AppendText(_logFileSavePath))
+            lock (LogStr)
             {
-                sw.WriteLine(LogStr.ToString());
+                string logMessage = $"{DateTime.Now} - {condition}\n{stackTrace}";
+                LogStr.Append(logMessage);
             }
+        }
 
-            LogStr.Remove(0, LogStr.Length);
+        private static void FlushLogToFile(object state)
+        {
+            lock (FileLock)
+            {
+                if (LogStr.Length > 0)
+                {
+                    var logsToWrite = new StringBuilder();
+
+                    lock (LogStr)
+                    {
+                        logsToWrite.Append(LogStr.ToString());
+                        LogStr.Clear();
+                    }
+
+                    Task.Run(() =>
+                    {
+                        lock (FileLock)
+                        {
+                            using (var sw = File.AppendText(_logFileSavePath))
+                            {
+                                sw.Write(logsToWrite.ToString());
+                            }
+                        }
+                    });
+
+                    CheckLogFileSize();
+                }
+            }
         }
 
         private static void CheckLogFileSize()
         {
-            string logFolderPath = Path.GetDirectoryName(_logFileSavePath);
-            if (logFolderPath != null)
+            lock (FileLock)
             {
-                string[] logFiles = Directory.GetFiles(logFolderPath, "*.log");
-                DateTime currentTime = DateTime.Now;
-
-                foreach (string filePath in logFiles)
+                string logFolderPath = Path.GetDirectoryName(_logFileSavePath);
+                if (logFolderPath != null)
                 {
-                    DateTime creationTime = File.GetCreationTime(filePath);
-                    TimeSpan age = currentTime - creationTime;
-                    if (age.TotalDays > Global.Config.Log.SaveDay)
+                    string[] logFiles = Directory.GetFiles(logFolderPath, "*.log");
+                    DateTime currentTime = DateTime.Now;
+
+                    foreach (string filePath in logFiles)
                     {
-                        File.Delete(filePath);
+                        DateTime creationTime = File.GetCreationTime(filePath);
+                        TimeSpan age = currentTime - creationTime;
+                        if (age.TotalDays > Global.Config.Log.SaveDay)
+                        {
+                            File.Delete(filePath);
+                        }
                     }
                 }
-            }
 
-            long maxFileSize = 1024 * 1024 * Global.Config.Log.SingFileMaxSize;
-            FileInfo logFileInfo = new FileInfo(_logFileSavePath);
+                long maxFileSize = 1024 * 1024 * Global.Config.Log.SingFileMaxSize;
+                FileInfo logFileInfo = new FileInfo(_logFileSavePath);
 
-            if (logFileInfo.Exists && logFileInfo.Length > maxFileSize)
-            {
-                CreatLogFile();
+                if (logFileInfo.Exists && logFileInfo.Length > maxFileSize)
+                {
+                    CreateLogFile();
+                }
             }
+        }
+
+        // 确保在应用程序退出时清理资源
+        public static void Cleanup()
+        {
+            _logFlushTimer?.Dispose();
+            FlushLogToFile(null);
         }
     }
 }

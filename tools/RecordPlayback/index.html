@@ -1,0 +1,2596 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      :root {
+        --active-brightness: 0.85;
+        --border-radius: 5px;
+        --box-shadow: 2px 2px 10px;
+        --color-accent: #118bee15;
+        --color-bg: #fff;
+        --color-bg-secondary: #e9e9e9;
+        --color-link: #118bee;
+        --color-secondary: #920de9;
+        --color-secondary-accent: #920de90b;
+        --color-shadow: #f4f4f4;
+        --color-table: #118bee;
+        --color-text: #000;
+        --color-text-secondary: #999;
+        --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        --hover-brightness: 1.2;
+        --justify-important: center;
+        --justify-normal: left;
+        --line-height: 1.5;
+        --width-card: 250px;
+        --width-card-medium: 460px;
+        --width-card-wide: 800px;
+        --width-content: 1280px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root[color-mode="user"] {
+          --color-accent: #0097fc4f;
+          --color-bg: #333;
+          --color-bg-secondary: #555;
+          --color-link: #0097fc;
+          --color-secondary: #e20de9;
+          --color-secondary-accent: #e20de94f;
+          --color-shadow: #bbbbbb20;
+          --color-table: #0097fc;
+          --color-text: #f7f7f7;
+          --color-text-secondary: #aaa;
+        }
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+      article aside {
+        background: var(--color-secondary-accent);
+        border-left: 4px solid var(--color-secondary);
+        padding: 0.01rem 0.8rem;
+      }
+      body {
+        background: var(--color-bg);
+        color: var(--color-text);
+        font-family: var(--font-family);
+        line-height: var(--line-height);
+        margin: 0;
+        overflow-x: hidden;
+        padding: 0;
+      }
+      footer,
+      header,
+      main {
+        margin: 0 auto;
+        max-width: var(--width-content);
+        padding: 1rem 1rem;
+      }
+      hr {
+        background-color: var(--color-bg-secondary);
+        border: none;
+        height: 1px;
+        margin: 2rem 0;
+        width: 100%;
+      }
+      section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: var(--justify-important);
+      }
+      section img,
+      article img {
+        max-width: 100%;
+      }
+      section pre {
+        overflow: auto;
+      }
+      section aside {
+        border: 1px solid var(--color-bg-secondary);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow) var(--color-shadow);
+        margin: 0.5rem;
+        padding: 1rem;
+        width: var(--width-card);
+      }
+      section aside:hover {
+        box-shadow: var(--box-shadow) var(--color-bg-secondary);
+      }
+      [hidden] {
+        display: none;
+      }
+      article header,
+      div header,
+      main header {
+        padding-top: 0;
+      }
+      header {
+        text-align: var(--justify-important);
+      }
+      header a b,
+      header a em,
+      header a i,
+      header a strong {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+      }
+      header nav img {
+        margin: 1rem 0;
+      }
+      section header {
+        padding-top: 0;
+        width: 100%;
+      }
+      nav {
+        align-items: center;
+        display: flex;
+        font-weight: bold;
+        justify-content: space-between;
+        margin-bottom: 7rem;
+      }
+      nav ul {
+        list-style: none;
+        padding: 0;
+      }
+      nav ul li {
+        display: inline-block;
+        margin: 0 0.5rem;
+        position: relative;
+        text-align: left;
+      }
+      nav ul li:hover ul {
+        display: block;
+      }
+      nav ul li ul {
+        background: var(--color-bg);
+        border: 1px solid var(--color-bg-secondary);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow) var(--color-shadow);
+        display: none;
+        height: auto;
+        left: -2px;
+        padding: 0.5rem 1rem;
+        position: absolute;
+        top: 1.7rem;
+        white-space: nowrap;
+        width: auto;
+        z-index: 1;
+      }
+      nav ul li ul::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -0.5rem;
+        height: 0.5rem;
+      }
+      nav ul li ul li,
+      nav ul li ul li a {
+        display: block;
+        text-decoration: none;
+      }
+      code,
+      samp {
+        background-color: var(--color-accent);
+        border-radius: var(--border-radius);
+        color: var(--color-text);
+        display: inline-block;
+        margin: 0 0.1rem;
+        padding: 0 0.5rem;
+      }
+      details {
+        margin: 0;
+        min-width: 266px;
+      }
+      details summary {
+        font-weight: bold;
+        cursor: pointer;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        line-height: var(--line-height);
+        text-wrap: balance;
+      }
+      mark {
+        padding: 0.1rem;
+      }
+      ol li,
+      ul li {
+        padding: 0.2rem 0;
+      }
+      p {
+        margin: 0.5rem 0;
+        padding: 0;
+        width: 100%;
+        font-size: 13px;
+      }
+      pre {
+        margin: 1rem 0;
+        max-width: var(--width-card-wide);
+        padding: 1rem 0;
+      }
+      pre code,
+      pre samp {
+        display: block;
+        max-width: var(--width-card-wide);
+        padding: 0.5rem 2rem;
+        white-space: pre-wrap;
+      }
+      small {
+        color: var(--color-text-secondary);
+      }
+      sup {
+        background-color: var(--color-secondary);
+        border-radius: var(--border-radius);
+        color: var(--color-bg);
+        font-size: xx-small;
+        font-weight: bold;
+        margin: 0.2rem;
+        padding: 0.2rem 0.3rem;
+        position: relative;
+        top: -2px;
+      }
+      a {
+        color: var(--color-link);
+        display: inline-block;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      a:hover {
+        filter: brightness(var(--hover-brightness));
+      }
+      a:active {
+        filter: brightness(var(--active-brightness));
+      }
+      a b,
+      a em,
+      a i,
+      a strong,
+      button,
+      input[type="submit"] {
+        border-radius: var(--border-radius);
+        display: inline-block;
+        font-size: medium;
+        font-weight: bold;
+        line-height: var(--line-height);
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem;
+      }
+      button,
+      input[type="submit"] {
+        font-family: var(--font-family);
+      }
+      button:hover,
+      input[type="submit"]:hover {
+        cursor: pointer;
+        filter: brightness(var(--hover-brightness));
+      }
+      button:active,
+      input[type="submit"]:active {
+        filter: brightness(var(--active-brightness));
+      }
+      a b,
+      a strong,
+      button,
+      input[type="submit"] {
+        background-color: var(--color-link);
+        border: 2px solid var(--color-link);
+        color: var(--color-bg);
+      }
+      a em,
+      a i {
+        border: 2px solid var(--color-link);
+        border-radius: var(--border-radius);
+        color: var(--color-link);
+        display: inline-block;
+        padding: 1rem 2rem;
+      }
+      article aside a {
+        color: var(--color-secondary);
+      }
+      figure {
+        margin: 0;
+        padding: 0;
+      }
+      figure img {
+        max-width: 100%;
+      }
+      figure figcaption {
+        color: var(--color-text-secondary);
+      }
+      button:disabled,
+      input:disabled {
+        background: var(--color-bg-secondary);
+        border-color: var(--color-bg-secondary);
+        color: var(--color-text-secondary);
+        cursor: not-allowed;
+      }
+      button[disabled]:hover,
+      input[type="submit"][disabled]:hover {
+        filter: none;
+      }
+      form {
+        border: 1px solid var(--color-bg-secondary);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow) var(--color-shadow);
+        display: block;
+        max-width: var(--width-card-wide);
+        min-width: var(--width-card);
+        padding: 1.5rem;
+        text-align: var(--justify-normal);
+      }
+      form header {
+        margin: 1.5rem 0;
+        padding: 1.5rem 0;
+      }
+      input,
+      label,
+      select,
+      textarea {
+        display: block;
+        font-size: inherit;
+        max-width: var(--width-card-wide);
+      }
+      input[type="checkbox"],
+      input[type="radio"] {
+        display: inline-block;
+      }
+      input[type="checkbox"] + label,
+      input[type="radio"] + label {
+        display: inline-block;
+        font-weight: normal;
+        position: relative;
+        top: 1px;
+      }
+      input[type="range"] {
+        padding: 0.4rem 0;
+      }
+      input,
+      select,
+      textarea {
+        border: 1px solid var(--color-bg-secondary);
+        border-radius: var(--border-radius);
+        margin-bottom: 1rem;
+        padding: 0.4rem 0.8rem;
+      }
+      input[type="text"],
+      textarea {
+        width: calc(100% - 1.6rem);
+      }
+      input[readonly],
+      textarea[readonly] {
+        background-color: var(--color-bg-secondary);
+      }
+      label {
+        font-weight: bold;
+        margin-bottom: 0.2rem;
+      }
+      dialog {
+        border: 1px solid var(--color-bg-secondary);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow) var(--color-shadow);
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50%;
+        z-index: 999;
+      }
+      table {
+        border: 1px solid var(--color-bg-secondary);
+        border-radius: var(--border-radius);
+        border-spacing: 0;
+        display: inline-block;
+        max-width: 100%;
+        overflow-x: auto;
+        padding: 0;
+        white-space: nowrap;
+      }
+      table td,
+      table th,
+      table tr {
+        padding: 0.4rem 0.8rem;
+        text-align: var(--justify-important);
+      }
+      table thead {
+        background-color: var(--color-table);
+        border-collapse: collapse;
+        border-radius: var(--border-radius);
+        color: var(--color-bg);
+        margin: 0;
+        padding: 0;
+      }
+      table thead tr:first-child th:first-child {
+        border-top-left-radius: var(--border-radius);
+      }
+      table thead tr:first-child th:last-child {
+        border-top-right-radius: var(--border-radius);
+      }
+      table thead th:first-child,
+      table tr td:first-child {
+        text-align: var(--justify-normal);
+      }
+      table tr:nth-child(even) {
+        background-color: var(--color-accent);
+      }
+      blockquote {
+        display: block;
+        font-size: x-large;
+        line-height: var(--line-height);
+        margin: 1rem auto;
+        max-width: var(--width-card-medium);
+        padding: 1.5rem 1rem;
+        text-align: var(--justify-important);
+      }
+      blockquote footer {
+        color: var(--color-text-secondary);
+        display: block;
+        font-size: small;
+        line-height: var(--line-height);
+        padding: 1.5rem 0;
+      }
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: rgb(202, 202, 232) auto;
+      }
+      *::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+      }
+      *::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      *::-webkit-scrollbar-thumb {
+        background-color: rgb(202, 202, 232);
+        border-radius: 10px;
+      }
+    </style>
+    <meta charset="utf-8" />
+    <meta name="description" content="My description" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>骨骼数据回放&手柄动作模拟器</title>
+    <link
+      rel="stylesheet"
+      href="https://at.alicdn.com/t/c/font_3981309_089863kxv4pf.css?spm=a313x.manage_type_myprojects.i1.9.494f3a81sRqab5&file=font_3981309_089863kxv4pf.css"
+    />
+    <script>
+      const roleType = {
+        server: "server",
+        client: "client",
+        record: "record",
+      };
+
+      const roleTypeText = {
+        server: "服务器",
+        client: "您",
+      };
+
+      const positions = [
+        [-2, -1.5],
+        [-2, -0.5],
+        [-2, 0.5],
+        [-2, 1.5],
+        [-5, -5],
+        [-5, -5],
+        [-5, -5],
+        [-5, -5],
+        [-5, -5],
+        [-5, -5],
+      ];
+
+      const directionType = {
+        up: "up",
+        down: "down",
+        left: "left",
+        right: "right",
+      };
+
+      let wssConfig = [
+        {
+          url: "ws://127.0.0.1:8005",
+          role: roleType.server,
+          name: "回放服务",
+          status: true,
+        },
+        {
+          url: "ws://192.168.103.61:9090",
+          role: roleType.client,
+          name: "九楼灵境 - 991",
+          status: true,
+          customParse: "customParse991PoseAndAction",
+          firstMessage: JSON.stringify({
+            op: "subscribe",
+            topic: "/metapose/pose3d",
+            type: "std_msgs/String",
+          }),
+        },
+        {
+          url: "ws://192.168.103.199:8000/ws",
+          role: roleType.client,
+          name: "九楼灵境",
+          status: true,
+          mer: "http://192.168.103.61:9400/vars/*mer*",
+        },
+        // {
+        //   url: "ws://192.168.103.8001/ws",
+        //   role: roleType.client,
+        //   name: "九楼骨骼",
+        //   status: false,
+        // },
+        {
+          url: "ws://192.168.12.1:8000/ws",
+          role: roleType.client,
+          name: "延庆骨骼",
+          status: true,
+        },
+        {
+          url: "ws://127.0.0.1:8000/ws",
+          role: roleType.client,
+          name: "TCP隧道骨骼",
+          status: false,
+        },
+      ];
+
+      const colors = [
+        "red",
+        "orange",
+        "blue",
+        "green",
+        "purple",
+        "pink",
+        "brown",
+        "black",
+        "white",
+        "gray",
+        "cyan",
+        "magenta",
+        "lime",
+        "teal",
+        "coral",
+        "tomato",
+        "yellow",
+        "gold",
+        "silver",
+        "maroon",
+        "olive",
+        "navy",
+        "steelblue",
+        "tomato",
+        "gold",
+        "silver",
+        "maroon",
+        "olive",
+        "navy",
+        "steel",
+      ];
+
+      // 骨骼点位对应的JointType枚举
+      const JointType = {
+        Nose: 0,
+        LeftEye: 1,
+        RightEye: 2,
+        LeftEar: 3,
+        RightEar: 4,
+        LeftShoulder: 5,
+        RightShoulder: 6,
+        LeftElbow: 7,
+        RightElbow: 8,
+        LeftWrist: 9,
+        RightWrist: 10,
+        LeftHip: 11,
+        RightHip: 12,
+        LeftKnee: 13,
+        RightKnee: 14,
+        LeftAnkle: 15,
+        RightAnkle: 16,
+        LeftTiptoe: 17,
+        RightTiptoe: 18,
+        LeftHeel: 19,
+        RightHeel: 20,
+        HeadTop: 21,
+        LeftHand: 22,
+        RightHand: 23,
+      };
+
+      const ActionEvent = {
+        OnEmpty: "---",
+        OnRightHandDrawCircle: "RightHandDrawCircle", //左手画圈
+        OnLeftHandDrawCircle: "LeftHandDrawCircle", //右手画圈
+        OnHandBevelCut: "HandBevelCut", //手斜切
+        OnHandParry: "HandParry", //手挡开
+        OnHandStraightCut: "HandStraightCut", //手直切
+        OnHandTransversal: "HandTransversal", //手横切
+        OnStraightPunch: "StraightPunch", //直拳
+        OnReadyStraightPunch: "ReadyStraightPunch", //蓄力直拳
+        OnUppercut: "Uppercut", //上勾拳
+        OnKick: "Kick", //踢腿
+        OnThrowOneHandInFists: "ThrowOneHandInFists", //单手握拳投掷
+        OnReadyThrowOneHandInFists: "ReadyThrowOneHandInFists", //蓄力单手握拳投掷
+        OnReadyThrowBothHandInFists: "ReadyThrowBothHandInFists", //蓄力双手握拳投掷
+        OnReadyHandObliqueCut: "ReadyHandObliqueCut", //蓄力手斜切
+        OnWavingOneHand: "WavingOneHand", //单手挥舞
+        OnReadyWavingOneHand: "ReadyWavingOneHand", //蓄力单手挥舞
+        OnCombineHandsStraight: "CombineHandsStraight", //双手伸直合并
+        OnThrowBoulder: "ThrowBoulder", //举手投掷巨物
+        OnSlowRun: "SlowRun", //慢跑
+        OnFastRun: "FastRun", //快跑
+        OnButterfly: "Butterfly", //蝶泳
+        OnFreestyle: "Freestyle", //自由泳
+        OnKeepRaisingHand: "KeepRaisingHand", //持续举手
+        OnApplaud: "Applaud", //拍掌
+        OnJump: "Jump", //起跳
+        OnDeepSquat: "DeepSquat", //下蹲
+        OnRaiseOnHand: "RaiseOnHand", //举单手
+        OnRaiseBothHand: "RaiseBothHand", //举双手
+        OnArmFlat: "ArmFlat", //手臂平展
+        OnArmFlatIsL: "ArmFlatIsL", //手臂平展为L
+        OnArmVerticalIsL: "ArmVerticalIsL", //手臂垂直为L
+        OnSlideLeft: "SlideLeft", //左滑
+        OnSlideRight: "SlideRight", //右滑
+        OnSlideUp: "SlideUp", //上滑
+        OnSlideDown: "SlideDown", //下滑
+        OnHandsAway: "HandsAway", //双手远离
+        OnHandsClose: "HandsClose", //双手靠近
+        OnWaving: "Waving", //挥手
+        OnArmToForward: "ArmToForward", //手臂向前
+        OnArmToBack: "ArmToBack", //手臂向后
+        OnArmToLeft: "ArmToLeft", //手臂向左
+        OnArmToRight: "ArmToRight", //手臂向右
+        OnBendBothElbows: "BendBothElbows", //弯曲双肘
+        OnHandsCross: "HandsCross", //双手交叉
+        OnPoseA: "PoseA", //姿态A
+        OnPoseB: "PoseB", //姿态B
+        OnPoseC: "PoseC", //姿态C
+        OnPoseD: "PoseD", //姿态D
+        OnLeanToLeft: "LeanToLeft", //身体左倾
+        OnLeanToRight: "LeanToRight", //身体右倾
+        OnStand: "Stand", //站立
+        OnSmallSquat: "SmallSquat", //跳一跳下蹲
+      };
+
+      const ActionType = {
+        Default: 0, // 无动作
+        RightHandDrawCircle: 1, // 左手画圈
+        LeftHandDrawCircle: 2, // 右手画圈
+        HandBevelCut: 3, // 手斜切
+        HandParry: 4, // 手挡开
+        HandStraightCut: 5, // 手直切
+        HandTransversal: 6, // 手横切
+        StraightPunch: 7, // 直拳
+        ReadyStraightPunch: 8, // 蓄力直拳
+        Uppercut: 9, // 上勾拳
+        Kick: 10, // 踢腿
+        ThrowOneHandInFists: 11, // 单手握拳投掷
+        ReadyThrowOneHandInFists: 12, // 蓄力单手握拳投掷
+        ReadyThrowBothHandInFists: 13, // 蓄力双手握拳投掷
+        ReadyHandObliqueCut: 14, // 蓄力手斜切
+        WavingOneHand: 15, // 单手挥舞
+        ReadyWavingOneHand: 16, // 蓄力单手挥舞
+        CombineHandsStraight: 17, // 双手伸直合并
+        ThrowBoulder: 18, // 举手投掷巨物
+        SlowRun: 19, // 慢跑
+        FastRun: 20, // 快跑
+        Butterfly: 21, // 蝶泳
+        Freestyle: 22, // 自由泳
+        KeepRaisingHand: 23, // 持续举手
+        Applaud: 24, // 拍掌
+        Jump: 25, // 起跳
+        DeepSquat: 26, // 下蹲
+        RaiseOnHand: 10000, // 举单手
+        RaiseBothHand: 10001, // 举双手
+        ArmFlat: 10002, // 手臂平展
+        ArmFlatIsL: 10003, // 手臂平展为L
+        ArmVerticalIsL: 10004, // 手臂垂直为L
+        SlideLeft: 2001, // 左滑
+        SlideRight: 2002, // 右滑
+        SlideUp: 2003, // 上滑
+        SlideDown: 2004, // 下滑
+        HandsAway: 2005, // 双手远离
+        HandsClose: 2006, // 双手靠近
+        Waving: 2007, // 挥手
+        ArmToForward: 2008, // 手臂向前
+        ArmToBack: 2009, // 手臂向后
+        ArmToLeft: 2010, // 手臂向左
+        ArmToRight: 2011, // 手臂向右
+        BendBothElbows: 2012, // 弯曲双肘
+        HandsCross: 2013, // 双手交叉
+        PoseA: 3001, // 姿态A
+        PoseB: 3002, // 姿态B
+        PoseC: 3003, // 姿态C
+        PoseD: 3004, // 姿态D
+        LeanToLeft: 3005, // 身体左倾
+        LeanToRight: 3006, // 身体右倾
+        Stand: 3007, // 站立
+        SmallSquat: 4001, // 跳一跳下蹲
+      };
+
+      const ActionTypeKey = {};
+      Object.keys(ActionType).map((key) => {
+        ActionTypeKey[ActionType[key]] = key;
+      });
+
+      const Key = {
+        DPadUp: 0,
+        DPadDown: 1,
+        DPadLeft: 2,
+        DPadRight: 3,
+        Start: 4,
+        Select: 5,
+        LeftStickPress: 6,
+        RightStickPress: 7,
+        LeftShoulder: 8,
+        RightShoulder: 9,
+        ButtonGuide: 10,
+        ButtonSouth: 12,
+        ButtonEast: 13,
+        ButtonWest: 14,
+        ButtonNorth: 15,
+
+        LeftStickUp: 16,
+        LeftStickDown: 17,
+        LeftStickLeft: 18,
+        LeftStickRight: 19,
+        RightStickUp: 20,
+        RightStickDown: 21,
+        RightStickLeft: 22,
+        RightStickRight: 23,
+        LeftTrigger: 24,
+        RightTrigger: 25,
+        LeftStickZero: 26,
+        RightStickZero: 27,
+      };
+
+      const shiftKeyCombination = {
+        "!": "1",
+        "@": "2",
+        "#": "3",
+        $: "4",
+        "%": "5",
+        "^": "6",
+        "&": "7",
+        "*": "8",
+        "(": "9",
+      };
+
+      const defaultPoseData = [
+        {
+          ts: 1710426767530,
+          pose: {
+            0: [
+              [0, 0, 0],
+              [0, 0, 0],
+              [0.9852487444877625, 0.20644627511501312, 1.4077719449996948],
+              [0, 0, 0],
+              [1.0859835147857666, 0.20155338943004608, 1.3991681337356567],
+              [1.0702283382415771, -0.02566889300942421, 1.2417302131652832],
+              [1.2058764696121216, 0.27047041058540344, 1.2181804180145264],
+              [1.0741009712219238, -0.06711186468601227, 1.0221943855285645],
+              [1.2488083839416504, 0.35955843329429626, 1.0209921598434448],
+              [0, 0, 0],
+              [1.0797425508499146, 0.38742542266845703, 1.0235501527786255],
+              [1.0910457372665405, 0.03554580360651016, 0.7078747749328613],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0],
+              [0.9851289987564087, 0.16409645974636078, 1.4989755153656006],
+              [0, 0, 0],
+              [1.0338759422302246, 0.4158642292022705, 1.0379303693771362],
+            ],
+          },
+        },
+      ];
+
+      window.constants = {
+        interval: 1000 / 30,
+        // interval: 2000,
+      };
+
+      const sourceData = {
+        ts: 1632579600000,
+        pose: {
+          1: Array(24)
+            .fill(0)
+            .map((_, index) => [1, 1, 1]),
+          2: Array(24)
+            .fill(0)
+            .map((_, index) => [1, 1, 1]),
+        },
+        action: {
+          1: "OnRaiseOnHand",
+          2: "OnRaiseOnHand",
+        },
+      };
+
+      window.global = {
+        actionConfig: [],
+        appName: "app",
+        appVersion: "0.0",
+      };
+
+      function init() {
+        const stickyDiv = document.getElementById("stickyDiv");
+        window.addEventListener("scroll", function () {
+          const scrollTop =
+            window.pageYOffset || document.documentElement.scrollTop;
+          let originalPosition = stickyDiv.getBoundingClientRect().top;
+
+          if (scrollTop >= originalPosition) {
+            stickyDiv.classList.add("sticky");
+          } else {
+            stickyDiv.classList.remove("sticky");
+            stickyDiv.style.top = "0px";
+          }
+        });
+
+        addCustomEventListenerList();
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        init();
+      });
+
+      var utils = {
+        log: (...args) => {
+          // console.log(...args);
+        },
+        setInputStore: (elementKey) => {
+          var element = document.querySelector(elementKey);
+          element.value = localStorage.getItem(elementKey);
+
+          element.addEventListener("input", function () {
+            localStorage.setItem(elementKey, element.value);
+          });
+        },
+        formatDate: (time) => {
+          const now = new Date(time);
+          const year = now.getFullYear();
+          const month = String(now.getMonth() + 1).padStart(2, "0");
+          const date = String(now.getDate()).padStart(2, "0");
+          const formattedDate = `${year}-${month}-${date}`;
+          return formattedDate;
+        },
+        padZero: (num) => {
+          return (num < 10 ? "0" : "") + num;
+        },
+        formatTime: (time) => {
+          let now = new Date(time);
+          let hours = now.getHours();
+          let minutes = utils.padZero(now.getMinutes());
+          let seconds = utils.padZero(now.getSeconds());
+          const formattedTime = `${hours}:${minutes}:${seconds}`;
+          return formattedTime;
+        },
+        getTime: () => {
+          const now = new Date();
+          return `${utils.formatDate(now)} ${utils.formatTime(now)}`;
+        },
+        bytesToMB: (bytes) => {
+          return (bytes / (1024 * 1024)).toFixed(2);
+        },
+        uploadFile: (inputFile, callback) => {
+          const files = inputFile.files;
+          if (files.length <= 0) {
+            alert("请选择文件");
+            return;
+          }
+
+          var file = files[0];
+          var textType = /text\/plain/;
+          var jsonType = /application\/json/;
+          if (file.type.match(textType) || file.type.match(jsonType)) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              if (callback) callback(e.target.result);
+            };
+
+            reader.readAsText(file);
+          }
+        },
+        downloadFile(filename, message) {
+          let stringifiedArray = message.map((obj) =>
+            obj.replace(/\n|\s/g, "")
+          );
+          let resultString = stringifiedArray.join("\n");
+
+          let blob = new Blob([resultString], {
+            type: "text/plain;charset=utf-8",
+          });
+
+          let url = URL.createObjectURL(blob);
+
+          let downloadLink = document.createElement("a");
+          downloadLink.href = url;
+          downloadLink.download = `case_${filename}.txt`;
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+
+          URL.revokeObjectURL(url);
+        },
+        parseArrayStringifyToObject: (array) => {
+          return array
+            .map((item) => {
+              try {
+                var data = JSON.parse(item);
+                return data;
+              } catch (error) {
+                return null;
+              }
+            })
+            .filter((item) => item);
+        },
+      };
+
+      // 玩家类
+      class VirtualPlayer {
+        constructor(id, realId, color, callback) {
+          this.id = id;
+          (this.realId = realId), (this.pose = [0, 0]); // 玩家的位置
+          this.speed = 0.01;
+          this.speedDirection = [1, 1];
+          this.movementInput = [1, 1]; // 玩家的移动输入
+          this.action = ""; // 玩家的动作
+          this.color = color; // 玩家的颜色
+          // this.color = `hsl(${360 * Math.random()}, 100%, 50%)`; // 随机颜色
+          this.controlPanel = null;
+          this.callback = callback;
+          this.isMoveStopped = true;
+          this.status = true;
+          this.timer = null;
+          this.statusButton;
+
+          this.init();
+        }
+
+        getData() {
+          return {
+            id: this.id,
+            pose: this.pose,
+            action: this.action,
+            color: this.color,
+          };
+        }
+
+        init() {
+          // 创建操作面板
+          const controlPanel = document.createElement("div");
+          controlPanel.classList.add("controlPanel");
+          controlPanel.style.marginTop = `10px`;
+          this.controlPanel = controlPanel;
+
+          this.addPlayerAvatar();
+          this.addAnimateButton();
+          this.addStatusButton();
+          if (!global.actionConfig.length) {
+            this.addSelectAction();
+          }
+          this.addDefaultAction();
+        }
+
+        addPlayerAvatar() {
+          const avatar = document.createElement("span");
+          avatar.className = "avatar iconfont icon-user";
+          avatar.style.color = this.color;
+          avatar.innerText = `(${this.id})${this.realId}`;
+          this.controlPanel.appendChild(avatar);
+        }
+
+        addStatusButton() {
+          this.statusButton = document.createElement("button");
+          this.statusButton.innerText = this.status ? "进入" : "离开";
+          this.statusButton.addEventListener("click", () => {
+            this.updateStatus();
+          });
+          this.controlPanel.appendChild(this.statusButton);
+        }
+
+        updateStatus() {
+          this.status = !this.status;
+          this.statusButton.innerText = this.status ? "进入" : "离开";
+          if (this.status) {
+            this.updateAction(ActionEvent.OnRaiseOnHand);
+          }
+        }
+
+        updateAction(actionName) {
+          const self = this;
+          this.action = actionName == ActionEvent.OnEmpty ? "" : actionName;
+          if (this.timer) {
+            clearTimeout(this.timer);
+            this.timer = null;
+          }
+          this.timer = setTimeout(() => {
+            self.action = "";
+          }, constants.interval);
+        }
+
+        addDefaultAction() {
+          const self = this;
+          const configs =
+            global.actionConfig.length > 0
+              ? global.actionConfig
+              : [
+                  ActionEvent.OnRaiseOnHand,
+                  // ActionEvent.OnSlideLeft,
+                  // ActionEvent.OnSlideRight,
+                  ActionEvent.OnRaiseBothHand,
+                ];
+          configs.forEach((item) => {
+            const buttonEle = document.createElement("button");
+            buttonEle.innerText = item;
+            buttonEle.onclick = () => {
+              self.updateAction(item);
+            };
+            this.controlPanel.appendChild(buttonEle);
+          });
+        }
+
+        addSelectAction() {
+          const self = this;
+          const selectElement = document.createElement("select");
+
+          for (const key in ActionEvent) {
+            if (ActionEvent.hasOwnProperty(key)) {
+              const option = document.createElement("option");
+              option.value = key; // 设置 option 的值为常量名
+              option.text = ActionEvent[key]; // 设置 option 的文本为常量值
+              option.selected = key === "OnEmpty"; // 设置默认值
+              selectElement.appendChild(option); // 将 option 添加到 select 中
+              selectElement.addEventListener("change", function () {
+                const selectedValue = this.value; // 获取选中的值（常量名）
+                const actionEvent = ActionEvent[selectedValue]; // 使用选中的值从 ActionEvent 对象中获取对应的常量值
+                self.updateAction(actionEvent);
+              });
+            }
+          }
+          this.controlPanel.appendChild(selectElement);
+        }
+
+        addAnimateButton() {
+          const animateButton = document.createElement("button");
+          animateButton.innerText = this.isMoveStopped ? "停止移动" : "移动中";
+          animateButton.addEventListener("click", () => {
+            animateButton.innerText = !this.isMoveStopped
+              ? "停止移动"
+              : "移动中";
+            this.isMoveStopped = !this.isMoveStopped;
+          });
+          this.controlPanel.appendChild(animateButton);
+        }
+
+        // 随机化玩家的位置
+        randomizePose() {
+          this.pose[0] = Number((Math.random() * 5 - 2.5).toFixed(2));
+          this.pose[1] = Number((Math.random() * 5 - 2.5).toFixed(2));
+        }
+
+        // 在canvas上绘制玩家的点
+        draw(ctx) {
+          const outerRadius = 40; // 外半径
+          const innerRadius = 35; // 内半径
+          ctx.beginPath();
+          ctx.arc(
+            this.pose[0] * 100 + 250,
+            this.pose[1] * 100 + 250,
+            outerRadius,
+            0,
+            Math.PI * 2
+          );
+          ctx.arc(
+            this.pose[0] * 100 + 250,
+            this.pose[1] * 100 + 250,
+            innerRadius,
+            0,
+            Math.PI * 2,
+            true
+          );
+          ctx.fillStyle = this.color;
+          ctx.fill();
+          ctx.closePath();
+        }
+
+        updatePose() {
+          this.pose[0] += this.speed * this.speedDirection[0];
+          this.pose[1] += this.speed * this.speedDirection[1];
+
+          // 限制玩家的位置在指定范围内
+          this.pose[0] =
+            Math.round(Math.min(Math.max(this.pose[0], -2.5), 2.5) * 100) / 100;
+          this.pose[1] =
+            Math.round(Math.min(Math.max(this.pose[1], -2.5), 2.5) * 100) / 100;
+          if (this.pose[0] == -2.5 || this.pose[0] == 2.5) {
+            this.speedDirection[0] *= -1;
+          }
+          if (this.pose[1] == -2.5 || this.pose[1] == 2.5) {
+            this.speedDirection[1] *= -1;
+          }
+        }
+      }
+
+      // ==================
+      class Skeleton {
+        constructor(canvas) {
+          this.canvas = canvas;
+          this.ctx = canvas.getContext("2d");
+          this.skeleton = [];
+          this.scale = 150;
+          this.perspectiveX = canvas.width / 2;
+          this.perspectiveY = canvas.height / 2;
+        }
+        update = (poses) => {
+          if (!poses) return;
+          const self = this;
+          this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+          Object.keys(poses).forEach((key) => {
+            var pose = poses[key];
+            var color = colors[key];
+            self.drawSkeleton(pose, color);
+          });
+        };
+        drawSkeleton = (pose, color) => {
+          for (let jointIndex = 0; jointIndex < pose.length; jointIndex++) {
+            const jointPosition = pose[jointIndex];
+
+            const position = this.getPointPosition(jointPosition);
+            // this.drawConnections(jointIndex, pose);
+            this.drawPoint(position, color);
+          }
+        };
+        drawPoint = (position, color) => {
+          this.ctx.beginPath();
+          this.ctx.arc(position.x, position.y, 4, 0, 2 * Math.PI); // 5是点的大小
+          this.ctx.fillStyle = color || "red"; // 可以根据需要更改颜色
+          this.ctx.fill();
+          this.ctx.closePath();
+        };
+        getPointPosition = (jointPosition) => {
+          const [x, z, y] = jointPosition;
+          const projectedX = (x * this.scale) / (z + 1000);
+          const projectedY = (y * this.scale) / (z + 1000);
+
+          // 将2D坐标转换为canvas坐标
+          const canvasX =
+            projectedX * this.canvas.width + this.perspectiveX - 50;
+          const canvasY =
+            projectedY * this.canvas.height + this.perspectiveY - 50 + z * 80;
+
+          return {
+            x: canvasX,
+            y: canvasY,
+          };
+        };
+        drawConnections(jointIndex, pose) {
+          for (const jointName in JointType) {
+            const joint = JointType[jointName];
+            const connections = joint.connections;
+
+            // 绘制当前关节的连线
+            // for (const connectedJoint of connections) {
+            const connectedJointObj = JointType["Nose"];
+
+            // 假设每个关节的位置是一个固定的坐标点（这里仅为示例，实际坐标需要您定义）
+            const jointX = 100; // 示例坐标
+            const jointY = 100; // 示例坐标
+            const connectedJointX = 200; // 示例坐标
+            const connectedJointY = 200; // 示例坐标
+
+            // 绘制线条
+            this.ctx.beginPath();
+            this.ctx.strokeStyle = "blue";
+            this.ctx.moveTo(jointX, jointY);
+            this.ctx.lineTo(connectedJointX, connectedJointY);
+            this.ctx.stroke();
+            // }
+          }
+        }
+      }
+
+      function customParse991PoseAndAction(item) {
+        var newItem = item;
+        // console.log("item: ", item)
+        if (item.op == "publish" && item.topic == "/metapose/pose3d") {
+          // return customParse991PoseAndAction(item);
+          var parseData = JSON.parse(item.msg.data);
+          // console.log("parseData: ", parseData);
+          var data = parseData.result
+            ? parseData.result["999001"].threeDim
+            : {};
+
+          var ids = [];
+          var poses = {};
+          var actions = {};
+          Object.keys(data)
+            .sort((a, b) => a - b)
+            .forEach((id, index) => {
+              ids[index] = id;
+              var personItem = data[id];
+              poses[index] = personItem.objs.map((item) => item.value);
+              actions[index] = personItem.recActions
+                ? personItem.recActions[0].action
+                : "";
+            });
+          newItem = {
+            ts: parseData.timeStamp,
+            ids: ids,
+            pose: poses,
+            action: actions,
+            source: item,
+          };
+        }
+        // console.log("newItem: ", newItem)
+        return newItem;
+      }
+
+      class PlayerManager {
+        constructor(panelEle, canvas) {
+          this.canvas = canvas;
+          this.ctx = canvas.getContext("2d");
+          this.controlPanels = panelEle;
+          this.players = [];
+          this.playerCount = 0;
+        }
+        /**
+         * 当前帧的所有骨骼
+         * @param {*} poses
+         * @returns
+         */
+        init = (poses, ids) => {
+          const self = this;
+          this.players = [];
+          this.controlPanels.innerHTML = "";
+          this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+          var playerKeys = [];
+          if (this.playerCount) {
+            playerKeys = Array(this.playerCount)
+              .fill(0)
+              .map((item, index) => index);
+          } else if (poses) {
+            playerKeys = Object.keys(poses);
+          }
+          if (!(playerKeys && playerKeys.length > 0)) return;
+          if (playerKeys && playerKeys.length > 0) {
+            playerKeys.forEach((key, index) => {
+              const player = new VirtualPlayer(
+                `${key}`,
+                `${ids ? ids[key] : ""}`,
+                colors[key % colors.length]
+              );
+              player.pose = positions[index % positions.length];
+              self.players.push(player);
+              self.controlPanels.appendChild(player.controlPanel);
+            });
+          }
+        };
+        update = () => {
+          this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+          this.players.forEach((player) => {
+            if (player.status) {
+              player.draw(this.ctx);
+            }
+          });
+        };
+        freeMove = () => {
+          this.players.forEach((player) => {
+            if (!player.isMoveStopped) {
+              player.updatePose();
+            }
+          });
+          this.update();
+        };
+        controlPlayerMove = (indexId, type) => {
+          var player = this.players[indexId];
+          if (player) {
+            switch (type) {
+              case directionType.up:
+                player.pose[1] += 0.1;
+                break;
+              case directionType.down:
+                player.pose[1] -= 0.1;
+                break;
+              case directionType.left:
+                player.pose[0] -= 0.1;
+                break;
+              case directionType.right:
+                player.pose[0] += 0.1;
+                break;
+            }
+            this.update();
+          }
+        };
+        posePlayerMoveAndAction = (data) => {
+          if (!data.pose) return;
+          const self = this;
+          const pose = data.pose;
+          Object.keys(pose).forEach((key, index) => {
+            var player = self.players[index];
+            if (player) {
+              var pos = pose[key][JointType.HeadTop];
+              player.pose = [pos[0], pos[1]];
+              if (data.action) {
+                player.action = data.action[key];
+              }
+            }
+          });
+          this.update();
+        };
+        allPlayerLeave = (status, playerIndex) => {
+          this.players.forEach((item, index) => {
+            if (playerIndex == null || playerIndex == index) {
+              item.status = status;
+            }
+          });
+        };
+        allPlayerRaiseOnHand = () => {
+          this.players.forEach((item) => {
+            item.action = ActionEvent.OnRaiseOnHand;
+          });
+          setTimeout(() => {
+            this.players.forEach((item) => {
+              item.action = "";
+            });
+          }, 1000);
+        };
+      }
+      class WSS {
+        constructor(name, url, allowSend, poseData, config) {
+          this.config = config;
+          this.poseData = poseData;
+          this.poseCount = 0;
+          this.name = name;
+          this.ws = null;
+          this.url = url;
+          this.allowSend = allowSend;
+          this.wsUrlEle = null;
+          this.messageListEle = null;
+          this.wssPanel = null;
+          this.messageText = "";
+          this.logCount = 0;
+          this.statusButtonEle = null;
+          this.connectStatus = false;
+          this.playerCountEle = null;
+          this.recordTimeEle = null;
+          this.appInfoEle = null;
+          this.testStatus = false;
+          this.testButtonEle = null;
+          // record
+          this.caseLog = [];
+          this.recordTime = 0;
+          this.fileSize = 0;
+          this.recordFileSize = 0;
+          this.recordStatus = false;
+          this.recordStartTime = 0;
+          this.recordEndTime = 0;
+
+          this.init();
+        }
+
+        update() {
+          if (this.connectStatus && this.recordStatus) {
+            var now = new Date().getTime(); // 记录结束时间（毫秒）
+            // 显示录制时间
+            const recordTime = now - this.recordStartTime; // 计算录制时间（毫秒）
+            const formattedRecordTime = new Date(recordTime)
+              .toISOString()
+              .substr(11, 8); // 格式化时间为 HH:mm:ss
+            this.recordTime = formattedRecordTime;
+
+            this.recordTimeEle.innerText =
+              "已录制: " +
+              this.recordTime +
+              " 预计文件大小：" +
+              this.recordFileSize +
+              "M";
+          }
+          this.playerCountEle.innerText = this.poseCount;
+          if (this.appInfoEle) {
+            this.appInfoEle.innerText = `${global.appName} ${global.appVersion}`;
+          }
+        }
+
+        resetRecord() {
+          // this.updateRecordStatus(false);
+          this.recordStartTime = 0;
+          this.recordEndTime = 0;
+          this.fileSize = 0;
+          this.recordFileSize = 0;
+          this.caseLog = [];
+          this.recordTime = "";
+          this.recordTimeEle.innerText =
+            "已录制: " +
+            this.recordTime +
+            " 预计文件大小：" +
+            this.recordFileSize +
+            "M";
+        }
+
+        updateConnectStatus(status) {
+          this.connectStatus = status;
+          if (this.connectStatus) {
+            if (!this.ws) {
+              this.connect();
+            }
+          } else {
+            this.disconnect();
+          }
+
+          if (!this.recordStatus) {
+            this.resetRecord();
+          }
+        }
+
+        updateRecordStatus(status) {
+          this.recordStatus = status;
+          var date = new Date();
+          if (this.recordStatus) {
+            this.recordStartTime = date.getTime();
+            this.recordButton.className =
+              "record-status iconfont icon-luzhi recording";
+          } else {
+            this.recordEndTime = date.getTime(); // 记录结束时间（毫秒）
+            this.recordButton.className = "record-status iconfont icon-luzhi";
+            // 显示录制时间
+            const recordTime = this.recordEndTime - this.recordStartTime; // 计算录制时间（毫秒）
+            const formattedRecordTime = new Date(recordTime)
+              .toISOString()
+              .substr(11, 8); // 格式化时间为 HH:mm:ss
+            this.recordTime = formattedRecordTime;
+          }
+        }
+
+        init() {
+          var self = this;
+          this.wssPanel = document.createElement("div");
+          var connectLine = document.createElement("p");
+          connectLine.className = "connect-line";
+          this.statusSpan = document.createElement("a");
+          this.statusSpan.className =
+            "connect-status iconfont icon-lianjiewangluo disconnected";
+          this.statusSpan.onclick = () => {
+            self.updateConnectStatus(!this.connectStatus);
+          };
+          this.playerCountEle = document.createElement("span");
+          this.playerCountEle.innerText = 0;
+          connectLine.appendChild(this.statusSpan);
+
+          connectLine.appendChild(this.playerCountEle);
+
+          if (this.allowSend) {
+            var syncConfig = document.createElement("a");
+            syncConfig.className = "sync-config";
+            syncConfig.innerText = "同步配置";
+            syncConfig.onclick = () => {
+              if (store) self.syncConfig();
+            };
+            connectLine.appendChild(syncConfig);
+
+            this.appInfoEle = document.createElement("span");
+            this.appInfoEle.className = "app-info";
+            this.appInfoEle.innerText = `${global.appName} ${global.appVersion}`;
+            connectLine.appendChild(this.appInfoEle);
+          }
+
+          // 创建录制窗口
+          var recordLine = document.createElement("p");
+          recordLine.className = "record-line";
+
+          if (!this.allowSend && this.config.firstMessage) {
+            this.testButtonEle = document.createElement("a");
+            this.testButtonEle.className = "test-status iconfont icon-ceshi";
+            this.testButtonEle.onclick = () => {
+              self.updateTestStatus(!this.testStatus);
+            };
+            recordLine.appendChild(this.testButtonEle);
+          }
+
+          this.recordButton = document.createElement("a");
+          this.recordButton.className = "record-status iconfont icon-luzhi";
+          this.recordButton.onclick = () => {
+            self.updateRecordStatus(!this.recordStatus);
+          };
+          this.recordTimeEle = document.createElement("span");
+          this.recordTimeEle.innerText =
+            "已录制: " +
+            this.recordTime +
+            " 预计文件大小：" +
+            this.recordFileSize +
+            "M";
+          var download = document.createElement("a");
+          download.className = "dowload iconfont icon-downlond_xy";
+          download.onclick = () => {
+            self.downloadHandler();
+          };
+
+          recordLine.appendChild(this.recordButton);
+          recordLine.appendChild(this.recordTimeEle);
+          recordLine.appendChild(download);
+
+          // <p class="record-line">
+          //   <button id="startRecord">开始录制</button>
+          //   已经录制：<span id="recordTimes0"></span>
+          //   <button id="stopRecord">结束录制</button>
+          //   <span id="recordTimes"></span>
+          //   <button id="download" onclick="downloadFile()">下载</button>
+          //   预计文件大小：<span id="fileSize"></span>
+          // </p>
+
+          // 创建消息列表容器
+          this.messageListEle = document.createElement("ul");
+          this.messageListEle.className = "message-list";
+
+          // 创建消息接收窗口标题
+          const messageReceiveTitle = document.createElement("p");
+          messageReceiveTitle.textContent = "信息接收窗口";
+
+          this.wssPanel.appendChild(connectLine);
+          this.wssPanel.appendChild(recordLine);
+          // this.wssPanel.appendChild(messageReceiveTitle);
+          this.wssPanel.appendChild(this.messageListEle);
+        }
+
+        updateTestStatus(status) {
+          this.testStatus = status;
+          if (this.testStatus) {
+            this.testButtonEle.className =
+              "test-status iconfont icon-ceshi testing";
+          } else {
+            this.testButtonEle.className = "test-status iconfont icon-ceshi";
+          }
+        }
+
+        downloadHandler(title) {
+          if (this.caseLog.length <= 0) return;
+          var filename = `${utils.formatDate(
+            this.recordStartTime
+          )}_${this.recordTime.replace(/00:/g, "")}_${global.appName}_${
+            global.appVersion
+          }`;
+          utils.downloadFile(filename + title, this.caseLog);
+          // 重置一下录制进度
+          this.resetRecord();
+        }
+
+        syncConfig() {
+          this.send(
+            "syncConfig",
+            {
+              type: "syncConfig",
+            },
+            [roleType.client, roleType.record]
+          );
+        }
+
+        customConfig(data) {
+          if (this.recordStatus) {
+            this.caseLog.push(
+              JSON.stringify({
+                type: "customConfig",
+                other: data,
+              })
+            );
+          }
+          this.send(
+            "customConfig",
+            {
+              type: "customConfig",
+              other: data,
+            },
+            [roleType.client, roleType.record]
+          );
+        }
+
+        log(type, message) {
+          this.logCount++;
+          if (this.logCount > 0) {
+            this.logCount = 0;
+            this.messageListEle.innerHTML = "";
+          }
+          const timestamp = new Date().toLocaleString();
+          const li = document.createElement("li");
+          const h5 = document.createElement("h5");
+          const p = document.createElement("p");
+          h5.className = type == roleType.client ? "red" : "green";
+          h5.innerHTML = `${roleTypeText[type]}: ${timestamp}`;
+          p.innerHTML = `${message}`;
+          li.appendChild(h5);
+          li.appendChild(p);
+          this.messageListEle.insertAdjacentElement("afterbegin", li);
+          this.messageListEle.scrollTop = 0;
+        }
+
+        send(type, message, sendList) {
+          if (!this.allowSend) return;
+          this.messageText = JSON.stringify(message);
+          if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+            this.log(roleType.client, this.messageText);
+            this.ws.send(
+              JSON.stringify({
+                id: 1,
+                role: roleType.server,
+                type: type,
+                sendList: sendList ?? [roleType.client],
+                data: message,
+              })
+            );
+            utils.log("Sent message to server:", this.messageText);
+          } else {
+            // console.error("WebSocket is not open. Cannot send message.");
+          }
+        }
+
+        record(data) {
+          if (!this.recordStatus) return;
+          if (this.fileSize > 500 * 1024 * 1024) {
+            this.updateRecordStatus(false);
+          } else {
+            this.fileSize += data.length; // utf-8
+            this.recordFileSize = utils.bytesToMB(this.fileSize);
+            this.caseLog.push(data);
+          }
+        }
+
+        receive(data) {
+          if (this.recordStatus) {
+            this.record(
+              JSON.stringify({
+                index: this.caseLog.length,
+                ...data,
+              })
+            );
+          }
+          if (data.type == "customConfig") {
+            this.customConfig(data.other);
+            return null;
+          }
+          this.poseData = [data];
+          if (this.config?.firstMessage) {
+            this.poseData = [customParse991PoseAndAction(data)];
+          }
+
+          if (this.poseData[0] && this.poseData[0].pose) {
+            this.poseCount = Object.keys(this.poseData[0].pose).length;
+            this.playerCountEle.innerText = this.poseCount;
+          } else {
+            this.playerCountEle.innerText = 0;
+          }
+        }
+
+        disconnect() {
+          if (this.ws) {
+            this.ws.close();
+            this.ws = null;
+          }
+        }
+
+        connect() {
+          var self = this;
+          self.log(
+            this.allowSend ? roleType.server : roleType.client,
+            "正在和服务器握手……"
+          );
+
+          this.disconnect();
+          this.ws = new WebSocket(this.url);
+
+          this.ws.onopen = function (event) {
+            self.statusSpan.textContent = "Connected";
+            self.log(
+              this.allowSend ? roleType.server : roleType.client,
+              "连接已建立……"
+            );
+            self.send("connect", "client 连接成功");
+            if (self.config.firstMessage) {
+              self.ws.send(self.config.firstMessage);
+            }
+            self.statusSpan.className =
+              "connect-status iconfont icon-lianjiewangluo1 connected";
+          };
+
+          this.ws.onmessage = function (event) {
+            self.log(
+              this.allowSend ? roleType.server : roleType.client,
+              event.data
+            );
+            let received = false;
+            try {
+              let data = JSON.parse(event.data);
+              // console.log("data: ", typeof data, data)
+              if (data.ts || data.op) {
+                self.receive(data);
+                received = true;
+              } else if (typeof data == "string") {
+                data = JSON.parse(data);
+                if (data.actions) {
+                  global.actionConfig = [];
+                  global.appName = data.appName;
+                  global.appVersion = data.appVersion;
+                  data.actions
+                    .sort((a, b) => a.action - b.action)
+                    .forEach((item) => {
+                      global.actionConfig.push(ActionTypeKey[item.action]);
+                    });
+                } else if (data.type == "pose-message") {
+                  data.pose = JSON.parse(data.other).pose;
+                  delete data.other;
+                  // console.log("data: ", JSON.stringify(data.action));
+                  self.receive(data);
+                  received = true;
+                }
+              }
+            } catch (e) {}
+            if (!received) {
+              self.record(event.data);
+            }
+          };
+
+          this.ws.onclose = function (event) {
+            utils.log("WebSocket 2 连接已关闭");
+            self.statusSpan.textContent = "Disconnected";
+            self.log(
+              this.allowSend ? roleType.server : roleType.client,
+              "已经断开连接……"
+            );
+            self.statusSpan.className =
+              "connect-status iconfont icon-lianjiewangluo disconnected";
+            self.updateRecordStatus(false);
+          };
+
+          this.ws.onerror = function (error) {
+            console.error("WebSocket 2 发生错误:", error);
+            self.log(
+              this.allowSend ? roleType.server : roleType.client,
+              "连接出错了..."
+            );
+            self.statusSpan.className =
+              "connect-status iconfont icon-lianjiewangluo disconnected";
+            self.updateRecordStatus(false);
+          };
+        }
+      }
+    </script>
+    <style>
+      /* 自定义样式 */
+      body {
+        min-width: 1310px;
+        overflow-x: scroll;
+        /* overflow: hidden; */
+      }
+      summary {
+        min-width: 1280px;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+      .section-content-box {
+        border: 1px solid #cccc;
+        padding: 1rem;
+        height: 355px;
+        overflow: hidden;
+      }
+      .details_server .controlPanel,
+      .details_client .controlPanel {
+        display: none;
+      }
+      canvas {
+        transform: scaleY(-0.7) scaleX(0.7);
+        border: 1px solid #d5d5d5;
+        display: block;
+        margin: 0 auto;
+        background-color: #fff;
+        margin-top: -75px;
+        margin-right: -75px;
+      }
+      .first-child {
+        width: 520px;
+        overflow: hidden;
+        margin-right: -60px;
+      }
+      .second-child canvas {
+        margin-right: -152px;
+      }
+      .details,
+      .section-content-box {
+        position: relative;
+      }
+    </style>
+    <style>
+      .message-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        padding: 0;
+        margin: 0;
+        min-height: 275px;
+        border: 1px solid #ccc;
+        overflow-y: scroll;
+      }
+      .message-list li {
+        padding: 10px;
+      }
+      .message-list h5 {
+        margin: 0;
+      }
+      .message-list p {
+        max-height: 210px;
+        font-size: 10px;
+      }
+      .red {
+        color: red;
+      }
+      .green {
+        color: green;
+      }
+      .controlPanel {
+        text-align: left;
+        margin-top: 10px;
+      }
+      button {
+        margin: 0;
+        padding: 3px 5px;
+        font-size: 12px;
+      }
+      .boneBox {
+        position: relative;
+      }
+      .boneBox input {
+        padding: 0;
+        width: 100%;
+      }
+      .boneBox button {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      .header {
+        padding: 1rem;
+        border-bottom: 1px solid var(--color-bg-secondary);
+        min-width: calc(1200px - 2px);
+      }
+      .header.sticky {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background-color: #ffffff;
+      }
+      .details_server {
+        background: #0f8bee0d;
+      }
+      .disconnected {
+        color: gray;
+      }
+      .connected {
+        color: green;
+      }
+      .connect-line {
+        border-bottom: 1px solid #ccc;
+      }
+      .connect-line a {
+        cursor: pointer;
+        font-size: 20px;
+      }
+      .connect-line span {
+        display: inline-block;
+        min-width: 20px;
+        min-height: 20px;
+        padding: 3px 5px;
+        border-radius: 5px;
+        background-color: #920de9;
+        color: white;
+        text-align: center;
+        float: right;
+        margin-left: 5px;
+      }
+      .record-line {
+        text-align: right;
+        position: absolute;
+        top: 16px;
+        right: 2rem;
+        max-width: 60%;
+        height: 40px;
+        z-index: 1;
+      }
+      .record-line a {
+        display: inline-block;
+        margin: 0 1rem;
+        cursor: pointer;
+      }
+      .record-status,
+      .test-status {
+        color: gray;
+      }
+      .record-status.recording {
+        color: red;
+      }
+      .test-status.testing {
+        color: blue;
+      }
+      #playerCount {
+        width: 40px;
+      }
+      .controlBox {
+        position: relative;
+      }
+      .controlBox input[type="number"] {
+        position: absolute;
+        top: 0;
+      }
+      .controlBox input[type="range"] {
+        position: absolute;
+        top: -28px;
+        left: 145px;
+        width: 80px;
+      }
+      #progressText {
+        position: absolute;
+        top: -18px;
+        left: 237px;
+        display: block !important;
+        font-size: 12px;
+      }
+      .controlBox span {
+        display: inline-block;
+        float: right;
+        display: none;
+      }
+      .controlPanels {
+        /* display: none; */
+      }
+      .controlPanel {
+        position: relative;
+      }
+      .controlPanel select {
+        position: absolute;
+        top: 0;
+        right: -100px;
+      }
+      .controlPanel .avatar {
+        margin-right: 10px;
+        font-size: 16px;
+      }
+      .controlPanel button {
+        font-size: 9px;
+        padding: 1px;
+        margin: 1px;
+      }
+      .sync-config {
+        margin-left: 12px;
+        font-size: 12px !important;
+      }
+    </style>
+    <script>
+      window.store = {
+        poseIndex: 0,
+        is991Pose: false,
+        poseData: [],
+        playbackStatus: false,
+      };
+    </script>
+  </head>
+  <body>
+    <main>
+      <section class="header" id="stickyDiv">
+        当前时间: <span id="date"></span>
+      </section>
+      <section class="details-content">
+        <details open id="details_0" class="details details_0">
+          <summary>数据回放</summary>
+          <section class="section-content-box">
+            <div class="first-child">
+              <div class="titleBox">
+                <input
+                  type="text"
+                  id="title"
+                  value=""
+                  placeholder="添加录制标题，没有添加不会自动开启录制"
+                  style="width: 100%"
+                />
+              </div>
+              <div class="boneBox">
+                <input type="file" id="uploadFile" multiple />
+                <button onclick="uploadBoneData()">上传骨骼数据</button>
+                <!-- <button onclick="uploadBackBoneData()">上传后端骨骼数据</button> -->
+              </div>
+              <div class="controlBox">
+                <input type="number" id="playerCount" value="0" min="0" />
+                <button style="margin-left: 80px" onclick="resetPlayers()">
+                  重置玩家
+                </button>
+                <button id="playbackButton" onclick="changePlaybackStatus()">
+                  回放
+                </button>
+                <input
+                  id="progress"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="0"
+                  onchange="updateProgress(value)"
+                />
+                <span id="progressText">100</span>
+                <span>
+                  <button onclick="allRaiseOnHand()">同时举手</button>
+                  <button onclick="allPlayerLeave(false)">同时离开</button>
+                  <button onclick="allPlayerLeave(true)">同时进入</button>
+                </span>
+              </div>
+              <div class="controlPanels"></div>
+            </div>
+            <div class="second-child">
+              <canvas id="gameCanvas" width="500" height="500"></canvas>
+            </div>
+            <div class="third-child">
+              <canvas id="bonePlaybackCanvas" width="500" height="500"></canvas>
+            </div>
+          </section>
+        </details>
+      </section>
+      <section>
+        <hr />
+        <blockquote>
+          "End"
+          <footer><i>- 到头了</i></footer>
+        </blockquote>
+      </section>
+    </main>
+
+    <script>
+      var ws; //WebSocket实例
+      var intervalId; //定时器ID
+      var ulEle = document.querySelector("ul");
+      let messageList = document.getElementById("message-list");
+      var messageInput = document.getElementById("messageInput");
+      var playerCount = document.getElementById("playerCount");
+      var isSendUpdate = false;
+      var isUpdateCircle = false;
+
+      // 开始和结束录制的时间
+      let startTime;
+      let endTime;
+
+      // 创建新玩家和操作面板
+      let players = [];
+      const canvas = document.getElementById("gameCanvas");
+      const ctx = canvas.getContext("2d");
+
+      var caseLog = [];
+      var logCount = 0;
+      var fileSize = 0;
+      var fileSizeEle = document.getElementById("fileSize");
+    </script>
+    <script type="text/javascript">
+      class WSSManager {
+        constructor(config, index) {
+          this.index = index;
+          this.detailsPanel = null;
+          this.config = config;
+          this.url = config.url;
+          this.name = config.name;
+          this.status = config.status;
+          this.role = config.role;
+          this.circleCanvas = null;
+          this.boneCanvas = null;
+          this.wss = null;
+          this.playIndex = 0;
+          this.playerCountSpan = null;
+          this.firstDiv = null;
+          this.playerManager = null;
+          this.skeleton = null;
+          this.poseData = [];
+          this.controlPanels = null;
+          this.wssControlPanels = null;
+          this.initUI();
+          this.init();
+        }
+        initUI() {
+          const details = document.createElement("details");
+          details.id = "details_" + this.index;
+          details.className = "details details_" + this.role;
+          if (this.status) {
+            details.setAttribute("open", "");
+          }
+          const summary = document.createElement("summary");
+          summary.innerText = `${this.name} - ${this.url}`;
+          const section = document.createElement("section");
+          section.className = "section-content-box";
+          const firstDiv = document.createElement("div");
+          firstDiv.className = "first-child";
+          this.firstDiv = firstDiv;
+          this.playerCountSpan = document.createElement("span");
+          const secondDiv = document.createElement("div");
+          secondDiv.className = "second-child";
+          const circleCanvas = document.createElement("canvas");
+          circleCanvas.setAttribute("width", "500");
+          circleCanvas.setAttribute("height", "500");
+          this.circleCanvas = circleCanvas;
+          const thirdDiv = document.createElement("div");
+          thirdDiv.className = "third-child";
+          const boneCanvas = document.createElement("canvas");
+          boneCanvas.setAttribute("width", "500");
+          boneCanvas.setAttribute("height", "500");
+          this.boneCanvas = boneCanvas;
+          this.controlPanels = document.createElement("div");
+          this.controlPanels.className = "control-panels";
+          this.wssControlPanels = document.createElement("div");
+          this.wssControlPanels.className = "wss-control-panels";
+
+          this.wssControlPanels.appendChild(this.playerCountSpan);
+          this.firstDiv.appendChild(this.controlPanels);
+          this.firstDiv.appendChild(this.wssControlPanels);
+          secondDiv.appendChild(circleCanvas);
+          thirdDiv.appendChild(boneCanvas);
+          section.appendChild(this.firstDiv);
+          section.appendChild(secondDiv);
+          section.appendChild(thirdDiv);
+          details.appendChild(summary);
+          details.appendChild(section);
+          this.detailsPanel = details;
+        }
+        init() {
+          this.playerManager = new PlayerManager(
+            this.controlPanels,
+            this.circleCanvas
+          );
+          this.skeleton = new Skeleton(this.boneCanvas);
+          this.wss = new WSS(
+            this.name,
+            this.url,
+            this.role == roleType.server,
+            this.poseData,
+            this.config
+          );
+          this.wssControlPanels.appendChild(this.wss.wssPanel);
+        }
+        update() {
+          if (!this.wss) return null;
+          if (this.playIndex >= this.wss.poseData.length) {
+            this.playIndex = 0;
+          }
+
+          var data = this.wss.poseData[this.playIndex];
+          if (!data) return;
+          if (this.wss.poseCount != this.playerCountSpan.value) {
+            this.playerCountSpan.value = this.wss.poseCount;
+            this.playerManager.init(data.pose);
+          }
+          this.playerManager.posePlayerMoveAndAction(data);
+          this.playerManager.update();
+          this.skeleton.update(data.pose);
+        }
+      }
+
+      const wssList = [];
+      const detailContentEle = document.querySelector(".details-content");
+      wssConfig.forEach((config, index) => {
+        const wssManager = new WSSManager(config, index);
+        detailContentEle.appendChild(wssManager.detailsPanel);
+        wssList.push(wssManager);
+      });
+    </script>
+
+    <script>
+      function updateProgress(value) {
+        store.poseIndex = value - 0;
+        document.getElementById("playbackButton").innerText =
+          `回放中${store.is991Pose ? "(991)" : ""}` + store.poseIndex;
+      }
+
+      document.addEventListener("keydown", function (event) {
+        if (
+          ["text", "number", "submit", "select-one"].includes(
+            document.activeElement.type
+          )
+        )
+          return null;
+        switch (event.key) {
+          case "w":
+            updatePose(0, directionType.up);
+            break;
+          case "s":
+            updatePose(0, directionType.down);
+            break;
+          case "a":
+            updatePose(0, directionType.left);
+            break;
+          case "d":
+            updatePose(0, directionType.right);
+            break;
+          case "ArrowUp":
+            updatePose(1, directionType.up);
+            break;
+          case "ArrowDown":
+            updatePose(1, directionType.down);
+            break;
+          case "ArrowLeft":
+            updatePose(1, directionType.left);
+            break;
+          case "ArrowRight":
+            updatePose(1, directionType.right);
+            break;
+          case "i":
+            updatePose(2, directionType.up);
+            break;
+          case "k":
+            updatePose(2, directionType.down);
+            break;
+          case "j":
+            updatePose(2, directionType.left);
+            break;
+          case "l":
+            updatePose(2, directionType.right);
+            break;
+          case "t":
+            updatePose(3, directionType.up);
+            break;
+          case "g":
+            updatePose(3, directionType.down);
+            break;
+          case "f":
+            updatePose(3, directionType.left);
+            break;
+          case "h":
+            updatePose(3, directionType.right);
+            break;
+        }
+      });
+    </script>
+    <script>
+      const bonePlaybackCanvas = document.getElementById("bonePlaybackCanvas");
+      const bonePlaybackCtx = bonePlaybackCanvas.getContext("2d");
+
+      const controlPanels = document.querySelector(".controlPanels");
+      var playerManager = new PlayerManager(controlPanels, canvas);
+      var skeleton = new Skeleton(bonePlaybackCanvas);
+      if (Number(playerCount.value)) {
+        playerManager.playerCount = Number(playerCount.value);
+        playerManager.init();
+      }
+
+      function changePlaybackStatus(status) {
+        store.playbackStatus = status != null ? status : !store.playbackStatus;
+        if (store.playbackStatus) {
+          store.poseIndex = document.getElementById("progress").value;
+          document.getElementById("playbackButton").innerText = `回放中${
+            store.is991Pose ? "(991)" : ""
+          }`;
+        } else {
+          document.getElementById("playbackButton").innerText = `回放${
+            store.is991Pose ? "(991)" : ""
+          }`;
+        }
+      }
+
+      function addCustomEventListenerList() {
+        utils.setInputStore("#title");
+        document
+          .getElementById("uploadFile")
+          .addEventListener("change", (e) => {
+            uploadBoneData();
+          });
+        playerCount.addEventListener("change", (e) => {
+          resetPlayers();
+        });
+
+        document.addEventListener("keydown", function (event) {
+          console.log(event.key, shiftKeyCombination[event.key]);
+          var regex = /^[0-9]$/;
+
+          if (
+            ["text", "number", "submit", "select-one"].includes(
+              document.activeElement.type
+            )
+          )
+            return null;
+          if (shiftKeyCombination[event.key]) {
+            if (playerCount.value > 0 && playerManager.players.length > 0) {
+              var status =
+                playerManager.players[shiftKeyCombination[event.key] - 1]
+                  ?.status;
+              allPlayerLeave(!status, shiftKeyCombination[event.key] - 1);
+            }
+          } else if (regex.test(event.key)) {
+            if (event.key == 0) {
+              wssList[0].wss.downloadHandler(
+                document.getElementById("title").value
+              );
+              changePlaybackStatus(false);
+              playerCount.value = 0;
+              resetPlayers();
+              wssList[0].wss.updateConnectStatus(false);
+            } else {
+              changePlaybackStatus(true);
+              playerCount.value = event.key;
+              resetPlayers();
+              wssList[0].wss.updateConnectStatus(true);
+              if (document.getElementById("title").value) {
+                wssList[0].wss.updateRecordStatus(true);
+              }
+            }
+          } else {
+            utils.log("event.key 包含非数字字符");
+            // event.preventDefault();
+            switch (event.key) {
+              case "Enter":
+                allRaiseOnHand();
+                break;
+              case "-":
+                allPlayerLeave(false);
+                break;
+              case "=":
+                allPlayerLeave(true);
+                break;
+              case "~":
+                wssList[0].wss.customConfig("restart=true&speed=1");
+                // restart=true&speed=2
+                break;
+              case "D":
+                const title = prompt(document.getElementById("title").value);
+                if (title !== null) {
+                  wssList[0].wss.downloadHandler(title);
+                }
+                break;
+              default:
+                break;
+            }
+          }
+        });
+      }
+
+      function uploadBoneData() {
+        document.getElementById("title").value = "";
+        utils.uploadFile(document.getElementById("uploadFile"), (result) => {
+          playerCount.value = 0;
+          store.poseIndex = 0;
+          resetPlayers();
+          const data = utils.parseArrayStringifyToObject(result.split("\n"));
+          store.is991Pose = false;
+
+          // 过滤无骨骼
+          store.poseData = data
+            .map((item) => {
+              if (item.pose || item.type == "customConfig") {
+                return customParse991PoseAndAction(item);
+              }
+              if (item.op == "publish" && item.topic == "/metapose/pose3d") {
+                store.is991Pose = true;
+                return customParse991PoseAndAction(item);
+              }
+              return null;
+            })
+            .filter((item) => item);
+          document.getElementById("progressText").innerHTML =
+            store.poseData.length;
+          document.getElementById("progress").max = store.poseData.length;
+          // console.log("store.poseData : ", store.poseData);
+          changePlaybackStatus(true);
+        });
+      }
+
+      function resetPlayers() {
+        store.poseData = [];
+        store.poseIndex = 0;
+        playerManager.playerCount = Number(playerCount.value);
+        playerManager.init();
+        if (playerManager.playerCount) {
+          document.querySelector(".controlBox span").style.display =
+            "inline-block";
+          // document.querySelector(".controlPanels").style.display = "block";
+        } else {
+          document.querySelector(".controlBox span").style.display = "none";
+          // document.querySelector(".controlPanels").style.display = "none";
+        }
+      }
+
+      function allPlayerLeave(status, playerIndex) {
+        playerManager.allPlayerLeave(status, playerIndex);
+        wssList[0].playerManager.allPlayerLeave(status, playerIndex);
+      }
+
+      function allRaiseOnHand() {
+        playerManager.players.forEach((item) => {
+          item.action = ActionEvent.OnRaiseOnHand;
+        });
+        wssList[0].playerManager.players.forEach((item) => {
+          item.action = ActionEvent.OnRaiseOnHand;
+        });
+        setTimeout(() => {
+          playerManager.players.forEach((item) => {
+            item.action = "";
+          });
+        }, 1000);
+      }
+
+      var handPose = [0, 0, 1.5];
+      var timer = null;
+      function updatePose(i, type) {
+        document.querySelector("body").style.overflow = "hidden";
+        if (timer) {
+          clearTimeout(timer);
+          timer = null;
+        }
+        timer = setTimeout(() => {
+          timer = null;
+          document.querySelector("body").style.overflow = "scroll";
+        }, 1000);
+
+        var player = playerManager.players[i];
+        if (player) {
+          switch (type) {
+            case directionType.up:
+              player.pose[1] += 0.1;
+              handPose[1] += 0.1;
+              break;
+            case directionType.down:
+              player.pose[1] -= 0.1;
+              handPose[1] -= 0.1;
+              break;
+            case directionType.left:
+              player.pose[0] -= 0.1;
+              handPose[0] -= 0.1;
+              break;
+            case directionType.right:
+              player.pose[0] += 0.1;
+              handPose[0] += 0.1;
+              break;
+          }
+        }
+      }
+
+      function getTestCaseData(data) {
+        let poseObj = {};
+        const actionObj = {};
+
+        if (data) {
+          poseObj = data.pose;
+        }
+        playerManager.players.forEach((item, index) => {
+          if (item.status) {
+            if (!data) {
+              poseObj[`${index}`] = Array(24)
+                .fill(0)
+                .map((_) => [item.pose[0], item.pose[1], item.pose[1]]);
+              poseObj[`${index}`][`${JointType.HeadTop}`] = [0, 0, 1.6];
+              poseObj[`${index}`][`${JointType.LeftWrist}`] = handPose;
+              poseObj[`${index}`][`${JointType.RightWrist}`] = handPose;
+            }
+            actionObj[`${index}`] = item.action;
+          }
+        });
+        return {
+          ...sourceData,
+          time: new Date(),
+          ...data,
+          pose: poseObj,
+          action: actionObj,
+        };
+      }
+
+      function getPoseCaseData(pose) {
+        const poseObj = {};
+        const actionObj = {};
+        playerManager.players.forEach((item, index) => {
+          if (item.status) {
+            poseObj[`${index}`] = Array(24)
+              .fill(0)
+              .map((_) => [item.pose[0], item.pose[1], item.pose[1]]);
+            poseObj[`${index}`][`${JointType.HeadTop}`] = [0, 0, 1.6];
+            poseObj[`${index}`][`${JointType.LeftWrist}`] = handPose;
+            poseObj[`${index}`][`${JointType.RightWrist}`] = handPose;
+            actionObj[`${index}`] = item.action;
+          }
+        });
+        return {
+          ...sourceData,
+          time: new Date(),
+          pose: poseObj,
+          action: actionObj,
+        };
+      }
+
+      var actionConfig = null;
+      function update() {
+        // console.log(store.poseData, store.poseIndex)
+        if (actionConfig != JSON.stringify(global.actionConfig)) {
+          actionConfig = JSON.stringify(global.actionConfig);
+          resetPlayers();
+        }
+        const serverWss = wssList.filter(
+          (item) => item.role == roleType.server
+        );
+        if (store.playbackStatus) {
+          document.getElementById("playbackButton").innerText =
+            `回放中${store.is991Pose ? "(991)" : ""}` + store.poseIndex;
+        }
+
+        if (playerManager.playerCount) {
+          playerManager.freeMove();
+          if (serverWss[0]) {
+            serverWss[0].wss.receive(getTestCaseData());
+          }
+          skeleton.update(store.poseData[store.poseIndex]);
+        }
+
+        if (playerManager.playerCount < 1 && store.poseData[store.poseIndex]) {
+          skeleton.update(store.poseData[store.poseIndex].pose);
+          playerManager.init(
+            store.poseData[store.poseIndex].pose,
+            store.poseData[store.poseIndex].ids
+          );
+          playerManager.posePlayerMoveAndAction(
+            store.poseData[store.poseIndex]
+          );
+          playerManager.update(store.poseData[store.poseIndex].pose);
+          if (serverWss[0]) {
+            serverWss[0].wss.receive(store.poseData[store.poseIndex]);
+          }
+        }
+
+        wssList.forEach((wssItem, wssIndex) => {
+          if (wssItem.wss.poseData) {
+            wssItem.update();
+            wssItem.wss.update();
+
+            if (wssItem.role != roleType.server && wssItem.wss.testStatus) {
+              serverWss[0].wss.receive(wssItem.wss.poseData[0].source);
+            } else if (
+              wssItem.role == roleType.server &&
+              store.playbackStatus
+            ) {
+              wssItem.wss.send(
+                "playback",
+                store.is991Pose
+                  ? store.poseData[store.poseIndex].source
+                  : getTestCaseData(wssItem.wss.poseData[0])
+              );
+            }
+          }
+        });
+
+        if (store.poseIndex < store.poseData.length - 1) {
+          store.poseIndex = store.poseIndex - 0 + 1;
+        } else {
+          store.poseIndex = 0;
+        }
+
+        document.getElementById("date").innerText = `${utils.getTime()}`;
+      }
+
+      // setInterval(update, constants.interval);
+      let startUpdateTime;
+      let rafId;
+      function step(timestamp) {
+        if (!startUpdateTime) startUpdateTime = timestamp;
+        const elapsed = timestamp - startUpdateTime;
+
+        // 如果已经足够的时间间隔，则执行你的代码
+        if (elapsed >= constants.interval) {
+          startUpdateTime = timestamp; // 重置开始时间
+          update();
+        }
+
+        // 请求下一次动画帧
+        rafId = requestAnimationFrame(step);
+      }
+
+      // 停止动画的函数
+      function stopSimulatedInterval() {
+        cancelAnimationFrame(rafId);
+        startUpdateTime = null; // 清除开始时间
+      }
+
+      // 开始模拟的setInterval
+      step(performance.now());
+    </script>
+  </body>
+</html>

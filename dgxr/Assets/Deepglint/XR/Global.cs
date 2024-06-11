@@ -1,27 +1,43 @@
-using Runtime.Scripts.Ros;
+using System;
+using System.Collections.Generic;
+using Deepglint.XR.Ros;
+using UnityEngine;
+using Deepglint.XR.Space;
 
-namespace Runtime.Scripts
+
+namespace Deepglint.XR
 {
+    /// <summary>
+    /// 全局静态类 
+    /// </summary>
     public static class Global
     {
-        public static Config.ConfigData.ConfigInfo Config;
-        public delegate void MetaPoseDataEventHandler(Source.SourceData data);
+        public static Config.Config.ConfigData.ConfigInfo Config;
         public delegate void MetaGearDataEventHandler(MetaGearInfo.MetaGearData data);
-        public static  event MetaPoseDataEventHandler OnMetaPoseDataReceived;
-        public static event MetaGearDataEventHandler OnMetaGearDataReceived; 
+        public static  Action<string> OnMetaGearDataLost;
+        public static event MetaGearDataEventHandler OnMetaGearDataReceived;
         public static string UniqueID;
         public static string AppName;
+        public static string Version;
         public static string SystemName;
         public static bool IsFilterZero;
+        public static XRSpace Space;
+        public static Vector3 CavePosition;
+        public const string PackageName = "com.deepglint.xr";
         
-        public static void TriggerMetaPoseDataReceived(Source.SourceData data)
-        {
-            OnMetaPoseDataReceived?.Invoke(data);
-        }
+        /// <summary>
+        /// 设置 metaGear 消息到订阅
+        /// </summary>
+        /// <param name="data">MetaGearData结构化消息</param>
         public static void TriggerMetaGearDataReceived(MetaGearInfo.MetaGearData data)
         {
             OnMetaGearDataReceived?.Invoke(data);
         }
+      
+
+        public static void TriggerMetaGearDataLost(string key)
+        {
+            OnMetaGearDataLost?.Invoke(key);
+        }
     }
-    
 }

@@ -1,0 +1,165 @@
+{
+    "name": "DGXRActions",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "28f04f06-fc64-4354-b714-d463ae6bf8fd",
+            "actions": [
+                {
+                    "name": "Pose",
+                    "type": "Value",
+                    "id": "73fe1f94-f5ff-41bf-9032-10fd8b76977e",
+                    "expectedControlType": "HumanPose",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RaiseRightHand",
+                    "type": "Value",
+                    "id": "4cb50855-c11f-48d0-9f55-8e7682a14e62",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Join",
+                    "type": "Value",
+                    "id": "a1dd88d5-f972-4ad9-859c-210c9820d52d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SlideRightArmToLeft",
+                    "type": "Value",
+                    "id": "cc8b60e6-4c6c-414e-969f-c091351d0de4",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SlideLeftArmToRight",
+                    "type": "Value",
+                    "id": "eacb7c5c-7fbd-402f-94d6-7b6f11864799",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Jump",
+                    "type": "Value",
+                    "id": "67f72c51-f486-4c69-965a-be078b2cefdf",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RaiseBothHand",
+                    "type": "Value",
+                    "id": "f4ad58cf-c6f9-4be1-9d7f-1e3e0a691957",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "129ab4fd-0d5d-490a-9dbd-d89001e658b8",
+                    "path": "<DGXRHumanController>/HumanPose",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pose",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "de994201-1856-47e0-a0ba-0a6a6548774e",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RaiseRightHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f94cea1e-499a-4522-a3bf-e95f0279d070",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "SlideRightArmToLeft",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SlideRightArmToLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "48e18058-8b8c-4f41-a0e7-696df3ef26ce",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "SlideLeftArmToRight",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SlideLeftArmToRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9778e48b-1e89-4e98-b448-fc2d5bfa8a76",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "Jump",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9b985366-7d23-456d-8204-20ae73763c9a",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "RaiseBothHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0d099dbb-2d4a-433f-87a4-08ca5df83331",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e0913ca4-447f-49a7-a542-e7fd1b7bd3d0",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "RaiseBothHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RaiseBothHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

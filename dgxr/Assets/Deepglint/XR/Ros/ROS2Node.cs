@@ -1,7 +1,7 @@
 using System;
 using ROS2;
 
-namespace Runtime.Scripts.Ros
+namespace Deepglint.XR.Ros
 {
 
 /// <summary>
