@@ -153,10 +153,22 @@ public class ROS2UnityManager : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        quitting = true;
+        if (ros2forUnity != null)
+        {
+            ros2forUnity.DestroyROS2ForUnity();
+        }
+    }
+
     void OnApplicationQuit()
     {
         quitting = true;
-        ros2forUnity.DestroyROS2ForUnity();
+        if (ros2forUnity != null)
+        {
+            ros2forUnity.DestroyROS2ForUnity();
+        } 
     }
 }
 

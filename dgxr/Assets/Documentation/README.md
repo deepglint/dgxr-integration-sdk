@@ -20,11 +20,11 @@ XR Manager 脚本面板如下：
 
 你可以通过 XR Manager 管理和开启许多 SDK 提供的能力。
 
-|**功能**|**简述**|
-| :- | :- |
-|身体追踪|身体追踪（Body Tracking）用于收集用户的身体位置和动作信息，并将其转换为可再现的姿态数据。|
-|空间锚点|空间锚点技术可以将场景展示位置与灵境空间的位置进行锚定，用于将虚拟场景根据现实的空间大小、屏幕数量进行展示|
-|零点过滤|开启零点过滤，将自动筛选丢失的点，并使用上一帧该点的位置参与计算|
+| 功能  | 简述                                                   |
+|:----|:-----------------------------------------------------|
+| 身体追踪| 身体追踪（Body Tracking）用于收集用户的身体位置和动作信息，并将其转换为可再现的姿态数据。  |
+| 空间锚点| 空间锚点技术可以将场景展示位置与灵境空间的位置进行锚定，用于将虚拟场景根据现实的空间大小、屏幕数量进行展示|
+| 零点过滤| 开启零点过滤，将自动筛选丢失的点，并使用上一帧该点的位置参与计算                     |
 
 # 快速开始
 
@@ -36,18 +36,18 @@ DGXR Unity Integration SDK 是 deepglint 官方基于 Unity XR 提供的开发�
 
 导入 SDK 前，需要在 Unity Hub 中新建项目。步骤如下：
 
-1. 在 Unity Hub 主页，点击**项目 ->新项目**。
+1. 在 Unity Hub 主页，点击项目 ->新项目。
 
 你将进入新建项目页。
 
 ![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/DG%20Unity%20Integration%20SDK.004.png)
 
-2. 选择 Universa**3D(URP模版)**。
-3. 在 **项目设置** 区域，设置项目名称和存储目录。
+2. 选择 Universa3D(URP模版)。
+3. 在 项目设置 区域，设置项目名称和存储目录。
 
 `  `提示：项目名称和存储目录不能包含中文字符和数字开头
 
-4. 点击 **创建项目**。
+4. 点击 创建项目。
 
 项目初始化完毕后，你将进入 Unity 编辑器页面。
 
@@ -55,10 +55,10 @@ DGXR Unity Integration SDK 是 deepglint 官方基于 Unity XR 提供的开发�
 
 你可以从以下方式中任选其一，导入 DGXR Unity Integration SDK 至你的项目。
 
-|**方式**|**步骤**|
-| :- | :- |
-|导入本地的 SDK 包 |<p>1. 前往deepglint 开发者平台页面，下载最新版本的 SDK。 </p><p>2. 解压所下载的 SDK 压缩包。 你将会得到一个包含 package.json 文件的文件夹。 </p><p>3. 返回 Unity 编辑器页面。 </p><p>4. 在上方菜单栏处，选择 **Windows** > **Package Manager**。 </p><p>5. 在 **Package Manager** 窗口中，点击 **+** > **Add package from disk**。 </p><p>6. 选择 **package.json** 文件并导入。 </p><p>导入完成后，你将看到 **XR SDK Setting** 窗口，关闭即可。 </p>|
-|导入 Git URL |<p>1. 打开 Unity 编辑器页面。 </p><p>2. 在上方菜单栏处，选择 Edit > **Project Setting > Package Manager**。 </p><p>3. 在 **Package Manager** 窗口中，点击 **+** > **Add package**。 </p><p>![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/DG%20Unity%20Integration%20SDK.005.png)</p><p>4. 输入仓库的地址，然后点击 **Add**。 </p><p>Unity 编辑器**Windows** > **Package Manager>My registry**。开始从中导入 SDK。 </p>|
+| 方式         | 步骤                                                                                                                                                                                                                                                                                                                                                                                               |
+|:-----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 导入本地的 SDK 包| <p>1. 前往deepglint 开发者平台页面，下载最新版本的 SDK。 </p><p>2. 解压所下载的 SDK 压缩包。 你将会得到一个包含 package.json 文件的文件夹。 </p><p>3. 返回 Unity 编辑器页面。 </p><p>4. 在上方菜单栏处，选择 Windows > Package Manager。 </p><p>5. 在 Package Manager 窗口中，点击 + > Add package from disk。 </p><p>6. 选择 package.json 文件并导入。 </p><p>导入完成后，你将看到 XR SDK Setting 窗口，关闭即可。 </p>                                              |
+| 导入 Git URL | <p>1. 打开 Unity 编辑器页面。 </p><p>2. 在上方菜单栏处，选择 Edit > Project Setting > Package Manager。 </p><p>3. 在 Package Manager 窗口中，点击 + > Add package。 </p><p>![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/DG%20Unity%20Integration%20SDK.005.png)</p><p>4. 输入仓库的地址，然后点击 Add。 </p><p>Unity 编辑器Windows > Package Manager>My registry。开始从中导入 SDK。 </p>|
 
 ## 创建一个 XR 场景
 
@@ -70,21 +70,21 @@ DGXR Unity Integration SDK 是 deepglint 官方基于 Unity XR 提供的开发�
 
 ### 第一步：升级 XR Interaction SDK 并导入示例文件
 
-搭建基础 XR 场景需要用到 Unity 提供的基础功能和组件。升级**XR Interaction SDK 以便**获得 Unity 提供的新资源包和功能。
+搭建基础 XR 场景需要用到 Unity 提供的基础功能和组件。升级XR Interaction SDK 以便获得 Unity 提供的新资源包和功能。
 
-1. Unity 编辑器**Windows** > **Package Manager>My registry**。
-2. 在 **Package Manager** 窗口中，列表中将展示 Unity Registry 中提供的工具包。
-3. 在列表中找到 **XR Interaction Toolkit**，并将其展开。
-4. 点击 **See other versions** 展开版本列表。
-5. 从列表中选择 **2.0.0** 或以上版本，然后点击窗口右下角的 **Update to version\_number** 按钮。
-6. 升级完成后，再次前往 **WindowsPackage ManagerXR Interaction SDK**。
-7. 展开右侧的 **Samples** 面板。
-8. 点击 **Import**，导入示例文件。
+1. Unity 编辑器Windows > Package Manager>My registry。
+2. 在 Package Manager 窗口中，列表中将展示 Unity Registry 中提供的工具包。
+3. 在列表中找到 XR Interaction Toolkit，并将其展开。
+4. 点击 See other versions 展开版本列表。
+5. 从列表中选择 2.0.0 或以上版本，然后点击窗口右下角的 Update to version\_number 按钮。
+6. 升级完成后，再次前往 WindowsPackage ManagerXR Interaction SDK。
+7. 展开右侧的 Samples 面板。
+8. 点击 Import，导入示例文件。
 
-|**示例文件**| **说明**                                                                                                       |
-| :- |:-------------------------------------------------------------------------------------------------------------|
-|PlayerManager| 该示例文件默认位于 Assets/Samples/XR Interaction SDK/[version]/PlayerManager 目录下，提供了一套标准的玩家绑定示例，包括一套默认的输入动作和预设。       |
-|HumanBody | HumanBody ，提供用于空间中的人体跟踪，默认位于 Assets/Samples/XR Interaction SDK/[version]/HumanBody  目录下。该示例文件用于展示空间骨骼是否正常接入。 |
+| 示例文件                    | 说明                                                                                                           |
+|:------------------------|:-------------------------------------------------------------------------------------------------------------|
+| PlayerManager           | 该示例文件默认位于 Assets/Samples/XR Interaction SDK/[version]/PlayerManager 目录下，提供了一套标准的玩家绑定示例，包括一套默认的输入动作和预设。       |
+| HumanBody               | HumanBody ，提供用于空间中的人体跟踪，默认位于 Assets/Samples/XR Interaction SDK/[version]/HumanBody  目录下。该示例文件用于展示空间骨骼是否正常接入。 |
 | HumanControlInputModule | sample程序位于Assets/Samples/XR Interaction SDK/[version]/PlayerManager，展示了通过脚与空间地屏中的UI和3D元素的交互                  | 
 
 ### 第二步：拖入 XRManager 预制体
@@ -96,7 +96,7 @@ DGXR Unity Integration SDK 是 deepglint 官方基于 Unity XR 提供的开发�
 3. 运行项目，即可根据默认配置文件生成对应屏幕数量的相机渲染内容
 4. 在脚本中设置空间视角跟随功能，挂载脚本
 5. 修改 XRManager/XRspace 的 position，既可实现空间移动到场景不同位置渲染不同画面
-```C#
+```
 using Deepglint.XR;
 using Deepglint.XR.Source;
 using UnityEngine;
@@ -116,7 +116,7 @@ public class NewBehaviourScript : MonoBehaviour
 }
 ```
 
-**后续操作**
+后续操作
 
 参考《开发》文档，探索更多 DGXR Interaction SDK更多功能！
 
@@ -134,7 +134,7 @@ public class NewBehaviourScript : MonoBehaviour
 
 1. 创建自己的 3d 相机拍摄想要渲染的画面
 2. 设置相机为 overlay 模式，并添加相机到对应的屏幕上（具体代码如下）
-```C#
+```
 using Deepglint.XR;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -158,7 +158,7 @@ Global.Space.Front.AddCameraToStack(camera);
 
 1. 在场景中导入Runtime/Prefabs/DGXRManager预制体
 2. 直接获取骨骼列表示例
-```c#
+```
 using Deepglint.XR.Source;
 using UnityEngine;
 
@@ -177,7 +177,7 @@ public class Demo: MonoBehaviour
 }
 ```
 3. 订阅方式使用骨骼示例
-```c#
+```
 using Deepglint.XR.Source;
 using UnityEngine;
 
@@ -208,19 +208,19 @@ public class Demo : MonoBehaviour
 
 灵境空间中每一个被追踪到的人都被视为一个DGXRHumanController类型的设备，当空间中的人的位置和朝向发生变化或者空间中的人做了系统能够识别的动作时，其对应的设备上的布局也会发生相应变化。
 
-| **设备布局**   | **功能说明**  |
-|:-----------|:----------|
-| HumanPose  | 人的位置和朝向   |
-| HumanBody  | 人体骨骼关键点信息 |
-| FreeSwim  | 自由泳动作     |
-| ButterflySwim  | 蝶泳动作      |
-| HighKneeRun  | 高抬腿动作     |
-| DeepSquat  | 深蹲动作      |
-| Jump  | 跳跃动作      |
+| 设备布局          | 功能说明      |
+|:--------------|:----------|
+| HumanPose     | 人的位置和朝向   |
+| HumanBody     | 人体骨骼关键点信息 |
+| FreeSwim      | 自由泳动作     |
+| ButterflySwim | 蝶泳动作      |
+| HighKneeRun   | 高抬腿动作     |
+| DeepSquat     | 深蹲动作      |
+| Jump          | 跳跃动作      |
 
 DeviceManager 类管理了空间中所有的设备，可以通过DeviceManager监听设备的上下线、获取在场活跃设备数量和列表。
 示例代码如下：
-```c#
+```
 using Deepglint.XR.Inputs;
 using UnityEngine.InputSystem;
 using UnityEngine;
@@ -277,17 +277,17 @@ public class Demo : MonoBehaviour
 
 `HumanControlFootPointerInputModule`支持的事件：
 
-| **事件类型**     | **功能说明** |
-|:-------------|:---------|
-| PointerEnter | 进入       |
-| PointerExit  | 离开       |
-| PointerDown  | 踩下       |
-| PointerUp    | 抬起       |
-| PointerClick | 点击       |
-| Drag         | 拖拽       |
-| BeginDrag    | 开始拖拽     |
-| EndDrag      | 结束拖拽     |
-| Move         | 移动       |
+| 事件类型         | 功能说明 |
+|:-------------|:-----|
+| PointerEnter | 进入   |
+| PointerExit  | 离开   |
+| PointerDown  | 踩下   |
+| PointerUp    | 抬起   |
+| PointerClick | 点击   |
+| Drag         | 拖拽   |
+| BeginDrag    | 开始拖拽 |
+| EndDrag      | 结束拖拽 |
+| Move         | 移动   |
 
 `HumanControlFootPointerInputModule`支持的使用流程如下(详情可参考示例程序中的HumanControlInputModule)：
 1. 在场景中引入XRManager预制件；
@@ -295,7 +295,7 @@ public class Demo : MonoBehaviour
 3. 编写脚本监听`HumanControlFootPointerInputModule`交互事件，并将脚本挂载到UI元素上;
 
 备注：当需要与3D 物体进行交互时需要手动开启物理射线
-```c#
+```
  // 检查摄像机上是否已经有 PhysicsRaycaster 组件
 if (Global.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
 {
@@ -312,19 +312,19 @@ if (Global.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
 
 `Deepglint.XR.Interaction`模块基于InputSystem的ActionMap机制，提供了包含算法识别、规则判定等多种丰富的动作判定功能，目前`Deepglint.XR.Interaction`支持的动作集有：
 
-| **动作**              | **数据类型**  | **功能说明** |
-|:--------------------|:----------|:---------|
-| RaiseLeftHand       | HumanBody | 举左手      |
-| RaiseRightHand      | HumanBody | 举右手      |
-| RaiseBothHand       | HumanBody | 举双手      |
-| RaiseHand           | HumanBody | 举手       |
-| SlideLeftArmToRight | HumanBody | 左手向右翻页   |
-| SlideRightArmToLeft | HumanBody | 右手向左翻页   |
-| ButterflySwim       | Axis      | 蝶泳       |
-| DeepSquat           | Axis      | 深蹲       |
-| FreeSwim            | Axis      | 自由泳      |
-| HighKneeRun         | Axis      | 深蹲       | 
-| Jump                | Axis      | 跳跃       |
+| 动作                  | 数据类型      | 功能说明   |
+|:--------------------|:----------|:-------|
+| RaiseLeftHand       | HumanBody | 举左手    |
+| RaiseRightHand      | HumanBody | 举右手    |
+| RaiseBothHand       | HumanBody | 举双手    |
+| RaiseHand           | HumanBody | 举手     |
+| SlideLeftArmToRight | HumanBody | 左手向右翻页 |
+| SlideRightArmToLeft | HumanBody | 右手向左翻页 |
+| ButterflySwim       | Axis      | 蝶泳     |
+| DeepSquat           | Axis      | 深蹲     |
+| FreeSwim            | Axis      | 自由泳    |
+| HighKneeRun         | Axis      | 深蹲     | 
+| Jump                | Axis      | 跳跃     |
 
 ### 动作交互对接流程 
 
@@ -354,7 +354,7 @@ if (Global.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
    - 通过继承Character抽象类的方式对接需要实现OnTryToJoin接口, 当允许玩家操作当前Character时接口需要返回当前Character派生类示例给PlayerManager, 如果不允许玩家控制当前游戏角色直接返回null即可；
    - 通过实现ICharacter接口方式对接需要实现OnPlayerJoin 和OnPlayerLeft接口。当允许玩家操作当前游戏角色时，OnPlayerJoin方法需要将自身的引用返回给PlayerManager, 如果不允许玩家控制当前角色直接返回null即可；
 通过继承Character抽象类的方式对接PlayerManager:
-```c#
+```
 using Deepglint.XR.Inputs;
 using Deepglint.XR.Inputs.Devices;
 using Deepglint.XR.Player;
@@ -460,7 +460,7 @@ namespace Samples.CustomPlayerManager
 }
 ```
 通过实现ICharacter接口的方式对接PlayerManager:
-```c#
+```
 using Deepglint.XR.Inputs.Devices;
 using Deepglint.XR.Player;
 using UnityEngine;
