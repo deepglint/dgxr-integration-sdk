@@ -2276,6 +2276,7 @@ html {
 
 	#nav-tree {
 		background-color: rgba(255, 255, 255, 0)!important;
+		background-image: none !important;
 	}
 	
 	#nav-tree ul {
