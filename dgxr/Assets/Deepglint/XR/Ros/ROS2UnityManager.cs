@@ -1,11 +1,25 @@
+// Copyright 2019-2021 Robotec.ai.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using ROS2;
 
-namespace Runtime.Scripts.Ros
+namespace Deepglint.XR.Ros
 {
-
 /// <summary>
 /// The principal MonoBehaviour class for handling ros2 nodes and executables.
 /// Use this to create ros2 node, check ros2 status.
@@ -14,11 +28,12 @@ namespace Runtime.Scripts.Ros
 /// anyway with more than one since the underlying library can handle multiple init and shutdown calls,
 /// and does node name uniqueness check independently.
 /// </summary>
-public class ROS2UnityManager
+public class ROS2UnityManager : MonoBehaviour
 {
     private ROS2ForUnity ros2forUnity;
     private List<ROS2Node> nodes;
     private List<INode> ros2csNodes; // For performance in spinning
+    private List<Action> executableActions;
     private bool initialized = false;
     private bool quitting = false;
     private int interval = 2;  // Spinning / executor interval in ms
@@ -34,12 +49,8 @@ public class ROS2UnityManager
             return (nodes != null && ros2forUnity.Ok());
         }
     }
-    public void Start()
-    {
-        LazyConstruct();
-    }
 
-    public void LazyConstruct()
+    private void LazyConstruct()
     {
         lock (mutex)
         {        
@@ -49,8 +60,13 @@ public class ROS2UnityManager
             ros2forUnity = new ROS2ForUnity();
             nodes = new List<ROS2Node>();
             ros2csNodes = new List<INode>();
-           
+            executableActions = new List<Action>();
         }
+    }
+
+    void Start()
+    {
+        LazyConstruct();
     }
 
     public ROS2Node CreateNode(string name)
@@ -82,7 +98,29 @@ public class ROS2UnityManager
         }
     }
 
-   
+    /// <summary>
+    /// Works as a simple executor registration analogue. These functions will be called with each Tick()
+    /// Actions need to take care of correct call resolution by checking in their body (TODO)
+    /// Make sure actions are lightweight (TODO - separate out threads for spinning and executables?)
+    /// </summary>
+    public void RegisterExecutable(Action executable)
+    {
+        LazyConstruct();
+
+        lock (mutex)
+        {
+            executableActions.Add(executable);
+        }
+    }
+
+    public void UnregisterExecutable(Action executable)
+    {
+        lock (mutex)
+        {
+            executableActions.Remove(executable);
+        }
+    }
+
     /// <summary>
     /// "Executor" thread will tick all clocks and spin the node
     /// </summary>
@@ -94,6 +132,10 @@ public class ROS2UnityManager
             {
                 lock (mutex)
                 {
+                    foreach (Action action in executableActions)
+                    {
+                        action();
+                    }
                     Ros2cs.SpinOnce(ros2csNodes, spinTimeout);
                 }
             }
@@ -101,7 +143,7 @@ public class ROS2UnityManager
         }
     }
 
-    public void FixedUpdate()
+    void FixedUpdate()
     {
         if (!initialized)
         {
@@ -111,7 +153,7 @@ public class ROS2UnityManager
         }
     }
 
-    public void OnApplicationQuit()
+    void OnApplicationQuit()
     {
         quitting = true;
         ros2forUnity.DestroyROS2ForUnity();

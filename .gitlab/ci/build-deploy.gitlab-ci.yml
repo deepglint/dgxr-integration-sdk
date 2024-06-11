@@ -13,7 +13,7 @@ variables:
 stages:
   - build pre
   - build stardust
-  - prerelease reverie
+  - prerelease stardust
   - release
   - deploy
 
@@ -60,15 +60,13 @@ build:cleanup:
     - docker system prune --force --volumes || true
   when: always
 
-prerelease:reverie:
-  stage: prerelease reverie
+prerelease:stardust:
+  stage: prerelease stardust
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   script:
     - echo 'running release_job'
     - echo 'Previous Job ID is printed below'
-    - echo $GE_ENGINE_ID
-    - echo $GE_REVERIE_ID
-    - echo $GE_DGXR_ID
+    - echo $DGXR_VERSION
     - echo "Publishing artifacts to release ${CI_COMMIT_TAG}..."
   release:
     name: '${CI_COMMIT_TAG}'
@@ -76,12 +74,8 @@ prerelease:reverie:
     tag_name: '${CI_COMMIT_TAG}'
     assets:
       links:
-        - name: 'stardust-engine-${CI_COMMIT_TAG}'
-          url: 'https://gitlab.deepglint.com/alpha/stardust_reverie/-/jobs/${GE_ENGINE_ID}/artifacts/download'
-        - name: 'stardust-reverie-${CI_COMMIT_TAG}'
-          url: 'https://gitlab.deepglint.com/alpha/stardust_reverie/-/jobs/${GE_REVERIE_ID}/artifacts/download'
-        - name: 'stardust-dgxr-${CI_COMMIT_TAG}'
-          url: 'https://gitlab.deepglint.com/alpha/stardust_reverie/-/jobs/${GE_DGXR_ID}/artifacts/download'
+        - name: 'DGXR-Integration-SDK-${CI_COMMIT_TAG}'
+          url: 'https://gitlab.deepglint.com/alpha/stardust_reverie/-/jobs/${DGXR_VERSION}/artifacts/download'
   rules:
     - if: $CI_COMMIT_TAG
 
