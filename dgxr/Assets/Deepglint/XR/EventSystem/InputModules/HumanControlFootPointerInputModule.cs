@@ -17,7 +17,7 @@ namespace Deepglint.XR.EventSystem.InputModules
     public class HumanControlFootPointerInputModule : PointerInputModule
     {
         [FormerlySerializedAs("EnableMouseEvent")] [SerializeField]
-        private bool enableMouseEvent = false; 
+        public bool enableMouseEvent = false; 
             
         /// <summary>
         /// Determine whether the foot is on the bottom screen based on the height above the ground.
@@ -65,7 +65,6 @@ namespace Deepglint.XR.EventSystem.InputModules
         protected void ProcessMouseEvent()
         {
             var mouseData = GetMousePointerEventData(0);
-            Debug.Log(mouseData.GetButtonState(PointerEventData.InputButton.Left).eventData.buttonData.position);
             var leftButtonData = mouseData.GetButtonState(PointerEventData.InputButton.Left).eventData;
 
             m_CurrentFocusedGameObject = leftButtonData.buttonData.pointerCurrentRaycast.gameObject;

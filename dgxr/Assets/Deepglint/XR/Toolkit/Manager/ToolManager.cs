@@ -1,3 +1,4 @@
+using Deepglint.XR.EventSystem.InputModules;
 using Deepglint.XR.Toolkit.DebugTool;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
@@ -27,6 +28,9 @@ namespace Deepglint.XR.Toolkit.Manager
             {
                 _inGameDebugConsole.SetActive(openDebug);
             }
+
+            HumanControlFootPointerInputModule inputModule = GameObject.Find("UIRoot")?.FindChildGameObject("EventSystem")?.GetComponent<HumanControlFootPointerInputModule>();
+            if (inputModule != null) inputModule.enableMouseEvent = openDebug;
         }
     }
 }
