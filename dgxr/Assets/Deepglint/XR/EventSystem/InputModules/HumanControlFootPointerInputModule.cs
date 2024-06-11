@@ -5,6 +5,7 @@ using Deepglint.XR.Inputs.Devices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Deepglint.XR.EventSystem.InputModules
@@ -15,6 +16,9 @@ namespace Deepglint.XR.EventSystem.InputModules
     [AddComponentMenu("Event/Human Control Input Module")]
     public class HumanControlFootPointerInputModule : PointerInputModule
     {
+        [FormerlySerializedAs("EnableMouseEvent")] [SerializeField]
+        private bool enableMouseEvent = false; 
+            
         /// <summary>
         /// Determine whether the foot is on the bottom screen based on the height above the ground.
         /// </summary>
@@ -22,6 +26,10 @@ namespace Deepglint.XR.EventSystem.InputModules
         private float footTouchThreshold = 0.03f;
 
         private const float DoubleClickTime = 0.3f;
+        
+        private GameObject m_CurrentFocusedGameObject;
+        
+        private PointerEventData m_InputPointerEvent;
         
         protected override void OnEnable()
         {
@@ -37,7 +45,15 @@ namespace Deepglint.XR.EventSystem.InputModules
         
         public override void Process()
         {
+            if (!Application.isFocused)
+            {
+                return;
+            }
             ProcessHumanControlEvent();
+            if (enableMouseEvent)
+            {
+                ProcessMouseEvent();
+            }
         }
 
         private void OnDeviceLost(InputDevice device)
@@ -45,6 +61,147 @@ namespace Deepglint.XR.EventSystem.InputModules
             m_PointerData.Remove(-device.deviceId);
             m_PointerData.Remove(device.deviceId);
         }
+        
+        protected void ProcessMouseEvent()
+        {
+            var mouseData = GetMousePointerEventData(0);
+            Debug.Log(mouseData.GetButtonState(PointerEventData.InputButton.Left).eventData.buttonData.position);
+            var leftButtonData = mouseData.GetButtonState(PointerEventData.InputButton.Left).eventData;
+
+            m_CurrentFocusedGameObject = leftButtonData.buttonData.pointerCurrentRaycast.gameObject;
+
+            // Process the first mouse button fully
+            ProcessMousePress(leftButtonData);
+            ProcessMove(leftButtonData.buttonData);
+            ProcessDrag(leftButtonData.buttonData);
+
+            // Now process right / middle clicks
+            ProcessMousePress(mouseData.GetButtonState(PointerEventData.InputButton.Right).eventData);
+            ProcessDrag(mouseData.GetButtonState(PointerEventData.InputButton.Right).eventData.buttonData);
+            ProcessMousePress(mouseData.GetButtonState(PointerEventData.InputButton.Middle).eventData);
+            ProcessDrag(mouseData.GetButtonState(PointerEventData.InputButton.Middle).eventData.buttonData);
+
+            if (!Mathf.Approximately(leftButtonData.buttonData.scrollDelta.sqrMagnitude, 0.0f))
+            {
+                var scrollHandler = ExecuteEvents.GetEventHandler<IScrollHandler>(leftButtonData.buttonData.pointerCurrentRaycast.gameObject);
+                ExecuteEvents.ExecuteHierarchy(scrollHandler, leftButtonData.buttonData, ExecuteEvents.scrollHandler);
+            }
+        }
+        
+        protected void ProcessMousePress(MouseButtonEventData data)
+        {
+            var pointerEvent = data.buttonData;
+            var currentOverGo = pointerEvent.pointerCurrentRaycast.gameObject;
+
+            // PointerDown notification
+            if (data.PressedThisFrame())
+            {
+                pointerEvent.eligibleForClick = true;
+                pointerEvent.delta = Vector2.zero;
+                pointerEvent.dragging = false;
+                pointerEvent.useDragThreshold = true;
+                pointerEvent.pressPosition = pointerEvent.position;
+                pointerEvent.pointerPressRaycast = pointerEvent.pointerCurrentRaycast;
+
+                DeselectIfSelectionChanged(currentOverGo, pointerEvent);
+
+                var resetDiffTime = Time.unscaledTime - pointerEvent.clickTime;
+                if (resetDiffTime >= DoubleClickTime)
+                {
+                    pointerEvent.clickCount = 0;
+                }
+
+                // search for the control that will receive the press
+                // if we can't find a press handler set the press
+                // handler to be what would receive a click.
+                var newPressed = ExecuteEvents.ExecuteHierarchy(currentOverGo, pointerEvent, ExecuteEvents.pointerDownHandler);
+                var newClick = ExecuteEvents.GetEventHandler<IPointerClickHandler>(currentOverGo);
+
+                // didnt find a press handler... search for a click handler
+                if (newPressed == null)
+                    newPressed = newClick;
+
+                // Debug.Log("Pressed: " + newPressed);
+
+                float time = Time.unscaledTime;
+
+                if (newPressed == pointerEvent.lastPress)
+                {
+                    var diffTime = time - pointerEvent.clickTime;
+                    if (diffTime < DoubleClickTime)
+                        ++pointerEvent.clickCount;
+                    else
+                        pointerEvent.clickCount = 1;
+
+                    pointerEvent.clickTime = time;
+                }
+                else
+                {
+                    pointerEvent.clickCount = 1;
+                }
+
+                pointerEvent.pointerPress = newPressed;
+                pointerEvent.rawPointerPress = currentOverGo;
+                pointerEvent.pointerClick = newClick;
+
+                pointerEvent.clickTime = time;
+
+                // Save the drag handler as well
+                pointerEvent.pointerDrag = ExecuteEvents.GetEventHandler<IDragHandler>(currentOverGo);
+
+                if (pointerEvent.pointerDrag != null)
+                    ExecuteEvents.Execute(pointerEvent.pointerDrag, pointerEvent, ExecuteEvents.initializePotentialDrag);
+
+                m_InputPointerEvent = pointerEvent;
+            }
+
+            // PointerUp notification
+            if (data.ReleasedThisFrame())
+            {
+                ReleaseMouse(pointerEvent, currentOverGo);
+            }
+        }
+        
+        private void ReleaseMouse(PointerEventData pointerEvent, GameObject currentOverGo)
+        {
+            ExecuteEvents.Execute(pointerEvent.pointerPress, pointerEvent, ExecuteEvents.pointerUpHandler);
+
+            var pointerClickHandler = ExecuteEvents.GetEventHandler<IPointerClickHandler>(currentOverGo);
+
+            // PointerClick and Drop events
+            if (pointerEvent.pointerClick == pointerClickHandler && pointerEvent.eligibleForClick)
+            {
+                ExecuteEvents.Execute(pointerEvent.pointerClick, pointerEvent, ExecuteEvents.pointerClickHandler);
+            }
+            if (pointerEvent.pointerDrag != null && pointerEvent.dragging)
+            {
+                ExecuteEvents.ExecuteHierarchy(currentOverGo, pointerEvent, ExecuteEvents.dropHandler);
+            }
+
+            pointerEvent.eligibleForClick = false;
+            pointerEvent.pointerPress = null;
+            pointerEvent.rawPointerPress = null;
+            pointerEvent.pointerClick = null;
+
+            if (pointerEvent.pointerDrag != null && pointerEvent.dragging)
+                ExecuteEvents.Execute(pointerEvent.pointerDrag, pointerEvent, ExecuteEvents.endDragHandler);
+
+            pointerEvent.dragging = false;
+            pointerEvent.pointerDrag = null;
+
+            // redo pointer enter / exit to refresh state
+            // so that if we moused over something that ignored it before
+            // due to having pressed on something else
+            // it now gets it.
+            if (currentOverGo != pointerEvent.pointerEnter)
+            {
+                HandlePointerExitAndEnter(pointerEvent, null);
+                HandlePointerExitAndEnter(pointerEvent, currentOverGo);
+            }
+
+            m_InputPointerEvent = pointerEvent;
+        }
+        
         
         /// <summary>
         /// Process the DGXRHumanControl event.
@@ -405,6 +562,11 @@ namespace Deepglint.XR.EventSystem.InputModules
                 toModify.EventData.ButtonState = stateForHumanButton;
                 toModify.EventData.ButtonData = data;
             }
+        }
+        
+        protected GameObject GetCurrentFocusedGameObject()
+        {
+            return m_CurrentFocusedGameObject;
         }
     }
 }
