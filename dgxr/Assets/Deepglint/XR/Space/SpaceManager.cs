@@ -267,9 +267,8 @@ namespace Deepglint.XR.Space
         private void SetHeadFovAndOrientationScreen(int index, Camera spaceCamera, Dictionary<int,GameObject[]> edges)
         {
             var cameraTransform = spaceCamera.transform;
-            var parent = cameraTransform.parent;
-            var parentLocalPosition = parent.localPosition;
-            var parentLocalScale = parent.lossyScale;
+            var localPosition =  cameraTransform.localPosition;
+            var parentLocalScale = cameraTransform.parent.lossyScale;
             var bottomToTop = edges[index][0].transform.position - edges[index][2].transform.position;
             var leftToRight = edges[index][1].transform.position - edges[index][3].transform.position;
             spaceCamera.ResetProjectionMatrix();
@@ -277,9 +276,9 @@ namespace Deepglint.XR.Space
                                       Mathf.Atan(bottomToTop.magnitude / 2 /
                                                  (cameraTransform.localPosition.z *
                                                   parentLocalScale.z));
-            float obV =parentLocalPosition.y *
+            float obV = localPosition.y *
                 parentLocalScale.y / (bottomToTop.magnitude / 2);
-            float obH = parentLocalPosition.x *
+            float obH =localPosition.x *
                 parentLocalScale.x / (leftToRight.magnitude / 2);
             SetObliqueness(-obH, -obV, spaceCamera);
         }
