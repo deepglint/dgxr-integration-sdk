@@ -55,15 +55,15 @@ DGXR Unity Integration SDK 是 deepglint 官方基于 Unity XR 提供的开发�
 
 你可以从以下方式中任选其一，导入 DGXR Unity Integration SDK 至你的项目。
 
-| 方式         | 步骤                                                                                                                                                                                                                                                                                                                                                                                               |
-|:-----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 导入本地的 SDK 包| <p>1. 前往deepglint 开发者平台页面，下载最新版本的 SDK。 </p><p>2. 解压所下载的 SDK 压缩包。 你将会得到一个包含 package.json 文件的文件夹。 </p><p>3. 返回 Unity 编辑器页面。 </p><p>4. 在上方菜单栏处，选择 Windows > Package Manager。 </p><p>5. 在 Package Manager 窗口中，点击 + > Add package from disk。 </p><p>6. 选择 package.json 文件并导入。 </p><p>导入完成后，你将看到 XR SDK Setting 窗口，关闭即可。 </p>                                              |
-| 导入 Git URL | <p>1. 打开 Unity 编辑器页面。 </p><p>2. 在上方菜单栏处，选择 Edit > Project Setting > Package Manager。 </p><p>3. 在 Package Manager 窗口中，点击 + > Add package。 </p><p>![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/DG%20Unity%20Integration%20SDK.005.png)</p><p>4. 输入仓库的地址，然后点击 Add。 </p><p>Unity 编辑器Windows > Package Manager>My registry。开始从中导入 SDK。 </p>|
+| 方式         | 步骤                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|:-----------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 导入本地的 SDK 包| <p>1. 前往deepglint 开发者平台页面，下载最新版本的 SDK。 </p><p>2. 解压所下载的 SDK 压缩包。 你将会得到一个包含 package.json 文件的文件夹。 </p><p>3. 返回 Unity 编辑器页面。 </p><p>4. 在上方菜单栏处，选择 Windows > Package Manager。 </p><p>5. 在 Package Manager 窗口中，点击 + > Add package from disk。 </p><p>6. 选择 package.json 文件并导入。 </p><p>导入完成后，你将看到 XR SDK Setting 窗口，关闭即可。 </p>                                                                                                                                                                                                                              |
+| 导入 Git URL | <p>1. 打开 Unity 编辑器页面。 </p><p>2. 在上方菜单栏处，选择 Edit > Project Setting > Package Manager。 </p><p>3. 在 Package Manager 窗口中，点击 + > Add package。 </p><p>![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/DG%20Unity%20Integration%20SDK.005.png)</p><p>4. 输入仓库的地址，然后点击 Add。<br/>`name: package.openupm.com`<br/>`url:https://package.openupm.com`<br/>` com.yasirkula.ingamedebugconsole`<br/><br/>` name: alpha`<br/>` url:http://package.nemoface.com/repository/unity`<br/>`  com.deepglint` </p><p>5.Unity 编辑器Windows > Package Manager>My registry。开始从中导入 SDK。 </p> |
 
 ## 创建一个 XR 场景
 
-|预计阅读和完成时间：15 分钟 |
-| :- |
+**预计阅读和完成时间：15 分钟**
+
 本文档介绍如何升级 XR Interaction SDK，然后创建一个基础 XR 场景（下图所示）。此外，文档也会介绍玩家绑定、骨骼跟踪相关内容。
 
 ![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/DG%20Unity%20Integration%20SDK.006.png)
@@ -72,7 +72,7 @@ DGXR Unity Integration SDK 是 deepglint 官方基于 Unity XR 提供的开发�
 
 搭建基础 XR 场景需要用到 Unity 提供的基础功能和组件。升级XR Interaction SDK 以便获得 Unity 提供的新资源包和功能。
 
-1. Unity 编辑器Windows > Package Manager>My registry。
+1. Unity 编辑器Windows -> Package Manager -> My registry。
 2. 在 Package Manager 窗口中，列表中将展示 Unity Registry 中提供的工具包。
 3. 在列表中找到 XR Interaction Toolkit，并将其展开。
 4. 点击 See other versions 展开版本列表。
@@ -92,9 +92,9 @@ DGXR Unity Integration SDK 是 deepglint 官方基于 Unity XR 提供的开发�
 预制体位于 Packages/DGXR Interaction SDK/Prefabs文件夹下
 
 1. 预制体拖入后，会自动在坐标原点创建 灵境空间的场景（项目启动后会自动隐藏）
-2. 移动要展示的场景与空间重合，调整场景大小，便于与实际空间物品比例相同。
+2. 移动要展示的场景与空间重合，调整场景大小，便于与实际空间物品比例相同(也可以修改 XRManager 的 space scale来调整灵境空间大小)。
 3. 运行项目，即可根据默认配置文件生成对应屏幕数量的相机渲染内容
-4. 在脚本中设置空间视角跟随功能，挂载脚本
+4. 在脚本中设置空间视角跟随功能，勾选 IsCave 选项，挂载脚本（示例脚本如下）
 5. 修改 XRManager/XRspace 的 position，既可实现空间移动到场景不同位置渲染不同画面
 ```
 using Deepglint.XR;
@@ -122,15 +122,46 @@ public class NewBehaviourScript : MonoBehaviour
 
 # 开发
 
-# 渲染
+## 两种游戏模式
+
+#### 固定视角模式
+
+**介绍**
+
+固定视角模式，指的是我们以场景中心点为固定视角进行开发，空间物品不根据人的位置进行动态的变化，当场景和位置固定均不移动的情况下，人在空间内移动，看到的所有画面都是不变的。
+默认情况下，我们使用的就是这种模式，只需要导入预制体，不需要任何配置。
+
+**使用方式**
+
+* 导入预制体后，我们就提供了 5 台渲染相机，分别对应空间中的五面屏幕（其中地平Game 窗口设置分别率为 1920 * 1920，其余 Game 窗口均为 1920 * 1200）
+* 接下来就可以正常开发具体游戏逻辑。每一个 Game 窗口看到的内容就是在灵境空间内对应屏幕的内容。
+
+
+#### 沉浸式 cave 模式
+
+**介绍**
+
+cave 模式指的是为增加用户的沉浸感，空间内的物体根据自身位置做出响应的形变。例如：空间内的一张桌子，你可以围绕着桌子观察桌子的上下左右各个面的细节。
+切 cave 模式永远保证用户在最佳观察着视角，空间内的任何 3d 物体在第一视角上均不发生形变。
+
+**缺点**
+
+只有一个最佳视角跟踪
+
+**使用方式**
+
+XRManager 下勾选 isCave的开关
+
+
+## 渲染
 
 默认情况下预制体会创建一组 3d相机，用于渲染前后左右地五块屏幕。通过设置空间中人的视角位置，动态计算并渲染相机内容输出对应屏幕上。开发者无需关心渲染和相机相关操作和配置，此相机和屏幕根据实际空间大小和安装方式动态创建。
 
-## UI 渲染
+### UI 渲染
 
-` `TODO 补充文档  @陈新宇
+内部使用，暂不对外提供
 
-## 自定义渲染
+### 自定义渲染
 
 1. 创建自己的 3d 相机拍摄想要渲染的画面
 2. 设置相机为 overlay 模式，并添加相机到对应的屏幕上（具体代码如下）
@@ -147,12 +178,12 @@ Camera camera = new Camera();
 camera.GetUniversalAdditionalCameraData().renderType = CameraRenderType.Overlay;
 Global.Space.Front.AddCameraToStack(camera);
 }
-        }
+} 
 ```
 
-# 交互
+## 交互
 
-## 人体跟踪获取
+### 人体跟踪获取
 
 使用步骤：
 
@@ -183,13 +214,13 @@ using UnityEngine;
 
 public class Demo : MonoBehaviour
 {
-// 订阅MetaPoseDataReceived事件的方法
+    // 订阅MetaPoseDataReceived事件的方法
     private void OnEnable()
     {
         Source.OnMetaPoseDataReceived += HandleMetaPoseDataReceived;
     }
 
-// 在禁用对象时取消订阅事件
+    // 在禁用对象时取消订阅事件
     private void OnDisable()
     {
         Source.OnMetaPoseDataReceived -= HandleMetaPoseDataReceived;
@@ -204,7 +235,7 @@ public class Demo : MonoBehaviour
 }
 ```
 
-## 设备管理
+### 设备管理
 
 灵境空间中每一个被追踪到的人都被视为一个DGXRHumanController类型的设备，当空间中的人的位置和朝向发生变化或者空间中的人做了系统能够识别的动作时，其对应的设备上的布局也会发生相应变化。
 
@@ -266,10 +297,10 @@ public class Demo : MonoBehaviour
 }
 ```
 
-## 场景互动
+### 场景互动
 
 `Deepglint.XR.Interaction` SDK 提供了多种方式使得用户能与应用场景中的元素进行互动
-1. 可以通过[玩家绑定及动作接入](#玩家绑定及动作接入)的方式，建立游戏角色、玩家与设备之间的映射关系，进而控制空间中的元素进行交互；
+1. 可以通过[玩家绑定及动作接入](#玩家绑定及设备接入)的方式，建立游戏角色、玩家与设备之间的映射关系，进而控制空间中的元素进行交互；
 2. 通过使用`HumanControlFootPointerInputModule`模块提供的能力直接与canvas 中的UI元素或者场景中的3d元素进行交互；
 
 ### HumanControlFootPointerInputModule 
@@ -296,7 +327,7 @@ public class Demo : MonoBehaviour
 
 备注：当需要与3D 物体进行交互时需要手动开启物理射线
 ```
- // 检查摄像机上是否已经有 PhysicsRaycaster 组件
+// 检查摄像机上是否已经有 PhysicsRaycaster 组件
 if (Global.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
 {
    // 添加 PhysicsRaycaster 组件
@@ -308,7 +339,7 @@ if (Global.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
 >注意事项：
 > - EventSystem上的Pointer事件都是通过发送射线的机制，检测到碰撞的物体进行交互的，因此在使用EventSystem上的HumanControlFootPointerInputModule时注意物体之间的遮挡关系，可通过调节射线照射的UI元素的layer层或者把不需要检测的元素的RaycastTarget属性反选掉以避免元素之间的遮挡关系导致事件无法触发。
 
-## 动作判定
+### 动作判定
 
 `Deepglint.XR.Interaction`模块基于InputSystem的ActionMap机制，提供了包含算法识别、规则判定等多种丰富的动作判定功能，目前`Deepglint.XR.Interaction`支持的动作集有：
 
@@ -326,18 +357,18 @@ if (Global.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
 | HighKneeRun         | Axis      | 深蹲     | 
 | Jump                | Axis      | 跳跃     |
 
-### 动作交互对接流程 
+#### 动作交互对接流程 
 
 1. 创建动作资产![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/Action001.jpg)
 2. 配置ActionMap, 并设置数据类型![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/Action002.jpg)
 3. 选择设备类型和Interaction ![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/Action003.jpg)
 4. 交互控制逻辑请参考文档中玩家绑定模块，或者直接导入`Deepglint.XR.Interaction` Samples中的PlayerManager 示例程序（或[PlayerInput](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/api/UnityEngine.InputSystem.PlayerInput.html)）
 
-## 玩家绑定及设备接入
+### 玩家绑定及设备接入
 
 在开发多玩家应用时，通过`Deepglint.XR.Interaction`的PlayerManager模块可轻松实现多个玩家的游戏角色绑定，每个玩家可独立控制单独的游戏角色进行交互。
 
-### 基本概念
+#### 基本概念
 
 1. Character 游戏角色，游戏角色是游戏内被玩家直接操作的游戏对象的数据抽象，它标识了游戏角色的身份信息，游戏角色与玩家是1:1对应关系；
 2. Player 玩家，由PlayerManager通过PlayerPrefab实例化出来的对象，玩家的输入源是Unity系统中的各种设备，每个玩家可关联多个设备，通过操作设备的输入数据实现对游戏内角色的控制，每个玩家唯一控制一个游戏内的角色；
@@ -345,7 +376,7 @@ if (Global.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
 4. PlayerManager 控制玩家加入，设备配对的游戏对象；
 5. PlayerPrefab 玩家预制体，由应用开发者提供，并托管给PlayerManager, 当有玩家通过`JoinFromAction`或者`JoinFromUI`的方式加入游戏时，由PlayerManager完成PlayerPrefab的实例化；
 
-### 对接流程
+#### 对接流程
 
 1. 创建Action asset, 参考[动作交互对接流程](#动作交互对接流程-)；
 2. 创建PlayerPrefab 玩家预制件, 并为预制件添加PlayerInput组件![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/PlayerManager001.jpg)；
@@ -530,7 +561,7 @@ namespace Samples.CustomPlayerManager
 }
 ```
 
-# 空间音频
+## 空间音频
 
 基础功能有播放音频、播放音频列表、停止等
 
