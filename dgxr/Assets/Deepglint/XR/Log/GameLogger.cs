@@ -149,6 +149,10 @@ namespace Deepglint.XR.Log
         {
             _logFlushTimer?.Dispose();
             FlushLogToFile(null);
+            if (!Global.SystemName.Contains("Mac"))
+            {
+                Application.logMessageReceived -= OnLogCallBack;
+            } 
         }
     }
 }
