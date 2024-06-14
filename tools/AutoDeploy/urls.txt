@@ -1,0 +1,2 @@
+https://star-deploy-1253924368.cos.ap-beijing.myqcloud.com/unity/meta-starter/win/dev/meta-starter_dc1284fe_dev.zip
+https://star-deploy-1253924368.cos.ap-beijing.myqcloud.com/unity/meta-match/win/dev/meta-match_dd74c01a_dev.zip
