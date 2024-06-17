@@ -1198,40 +1198,73 @@
         }
       }
 
-      function customParse991PoseAndAction(item) {
-        var newItem = item;
-        // console.log("item: ", item)
-        if (item.op == "publish" && item.topic == "/metapose/pose3d") {
-          // return customParse991PoseAndAction(item);
-          var parseData = JSON.parse(item.msg.data);
-          // console.log("parseData: ", parseData);
-          var data = parseData.result
-            ? parseData.result["999001"].threeDim
-            : {};
+      const DataType = {
+        ws: "ws",
+        ws991: "ws991",
+        ros991: "ros991",
+      };
 
-          var ids = [];
-          var poses = {};
-          var actions = {};
-          Object.keys(data)
-            .sort((a, b) => a - b)
-            .forEach((id, index) => {
-              ids[index] = id;
-              var personItem = data[id];
-              poses[index] = personItem.objs.map((item) => item.value);
-              actions[index] = personItem.recActions
-                ? personItem.recActions[0].action
-                : "";
-            });
-          newItem = {
-            ts: parseData.timeStamp,
-            ids: ids,
-            pose: poses,
-            action: actions,
-            source: item,
-          };
+      function customParse991PoseAndAction(item, dataType) {
+        var newItem = item;
+        switch (dataType) {
+          case DataType.ws:
+            return item;
+          case DataType.ws991:
+            var parseData = JSON.parse(item.msg.data);
+            console.log("parseData: ", parseData);
+            var data = parseData.result
+              ? parseData.result["999001"].threeDim
+              : {};
+
+            var ids = [];
+            var poses = {};
+            var actions = {};
+            Object.keys(data)
+              .sort((a, b) => a - b)
+              .forEach((id, index) => {
+                ids[index] = id;
+                var personItem = data[id];
+                poses[index] = personItem.objs.map((item) => item.value);
+                actions[index] = personItem.recActions
+                  ? personItem.recActions[0].action
+                  : "";
+              });
+            return {
+              ts: parseData.timeStamp,
+              ids: ids,
+              pose: poses,
+              action: actions,
+              source: item,
+            };
+          case DataType.ros991:
+            var data = item.result ? item.result["999001"].threeDim : {};
+            var ids = [];
+            var poses = {};
+            var actions = {};
+            Object.keys(data)
+              .sort((a, b) => a - b)
+              .forEach((id, index) => {
+                ids[index] = id;
+                var personItem = data[id];
+                poses[index] = personItem.objs.map((item) => item.value);
+                actions[index] = personItem.recActions
+                  ? personItem.recActions[0].action
+                  : "";
+              });
+            return {
+              ts: item.timeStamp,
+              ids: ids,
+              pose: poses,
+              action: actions,
+              source: {
+                op: "publish",
+                topic: "/metapose/pose3d",
+                msg: {
+                  data: JSON.stringify(item),
+                },
+              },
+            };
         }
-        // console.log("newItem: ", newItem)
-        return newItem;
       }
 
       class PlayerManager {
@@ -2360,11 +2393,15 @@
           store.poseData = data
             .map((item) => {
               if (item.pose || item.type == "customConfig") {
-                return customParse991PoseAndAction(item);
+                return customParse991PoseAndAction(item, DataType.ws);
               }
               if (item.op == "publish" && item.topic == "/metapose/pose3d") {
                 store.is991Pose = true;
-                return customParse991PoseAndAction(item);
+                return customParse991PoseAndAction(item, DataType.ws991);
+              }
+              if (item.frameId && item.result && item.result["999001"]) {
+                store.is991Pose = true;
+                return customParse991PoseAndAction(item, DataType.ros991);
               }
               return null;
             })
