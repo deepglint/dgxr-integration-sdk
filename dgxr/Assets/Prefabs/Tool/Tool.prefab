@@ -61,6 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 121967b8d41d45a9a3b7b051b23cea93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frequency: 0.5
 --- !u!114 &2637338536941690028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,6 +117,10 @@ PrefabInstance:
     - target: {fileID: 11414302, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_Value
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452418, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
+      propertyPath: singleton
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11452418, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: startMinimized
