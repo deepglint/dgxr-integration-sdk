@@ -21,6 +21,10 @@ namespace Deepglint.XR.Config
             {
                 [JsonProperty("debug")]
                 public bool Debug { get; set; }
+                
+                [JsonProperty("singleScreen")]
+                public bool SingleScreen { get; internal set; }
+                
                 [JsonProperty("log")]
                 public LogInfo Log { get; set; }
                 [JsonProperty("space")]
