@@ -14,11 +14,11 @@ namespace Deepglint.XR.Interaction
         private float _distance = 10;
         private readonly float _distanceOffset = 0.05f;
         private readonly float _angleOffset = 0.5f;
+        private Vector3 _startShoulder = Vector3.zero;
+        private int _missCount = 0;
 
         public float StartArmAngle = 120;
-        public float PerformArmAngle = 60;
-        
-        private int _missCount = 0;
+        public float PerformArmAngle = 66;
         
         public void Process(ref InputInteractionContext context)
         {
@@ -35,10 +35,14 @@ namespace Deepglint.XR.Interaction
                             if (_armAngle >= StartArmAngle && distance < _distance)
                             {
                                 context.Started();
+                                _startShoulder = dgXRDevice.HumanBody.RightShoulder.position.ReadValue() -
+                                                 dgXRDevice.HumanBody.LeftShoulder.position.ReadValue();
                             }
                             break;
                         case InputActionPhase.Started:
-                            if (_armAngle <= PerformArmAngle)
+                            float shoulderAngle = Vector3.Angle(dgXRDevice.HumanBody.RightShoulder.position.ReadValue() -
+                                                                dgXRDevice.HumanBody.LeftShoulder.position.ReadValue(), _startShoulder);
+                            if (_armAngle - shoulderAngle * 0.5f <= PerformArmAngle)
                             {
                                 context.PerformedAndStayPerformed();
                             }

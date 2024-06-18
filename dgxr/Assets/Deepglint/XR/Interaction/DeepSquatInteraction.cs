@@ -22,14 +22,14 @@ namespace Deepglint.XR.Interaction
                         case InputActionPhase.Waiting:
                             if (IsDeepSquatActionStart(dgXRDevice))
                             {
-                                Debug.Log("deep-squat start");
+                                // Debug.Log("deep-squat start");
                                 context.Started();
                             }
                             break;
                         case InputActionPhase.Started:
                             if (IsDeepSquatActionHit(dgXRDevice))
                             {
-                                Debug.Log("Deep-Squat action performed");
+                                // Debug.Log("Deep-Squat action performed");
                                 context.PerformedAndStayPerformed();
                             }
                             break;
@@ -52,7 +52,7 @@ namespace Deepglint.XR.Interaction
         {
             if (dgXRDevice.DeepSquat.ReadValue() > Confidence)
             {
-                Debug.Log("Deep-Squat action is happening");
+                // Debug.Log("Deep-Squat action is happening");
                 return true;
             }
 
@@ -76,7 +76,7 @@ namespace Deepglint.XR.Interaction
         public new void Reset()
         {
             base.Reset();
-            Debug.Log("reset Deep-Squat interaction");
+            // Debug.Log("reset Deep-Squat interaction");
         }
     }
 }

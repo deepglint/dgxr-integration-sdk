@@ -35,7 +35,7 @@ namespace Deepglint.XR.Interaction
                         case InputActionPhase.Started:
                             if (IsFreeSwimHit(dgXRDevice, _rightHandHit))
                             {
-                                Debug.Log("FreeSwim action performed");
+                                // Debug.Log("FreeSwim action performed");
                                 context.PerformedAndStayPerformed();
                             }
                             break;
@@ -58,7 +58,7 @@ namespace Deepglint.XR.Interaction
         {
             if (dgXRDevice.FreeSwim.ReadValue() > Confidence)
             {
-                Debug.Log("Free-Swim action is happening");
+                // Debug.Log("Free-Swim action is happening");
                 return true;
             }
 
@@ -78,7 +78,7 @@ namespace Deepglint.XR.Interaction
         {
             base.Reset();
             _rightHandHit = false;
-            Debug.Log("reset Free-Swim interaction");
+            // Debug.Log("reset Free-Swim interaction");
         }
     }
 }

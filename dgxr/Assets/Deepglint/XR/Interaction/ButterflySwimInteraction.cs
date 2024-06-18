@@ -27,7 +27,7 @@ namespace Deepglint.XR.Interaction
                         case InputActionPhase.Started:
                             if (IsButterflySwimHit(dgXRDevice))
                             {
-                                Debug.Log("Butterfly-Swim action performed");
+                                // Debug.Log("Butterfly-Swim action performed");
                                 context.PerformedAndStayPerformed();
                             }
                             break;
@@ -50,7 +50,7 @@ namespace Deepglint.XR.Interaction
         {
             if (dgXRDevice.ButterflySwim.ReadValue() > Confidence)
             {
-                Debug.Log("Butterfly-Swim action is happening");
+                // Debug.Log("Butterfly-Swim action is happening");
                 return true;
             }
 
@@ -76,7 +76,7 @@ namespace Deepglint.XR.Interaction
         public new void Reset()
         {
             base.Reset();
-            Debug.Log("reset Butterfly-Swim interaction");
+            // Debug.Log("reset Butterfly-Swim interaction");
         }
     }
 }

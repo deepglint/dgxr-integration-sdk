@@ -211,13 +211,13 @@ namespace Deepglint.XR
             xrDevice.HumanBody.RightHand.position.WriteValueIntoEvent(data.RightHand, eventPtr);
             xrDevice.HumanBody.LeftFoot.position.WriteValueIntoEvent(new Vector3(
                 (data.LeftTiptoe.x + data.LeftHeel.x) * 0.5f,
-                (data.LeftTiptoe.y + data.LeftHeel.y) * 0.5f,
-                Math.Min(data.LeftTiptoe.z, data.LeftHeel.z)
+                Math.Min(data.LeftTiptoe.y, data.LeftHeel.y),
+                (data.LeftTiptoe.z + data.LeftHeel.z) * 0.5f
                 ), eventPtr);
             xrDevice.HumanBody.RightFoot.position.WriteValueIntoEvent(new Vector3(
                 (data.RightTiptoe.x + data.RightHeel.x) * 0.5f,
-                (data.RightTiptoe.y + data.RightHeel.y) * 0.5f,
-                Math.Min(data.RightTiptoe.z, data.RightHeel.z)
+                Math.Min(data.RightTiptoe.y, data.RightHeel.y),
+                (data.RightTiptoe.z + data.RightHeel.z) * 0.5f
                 ), eventPtr);
         }
 

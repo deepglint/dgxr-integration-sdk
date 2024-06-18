@@ -34,7 +34,7 @@ namespace Deepglint.XR.Interaction
                         case InputActionPhase.Started:
                             if (IsHighKneeRunHit(dgXRDevice, _rightKneeHit))
                             {
-                                Debug.Log("High-Knee-Run action performed");
+                                // Debug.Log("High-Knee-Run action performed");
                                 context.PerformedAndStayPerformed();
                             }
                             break;
@@ -57,7 +57,7 @@ namespace Deepglint.XR.Interaction
         {
             if (device.HighKneeRun.ReadValue() > Confidence)
             {
-                Debug.Log("High-Knee-Run action is happening");
+                // Debug.Log("High-Knee-Run action is happening");
                 return true;
             }
 
@@ -77,7 +77,7 @@ namespace Deepglint.XR.Interaction
         {
             base.Reset();
             _rightKneeHit = false;
-            Debug.Log("reset High-Knee-Run interaction");
+            // Debug.Log("reset High-Knee-Run interaction");
         }
     }
 }
