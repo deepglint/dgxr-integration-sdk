@@ -347,6 +347,7 @@ if (Global.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
 |:--------------------|:----------|:-------|
 | RaiseLeftHand       | HumanBody | 举左手    |
 | RaiseRightHand      | HumanBody | 举右手    |
+| RaiseSingleHand     | HumanBody | 举单手    |
 | RaiseBothHand       | HumanBody | 举双手    |
 | RaiseHand           | HumanBody | 举手     |
 | SlideLeftArmToRight | HumanBody | 左手向右翻页 |
@@ -354,7 +355,7 @@ if (Global.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
 | ButterflySwim       | Axis      | 蝶泳     |
 | DeepSquat           | Axis      | 深蹲     |
 | FreeSwim            | Axis      | 自由泳    |
-| HighKneeRun         | Axis      | 深蹲     | 
+| HighKneeRun         | Axis      | 高抬腿    | 
 | Jump                | Axis      | 跳跃     |
 
 #### 动作交互对接流程 
