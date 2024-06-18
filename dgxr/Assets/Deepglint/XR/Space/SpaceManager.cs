@@ -100,7 +100,7 @@ namespace Deepglint.XR.Space
 
         void Start()
         {
-            if (!Global.SystemName.Contains("Mac"))
+            if (!Global.SystemName.Contains("Mac")&&!Global.Config.SingleScreen)
             {
                 foreach (var display in Display.displays)
                 {
@@ -190,7 +190,10 @@ namespace Deepglint.XR.Space
 
         public void HandleSplitScreen(ScriptableRenderContext paramContext, Camera[] paramCamera)
         {
-            ProcessRendersCoroutine();
+            if (!Global.Config.SingleScreen)
+            {
+                ProcessRendersCoroutine();
+            }
         }
 
         private void ClippedRenderTexture(RenderTexture sourceTexture, Rect rect, int display)
@@ -390,7 +393,7 @@ namespace Deepglint.XR.Space
                     dis.AddCameraToStack(uiCamera);
                 }
 #if !UNITY_EDITOR
-                if (screen.Render.Length > 0)
+                if (screen.Render.Length > 0 && !Global.Config.SingleScreen)
                 {
                     uiCamera.targetTexture = _uiRenderTexture;
                     _renderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
