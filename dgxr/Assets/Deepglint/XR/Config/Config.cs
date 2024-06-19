@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Deepglint.XR.Space;
+using Deepglint.XR.Toolkit.DebugTool;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ namespace Deepglint.XR.Config
                 public bool Debug { get; set; }
                 
                 [JsonProperty("singleScreen")]
-                public bool SingleScreen { get; internal set; }
+                public SingleScreenStyle SingleScreen { get; internal set; }
                 
                 [JsonProperty("log")]
                 public LogInfo Log { get; set; }
