@@ -360,6 +360,7 @@ namespace Deepglint.XR.Space
 
                     spaceCamera.gameObject.layer = _caveLayer;
                     spaceCamera.targetDisplay = (int)screen.TargetScreen;
+                  
                     screenObject = displayQuad;
                 }
                 else
