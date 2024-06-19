@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Deepglint.XR.Toolkit.DebugTool;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -100,7 +101,7 @@ namespace Deepglint.XR.Space
 
         void Start()
         {
-            if (!Global.SystemName.Contains("Mac")&&!Global.Config.SingleScreen)
+            if (!Global.SystemName.Contains("Mac")&&Global.Config.SingleScreen==SingleScreenStyle.Close)
             {
                 foreach (var display in Display.displays)
                 {
