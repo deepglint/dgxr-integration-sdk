@@ -191,7 +191,7 @@ namespace Deepglint.XR.Space
 
         public void HandleSplitScreen(ScriptableRenderContext paramContext, Camera[] paramCamera)
         {
-            if (!Global.Config.SingleScreen)
+            if (Global.Config.SingleScreen==SingleScreenStyle.Close)
             {
                 ProcessRendersCoroutine();
             }
@@ -395,7 +395,7 @@ namespace Deepglint.XR.Space
                     dis.AddCameraToStack(uiCamera);
                 }
 #if !UNITY_EDITOR
-                if (screen.Render.Length > 0 && !Global.Config.SingleScreen)
+                if (screen.Render.Length > 0 && Global.Config.SingleScreen==SingleScreenStyle.Close)
                 {
                     uiCamera.targetTexture = _uiRenderTexture;
                     _renderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
