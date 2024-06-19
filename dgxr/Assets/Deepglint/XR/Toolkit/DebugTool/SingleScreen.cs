@@ -144,10 +144,11 @@ namespace Deepglint.XR.Toolkit.DebugTool
                 }
 
                 space.SpaceCamera.rect = _screenRects[space.TargetScreen];
-                // if (space.TargetScreen == TargetScreen.Bottom)
-                // {
-                //     space.UICamera.orthographicSize = 600;
-                // }
+                
+                if (space.TargetScreen == TargetScreen.Bottom)
+                {
+                    space.UICamera.orthographicSize = 600;
+                }
             }
         }
     }
