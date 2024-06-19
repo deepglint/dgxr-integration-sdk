@@ -23,9 +23,6 @@ namespace Deepglint.XR.Config
                 [JsonProperty("debug")]
                 public bool Debug { get; set; }
                 
-                [JsonProperty("singleScreen")]
-                public SingleScreenStyle SingleScreen { get; internal set; }
-                
                 [JsonProperty("log")]
                 public LogInfo Log { get; set; }
                 [JsonProperty("space")]
@@ -60,6 +57,9 @@ namespace Deepglint.XR.Config
 
             [System.Serializable]
             public struct SpaceInfo{
+                [JsonProperty("screenMode")]
+                public ScreenStyle ScreenMode { get; internal set; }
+                
                 [JsonProperty("engineHost")]
                 public string EngineHost { get; set; }
                 [JsonProperty("wsPort")]

@@ -8,12 +8,12 @@ namespace Deepglint.XR.Toolkit.DebugTool
     /// <summary>
     /// 单屏配置控制
     /// </summary> 
-    public enum SingleScreenStyle
+    public enum ScreenStyle
     {
         /// <summary>
-        /// 关闭
+        /// 默认样式，多屏渲染
         /// </summary>
-        Close,
+        Default,
 
         /// <summary>
         /// 标准样式
@@ -38,7 +38,7 @@ namespace Deepglint.XR.Toolkit.DebugTool
 
         private void Start()
         {
-            if (Global.Config.SingleScreen != SingleScreenStyle.Close)
+            if (Global.Config.Space.ScreenMode != ScreenStyle.Default)
             {
                 Screen.SetResolution((int)Width, (int)Height, true);
                 Camera cam = gameObject.AddComponent<Camera>();
@@ -63,18 +63,18 @@ namespace Deepglint.XR.Toolkit.DebugTool
                 float bottomY = edgeBorder / Height;
 
 
-                switch (Global.Config.SingleScreen)
+                switch (Global.Config.Space.ScreenMode)
                 {
-                    case SingleScreenStyle.Close:
+                    case ScreenStyle.Default:
                         return;
-                    case SingleScreenStyle.NormalMode:
+                    case ScreenStyle.NormalMode:
                         _screenRects.Add(TargetScreen.Front, new Rect(midX, topY, ratioWidth, ratioHeight));
                         _screenRects.Add(TargetScreen.Right, new Rect(rightX, topY, ratioWidth, ratioHeight));
                         _screenRects.Add(TargetScreen.Back, new Rect(rightX, midY, ratioWidth, ratioHeight));
                         _screenRects.Add(TargetScreen.Left, new Rect(leftX, topY, ratioWidth, ratioHeight));
                         _screenRects.Add(TargetScreen.Bottom, new Rect(midX, bottomY, ratioWidth, ratioBottomHeight));
                         break;
-                    case SingleScreenStyle.MainMode:
+                    case ScreenStyle.MainMode:
                         _screenRects.Add(TargetScreen.Front, new Rect(0, 0, 2 * ratioWidth, 2 * ratioHeight));
                         _screenRects.Add(TargetScreen.Right, new Rect(leftX, topY, ratioWidth, ratioHeight));
                         _screenRects.Add(TargetScreen.Back, new Rect(midX, topY, ratioWidth, ratioHeight));
@@ -84,41 +84,43 @@ namespace Deepglint.XR.Toolkit.DebugTool
                     default:
                         return;
                 }
-
-                SetRect();
+                SplitScreenMode();
             }
         }
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Global.Config.Space.ScreenMode != ScreenStyle.Default)
             {
-                SetRect();
-            }
-
-            if (Input.GetMouseButtonDown(0) && !_isDoubleClick)
-            {
-                _lastClickTime = Time.time;
-                _lastClickPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                _isDoubleClick = true;
-            }
-            else if (Input.GetMouseButtonDown(0) && _isDoubleClick)
-            {
-                float timeSinceLastClick = Time.time - _lastClickTime;
-                if (timeSinceLastClick < 1f)
+                if (Input.GetKeyDown(KeyCode.Q))
                 {
-                    Vector2 currentClickPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                    if (Vector2.Distance(_lastClickPosition, currentClickPosition) < 10f)
-                    {
-                        CheckRect(new Vector2(currentClickPosition.x / Width, currentClickPosition.y / Height));
-                    }
+                    SplitScreenMode();
                 }
 
-                _isDoubleClick = false;
+                if (Input.GetMouseButtonDown(0) && !_isDoubleClick)
+                {
+                    _lastClickTime = Time.time;
+                    _lastClickPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                    _isDoubleClick = true;
+                }
+                else if (Input.GetMouseButtonDown(0) && _isDoubleClick)
+                {
+                    float timeSinceLastClick = Time.time - _lastClickTime;
+                    if (timeSinceLastClick < 1f)
+                    {
+                        Vector2 currentClickPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                        if (Vector2.Distance(_lastClickPosition, currentClickPosition) < 10f)
+                        {
+                            AllScreenMode(new Vector2(currentClickPosition.x / Width, currentClickPosition.y / Height));
+                        }
+                    }
+
+                    _isDoubleClick = false;
+                }
             }
         }
 
-        private void CheckRect(Vector2 point)
+        private void AllScreenMode(Vector2 point)
         {
             foreach (var rec in _screenRects)
             {
@@ -130,7 +132,7 @@ namespace Deepglint.XR.Toolkit.DebugTool
             }
         }
 
-        private void SetRect()
+        private void SplitScreenMode()
         {
             foreach (var space in Global.Space)
             {

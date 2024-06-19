@@ -117,9 +117,7 @@ public class Connection : MonoBehaviour
             _success = false; // Only subscribe once after successful connection
         }
 
-#if UNITY_EDITOR
         _webSocket.DispatchMessageQueue();
-#endif
     }
 
     private void OnApplicationQuit()
