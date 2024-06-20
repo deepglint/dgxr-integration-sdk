@@ -141,14 +141,10 @@ namespace Deepglint.XR.Toolkit.DebugTool
                 foreach (var overCam in space.SpaceCamera.GetUniversalAdditionalCameraData().cameraStack)
                 {
                     overCam.targetDisplay = 0;
+                    overCam.rect = _screenRects[space.TargetScreen]; 
                 }
 
                 space.SpaceCamera.rect = _screenRects[space.TargetScreen];
-                
-                if (space.TargetScreen == TargetScreen.Bottom)
-                {
-                    space.UICamera.orthographicSize = 600;
-                }
             }
         }
     }
