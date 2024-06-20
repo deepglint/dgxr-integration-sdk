@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Deepglint.XR.Space;
+using Deepglint.XR.Toolkit.DebugTool;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ namespace Deepglint.XR.Config
             {
                 [JsonProperty("debug")]
                 public bool Debug { get; set; }
+                
                 [JsonProperty("log")]
                 public LogInfo Log { get; set; }
                 [JsonProperty("space")]
@@ -55,6 +57,9 @@ namespace Deepglint.XR.Config
 
             [System.Serializable]
             public struct SpaceInfo{
+                [JsonProperty("screenMode")]
+                public ScreenStyle ScreenMode { get; internal set; }
+                
                 [JsonProperty("engineHost")]
                 public string EngineHost { get; set; }
                 [JsonProperty("wsPort")]

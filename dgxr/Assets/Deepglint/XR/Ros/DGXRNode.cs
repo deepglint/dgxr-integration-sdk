@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Deepglint.XR;
 using Deepglint.XR.Ros;
 using ROS2;
@@ -42,7 +43,9 @@ namespace Deepglint.XR.Ros
             {
                 if (ros2Node == null)
                 {
-                    ros2Node = ros2Unity.CreateNode("unity_"+Global.UniqueID);
+                    string sanitizedName = Regex.Replace(Global.AppName, @"[^a-zA-Z0-9_]", "");
+                    ros2Node = ros2Unity.CreateNode("unity_"+sanitizedName);
+                    Debug.Log("ros2 node name: "+sanitizedName);
                     QualityOfServiceProfile qualityOfServiceProfille = new QualityOfServiceProfile();
                     qualityOfServiceProfille.SetReliability(ReliabilityPolicy.QOS_POLICY_RELIABILITY_BEST_EFFORT);
                     ros2Node.CreateSubscription<std_msgs.msg.String>("/metapose/pose3d", new Ros2PoseAdapter().DealMsg,

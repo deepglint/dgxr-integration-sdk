@@ -12,7 +12,7 @@ namespace Deepglint.XR.Toolkit.DebugTool
         
         private void Start()
         {
-            _guiFps = new Rect(0, 0, 100, 100);
+            _guiFps = new Rect(10, 10, 100, 100);
             _style.fontSize = 60;
             _style.normal.textColor = Color.red;
             StartCoroutine(fps());
