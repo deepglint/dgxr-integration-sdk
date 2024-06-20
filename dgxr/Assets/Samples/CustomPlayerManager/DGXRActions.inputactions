@@ -67,6 +67,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "3917e623-d021-489d-b180-589fc93472aa",
+                    "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "DeepSquat",
+                    "type": "Value",
+                    "id": "537814b8-cacd-4070-a387-7dc0e5d06e92",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -85,7 +103,7 @@
                     "name": "",
                     "id": "de994201-1856-47e0-a0ba-0a6a6548774e",
                     "path": "<DGXRHumanController>/HumanBody",
-                    "interactions": "",
+                    "interactions": "RaiseRightHand",
                     "processors": "",
                     "groups": "",
                     "action": "RaiseRightHand",
@@ -138,8 +156,8 @@
                 },
                 {
                     "name": "",
-                    "id": "0d099dbb-2d4a-433f-87a4-08ca5df83331",
-                    "path": "<Mouse>/leftButton",
+                    "id": "54237a9f-17ed-4e57-a181-ee6dae212961",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -155,6 +173,83 @@
                     "processors": "",
                     "groups": "",
                     "action": "RaiseBothHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "68256115-2dad-40ce-be14-a2069ff1addc",
+                    "path": "<DGXRHumanController>/stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "054fdfa9-b933-403b-b873-0ddf3db3d742",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "1bd785e7-0865-4c9b-9799-9ea247215d1f",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "66ef4422-02c1-49ac-8c04-f60beeaea3ae",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "b7e34188-f21b-44bc-b583-dd9e482cf4b2",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "e2b08ac7-681d-424d-bc24-4a95e1d555d8",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "d5ee4166-b979-4e9b-9bc8-7fe79b0413c7",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "DeepSquat",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DeepSquat",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

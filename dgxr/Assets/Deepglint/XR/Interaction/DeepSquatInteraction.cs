@@ -11,6 +11,7 @@ namespace Deepglint.XR.Interaction
     /// </summary>
     public class DeepSquatInteraction : MetaverseInteraction, IInputInteraction
     {
+        private float _cancelKneeAngle = 150;
         public void Process(ref InputInteractionContext context)
         {
             if (context.control.device is DGXRHumanController dgXRDevice)
@@ -27,14 +28,14 @@ namespace Deepglint.XR.Interaction
                             }
                             break;
                         case InputActionPhase.Started:
-                            if (IsDeepSquatActionHit(dgXRDevice))
+                            if (IsDeepSquatActionPerformed(dgXRDevice))
                             {
                                 // Debug.Log("Deep-Squat action performed");
                                 context.PerformedAndStayPerformed();
                             }
                             break;
                         case InputActionPhase.Performed:
-                            if (!IsDeepSquatActionHit(dgXRDevice))
+                            if (IsDeepSquatActionCanceled(dgXRDevice))
                             {
                                 context.Canceled();
                             }
@@ -67,10 +68,23 @@ namespace Deepglint.XR.Interaction
                     device.HumanBody.LeftKnee.position.y.ReadValue()) <= legLength * 0.5f;
         }
 
-        private bool IsDeepSquatActionHit(DGXRHumanController device)
+        private bool IsDeepSquatActionPerformed(DGXRHumanController device)
         {
             return device.HumanBody.RightHip.position.y.ReadValue() -
                             device.HumanBody.RightKnee.position.y.ReadValue() <= 0f;
+        }
+
+        private bool IsDeepSquatActionCanceled(DGXRHumanController device)
+        {
+            Vector3 rightHip = device.HumanBody.RightHip.position.ReadValue();
+            Vector3 rightKnee = device.HumanBody.RightKnee.position.ReadValue();
+            Vector3 leftHip = device.HumanBody.LeftHip.position.ReadValue();
+            Vector3 leftKnee = device.HumanBody.LeftKnee.position.ReadValue();
+            float rightAngle = Vector3.Angle(device.HumanBody.RightAnkle.position.ReadValue() - rightKnee,
+                rightHip - rightKnee); 
+            float leftAngle = Vector3.Angle(device.HumanBody.LeftAnkle.position.ReadValue() - leftKnee,
+                leftHip - leftKnee);
+            return rightAngle >= _cancelKneeAngle && leftAngle >= _cancelKneeAngle;
         }
 
         public new void Reset()

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using Deepglint.XR.Inputs.Controls;
 using UnityEngine;
@@ -12,10 +11,19 @@ using UnityEngine.Scripting;
 
 namespace Deepglint.XR.Inputs.Devices
 {
-    public struct StickAnchor
+    public class StickAnchor
     {
-        public Vector2 Anchor { get; set; }
+        /// <summary>
+        /// world position
+        /// </summary>
+        public Vector3 Point { get; set; }
         public float Radius { get; set; }
+
+        public StickAnchor(Vector3 point, float radius)
+        {
+            Point = point;
+            Radius = radius;
+        }
     }
     
     public enum DGXRControllerButton
@@ -36,20 +44,10 @@ namespace Deepglint.XR.Inputs.Devices
         
         [InputControl(name = nameof(DGXRHumanController.HumanBody), layout = "HumanBody")]
         public HumanBodyState humanBody;
-    
-        [InputControl(name = "stick", format = "VC2B", layout = "Stick", displayName = "Main Stick")]
-        [InputControl(name = "stick/x", defaultState = 127, format = "BYTE",
-            parameters = "normalize,normalizeMin=0,normalizeMax=1,normalizeZero=0.5")]
-        public byte x;
-    
-        [InputControl(name = "stick/y", defaultState = 127, format = "BYTE", 
-            parameters = "normalize,normalizeMin=0,normalizeMax=1,normalizeZero=0.5")]
-        [InputControl(name = "stick/up", parameters = "normalize,normalizeMin=0,normalizeMax=1,normalizeZero=0.5,clamp=2,clampMin=0,clampMax=1")]
-        [InputControl(name = "stick/down", parameters = "normalize,normalizeMin=0,normalizeMax=1,normalizeZero=0.5,clamp=2,clampMin=-1,clampMax=0,invert")]
-        [InputControl(name = "stick/left", parameters = "normalize,normalizeMin=0,normalizeMax=1,normalizeZero=0.5,clamp=2,clampMin=-1,clampMax=0,invert")]
-        [InputControl(name = "stick/right", parameters = "normalize,normalizeMin=0,normalizeMax=1,normalizeZero=0.5,clamp=2,clampMin=0,clampMax=1")]
-        public byte y;
         
+        [InputControl(name = nameof(DGXRHumanController.Stick), layout = "Stick")]
+        public Vector2 stick; 
+    
         [InputControl(usage = "Trigger", layout = "Axis")]
         public float trigger;
 
@@ -90,6 +88,9 @@ namespace Deepglint.XR.Inputs.Devices
     {
         public HumanPoseControl HumanPose { get; private set; }
         public HumanBodyControl HumanBody { get; private set; }
+        /// <summary>
+        /// 当anchor 不为null 时stick的值有效(使用前需要先给设备的Anchor赋值)，stick 的取值为humanPose所在的位置相对与Anchor坐标在X，Z平面上的方向向量；
+        /// </summary>
         public StickControl Stick { get; private set; }
         public AxisControl Trigger { get; private set; }
         public AxisControl Grip { get; private set; }
@@ -101,6 +102,9 @@ namespace Deepglint.XR.Inputs.Devices
         public ButtonControl GripButton { get; private set; }
         public ButtonControl TriggerButton { get; private set; }
         
+        /// <summary>
+        /// stick 锚定的世界坐标
+        /// </summary>
         public StickAnchor Anchor { get; set; }
 
         protected override void FinishSetup()

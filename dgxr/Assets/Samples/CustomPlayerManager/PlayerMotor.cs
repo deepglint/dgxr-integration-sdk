@@ -43,6 +43,7 @@ namespace Samples.CustomPlayerManager
         public void MoveControl(InputAction.CallbackContext value)
         {
             Vector2 data = value.ReadValue<Vector2>();
+            // Debug.LogFormat("stick: x {0}, y {1}", data.x, data.y);
             Vector3 moveDir = new Vector3(data.x * 2, 0, data.y * 2).normalized;
             _moveDistance = moveDir * moveSpeed * Time.deltaTime;
  
@@ -97,7 +98,7 @@ namespace Samples.CustomPlayerManager
         {
             if(value.performed)
             {
-                _freeSwimCount++;
+                _butterflySwimCount++;
                 Debug.LogFormat("butterfly-swim count: {0}", _butterflySwimCount);
             }
         }
@@ -106,7 +107,7 @@ namespace Samples.CustomPlayerManager
         {
             if(value.performed)
             {
-                _freeSwimCount++;
+                _highKneeRunSwimCount++;
                 Debug.LogFormat("high-knee-run count: {0}", _highKneeRunSwimCount);
             }
         }
@@ -115,7 +116,7 @@ namespace Samples.CustomPlayerManager
         {
             if(value.performed)
             {
-                _freeSwimCount++;
+                _deepSquatCount++;
                 Debug.LogFormat("deep-squat count: {0}", _deepSquatCount);
             }
         }

@@ -6,6 +6,12 @@ using UnityEngine;
 
 namespace Deepglint.XR.Source
 {
+    public enum SourceType
+    {
+        ROS,
+        WS,
+    }
+    
     public enum Joint
     {
         Nose,
@@ -97,6 +103,9 @@ namespace Deepglint.XR.Source
     {
         private static Source _instance;
         private Dictionary<string, SourceData>  _dataDic;
+
+        public static SourceType DataFrom;
+            
         public delegate void MetaPoseDataEventHandler(SourceData data);
         public delegate void MetaPoseFrameDataEventHandler(List<SourceData> data);
         

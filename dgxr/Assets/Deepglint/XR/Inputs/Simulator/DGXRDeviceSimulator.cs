@@ -70,50 +70,50 @@ public class DGXRDeviceSimulator : InputDevice, IInputUpdateCallbackReceiver
 
     public void OnUpdate()
     {
-        var keyboard = Keyboard.current;
-        if (keyboard == null)
-            return;
-
-        var state = new DGXRHumanControllerState();
-
-        state.x = 127;
-        state.y = 127;
-        
-        // Map WASD to stick.
-        var wPressed = keyboard.wKey.isPressed;
-        var aPressed = keyboard.aKey.isPressed;
-        var sPressed = keyboard.sKey.isPressed;
-        var dPressed = keyboard.dKey.isPressed;
-
-        if (aPressed)
-        {
-            //Debug.Log("A is pressed");
-            state.x -= 127;
-        }
-        if (dPressed)
-        {
-            //Debug.Log("D is pressed");
-            state.x += 127;
-        }
-        if (wPressed)
-        {
-            //Debug.Log("W is pressed");
-            state.y += 127;
-        }
-        if (sPressed)
-        {
-            //Debug.Log("S is pressed");
-            state.y -= 127;
-        }
-        
-        // Map buttons to 1, 2, and 3.
-        if (keyboard.digit1Key.isPressed)
-            state.buttons |= 1 << 0;
-        if (keyboard.digit2Key.isPressed)
-            state.buttons |= 1 << 1;
-        if (keyboard.digit3Key.isPressed)
-            state.buttons |= 1 << 2;
-
-        InputSystem.QueueStateEvent(this, state);
+        // var keyboard = Keyboard.current;
+        // if (keyboard == null)
+        //     return;
+        //
+        // var state = new DGXRHumanControllerState();
+        //
+        // state.x = 127;
+        // state.y = 127;
+        //
+        // // Map WASD to stick.
+        // var wPressed = keyboard.wKey.isPressed;
+        // var aPressed = keyboard.aKey.isPressed;
+        // var sPressed = keyboard.sKey.isPressed;
+        // var dPressed = keyboard.dKey.isPressed;
+        //
+        // if (aPressed)
+        // {
+        //     //Debug.Log("A is pressed");
+        //     state.x -= 127;
+        // }
+        // if (dPressed)
+        // {
+        //     //Debug.Log("D is pressed");
+        //     state.x += 127;
+        // }
+        // if (wPressed)
+        // {
+        //     //Debug.Log("W is pressed");
+        //     state.y += 127;
+        // }
+        // if (sPressed)
+        // {
+        //     //Debug.Log("S is pressed");
+        //     state.y -= 127;
+        // }
+        //
+        // // Map buttons to 1, 2, and 3.
+        // if (keyboard.digit1Key.isPressed)
+        //     state.buttons |= 1 << 0;
+        // if (keyboard.digit2Key.isPressed)
+        //     state.buttons |= 1 << 1;
+        // if (keyboard.digit3Key.isPressed)
+        //     state.buttons |= 1 << 2;
+        //
+        // InputSystem.QueueStateEvent(this, state);
     }
 }
