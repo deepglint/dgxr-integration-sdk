@@ -125,7 +125,7 @@ namespace Deepglint.XR.Toolkit.UIFrame
         /// <param name="moduleParent">父模块</param>
         /// <param name="parent">挂载的父gameObject</param>
         /// <typeparam name="T">返回的模块</typeparam>
-        public static T Create<T>(TargetScreen target, UIModule moduleParent = null, GameObject parent = null)
+        public static T Create<T>(TargetScreen target = TargetScreen.Front, UIModule moduleParent = null, GameObject parent = null)
             where T : UIModule
         {
             var screen = Global.Space[target];

@@ -414,7 +414,7 @@ namespace Deepglint.XR.Toolkit.Manager
         {
             foreach (var typeAudio in Audios)
             {
-                typeAudio.Source.Stop();
+                typeAudio.Source?.Stop();
             }
         }
 
