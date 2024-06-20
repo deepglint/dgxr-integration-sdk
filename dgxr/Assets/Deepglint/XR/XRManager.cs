@@ -147,10 +147,6 @@ namespace Deepglint.XR
             var device = DeviceManager.AddOrActiveDevice(data.BodyId, nameof(DGXRHumanController));
             if (device != null)
             {
-                if (!Application.isEditor && !Application.isFocused)
-                {
-                    return;
-                }
                 var xrDevice = device as DGXRHumanController;
                 if (xrDevice == null) return;
                 using (StateEvent.From(xrDevice, out var eventPtr))
