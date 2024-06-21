@@ -158,7 +158,8 @@ namespace Deepglint.XR.Inputs
 
             if (xrDevice.Anchor != null)
             {
-                Vector2 point = new Vector2(humanPosition.x, humanPosition.z);
+                Vector3 position = Global.Space.gameObject.transform.InverseTransformPoint(humanPosition);
+                Vector2 point = new Vector2(position.x, position.z);
                 Vector2 anchorPoint = new Vector2(xrDevice.Anchor.Point.x, xrDevice.Anchor.Point.z);
                 if (Vector2.Distance(point, anchorPoint) < xrDevice.Anchor.Radius)
                 {
