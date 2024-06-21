@@ -239,15 +239,16 @@ public class Demo : MonoBehaviour
 
 灵境空间中每一个被追踪到的人都被视为一个DGXRHumanController类型的设备，当空间中的人的位置和朝向发生变化或者空间中的人做了系统能够识别的动作时，其对应的设备上的布局也会发生相应变化。
 
-| 设备布局          | 功能说明      |
-|:--------------|:----------|
-| HumanPose     | 人的位置和朝向   |
-| HumanBody     | 人体骨骼关键点信息 |
-| FreeSwim      | 自由泳动作     |
-| ButterflySwim | 蝶泳动作      |
-| HighKneeRun   | 高抬腿动作     |
-| DeepSquat     | 深蹲动作      |
-| Jump          | 跳跃动作      |
+| 设备布局          | 功能说明                                                    |
+|:--------------|:--------------------------------------------------------|
+| HumanPose     | 人的位置和朝向                                                 |
+| HumanBody     | 人体骨骼关键点信息                                               |
+| Stick         | 摇杆(stick 的取值为humanPose所在的位置相对与StickAnchor 在X，Z平面上的方向向量) |
+| FreeSwim      | 自由泳动作                                                   |
+| ButterflySwim | 蝶泳动作                                                    |
+| HighKneeRun   | 高抬腿动作                                                   |
+| DeepSquat     | 深蹲动作                                                    |
+| Jump          | 跳跃动作                                                    |
 
 DeviceManager 类管理了空间中所有的设备，可以通过DeviceManager监听设备的上下线、获取在场活跃设备数量和列表。
 示例代码如下：

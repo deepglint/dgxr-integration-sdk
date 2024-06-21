@@ -92,6 +92,10 @@ namespace Deepglint.XR.Toolkit.DebugTool
         {
             if (Global.Config.Space.ScreenMode != ScreenStyle.Default)
             {
+                if (Input.GetKeyDown(KeyCode.C))
+                {
+                    Cursor.visible = true;
+                }
                 if (Input.GetKeyDown(KeyCode.Q))
                 {
                     SplitScreenMode();

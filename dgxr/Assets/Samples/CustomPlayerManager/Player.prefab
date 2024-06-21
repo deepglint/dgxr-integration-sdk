@@ -375,6 +375,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f4ad58cf-c6f9-4be1-9d7f-1e3e0a691957
     m_ActionName: Player/RaiseBothHand[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody,/DGXRHumanController18/HumanBody,/DGXRHumanController20/HumanBody,/DGXRHumanController19/HumanBody,/DGXRHumanController21/HumanBody,/DGXRHumanController22/HumanBody,/DGXRHumanController23/HumanBody,/DGXRHumanController24/HumanBody,/DGXRHumanController25/HumanBody,/DGXRHumanController26/HumanBody,/DGXRHumanController27/HumanBody,/DGXRHumanController28/HumanBody,/DGXRHumanController29/HumanBody,/DGXRHumanController30/HumanBody,/DGXRHumanController31/HumanBody,/DGXRHumanController32/HumanBody,/DGXRHumanController33/HumanBody,/DGXRHumanController34/HumanBody,/DGXRHumanController35/HumanBody,/DGXRHumanController36/HumanBody,/DGXRHumanController37/HumanBody,/DGXRHumanController38/HumanBody,/DGXRHumanController39/HumanBody,/DGXRHumanController40/HumanBody,/DGXRHumanController42/HumanBody,/DGXRHumanController43/HumanBody,/DGXRHumanController41/HumanBody,/DGXRHumanController44/HumanBody,/DGXRHumanController45/HumanBody,/DGXRHumanController46/HumanBody,/DGXRHumanController47/HumanBody,/DGXRHumanController48/HumanBody,/DGXRHumanController49/HumanBody,/DGXRHumanController50/HumanBody,/DGXRHumanController51/HumanBody,/DGXRHumanController52/HumanBody,/DGXRHumanController53/HumanBody,/DGXRHumanController54/HumanBody,/DGXRHumanController55/HumanBody,/DGXRHumanController56/HumanBody,/DGXRHumanController57/HumanBody,/DGXRHumanController58/HumanBody,/DGXRHumanController59/HumanBody,/DGXRHumanController60/HumanBody,/DGXRHumanController61/HumanBody,/DGXRHumanController62/HumanBody,/DGXRHumanController63/HumanBody,/DGXRHumanController64/HumanBody,/DGXRHumanController65/HumanBody,/DGXRHumanController66/HumanBody,/DGXRHumanController67/HumanBody,/DGXRHumanController68/HumanBody,/DGXRHumanController69/HumanBody,/DGXRHumanController70/HumanBody,/DGXRHumanController71/HumanBody,/DGXRHumanController72/HumanBody,/DGXRHumanController73/HumanBody,/DGXRHumanController74/HumanBody,/DGXRHumanController75/HumanBody,/DGXRHumanController76/HumanBody,/DGXRHumanController77/HumanBody,/DGXRHumanController78/HumanBody,/DGXRHumanController79/HumanBody,/DGXRHumanController80/HumanBody,/DGXRHumanController81/HumanBody,/DGXRHumanController82/HumanBody,/DGXRHumanController83/HumanBody,/DGXRHumanController84/HumanBody,/DGXRHumanController85/HumanBody,/DGXRHumanController86/HumanBody,/DGXRHumanController87/HumanBody,/DGXRHumanController88/HumanBody,/DGXRHumanController89/HumanBody,/DGXRHumanController90/HumanBody,/DGXRHumanController91/HumanBody,/DGXRHumanController92/HumanBody,/DGXRHumanController93/HumanBody,/DGXRHumanController94/HumanBody,/DGXRHumanController95/HumanBody,/DGXRHumanController96/HumanBody,/DGXRHumanController97/HumanBody,/DGXRHumanController98/HumanBody,/DGXRHumanController99/HumanBody,/DGXRHumanController100/HumanBody,/DGXRHumanController101/HumanBody,/DGXRHumanController102/HumanBody,/DGXRHumanController103/HumanBody,/DGXRHumanController104/HumanBody,/DGXRHumanController105/HumanBody,/DGXRHumanController106/HumanBody,/DGXRHumanController107/HumanBody,/DGXRHumanController108/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: MoveControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3917e623-d021-489d-b180-589fc93472aa
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: DeepSquatControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 537814b8-cacd-4070-a387-7dc0e5d06e92
+    m_ActionName: Player/DeepSquat[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

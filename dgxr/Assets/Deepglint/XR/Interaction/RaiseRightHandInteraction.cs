@@ -46,7 +46,7 @@ namespace Deepglint.XR.Interaction
                         if (_hitDictionary[dgXRDevice.deviceId] >= RequiredHits)
                         {
                             context.PerformedAndStayPerformed();
-                            //Debug.Log("perform raise right hand on device: " + device.deviceId);
+                            // Debug.Log("perform raise right hand on device: " + dgXRDevice.deviceId);
                         }
                     }
                 }
