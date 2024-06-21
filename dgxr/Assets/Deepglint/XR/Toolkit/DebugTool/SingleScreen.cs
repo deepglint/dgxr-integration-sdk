@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Deepglint.XR.Space;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -13,16 +14,19 @@ namespace Deepglint.XR.Toolkit.DebugTool
         /// <summary>
         /// 默认样式，多屏渲染
         /// </summary>
+        [JsonProperty("default")]
         Default,
 
         /// <summary>
         /// 标准样式
         /// </summary>
+        [JsonProperty("normalMode")]
         NormalMode,
 
         /// <summary>
         /// 主屏优先样式
         /// </summary>
+        [JsonProperty("mainMode")]
         MainMode,
     }
 
