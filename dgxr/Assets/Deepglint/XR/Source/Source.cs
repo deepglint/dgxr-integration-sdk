@@ -116,6 +116,11 @@ namespace Deepglint.XR.Source
        
         public int Count => _dataDic.Count;
         public SourceData this[string id] => _dataDic[id];
+
+        public bool Contains(string id)
+        {
+            return _dataDic.ContainsKey(id);
+        }
         
         private Source()
         {

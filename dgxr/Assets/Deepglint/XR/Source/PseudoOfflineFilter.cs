@@ -1,0 +1,185 @@
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Deepglint.XR.Source
+{
+    public class PersonFeature
+    {
+        public DateTime Time;
+        public string BodyId;
+        public Int64 FrameId;
+        public Vector3 HeadTop;
+        public float[] Features;
+
+        public PersonFeature(SourceData data)
+        {
+            Time = DateTime.Now;
+            BodyId = data.BodyId;
+            FrameId = long.Parse(data.FrameId);
+            HeadTop = data.Joints.HeadTop;
+            Features = new float[]
+            {
+                Vector3.Distance(data.Joints.LeftShoulder, data.Joints.RightShoulder),
+                Vector3.Distance(data.Joints.LeftShoulder, data.Joints.LeftHip),
+                Vector3.Distance(data.Joints.RightShoulder, data.Joints.RightHip),
+                Vector3.Distance(data.Joints.LeftHip, data.Joints.LeftKnee),
+                Vector3.Distance(data.Joints.RightHip, data.Joints.RightKnee),
+            };
+        }
+
+        public float Similarity(PersonFeature target)
+        {
+            if (Features.Length != target.Features.Length)
+            {
+                return 0f;
+            }
+            float dotProduct = 0;
+            float magnitudeA = 0;
+            float magnitudeB = 0;
+
+            for (int i = 0; i < Features.Length; i++)
+            {
+                dotProduct += Features[i] * target.Features[i];
+                magnitudeA += Features[i] * Features[i];
+                magnitudeB += target.Features[i] * target.Features[i];
+            }
+
+            magnitudeA = Mathf.Sqrt(magnitudeA);
+            magnitudeB = Mathf.Sqrt(magnitudeB);
+
+            if (magnitudeA == 0 || magnitudeB == 0)
+            {
+                Debug.LogError("向量的模不能为零");
+                return -1f;
+            }
+
+            return dotProduct / (magnitudeA * magnitudeB);
+        }
+    }
+    
+    public class PseudoOfflineFilter : MonoBehaviour
+    {
+        // 如果当前算法的召回率不够，可以添加准新人缓冲时间逻辑，准新人的ID随时可能被修改；
+        internal bool EnableFilter = false;
+        public static int FrameGap = 30;
+        public static float DistanceThreshold = 0.5f;
+        public static float SimilarityThreshold = 0.90f;
+
+        // 60 seconds
+        private int _timeout = 60;
+
+        private static readonly ConcurrentDictionary<string, PersonFeature> Features = new ConcurrentDictionary<string, PersonFeature>();
+
+        internal static ConcurrentDictionary<string, PersonFeature> OfflineFeatures = new ConcurrentDictionary<string, PersonFeature>();
+        internal static Dictionary<string, string> ChangeLog = new Dictionary<string, string>();
+        
+        public static PseudoOfflineFilter Instance { get; private set; }
+        
+        private void OnMetaPoseDataReceived(SourceData data)
+        {
+            PersonFeature feature = new PersonFeature(data);
+            Features[feature.BodyId] = feature;
+        }
+
+
+        private void OnMetaPoseDataLost(string bodyId)
+        {
+            if (Features.TryRemove(bodyId, out PersonFeature value))
+            {
+                Debug.LogFormat("add {0} to offline cache", bodyId);
+                value.Time = DateTime.Now;
+                OfflineFeatures[bodyId] = value; 
+            }
+        }
+
+        private void OnEnable()
+        {
+            EnableFilter = true;
+            Source.OnMetaPoseDataLost += OnMetaPoseDataLost;
+            Source.OnMetaPoseDataReceived += OnMetaPoseDataReceived;
+        }
+
+        private void OnDisable()
+        {
+            EnableFilter = false;
+            Source.OnMetaPoseDataLost -= OnMetaPoseDataLost;
+            Source.OnMetaPoseDataReceived -= OnMetaPoseDataReceived;
+        }
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+        }
+
+        private void Update()
+        {
+            List<string> keys = new List<string>(OfflineFeatures.Keys);
+            foreach (var key in keys)
+            {
+                if (OfflineFeatures.TryGetValue(key, out PersonFeature value))
+                {
+                    var duration = (DateTime.Now - value.Time).TotalSeconds;
+                    if (duration > _timeout)
+                    {
+                        OfflineFeatures.TryRemove(key, out PersonFeature timeoutValue);
+                    }
+                }
+            }
+        }
+
+        internal bool Filter(SourceData data)
+        {
+            bool result = false;
+            if (EnableFilter && !Source.Data.Contains(data.BodyId))
+            {
+                PersonFeature feature = new PersonFeature(data);
+                PersonFeature changeFeature = GetMostSimilarOfflineFeature(feature);
+                if (changeFeature != null)
+                {
+                    Debug.LogFormat("change body from {0} to {1}", feature.BodyId, changeFeature.BodyId);
+                    result = OfflineFeatures.TryRemove(changeFeature.BodyId, out PersonFeature value);
+                    if (result)
+                    {
+                        ChangeLog[feature.BodyId] = changeFeature.BodyId;
+                        data.BodyId = changeFeature.BodyId;
+                        feature.BodyId = changeFeature.BodyId;
+                        Features[feature.BodyId] = feature; 
+                    }
+                }
+            }
+
+            return result;
+        }
+        
+        private PersonFeature GetMostSimilarOfflineFeature(PersonFeature pf)
+        {
+            PersonFeature result = null;
+            float maxSimilarity = 0f;
+            Vector2 headTop = new Vector2(pf.HeadTop.x, pf.HeadTop.z);
+            foreach (var item in OfflineFeatures)
+            {
+                if (pf.FrameId - item.Value.FrameId <= FrameGap)
+                {
+                    float distance = Vector2.Distance(headTop, new Vector2(item.Value.HeadTop.x, item.Value.HeadTop.z));
+                    float similarity = pf.Similarity(item.Value);
+                    Debug.LogFormat("person {0} similarity with {1} is {2}", pf.BodyId, item.Value.BodyId, similarity);
+                    if (distance <= DistanceThreshold && similarity >= SimilarityThreshold)
+                    {
+                        if (similarity >= maxSimilarity)
+                        {
+                            result = item.Value;
+                            maxSimilarity = similarity;
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+    }
+}

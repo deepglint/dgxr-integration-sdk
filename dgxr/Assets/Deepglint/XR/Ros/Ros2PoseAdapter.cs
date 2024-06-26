@@ -113,7 +113,12 @@ namespace Deepglint.XR.Ros
 
                 foreach (var val in result.ThreeDim)
                 {
-                    humans.Add(val.Key);
+                    string bodyId = val.Key;
+                    if (PseudoOfflineFilter.ChangeLog.TryGetValue(val.Key, out var changedBodyId))
+                    {
+                        bodyId =  changedBodyId;
+                    }
+                    humans.Add(bodyId);
                     var action = new Dictionary<ActionType, float>();
                     if (val.Value is { RecActions: not null })
                     {
@@ -129,7 +134,7 @@ namespace Deepglint.XR.Ros
                         for (var i = 0; i < 24; i++)
                         {
                             var pose = val.Value.Objs[i].Value;
-                            (bool isZero, SourceData sourceData) = IsZero(pose, val.Key);
+                            (bool isZero, SourceData sourceData) = IsZero(pose, bodyId);
                             switch ((Joint)i)
                             {
                                 case Joint.Nose:
@@ -355,15 +360,14 @@ namespace Deepglint.XR.Ros
                     var body = new SourceData
                     {
                         FrameId = info.FrameId,
-                        BodyId = val.Key,
+                        BodyId = bodyId,
                         Actions = action,
                         Joints = joints,
                     };
-                    Source.Source.TriggerMetaPoseDataReceived(body);
-                    data[val.Key] = body;
+                    data[bodyId] = body;
                     if (Global.IsFilterZero)
                     {
-                        _oldData[val.Key] = body;
+                        _oldData[bodyId] = body;
                     }
                 }
             }
@@ -373,8 +377,19 @@ namespace Deepglint.XR.Ros
                 if (!humans.Contains(human.BodyId))
                 {
                     Source.Source.TriggerMetaPostDataLost(human.BodyId);
-                  
                 }
+            }
+
+            List<string> keys = new List<string>(data.Keys);
+            foreach (var key in keys)
+            {
+                var sourceData = data[key];
+                if (PseudoOfflineFilter.Instance.Filter(data[key]))
+                {
+                    data.Remove(key);
+                    data[sourceData.BodyId] = sourceData;
+                } 
+                Source.Source.TriggerMetaPoseDataReceived(sourceData);
             }
 
             Source.Source.SetData(data); 
@@ -436,5 +451,7 @@ namespace Deepglint.XR.Ros
                     return new Vector3(pose.x, pose.y, pose.z);
             }
         }
+        
+        // 骨骼丢失找回：1. 时间窗；2. 特征匹配（身高、体型）；
     }
 }
