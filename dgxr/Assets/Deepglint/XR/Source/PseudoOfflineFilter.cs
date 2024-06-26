@@ -55,7 +55,8 @@ namespace Deepglint.XR.Source
                 return -1f;
             }
 
-            return dotProduct / (magnitudeA * magnitudeB);
+            float similarity = 1f - (1f - dotProduct / (magnitudeA * magnitudeB)) * 100;
+            return similarity;
         }
     }
     
@@ -63,9 +64,10 @@ namespace Deepglint.XR.Source
     {
         // 如果当前算法的召回率不够，可以添加准新人缓冲时间逻辑，准新人的ID随时可能被修改；
         internal bool EnableFilter = false;
-        public static int FrameGap = 30;
-        public static float DistanceThreshold = 0.5f;
-        public static float SimilarityThreshold = 0.90f;
+        public int FrameGap = 60;
+        public float DistanceThreshold = 0.5f;
+        public float SimilarityThreshold = 0.90f;
+        public bool ShowDetailLog = false;
 
         // 60 seconds
         private int _timeout = 60;
@@ -126,13 +128,16 @@ namespace Deepglint.XR.Source
                     var duration = (DateTime.Now - value.Time).TotalSeconds;
                     if (duration > _timeout)
                     {
-                        OfflineFeatures.TryRemove(key, out PersonFeature timeoutValue);
+                        if (OfflineFeatures.TryRemove(key, out PersonFeature timeoutValue))
+                        {
+                            Debug.LogFormat("remove {0} from offline cache", key);
+                        }
                     }
                 }
             }
         }
 
-        internal bool Filter(SourceData data)
+        internal bool Filter(ref SourceData data)
         {
             bool result = false;
             if (EnableFilter && !Source.Data.Contains(data.BodyId))
@@ -167,7 +172,10 @@ namespace Deepglint.XR.Source
                 {
                     float distance = Vector2.Distance(headTop, new Vector2(item.Value.HeadTop.x, item.Value.HeadTop.z));
                     float similarity = pf.Similarity(item.Value);
-                    Debug.LogFormat("person {0} similarity with {1} is {2}", pf.BodyId, item.Value.BodyId, similarity);
+                    if (ShowDetailLog)
+                    {
+                        Debug.LogFormat("person {0} similarity with {1} is {2} and distance is {3}", pf.BodyId, item.Value.BodyId, similarity, distance);
+                    }
                     if (distance <= DistanceThreshold && similarity >= SimilarityThreshold)
                     {
                         if (similarity >= maxSimilarity)

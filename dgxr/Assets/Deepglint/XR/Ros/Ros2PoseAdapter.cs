@@ -384,7 +384,7 @@ namespace Deepglint.XR.Ros
             foreach (var key in keys)
             {
                 var sourceData = data[key];
-                if (PseudoOfflineFilter.Instance.Filter(data[key]))
+                if (PseudoOfflineFilter.Instance.Filter(ref sourceData))
                 {
                     data.Remove(key);
                     data[sourceData.BodyId] = sourceData;
