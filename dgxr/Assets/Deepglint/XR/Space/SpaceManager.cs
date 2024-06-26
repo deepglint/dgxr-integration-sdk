@@ -295,6 +295,13 @@ namespace Deepglint.XR.Space
             cam.projectionMatrix = mat;
         }
 
+        public void OnDestroy()
+        {
+#if !UNITY_EDITOR
+            RenderPipelineManager.endFrameRendering -= HandleSplitScreen;
+#endif
+        }
+
         /// <summary>
         /// 初始化 XR空间
         /// </summary> 
