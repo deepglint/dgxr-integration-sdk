@@ -62,18 +62,17 @@ namespace Deepglint.XR.Source
     
     public class PseudoOfflineFilter : MonoBehaviour
     {
-        // 如果当前算法的召回率不够，可以添加准新人缓冲时间逻辑，准新人的ID随时可能被修改；
         internal bool EnableFilter = false;
         public int FrameGap = 60;
         public float DistanceThreshold = 0.5f;
         public float SimilarityThreshold = 0.90f;
         public bool ShowDetailLog = false;
-
+        
         // 60 seconds
         private int _timeout = 60;
-
+        
         private static readonly ConcurrentDictionary<string, PersonFeature> Features = new ConcurrentDictionary<string, PersonFeature>();
-
+        private static Dictionary<string, DateTime> Newbee = new Dictionary<string, DateTime>();
         internal static ConcurrentDictionary<string, PersonFeature> OfflineFeatures = new ConcurrentDictionary<string, PersonFeature>();
         internal static Dictionary<string, string> ChangeLog = new Dictionary<string, string>();
         
@@ -83,16 +82,28 @@ namespace Deepglint.XR.Source
         {
             PersonFeature feature = new PersonFeature(data);
             Features[feature.BodyId] = feature;
+            if (!Source.Data.Contains(data.BodyId))
+            {
+                Newbee.Add(data.BodyId, DateTime.Now);
+                Debug.LogFormat("add {0} to newbee cache", data.BodyId);
+            }
         }
-
 
         private void OnMetaPoseDataLost(string bodyId)
         {
-            if (Features.TryRemove(bodyId, out PersonFeature value))
+            if (!ChangeLog.ContainsKey(bodyId))
             {
-                Debug.LogFormat("add {0} to offline cache", bodyId);
-                value.Time = DateTime.Now;
-                OfflineFeatures[bodyId] = value; 
+                if (Features.TryRemove(bodyId, out PersonFeature value))
+                {
+                    Debug.LogFormat("add {0} to offline cache", bodyId);
+                    value.Time = DateTime.Now;
+                    OfflineFeatures[bodyId] = value; 
+                } 
+            }
+
+            if (Newbee.Remove(bodyId))
+            {
+                Debug.LogFormat("remove {0} from newbee cache", bodyId); 
             }
         }
 
@@ -120,8 +131,8 @@ namespace Deepglint.XR.Source
 
         private void Update()
         {
-            List<string> keys = new List<string>(OfflineFeatures.Keys);
-            foreach (var key in keys)
+            List<string> offlineKeys = new List<string>(OfflineFeatures.Keys);
+            foreach (var key in offlineKeys)
             {
                 if (OfflineFeatures.TryGetValue(key, out PersonFeature value))
                 {
@@ -135,12 +146,26 @@ namespace Deepglint.XR.Source
                     }
                 }
             }
+            
+            List<string> newbeeKeys = new List<string>(Newbee.Keys);
+            foreach (var key in newbeeKeys)
+            {
+                if (Newbee.TryGetValue(key, out DateTime value))
+                {
+                    var duration = (DateTime.Now - value).TotalSeconds;
+                    if (duration > _timeout)
+                    {
+                        Newbee.Remove(key);
+                        Debug.LogFormat("remove {0} from newbee cache", key);
+                    }
+                }
+            }
         }
 
         internal bool Filter(ref SourceData data)
         {
             bool result = false;
-            if (EnableFilter && !Source.Data.Contains(data.BodyId))
+            if (EnableFilter && (!Source.Data.Contains(data.BodyId) || Newbee.ContainsKey(data.BodyId)))
             {
                 PersonFeature feature = new PersonFeature(data);
                 PersonFeature changeFeature = GetMostSimilarOfflineFeature(feature);
