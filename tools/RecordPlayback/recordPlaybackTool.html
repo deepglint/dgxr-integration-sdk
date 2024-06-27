@@ -501,9 +501,33 @@
           status: true,
         },
         {
+          url: "ws://192.168.30.30:9090",
+          role: roleType.client,
+          name: "九楼灵境 - 991",
+          status: true,
+          customParse: "customParse991PoseAndAction",
+          firstMessage: JSON.stringify({
+            op: "subscribe",
+            topic: "/metapose/pose3d",
+            type: "std_msgs/String",
+          }),
+        },
+        {
           url: "ws://192.168.103.61:9090",
           role: roleType.client,
           name: "九楼灵境 - 991",
+          status: true,
+          customParse: "customParse991PoseAndAction",
+          firstMessage: JSON.stringify({
+            op: "subscribe",
+            topic: "/metapose/pose3d",
+            type: "std_msgs/String",
+          }),
+        },
+        {
+          url: "ws://192.168.12.10:9090",
+          role: roleType.client,
+          name: "延庆灵境 - 991",
           status: true,
           customParse: "customParse991PoseAndAction",
           firstMessage: JSON.stringify({
@@ -932,6 +956,75 @@
             })
             .filter((item) => item);
         },
+        fileIndex: -1,
+        totalCount: 0,
+        loadCount: 0,
+        fileData: [],
+        filesIndex: [],
+        files: [],
+        resetFiles: () => {
+          document.querySelector('#uploadFile').value = null
+          fileIndex = -1;
+          totalCount = 0;
+          loadCount = 0;
+          fileData = [];
+          filesIndex = [];
+          files = [];
+        },
+        loadMultiFile: (inputFile, callback) => {
+          utils.fileIndex = -1;
+          utils.totalCount = 0;
+          utils.loadCount = 0;
+          utils.fileData = [];
+          utils.filesIndex = [];
+          utils.files = [];
+          var files = inputFile.files;
+          if (files.length <= 0) {
+            alert("请选择文件");
+            return;
+          }
+
+          Array(files.length)
+            .fill(0)
+            .forEach((_, index) => {
+              utils.totalCount += 1;
+            });
+
+          utils.readFinishFile(0, files, callback);
+        },
+        readFinishFile: (index, files, callback) => {
+          // 递归调用，保证所有文件都读取完整
+          var file = files[index];
+          utils.fileIndex += 1;
+
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            console.log(file.name, " 加载完了 ", file.type);
+            var dataList = utils.parseArrayStringifyToObject(
+              e.target.result.split("\n")
+            );
+            utils.files.push({
+              name: file.name,
+              length: dataList.length,
+            });
+            utils.filesIndex.push(dataList.length);
+            utils.fileData = utils.fileData.concat(dataList);
+            utils.loadCount += 1;
+            console.log(
+              " 加载进度-result：",
+              utils.loadCount,
+              utils.totalCount,
+              `${(utils.loadCount / utils.totalCount) * 100}%`
+            );
+            if (utils.loadCount == utils.totalCount) {
+              callback(utils.fileData);
+            } else {
+              utils.readFinishFile(index + 1, files, callback);
+            }
+          };
+
+          reader.readAsText(file);
+        },
       };
 
       // 玩家类
@@ -1130,6 +1223,9 @@
           this.perspectiveX = canvas.width / 2;
           this.perspectiveY = canvas.height / 2;
         }
+        clear = () => {
+          this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        }
         update = (poses) => {
           if (!poses) return;
           const self = this;
@@ -1211,7 +1307,7 @@
             return item;
           case DataType.ws991:
             var parseData = JSON.parse(item.msg.data);
-            console.log("parseData: ", parseData);
+            // console.log("parseData: ", parseData);
             var data = parseData.result
               ? parseData.result["999001"].threeDim
               : {};
@@ -1308,6 +1404,9 @@
             });
           }
         };
+        clear = () => {
+          this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        }
         update = () => {
           this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
           this.players.forEach((player) => {
@@ -1690,7 +1789,7 @@
           }
           this.poseData = [data];
           if (this.config?.firstMessage) {
-            this.poseData = [customParse991PoseAndAction(data)];
+            this.poseData = [customParse991PoseAndAction(data, DataType.ws991)];
           }
 
           if (this.poseData[0] && this.poseData[0].pose) {
@@ -1758,7 +1857,7 @@
                 } else if (data.type == "pose-message") {
                   data.pose = JSON.parse(data.other).pose;
                   delete data.other;
-                  // console.log("data: ", JSON.stringify(data.action));
+                  console.log("data: ", JSON.stringify(data.action));
                   self.receive(data);
                   received = true;
                 }
@@ -1805,6 +1904,9 @@
         min-width: 1280px;
         margin-top: 1rem;
         margin-bottom: 1rem;
+      }
+      summary:hover {
+        background-color: #f2f2f2;
       }
       .section-content-box {
         border: 1px solid #cccc;
@@ -1961,16 +2063,27 @@
       }
       .controlBox input[type="range"] {
         position: absolute;
-        top: -28px;
-        left: 145px;
+        top: 0;
+        left: 0;
         width: 80px;
       }
-      #progressText {
+      .progressBox {
+        float: left;
+        position: relative;
+        left: 150px;
+      }
+      .progressBox #poseIndex {
+        display: block !important;
+        margin-top: -10px;
         position: absolute;
-        top: -18px;
-        left: 237px;
+        font-size: 12px;
+      }
+      .progressBox #progressText {
+        position: absolute;
+        left: 75px;
         display: block !important;
         font-size: 12px;
+        margin-top: -10px;
       }
       .controlBox span {
         display: inline-block;
@@ -2007,8 +2120,42 @@
         poseIndex: 0,
         is991Pose: false,
         poseData: [],
-        playbackStatus: false,
+        currentFileName: "",
       };
+
+      const PlaybackType = {
+        Manual: "Manual",
+        Playback: "Playback",
+        Record: "Record",
+      };
+
+      const initialStore = { index: 0 };
+      var messageBox = document.querySelector(".case-message");
+
+      const handler = {
+        set(target, property, value, receiver) {
+          if (property === "index") {
+            if (!messageBox) {
+              messageBox = document.querySelector(".case-message");
+            }
+            var flag = false;
+            utils.filesIndex.forEach((len, index) => {
+              if (!flag) {
+                if (value <= len) {
+                  flag = true;
+                  messageBox.innerText = `(${utils.files[index].length}) ${utils.files[index].name}`;
+                }
+              }
+            });
+            if (value == 0) {
+              messageBox.innerText = ""; 
+            }
+          }
+          return Reflect.set(target, property, value, receiver);
+        },
+      };
+
+      var pose = new Proxy(initialStore, handler);
     </script>
   </head>
   <body>
@@ -2016,7 +2163,7 @@
       <section class="header" id="stickyDiv">
         当前时间: <span id="date"></span>
       </section>
-      <section class="details-content">
+      <section class="playback-details-content">
         <details open id="details_0" class="details details_0">
           <summary>数据回放</summary>
           <section class="section-content-box">
@@ -2040,24 +2187,25 @@
                 <button style="margin-left: 80px" onclick="resetPlayers()">
                   重置玩家
                 </button>
-                <button id="playbackButton" onclick="changePlaybackStatus()">
-                  回放
-                </button>
-                <input
-                  id="progress"
-                  type="range"
-                  min="0"
-                  max="100"
-                  value="0"
-                  onchange="updateProgress(value)"
-                />
-                <span id="progressText">100</span>
+                <div class="progressBox">
+                  <span id="poseIndex">0</span>
+                  <input
+                    id="progress"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="0"
+                    onchange="updateProgress(value)"
+                  />
+                  <span id="progressText">100</span>
+                </div>
                 <span>
                   <button onclick="allRaiseOnHand()">同时举手</button>
                   <button onclick="allPlayerLeave(false)">同时离开</button>
                   <button onclick="allPlayerLeave(true)">同时进入</button>
                 </span>
               </div>
+              <p class="case-message"></p>
               <div class="controlPanels"></div>
             </div>
             <div class="second-child">
@@ -2069,6 +2217,19 @@
           </section>
         </details>
       </section>
+      <section class="details-content">
+        <div class="input-ws-url" style="width: 45%;">
+          <h4>自定义服务地址：</h4>
+          <input type="text" id="wsUrl" value="ws://localhost:8080/ws" style="width: 360px;" />
+        </div>
+        <div class="select-ws-url" style="width: 55%;">
+          <h4>选择远程服务:</h4>
+          <select>
+            <option value="ws://localhost:8080/ws">ws://localhost:8080/ws</option>
+          </select>
+        </div>
+      </section>
+      <section class="record-details-content"></section>
       <section>
         <hr />
         <blockquote>
@@ -2123,6 +2284,7 @@
           this.poseData = [];
           this.controlPanels = null;
           this.wssControlPanels = null;
+          this.summary = null;
           this.initUI();
           this.init();
         }
@@ -2133,8 +2295,8 @@
           if (this.status) {
             details.setAttribute("open", "");
           }
-          const summary = document.createElement("summary");
-          summary.innerText = `${this.name} - ${this.url}`;
+          this.summary = document.createElement("summary");
+          this.summary.innerText = `${this.name} - ${this.url}`;
           const section = document.createElement("section");
           section.className = "section-content-box";
           const firstDiv = document.createElement("div");
@@ -2166,7 +2328,7 @@
           section.appendChild(this.firstDiv);
           section.appendChild(secondDiv);
           section.appendChild(thirdDiv);
-          details.appendChild(summary);
+          details.appendChild(this.summary);
           details.appendChild(section);
           this.detailsPanel = details;
         }
@@ -2203,20 +2365,49 @@
         }
       }
 
-      const wssList = [];
-      const detailContentEle = document.querySelector(".details-content");
+      const playbackDetailContentEle = document.querySelector(".playback-details-content");
+      const wssPlaybackManager = new WSSManager(wssConfig[0], 1);
+      playbackDetailContentEle.appendChild(wssPlaybackManager.detailsPanel);
+
+      const recordDetailContentEle = document.querySelector(".record-details-content");
+      const wssRecordManager = new WSSManager(wssConfig[1], 0);
+      recordDetailContentEle.appendChild(wssRecordManager.detailsPanel);
+
+      const inputWSUrl = document.querySelector(".input-ws-url input");
+      inputWSUrl.value = wssConfig[1].name + " " + wssConfig[1].url 
+      const selectWSUrl = document.querySelector(".select-ws-url select");
+      selectWSUrl.innerHTML = "";
       wssConfig.forEach((config, index) => {
-        const wssManager = new WSSManager(config, index);
-        detailContentEle.appendChild(wssManager.detailsPanel);
-        wssList.push(wssManager);
+        if (index == 0) return;
+        const option = document.createElement("option");
+        option.value = config.name + " " + config.url; 
+        option.innerText = config.name + " " + config.url;
+        selectWSUrl.appendChild(option);
       });
+
+      selectWSUrl.addEventListener("change", function () {
+        inputWSUrl.value = selectWSUrl.value;
+        if (wssRecordManager.summary.innerText == inputWSUrl.value) return;
+        wssRecordManager.summary.innerText = inputWSUrl.value;
+        wssRecordManager.wss.url = inputWSUrl.value.split(" ").pop(); 
+        wssRecordManager.wss.connectStatus = false;
+      });
+
+      inputWSUrl.addEventListener("change", function () {
+        if (wssRecordManager.summary.innerText == inputWSUrl.value) return;
+        wssRecordManager.summary.innerText = inputWSUrl.value;
+        wssRecordManager.wss.url = inputWSUrl.value.split(" ").pop(); 
+        wssRecordManager.wss.connectStatus = false;
+      });
+
     </script>
 
     <script>
       function updateProgress(value) {
-        store.poseIndex = value - 0;
+        console.log(value);
+        pose.index = value - 0;
         document.getElementById("playbackButton").innerText =
-          `回放中${store.is991Pose ? "(991)" : ""}` + store.poseIndex;
+          `回放中${store.is991Pose ? "(991)" : ""}` + pose.index;
       }
 
       document.addEventListener("keydown", function (event) {
@@ -2290,20 +2481,6 @@
         playerManager.init();
       }
 
-      function changePlaybackStatus(status) {
-        store.playbackStatus = status != null ? status : !store.playbackStatus;
-        if (store.playbackStatus) {
-          store.poseIndex = document.getElementById("progress").value;
-          document.getElementById("playbackButton").innerText = `回放中${
-            store.is991Pose ? "(991)" : ""
-          }`;
-        } else {
-          document.getElementById("playbackButton").innerText = `回放${
-            store.is991Pose ? "(991)" : ""
-          }`;
-        }
-      }
-
       function addCustomEventListenerList() {
         utils.setInputStore("#title");
         document
@@ -2312,6 +2489,7 @@
             uploadBoneData();
           });
         playerCount.addEventListener("change", (e) => {
+          utils.resetFiles(); 
           resetPlayers();
         });
 
@@ -2334,20 +2512,18 @@
             }
           } else if (regex.test(event.key)) {
             if (event.key == 0) {
-              wssList[0].wss.downloadHandler(
+              wssRecordManager.wss.downloadHandler(
                 document.getElementById("title").value
               );
-              changePlaybackStatus(false);
               playerCount.value = 0;
               resetPlayers();
-              wssList[0].wss.updateConnectStatus(false);
+              wssRecordManager.wss.updateConnectStatus(false);
             } else {
-              changePlaybackStatus(true);
               playerCount.value = event.key;
               resetPlayers();
-              wssList[0].wss.updateConnectStatus(true);
+              wssRecordManager.wss.updateConnectStatus(true);
               if (document.getElementById("title").value) {
-                wssList[0].wss.updateRecordStatus(true);
+                wssRecordManager.wss.updateRecordStatus(true);
               }
             }
           } else {
@@ -2364,13 +2540,13 @@
                 allPlayerLeave(true);
                 break;
               case "~":
-                wssList[0].wss.customConfig("restart=true&speed=1");
+                wssPlaybackManager.wss.customConfig("restart=true&speed=1");
                 // restart=true&speed=2
                 break;
               case "D":
                 const title = prompt(document.getElementById("title").value);
                 if (title !== null) {
-                  wssList[0].wss.downloadHandler(title);
+                  wssPlaybackManager.wss.downloadHandler(title);
                 }
                 break;
               default:
@@ -2382,11 +2558,12 @@
 
       function uploadBoneData() {
         document.getElementById("title").value = "";
-        utils.uploadFile(document.getElementById("uploadFile"), (result) => {
+        utils.loadMultiFile(document.getElementById("uploadFile"), (data) => {
+          console.log(utils.files);
           playerCount.value = 0;
-          store.poseIndex = 0;
+          pose.index = 0;
           resetPlayers();
-          const data = utils.parseArrayStringifyToObject(result.split("\n"));
+          // console.log("data: ", data);
           store.is991Pose = false;
 
           // 过滤无骨骼
@@ -2409,14 +2586,13 @@
           document.getElementById("progressText").innerHTML =
             store.poseData.length;
           document.getElementById("progress").max = store.poseData.length;
-          // console.log("store.poseData : ", store.poseData);
-          changePlaybackStatus(true);
         });
       }
 
       function resetPlayers() {
+        store.is991Pose = false;
         store.poseData = [];
-        store.poseIndex = 0;
+        pose.index = 0;
         playerManager.playerCount = Number(playerCount.value);
         playerManager.init();
         if (playerManager.playerCount) {
@@ -2431,14 +2607,14 @@
 
       function allPlayerLeave(status, playerIndex) {
         playerManager.allPlayerLeave(status, playerIndex);
-        wssList[0].playerManager.allPlayerLeave(status, playerIndex);
+        wssPlaybackManager.playerManager.allPlayerLeave(status, playerIndex);
       }
 
       function allRaiseOnHand() {
         playerManager.players.forEach((item) => {
           item.action = ActionEvent.OnRaiseOnHand;
         });
-        wssList[0].playerManager.players.forEach((item) => {
+        wssPlaybackManager.playerManager.players.forEach((item) => {
           item.action = ActionEvent.OnRaiseOnHand;
         });
         setTimeout(() => {
@@ -2484,121 +2660,127 @@
         }
       }
 
-      function getTestCaseData(data) {
+      function getTestCaseData() {
         let poseObj = {};
-        const actionObj = {};
 
-        if (data) {
-          poseObj = data.pose;
-        }
+        var newPoseData = {};
         playerManager.players.forEach((item, index) => {
           if (item.status) {
-            if (!data) {
-              poseObj[`${index}`] = Array(24)
+            console.log(index, item)
+            var playerItem = [];
+            newPoseData[`${index}`] = {
+              objs: Array(24)
                 .fill(0)
-                .map((_) => [item.pose[0], item.pose[1], item.pose[1]]);
-              poseObj[`${index}`][`${JointType.HeadTop}`] = [0, 0, 1.6];
-              poseObj[`${index}`][`${JointType.LeftWrist}`] = handPose;
-              poseObj[`${index}`][`${JointType.RightWrist}`] = handPose;
+                .map((_) => {
+                  return {
+                    value: [item.pose[0], item.pose[1], item.pose[1]]
+                  }
+                }),
             }
-            actionObj[`${index}`] = item.action;
+            // newPoseData[`${index}`][`${JointType.HeadTop}`] = [0, 1.6, 0];
+            // newPoseData[`${index}`][`${JointType.LeftWrist}`] = handPose;
+            // newPoseData[`${index}`][`${JointType.RightWrist}`] = handPose;
           }
         });
-        return {
-          ...sourceData,
-          time: new Date(),
-          ...data,
-          pose: poseObj,
-          action: actionObj,
-        };
-      }
 
-      function getPoseCaseData(pose) {
-        const poseObj = {};
-        const actionObj = {};
-        playerManager.players.forEach((item, index) => {
-          if (item.status) {
-            poseObj[`${index}`] = Array(24)
-              .fill(0)
-              .map((_) => [item.pose[0], item.pose[1], item.pose[1]]);
-            poseObj[`${index}`][`${JointType.HeadTop}`] = [0, 0, 1.6];
-            poseObj[`${index}`][`${JointType.LeftWrist}`] = handPose;
-            poseObj[`${index}`][`${JointType.RightWrist}`] = handPose;
-            actionObj[`${index}`] = item.action;
-          }
-        });
         return {
-          ...sourceData,
-          time: new Date(),
-          pose: poseObj,
-          action: actionObj,
-        };
+          op: "publish",
+          topic: "/metapose/pose3d",
+          msg: {
+            data: JSON.stringify({
+              frameId: 0,
+              timeStamp: new Date().getTime(),
+              result: {
+                999001: {
+                  threeDim: newPoseData
+                }
+              }
+            }),
+          },
+        }
       }
 
       var actionConfig = null;
+      var playbackType = null;
+      var prePlaybackType = null;
+      var poseIndexEle = document.getElementById("poseIndex");
+      var progressEle = document.getElementById("progress"); 
       function update() {
-        // console.log(store.poseData, store.poseIndex)
+        poseIndexEle.innerHTML = pose.index;
+        progressEle.value = pose.index;
+
+        if (wssRecordManager.wss.testStatus) {
+          playbackType = PlaybackType.Record;
+        } else if (playerManager.playerCount > 0) {
+          playbackType = PlaybackType.Manual;
+        } else if (utils.files.length > 0) {
+          playbackType = PlaybackType.Playback;
+        } else {
+          playbackType = null;
+        }
+
+        if (playbackType != prePlaybackType) {
+          prePlaybackType = playbackType;
+          // TODO 清除画板
+          skeleton.clear();
+          playerManager.clear();
+          wssPlaybackManager.skeleton.clear();
+          wssPlaybackManager.playerManager.clear();
+          wssRecordManager.skeleton.clear();
+          wssRecordManager.playerManager.clear();
+        }
+        // console.log(wssRecordManager.wss.testStatus, pose.index, "===", playbackType, PlaybackType.Record)
         if (actionConfig != JSON.stringify(global.actionConfig)) {
           actionConfig = JSON.stringify(global.actionConfig);
           resetPlayers();
         }
-        const serverWss = wssList.filter(
-          (item) => item.role == roleType.server
-        );
-        if (store.playbackStatus) {
-          document.getElementById("playbackButton").innerText =
-            `回放中${store.is991Pose ? "(991)" : ""}` + store.poseIndex;
-        }
-
-        if (playerManager.playerCount) {
-          playerManager.freeMove();
-          if (serverWss[0]) {
-            serverWss[0].wss.receive(getTestCaseData());
-          }
-          skeleton.update(store.poseData[store.poseIndex]);
-        }
-
-        if (playerManager.playerCount < 1 && store.poseData[store.poseIndex]) {
-          skeleton.update(store.poseData[store.poseIndex].pose);
-          playerManager.init(
-            store.poseData[store.poseIndex].pose,
-            store.poseData[store.poseIndex].ids
-          );
-          playerManager.posePlayerMoveAndAction(
-            store.poseData[store.poseIndex]
-          );
-          playerManager.update(store.poseData[store.poseIndex].pose);
-          if (serverWss[0]) {
-            serverWss[0].wss.receive(store.poseData[store.poseIndex]);
-          }
-        }
-
-        wssList.forEach((wssItem, wssIndex) => {
-          if (wssItem.wss.poseData) {
-            wssItem.update();
-            wssItem.wss.update();
-
-            if (wssItem.role != roleType.server && wssItem.wss.testStatus) {
-              serverWss[0].wss.receive(wssItem.wss.poseData[0].source);
-            } else if (
-              wssItem.role == roleType.server &&
-              store.playbackStatus
-            ) {
-              wssItem.wss.send(
-                "playback",
-                store.is991Pose
-                  ? store.poseData[store.poseIndex].source
-                  : getTestCaseData(wssItem.wss.poseData[0])
+        
+        switch(playbackType) {
+          case PlaybackType.Manual:
+            playerManager.freeMove();
+            skeleton.update(store.poseData[pose.index]);
+            wssPlaybackManager.wss.receive(getTestCaseData());
+            wssPlaybackManager.wss.send("playback", getTestCaseData())
+            break;
+          case PlaybackType.Playback:
+            if (store.poseData[pose.index]) {
+              skeleton.update(store.poseData[pose.index].pose);
+              playerManager.init(
+                store.poseData[pose.index].pose,
+                store.poseData[pose.index].ids
               );
+              playerManager.posePlayerMoveAndAction(store.poseData[pose.index]);
+              playerManager.update(store.poseData[pose.index].pose);
+              
+              if (pose.index < store.poseData.length - 1) {
+                pose.index = pose.index - 0 + 1;
+              } else {
+                pose.index = 0;
+              }
+            
+              wssPlaybackManager.wss.receive(store.poseData[pose.index]);
+              wssPlaybackManager.wss.send("playback", store.poseData[pose.index].source)
             }
-          }
-        });
+            break;
+          case PlaybackType.Record:
+            const poseData = wssRecordManager.wss.poseData[0];
+            skeleton.update(poseData.pose);
+            playerManager.init(
+              poseData.pose,
+              poseData.ids
+            );
+            playerManager.posePlayerMoveAndAction(poseData);
+            playerManager.update(poseData.pose);
 
-        if (store.poseIndex < store.poseData.length - 1) {
-          store.poseIndex = store.poseIndex - 0 + 1;
-        } else {
-          store.poseIndex = 0;
+            wssPlaybackManager.wss.receive(poseData.source);
+            wssPlaybackManager.wss.send("playback", poseData.source);
+            break;
         }
+
+        wssPlaybackManager.update();
+        wssPlaybackManager.wss.update();
+        wssRecordManager.update();
+        wssRecordManager.wss.update();
 
         document.getElementById("date").innerText = `${utils.getTime()}`;
       }
