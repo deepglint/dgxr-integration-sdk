@@ -38,6 +38,14 @@ namespace Deepglint.XR.Toolkit.Utils
                 if (color.HasValue) textObj.color = color.Value;
             }
         }
+        
+        public static GUIStyle CreateGUIStyle(int fontSize, Color textColor)  
+        {  
+            GUIStyle style = new GUIStyle();  
+            style.fontSize = fontSize;  
+            style.normal.textColor = textColor;  
+            return style;  
+        }  
 
         // TODO 优化,支持更新material - 扩展到 UnityExtentionMethod - UiUtils
         public static void UpdateRawImage(this GameObject gameObject, string textureName)
