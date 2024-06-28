@@ -22,18 +22,18 @@ namespace Deepglint.XR
             Global.SystemName = SystemInfo.operatingSystem;
             Global.Config = new Config.Config().InitConfig();
             GameLogger.Init(Global.Config.Log);
-            if (UseRos())
-            {
-                var ros = Extends.FindChildGameObject(gameObject,"RosConnect" );
-                Source.Source.DataFrom = SourceType.ROS;
-                ros.SetActive(true);
-            }
-            else
-            {
+            // if (UseRos())
+            // {
+            //     var ros = Extends.FindChildGameObject(gameObject,"RosConnect" );
+            //     Source.Source.DataFrom = SourceType.ROS;
+            //     ros.SetActive(true);
+            // }
+            // else
+            // {
                 var ws = Extends.FindChildGameObject(gameObject,"WsConnect" );
                 Source.Source.DataFrom = SourceType.WS;
                 ws.SetActive(true);
-            }
+            // }
         }
 
         public void Start()
