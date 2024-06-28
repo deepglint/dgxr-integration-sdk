@@ -69,7 +69,7 @@ namespace Deepglint.XR.Source
         public bool ShowDetailLog = false;
         
         // 60 seconds
-        private int _timeout = 60;
+        private int _timeout = 20;
         
         private static readonly ConcurrentDictionary<string, PersonFeature> Features = new ConcurrentDictionary<string, PersonFeature>();
         private static Dictionary<string, DateTime> Newbee = new Dictionary<string, DateTime>();
@@ -109,6 +109,7 @@ namespace Deepglint.XR.Source
 
         private void OnEnable()
         {
+            Debug.Log("enable pseudo-offline-filter");
             EnableFilter = true;
             Source.OnMetaPoseDataLost += OnMetaPoseDataLost;
             Source.OnMetaPoseDataReceived += OnMetaPoseDataReceived;
@@ -116,6 +117,7 @@ namespace Deepglint.XR.Source
 
         private void OnDisable()
         {
+            Debug.Log("disable pseudo-offline-filter");
             EnableFilter = false;
             Source.OnMetaPoseDataLost -= OnMetaPoseDataLost;
             Source.OnMetaPoseDataReceived -= OnMetaPoseDataReceived;

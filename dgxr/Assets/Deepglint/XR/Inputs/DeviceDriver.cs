@@ -11,14 +11,13 @@ namespace Deepglint.XR.Inputs
 {
     public class DeviceDriver : MonoBehaviour
     {
-        
-        private static readonly Queue<Action> ExecuteOnMainThreadQueue = new Queue<Action>();
+        private static readonly Queue<Action> ExecuteRosMsgEventMainThreadQueue = new Queue<Action>();
             
-        private static void ExecuteDataLostActionInUpdate(Action action)
+        private static void ExecuteRosMsgEventInUpdate(Action action)
         {
-            lock (ExecuteOnMainThreadQueue)
+            lock (ExecuteRosMsgEventMainThreadQueue)
             {
-                ExecuteOnMainThreadQueue.Enqueue(action);
+                ExecuteRosMsgEventMainThreadQueue.Enqueue(action);
             }
         }
 
@@ -36,12 +35,12 @@ namespace Deepglint.XR.Inputs
 
         private void Update()
         {
-            while (ExecuteOnMainThreadQueue.Count > 0)
+            while (ExecuteRosMsgEventMainThreadQueue.Count > 0)
             {
                 Action action;
-                lock (ExecuteOnMainThreadQueue)
+                lock (ExecuteRosMsgEventMainThreadQueue)
                 {
-                    action = ExecuteOnMainThreadQueue.Dequeue();
+                    action = ExecuteRosMsgEventMainThreadQueue.Dequeue();
                 }
                 action?.Invoke();
             }
@@ -51,7 +50,7 @@ namespace Deepglint.XR.Inputs
         {
             if (Source.Source.DataFrom == SourceType.ROS)
             {
-                ExecuteDataLostActionInUpdate(() =>
+                ExecuteRosMsgEventInUpdate(() =>
                 {
                     DeviceManager.RemoveDevice(key);
                 });
@@ -66,7 +65,7 @@ namespace Deepglint.XR.Inputs
         {
             if (Source.Source.DataFrom == SourceType.ROS)
             {
-                ExecuteDataLostActionInUpdate(() =>
+                ExecuteRosMsgEventInUpdate(() =>
                 {
                     HandleMetaPoseData(data);
                 });
