@@ -6,6 +6,7 @@ using System.Threading;
 using Deepglint.XR.Source;
 using Deepglint.XR.Toolkit.Utils;
 using Newtonsoft.Json;
+using UnityEditor;
 using UnityEngine;
 using Joint = Deepglint.XR.Source.Joint;
 
@@ -95,7 +96,7 @@ namespace Deepglint.XR.Ros
         /// <param name="msg">ros 接收到的string消息</param> 
         public void DealMsgData(string msg)
         {
-            if (!Application.isFocused)
+            if (!PlayerSettings.runInBackground && !Application.isFocused)
             {
                 return;
             }
@@ -358,11 +359,12 @@ namespace Deepglint.XR.Ros
                     }
                     var body = new SourceData
                     {
-                        FrameId = info.FrameId,
+                        FrameId = int.Parse(info.FrameId),
                         BodyId = val.Key,
                         Actions = action,
                         Joints = joints,
                     };
+                    Source.Source.SetData(body);
                     Source.Source.TriggerMetaPoseDataReceived(body);
                     data[val.Key] = body;
                     if (Global.IsFilterZero)
@@ -376,12 +378,11 @@ namespace Deepglint.XR.Ros
             {
                 if (!humans.Contains(human.BodyId))
                 {
+                    Source.Source.DelData(human.BodyId);
                     Source.Source.TriggerMetaPostDataLost(human.BodyId);
-                  
                 }
             }
 
-            Source.Source.SetData(data); 
             Source.Source.TriggerMetaPoseFrameDataReceived(data.Values.ToList());
         }
 

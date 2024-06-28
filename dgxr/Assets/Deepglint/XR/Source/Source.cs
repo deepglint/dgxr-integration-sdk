@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace Deepglint.XR.Source
         ROS,
         WS,
     }
-    
+
     public enum Joint
     {
         Nose,
@@ -92,52 +93,99 @@ namespace Deepglint.XR.Source
 
     public struct SourceData
     {
-        public string FrameId;
+        public int FrameId;
         public string BodyId;
         public Dictionary<ActionType, float> Actions;
         public JointData Joints;
+        public float FirstAddedTime;
     }
 
 
     public class Source : IEnumerable<SourceData>
     {
         private static Source _instance;
-        private Dictionary<string, SourceData>  _dataDic;
+        private ConcurrentDictionary<string, SourceData> _dataDic;
 
         public static SourceType DataFrom;
-            
-        public delegate void MetaPoseDataEventHandler(SourceData data);
-        public delegate void MetaPoseFrameDataEventHandler(List<SourceData> data);
-        
-        public static  event MetaPoseDataEventHandler OnMetaPoseDataReceived;
-        public static  event MetaPoseFrameDataEventHandler OnMetaPoseFrameDataReceived;
 
-        public static  Action<string> OnMetaPoseDataLost;
-       
+        public delegate void MetaPoseDataEventHandler(SourceData data);
+
+        public delegate void MetaPoseFrameDataEventHandler(List<SourceData> data);
+
+        public static event MetaPoseDataEventHandler OnMetaPoseDataReceived;
+        public static event MetaPoseFrameDataEventHandler OnMetaPoseFrameDataReceived;
+
+        public static Action<string> OnMetaPoseDataLost;
+
         public int Count => _dataDic.Count;
+
         public SourceData this[string id] => _dataDic[id];
-        
+
+        public bool TryGetValue(string id, out SourceData data)
+        {
+            return _dataDic.TryGetValue(id, out data);
+        }
+
+        public bool TryGetValue(int index, out SourceData data)
+        {
+            var sortedList = _dataDic
+                .OrderBy(pair => pair.Value.FirstAddedTime)
+                .ToDictionary(pair => pair.Key, eventPair => eventPair.Value).ToList();
+            if (index < sortedList.Count)
+            {
+                data = sortedList[index].Value;
+                return true;
+            }
+            data = default;
+            return false;
+        }
+
+        public SourceData this[int index]
+        {
+            get
+            {
+                var sortedList = _dataDic
+                    .OrderBy(pair => pair.Value.FirstAddedTime)
+                    .ToDictionary(pair => pair.Key, eventPair => eventPair.Value).ToList();
+                return sortedList[index].Value;
+            }
+        }
+
         private Source()
         {
-            _dataDic = new Dictionary<string, SourceData>();
+            _dataDic = new ConcurrentDictionary<string, SourceData>();
         }
 
         public static Source Data
         {
-            get
-            {
-                return _instance ??= new Source();
-            }
+            get { return _instance ??= new Source(); }
         }
-        
+
         /// <summary>
         /// 设置数据源Data
         /// </summary> 
-        internal static void SetData(Dictionary<string, SourceData> data)
+        internal static void SetData(SourceData data)
         {
-            Data._dataDic = data;
+            if (Data._dataDic.TryGetValue(data.BodyId, out var body))
+            {
+                data.FirstAddedTime = body.FirstAddedTime;
+            }
+            else
+            {
+                data.FirstAddedTime = Time.time;
+            }
+
+            Data._dataDic[data.BodyId] = data;
         }
-       
+
+        /// <summary>
+        /// 删除数据源Data
+        /// </summary> 
+        internal static void DelData(string bodyId)
+        {
+            Data._dataDic.TryRemove(bodyId, out _);
+        }
+
         /// <summary>
         /// 设置数据单个人骨骼数据到订阅
         /// </summary> 
@@ -145,7 +193,7 @@ namespace Deepglint.XR.Source
         {
             OnMetaPoseDataReceived?.Invoke(data);
         }
-       
+
         /// <summary>
         /// 设置当前帧所有骨骼数据到订阅
         /// </summary> 
@@ -153,7 +201,7 @@ namespace Deepglint.XR.Source
         {
             OnMetaPoseFrameDataReceived?.Invoke(data);
         }
-        
+
         /// <summary>
         /// 设置具体人员骨骼消失到订阅
         /// </summary>
@@ -162,12 +210,12 @@ namespace Deepglint.XR.Source
         {
             OnMetaPoseDataLost?.Invoke(key);
         }
-        
+
         public IEnumerator<SourceData> GetEnumerator()
         {
             return _dataDic.Values.ToList().GetEnumerator();
         }
-        
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
