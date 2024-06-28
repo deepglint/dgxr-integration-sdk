@@ -8,6 +8,7 @@
     "com.unity.textmeshpro": "3.0.8",
     "com.unity.ugui": "1.0.0",
     "com.yasirkula.ingamedebugconsole": "1.6.7",
+    "io.sentry.unity": "2.1.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
@@ -45,7 +46,8 @@
       "name": "package.openupm.com",
       "url": "https://package.openupm.com",
       "scopes": [
-        "com.yasirkula.ingamedebugconsole"
+        "com.yasirkula.ingamedebugconsole",
+        "io.sentry.unity"
       ]
     }
   ]
