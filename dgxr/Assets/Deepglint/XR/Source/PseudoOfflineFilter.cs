@@ -56,7 +56,7 @@ namespace Deepglint.XR.Source
             }
 
             float similarity = 1f - (1f - dotProduct / (magnitudeA * magnitudeB)) * 100;
-            return similarity;
+            return similarity > 0 ? similarity : 0;
         }
     }
     
@@ -91,19 +91,31 @@ namespace Deepglint.XR.Source
 
         private void OnMetaPoseDataLost(string bodyId)
         {
-            if (!ChangeLog.ContainsKey(bodyId))
+            if (ChangeLog.TryGetValue(bodyId, out var realId))
+            {
+                if (Features.TryRemove(realId, out PersonFeature value))
+                {
+                    Debug.LogFormat("add {0} to offline cache", realId);
+                    value.Time = DateTime.Now;
+                    OfflineFeatures[realId] = value; 
+                    if (Newbee.Remove(bodyId))
+                    {
+                        Debug.LogFormat("remove {0} from newbee cache", bodyId); 
+                    }
+                } 
+            }
+            else
             {
                 if (Features.TryRemove(bodyId, out PersonFeature value))
                 {
                     Debug.LogFormat("add {0} to offline cache", bodyId);
                     value.Time = DateTime.Now;
                     OfflineFeatures[bodyId] = value; 
+                    if (Newbee.Remove(bodyId))
+                    {
+                        Debug.LogFormat("remove {0} from newbee cache", bodyId); 
+                    }
                 } 
-            }
-
-            if (Newbee.Remove(bodyId))
-            {
-                Debug.LogFormat("remove {0} from newbee cache", bodyId); 
             }
         }
 
@@ -167,21 +179,33 @@ namespace Deepglint.XR.Source
         internal bool Filter(ref SourceData data)
         {
             bool result = false;
-            if (EnableFilter && (!Source.Data.Contains(data.BodyId) || Newbee.ContainsKey(data.BodyId)))
+            if (EnableFilter)
             {
                 PersonFeature feature = new PersonFeature(data);
-                PersonFeature changeFeature = GetMostSimilarOfflineFeature(feature);
-                if (changeFeature != null)
+                if (OfflineFeatures.ContainsKey(data.BodyId))
                 {
-                    Debug.LogFormat("change body from {0} to {1}", feature.BodyId, changeFeature.BodyId);
-                    result = OfflineFeatures.TryRemove(changeFeature.BodyId, out PersonFeature value);
+                    result = OfflineFeatures.TryRemove(data.BodyId, out PersonFeature value);
                     if (result)
                     {
-                        ChangeLog[feature.BodyId] = changeFeature.BodyId;
-                        data.BodyId = changeFeature.BodyId;
-                        feature.BodyId = changeFeature.BodyId;
                         Features[feature.BodyId] = feature; 
+                        Debug.LogFormat("person {0} reconnected, remove it from offline cache", data.BodyId);
                     }
+                } else if (!Source.Data.Contains(data.BodyId) || Newbee.ContainsKey(data.BodyId))
+                {
+                    PersonFeature changeFeature = GetMostSimilarOfflineFeature(feature);
+                    if (changeFeature != null)
+                    {
+                        Debug.LogFormat("change body from {0} to {1}", feature.BodyId, changeFeature.BodyId);
+                        result = OfflineFeatures.TryRemove(changeFeature.BodyId, out PersonFeature value);
+                        if (result)
+                        {
+                            ChangeLog[feature.BodyId] = changeFeature.BodyId;
+                            data.BodyId = changeFeature.BodyId;
+                            feature.BodyId = changeFeature.BodyId;
+                            Features[feature.BodyId] = feature; 
+                            Debug.LogFormat("remove {0} from offline cache", changeFeature.BodyId);
+                        }
+                    } 
                 }
             }
 
