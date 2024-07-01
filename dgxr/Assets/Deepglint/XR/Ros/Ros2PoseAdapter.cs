@@ -96,10 +96,10 @@ namespace Deepglint.XR.Ros
         /// <param name="msg">ros 接收到的string消息</param> 
         public void DealMsgData(string msg)
         {
-            if (!PlayerSettings.runInBackground && !Application.isFocused)
-            {
-                return;
-            }
+            // if (!PlayerSettings.runInBackground && !Application.isFocused)
+            // {
+            //     return;
+            // }
             Dictionary<string, SourceData> data = new Dictionary<string, SourceData>();
             MetaPoseData info = JsonConvert.DeserializeObject<MetaPoseData>(msg);
             HashSet<string> humans = new HashSet<string>();
