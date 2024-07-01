@@ -408,7 +408,8 @@ namespace Deepglint.XR.Ros
         /// <param name="pose">人体骨骼点</param>
         private Vector3 UnifyCoordinate(List<float> poseList)
         {
-            Vector3 pose =Global.Space.Origin;
+            // Vector3 pose =Global.Space.Origin;
+            Vector3 pose = Vector3.zero;
             if (Global.Space != null)
             {
                 var size = Global.Space.Size;
