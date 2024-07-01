@@ -1,6 +1,7 @@
 using Deepglint.XR.Log;
 using Deepglint.XR.Source;
 using Deepglint.XR.Space;
+using Deepglint.XR.Toolkit.DebugTool;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 
@@ -13,14 +14,20 @@ namespace Deepglint.XR
 
         public void Awake()
         {
-#if !UNITY_EDITOR
-            Cursor.visible = false;
-#endif
+
             Global.UniqueID = SystemInfo.deviceUniqueIdentifier;
             Global.AppName = Application.productName;
             Global.Version = Application.version;
             Global.SystemName = SystemInfo.operatingSystem;
             Global.Config = new Config.Config().InitConfig();
+            
+#if !UNITY_EDITOR
+            if (Global.Config.Space.ScreenMode is ScreenStyle.Default)
+            {
+                Cursor.visible = false;
+            }
+#endif
+            
             GameLogger.Init(Global.Config.Log);
             if (UseRos())
             {

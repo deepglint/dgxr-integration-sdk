@@ -9,13 +9,11 @@ namespace Deepglint.XR.Toolkit.DebugTool
 {
     public class VersionCode : MonoBehaviour
     {
-
-        private static string _sdkVersionFilePath;
         private string _sdkVersionNumber;
+        private static string _sdkVersionFilePath;
         private void Start()
         {
-            _sdkVersionFilePath = Path.Combine(Application.persistentDataPath, "sdk_versions.txt");
-            _sdkVersionNumber = File.ReadAllText(_sdkVersionFilePath);
+            _sdkVersionNumber = File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "sdk_versions.txt"));
         }
 
         private void OnGUI()
@@ -24,8 +22,8 @@ namespace Deepglint.XR.Toolkit.DebugTool
             float screenWidth = Screen.width;
             float screenHeight = Screen.height;
 
-            string appVersionNumber = Application.version;
-            string sdkVersionNumber = _sdkVersionNumber;
+            string appVersionNumber = "APP " + Application.version;
+            string sdkVersionNumber = "SDK " + _sdkVersionNumber;
 
             Vector2 appVersionNumberSize = style.CalcSize(new GUIContent(appVersionNumber));
             Vector2 sdkVersionNumberSize = style.CalcSize(new GUIContent(sdkVersionNumber));
@@ -42,29 +40,30 @@ namespace Deepglint.XR.Toolkit.DebugTool
         private static void WriteVersionCode()
         {
             string manifestPath = Path.Combine(Application.dataPath, "../Packages/manifest.json");  
-            string manifestContent = File.ReadAllText(manifestPath);  
-  
+            string manifestContent = File.ReadAllText(manifestPath);
+            
             try  
-            {  
+            {
                 JObject manifestJson = JObject.Parse(manifestContent);  
                 string packageName = "com.deepglint.xr";
                 if (manifestJson["dependencies"] != null && manifestJson["dependencies"][packageName] != null)  
-                {  
+                {
                     string packageVersion = manifestJson["dependencies"][packageName].ToString();
             
-                    if (File.Exists(_sdkVersionFilePath))
+                    if (File.Exists(Path.Combine(Application.streamingAssetsPath, "sdk_versions.txt")))
                     {
-                        if (File.ReadAllText(_sdkVersionFilePath) == packageVersion)
+                        if (File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "sdk_versions.txt")) == packageVersion)
                         {
                             return;
                         }
                     }
-                    File.WriteAllText(_sdkVersionFilePath, packageVersion);  
+                    
+                    File.WriteAllText(Path.Combine(Application.streamingAssetsPath, "sdk_versions.txt"), packageVersion);  
                 }  
             }
             catch (Exception e)
             {
-                // ignored
+                Debug.Log("version code error: " + e);
             }
         }
 #endif
