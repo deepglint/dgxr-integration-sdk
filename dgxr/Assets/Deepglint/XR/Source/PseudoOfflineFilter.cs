@@ -219,6 +219,9 @@ namespace Deepglint.XR.Source
                             maxSimilarity = similarity;
                         }
                     }
+                } else if (ShowDetailLog)
+                {
+                    Debug.LogFormat("person {0} missed offline person {1} because of too big frame gap", pf.BodyId, item.Value.BodyId);
                 }
             }
 
