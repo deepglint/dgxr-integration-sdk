@@ -91,32 +91,16 @@ namespace Deepglint.XR.Source
 
         private void OnMetaPoseDataLost(string bodyId)
         {
-            if (ChangeLog.TryGetValue(bodyId, out var realId))
+            if (Features.TryRemove(bodyId, out PersonFeature value))
             {
-                if (Features.TryRemove(realId, out PersonFeature value))
+                Debug.LogFormat("add {0} to offline cache", bodyId);
+                value.Time = DateTime.Now;
+                OfflineFeatures[bodyId] = value; 
+                if (Newbee.Remove(bodyId))
                 {
-                    Debug.LogFormat("add {0} to offline cache", realId);
-                    value.Time = DateTime.Now;
-                    OfflineFeatures[realId] = value; 
-                    if (Newbee.Remove(bodyId))
-                    {
-                        Debug.LogFormat("remove {0} from newbee cache", bodyId); 
-                    }
-                } 
-            }
-            else
-            {
-                if (Features.TryRemove(bodyId, out PersonFeature value))
-                {
-                    Debug.LogFormat("add {0} to offline cache", bodyId);
-                    value.Time = DateTime.Now;
-                    OfflineFeatures[bodyId] = value; 
-                    if (Newbee.Remove(bodyId))
-                    {
-                        Debug.LogFormat("remove {0} from newbee cache", bodyId); 
-                    }
-                } 
-            }
+                    Debug.LogFormat("remove {0} from newbee cache", bodyId); 
+                }
+            } 
         }
 
         private void OnEnable()
