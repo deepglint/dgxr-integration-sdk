@@ -13,7 +13,7 @@ namespace Deepglint.XR.Toolkit.UIFrame
     /// 模块以树形方式添加和管理，在父销毁时销毁所有的子模块及其 gameObject
     /// </summary>
     [PrefabInfo(PathRule.NamespaceHierarchy)]
-    public abstract class BaseModule
+    public class BaseModule: MonoBehaviour
     {
         private readonly List<BaseModule> _children = new();
         private readonly string _prefab;
@@ -44,16 +44,16 @@ namespace Deepglint.XR.Toolkit.UIFrame
         /// <summary>
         /// 该方法在模块的gameObject资源创建后回调
         /// </summary>
-        public virtual void OnOpen()
-        {
-        }
+        // public virtual void OnOpen()
+        // {
+        // }
 
         /// <summary>
         /// 该方法在模块的Destroy方法调用时回调
         /// </summary>
-        public virtual void OnClose()
-        {
-        }
+        // public virtual void OnClose()
+        // {
+        // }
 
         /// <summary>
         /// 设置模块包含的 gameObject 的Active状态，是对gameObject.SetActive的包装
@@ -81,7 +81,7 @@ namespace Deepglint.XR.Toolkit.UIFrame
                 child.Destroy();
             }
 
-            OnClose();
+            // OnClose();
             UnityEngine.Object.Destroy(gameObject);
             isDestroyed = true;
         }
@@ -174,13 +174,14 @@ namespace Deepglint.XR.Toolkit.UIFrame
             if (parent != null)
             {
                 gameObject.transform.SetParent(parent.transform, false);
+                gameObject.AddComponent<BaseModule>();
             }
 
             module.gameObject = gameObject;
 
             action?.Invoke(module);
 
-            module.OnOpen();
+            // module.OnOpen();
 
             return module;
         }
@@ -202,6 +203,7 @@ namespace Deepglint.XR.Toolkit.UIFrame
         {
             var ns = GetType().Namespace ?? throw new InvalidOperationException("mudule script namespace not found.");
 
+            Debug.Log("NN " + ns);
             var arr = ns.Split(".");
             // QUESTION: 我们能把Scene这一层去了吗，从Scripts找就行了
             if (arr[0] != "Scene")
