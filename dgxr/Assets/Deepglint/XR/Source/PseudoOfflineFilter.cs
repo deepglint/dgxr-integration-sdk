@@ -29,6 +29,18 @@ namespace Deepglint.XR.Source
             };
         }
 
+        // 计算与目标特征之间的平均绝对误差
+        public float MAE(PersonFeature target)
+        {
+            float sum = 0;
+            for (int i= 0; i < target.Features.Length; i++)
+            {
+                sum += Mathf.Abs(Features[i] - target.Features[i]);
+            }
+
+            return sum / Features.Length;
+        }
+
         public float Similarity(PersonFeature target)
         {
             if (Features.Length != target.Features.Length)
@@ -58,21 +70,35 @@ namespace Deepglint.XR.Source
             float similarity = 1f - (1f - dotProduct / (magnitudeA * magnitudeB)) * 100;
             return similarity > 0 ? similarity : 0;
         }
+
+        public bool IsFarFromROI()
+        {
+            bool result = false;
+            var head = Global.Space.gameObject.transform.InverseTransformPoint(HeadTop);
+            var position = Global.Space.Bottom.SpaceToPixelOnScreen(head);
+            if (Mathf.Abs(position.x - Global.Space.Roi.x) > Global.Space.Roi.width + 0.5f && 
+                Mathf.Abs(position.y - Global.Space.Roi.y) > Global.Space.Roi.height + 0.5f)
+            {
+                result = true;
+            }
+
+            return result;
+        }
     }
     
     public class PseudoOfflineFilter : MonoBehaviour
     {
         internal bool EnableFilter = false;
-        public int FrameGap = 60;
+        public int OfflineFrameGap = 150;
+        public int NewbeeFrameGap = 90;
         public float DistanceThreshold = 0.5f;
         public float SimilarityThreshold = 0.90f;
         public bool ShowDetailLog = false;
-        
-        // 60 seconds
-        private int _timeout = 20;
+        public float MAEThreshold = 0.06f; 
+        private Int64 currentFrameId = 0;
         
         private static readonly ConcurrentDictionary<string, PersonFeature> Features = new ConcurrentDictionary<string, PersonFeature>();
-        private static Dictionary<string, DateTime> Newbee = new Dictionary<string, DateTime>();
+        private static Dictionary<string, PersonFeature> Newbee = new Dictionary<string, PersonFeature>();
         internal static ConcurrentDictionary<string, PersonFeature> OfflineFeatures = new ConcurrentDictionary<string, PersonFeature>();
         internal static Dictionary<string, string> ChangeLog = new Dictionary<string, string>();
         
@@ -80,11 +106,21 @@ namespace Deepglint.XR.Source
         
         private void OnMetaPoseDataReceived(SourceData data)
         {
+            currentFrameId = long.Parse(data.FrameId);
             PersonFeature feature = new PersonFeature(data);
+            if (Features.TryGetValue(data.BodyId, out var oldFeature))
+            {
+                // 过滤异常抖动
+                if (feature.MAE(oldFeature) >= MAEThreshold)
+                {
+                    feature.HeadTop = oldFeature.HeadTop;
+                    feature.Features = oldFeature.Features;
+                }
+            }
             Features[feature.BodyId] = feature;
             if (!Source.Data.Contains(data.BodyId))
             {
-                Newbee.Add(data.BodyId, DateTime.Now);
+                Newbee.Add(data.BodyId, feature);
                 Debug.LogFormat("add {0} to newbee cache", data.BodyId);
             }
         }
@@ -134,13 +170,12 @@ namespace Deepglint.XR.Source
             {
                 if (OfflineFeatures.TryGetValue(key, out PersonFeature value))
                 {
-                    var duration = (DateTime.Now - value.Time).TotalSeconds;
-                    if (duration > _timeout)
+                    if (Mathf.Abs(currentFrameId - value.FrameId) > OfflineFrameGap)
                     {
                         if (OfflineFeatures.TryRemove(key, out PersonFeature timeoutValue))
                         {
                             Debug.LogFormat("remove {0} from offline cache", key);
-                        }
+                        } 
                     }
                 }
             }
@@ -148,13 +183,12 @@ namespace Deepglint.XR.Source
             List<string> newbeeKeys = new List<string>(Newbee.Keys);
             foreach (var key in newbeeKeys)
             {
-                if (Newbee.TryGetValue(key, out DateTime value))
+                if (Newbee.TryGetValue(key, out PersonFeature value))
                 {
-                    var duration = (DateTime.Now - value).TotalSeconds;
-                    if (duration > _timeout)
+                    if (Mathf.Abs(currentFrameId - value.FrameId) > NewbeeFrameGap)
                     {
                         Newbee.Remove(key);
-                        Debug.LogFormat("remove {0} from newbee cache", key);
+                        Debug.LogFormat("remove {0} from newbee cache", key); 
                     }
                 }
             }
@@ -171,39 +205,44 @@ namespace Deepglint.XR.Source
                     result = OfflineFeatures.TryRemove(data.BodyId, out PersonFeature value);
                     if (result)
                     {
-                        Features[feature.BodyId] = feature; 
                         Debug.LogFormat("person {0} reconnected, remove it from offline cache", data.BodyId);
                     }
                 } else if (!Source.Data.Contains(data.BodyId) || Newbee.ContainsKey(data.BodyId))
                 {
-                    PersonFeature changeFeature = GetMostSimilarOfflineFeature(feature);
+                    PersonFeature changeFeature = null;
+                    if (feature.IsFarFromROI())
+                    {
+                        changeFeature = GetMostSimilarOfflineFeature(feature, false);
+                    }
+                    else
+                    {
+                        changeFeature = GetMostSimilarOfflineFeature(feature);
+                    }
                     if (changeFeature != null)
                     {
-                        Debug.LogFormat("change body from {0} to {1}", feature.BodyId, changeFeature.BodyId);
+                        Debug.LogWarningFormat("change body from {0} to {1}", feature.BodyId, changeFeature.BodyId);
                         result = OfflineFeatures.TryRemove(changeFeature.BodyId, out PersonFeature value);
                         if (result)
                         {
                             ChangeLog[feature.BodyId] = changeFeature.BodyId;
                             data.BodyId = changeFeature.BodyId;
-                            feature.BodyId = changeFeature.BodyId;
-                            Features[feature.BodyId] = feature; 
                             Debug.LogFormat("remove {0} from offline cache", changeFeature.BodyId);
                         }
-                    } 
+                    }  
                 }
             }
 
             return result;
         }
         
-        private PersonFeature GetMostSimilarOfflineFeature(PersonFeature pf)
+        private PersonFeature GetMostSimilarOfflineFeature(PersonFeature pf, bool useThreshold = true)
         {
             PersonFeature result = null;
             float maxSimilarity = 0f;
             Vector2 headTop = new Vector2(pf.HeadTop.x, pf.HeadTop.z);
             foreach (var item in OfflineFeatures)
             {
-                if (pf.FrameId - item.Value.FrameId <= FrameGap)
+                if (pf.FrameId - item.Value.FrameId <= OfflineFrameGap)
                 {
                     float distance = Vector2.Distance(headTop, new Vector2(item.Value.HeadTop.x, item.Value.HeadTop.z));
                     float similarity = pf.Similarity(item.Value);
@@ -211,7 +250,18 @@ namespace Deepglint.XR.Source
                     {
                         Debug.LogFormat("person {0} similarity with {1} is {2} and distance is {3}", pf.BodyId, item.Value.BodyId, similarity, distance);
                     }
-                    if (distance <= DistanceThreshold && similarity >= SimilarityThreshold)
+                    if (useThreshold)
+                    {
+                        if (distance <= DistanceThreshold && similarity >= SimilarityThreshold)
+                        {
+                            if (similarity >= maxSimilarity)
+                            {
+                                result = item.Value;
+                                maxSimilarity = similarity;
+                            } 
+                        }
+                    }
+                    else
                     {
                         if (similarity >= maxSimilarity)
                         {

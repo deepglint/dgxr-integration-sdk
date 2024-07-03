@@ -2083,10 +2083,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83848fd442194ea3ab9381f0dd2265b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FrameGap: 60
+  OfflineFrameGap: 150
+  NewbeeFrameGap: 90
   DistanceThreshold: 0.5
   SimilarityThreshold: 0.9
-  ShowDetailLog: 0
+  ShowDetailLog: 1
+  MAEThreshold: 0.06
 --- !u!1 &8473003254323490860
 GameObject:
   m_ObjectHideFlags: 0
