@@ -3,12 +3,12 @@
 echo 'Setting up the script...'
 set -e
 
-DOXYFILE=Doxyfile
+DOXYFILE=$UNITY_DIR/dgxr/Documentation/Doxyfile
 # rm -rf *
 echo 'Generating Doxygen code documentation...'
 # 更新 Doxyfile 中的PROJECT_NUMBER字段
-# sed -i "51s/PROJECT_NUMBER           = .*/PROJECT_NUMBER           = $CI_COMMIT_TAG" $DOXYFILE
-sed -i "51s/^PROJECT_NUMBER[[:space:]]*=.*/PROJECT_NUMBER           = $CI_COMMIT_TAG/" $DOXYFILE
+echo "version $CI_COMMIT_TAG to $DOXYFILE"
+sed -i "51s|^PROJECT_NUMBER[[:space:]]*=.*|PROJECT_NUMBER           = $CI_COMMIT_TAG|" $DOXYFILE
 
 doxygen $DOXYFILE 2>&1
 tee doxygen.log
