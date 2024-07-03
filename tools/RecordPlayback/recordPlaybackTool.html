@@ -784,61 +784,6 @@
         "(": "9",
       };
 
-      const defaultPoseData = [
-        {
-          ts: 1710426767530,
-          pose: {
-            0: [
-              [0, 0, 0],
-              [0, 0, 0],
-              [0.9852487444877625, 0.20644627511501312, 1.4077719449996948],
-              [0, 0, 0],
-              [1.0859835147857666, 0.20155338943004608, 1.3991681337356567],
-              [1.0702283382415771, -0.02566889300942421, 1.2417302131652832],
-              [1.2058764696121216, 0.27047041058540344, 1.2181804180145264],
-              [1.0741009712219238, -0.06711186468601227, 1.0221943855285645],
-              [1.2488083839416504, 0.35955843329429626, 1.0209921598434448],
-              [0, 0, 0],
-              [1.0797425508499146, 0.38742542266845703, 1.0235501527786255],
-              [1.0910457372665405, 0.03554580360651016, 0.7078747749328613],
-              [0, 0, 0],
-              [0, 0, 0],
-              [0, 0, 0],
-              [0, 0, 0],
-              [0, 0, 0],
-              [0, 0, 0],
-              [0, 0, 0],
-              [0, 0, 0],
-              [0, 0, 0],
-              [0.9851289987564087, 0.16409645974636078, 1.4989755153656006],
-              [0, 0, 0],
-              [1.0338759422302246, 0.4158642292022705, 1.0379303693771362],
-            ],
-          },
-        },
-      ];
-
-      window.constants = {
-        interval: 1000 / 30,
-        // interval: 2000,
-      };
-
-      const sourceData = {
-        ts: 1632579600000,
-        pose: {
-          1: Array(24)
-            .fill(0)
-            .map((_, index) => [1, 1, 1]),
-          2: Array(24)
-            .fill(0)
-            .map((_, index) => [1, 1, 1]),
-        },
-        action: {
-          1: "OnRaiseOnHand",
-          2: "OnRaiseOnHand",
-        },
-      };
-
       window.global = {
         actionConfig: [],
         appName: "app",
@@ -2057,39 +2002,39 @@
       .controlBox {
         position: relative;
       }
-      .controlBox input[type="number"] {
-        position: absolute;
-        top: 0;
-      }
-      .controlBox input[type="range"] {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 80px;
-      }
-      .progressBox {
-        float: left;
-        position: relative;
-        left: 150px;
-      }
-      .progressBox #poseIndex {
-        display: block !important;
-        margin-top: -10px;
-        position: absolute;
-        font-size: 12px;
-      }
-      .progressBox #progressText {
-        position: absolute;
-        left: 75px;
-        display: block !important;
-        font-size: 12px;
-        margin-top: -10px;
-      }
       .controlBox span {
         display: inline-block;
         float: right;
         display: none;
       }
+      .controlBox input[type="number"] {
+        position: absolute;
+        top: 0;
+      }
+      .controlBox input[type="range"] {
+        display: inline-block;
+        position: relative;
+        top: 12px;
+      }
+      .progressBox {
+        position: relative;
+      }
+      .progressBox #poseIndex {
+        display: inline-block;
+        width: 40px;
+        margin-top: 12px;
+      }
+      .progressBox #progressText {
+        display: inline-block!important;
+        float: initial;
+        width: 120px;
+        font-size: 12px;
+        position: absolute;
+        text-align: right;
+        left: 80px;
+        top: 5px;
+      }
+      
       .controlPanels {
         /* display: none; */
       }
@@ -2121,6 +2066,7 @@
         is991Pose: false,
         poseData: [],
         currentFileName: "",
+        allowPlayback: true,
       };
 
       const PlaybackType = {
@@ -2188,7 +2134,7 @@
                   重置玩家
                 </button>
                 <div class="progressBox">
-                  <span id="poseIndex">0</span>
+                  <input id="poseIndex" value="0"></input>
                   <input
                     id="progress"
                     type="range"
@@ -2198,6 +2144,7 @@
                     onchange="updateProgress(value)"
                   />
                   <span id="progressText">100</span>
+                  <button id="stopPlayback" onclick="StopPlayback()">回放暂停</button>
                 </div>
                 <span>
                   <button onclick="allRaiseOnHand()">同时举手</button>
@@ -2610,6 +2557,17 @@
         wssPlaybackManager.playerManager.allPlayerLeave(status, playerIndex);
       }
 
+      function StopPlayback() {
+        if (stopPlaybackEle.innerText == "回放暂停") {
+          stopPlaybackEle.innerText = "回放开始";
+          store.allowPlayback = false;
+        } else {
+          stopPlaybackEle.innerText = "回放暂停";
+          pose.index = poseIndexEle.value ?? 0;
+          store.allowPlayback = true;
+        }
+      }
+
       function allRaiseOnHand() {
         playerManager.players.forEach((item) => {
           item.action = ActionEvent.OnRaiseOnHand;
@@ -2703,9 +2661,11 @@
       var playbackType = null;
       var prePlaybackType = null;
       var poseIndexEle = document.getElementById("poseIndex");
+      var stopPlaybackEle = document.getElementById("stopPlayback");
       var progressEle = document.getElementById("progress"); 
       function update() {
-        poseIndexEle.innerHTML = pose.index;
+        if (!store.allowPlayback) return;
+        poseIndexEle.value = pose.index;
         progressEle.value = pose.index;
 
         if (wssRecordManager.wss.testStatus) {
@@ -2783,6 +2743,11 @@
 
         document.getElementById("date").innerText = `${utils.getTime()}`;
       }
+
+      window.constants = {
+        interval: 1000 / 30,
+        // interval: 2000,
+      };
 
       // setInterval(update, constants.interval);
       let startUpdateTime;
