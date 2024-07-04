@@ -34,7 +34,8 @@ namespace Deepglint.XR.Log
             if (!Global.SystemName.Contains("Mac"))
             {
                 CreateLogFile();
-                Application.logMessageReceived += OnLogCallBack;
+                
+                Application.logMessageReceivedThreaded += OnLogCallBack;
                 _logFlushTimer = new Timer(FlushLogToFile, null, 5000, 5000);
             }
         }
@@ -71,7 +72,6 @@ namespace Deepglint.XR.Log
 
         private static void OnLogCallBack(string condition, string stackTrace, LogType type)
         {
-            Debug.Log($"{condition}, {type}");
             if ((type == LogType.Log && !_debugLogEnable) || (type == LogType.Warning && !_warningLogEnable))
             {
                 return;
@@ -152,7 +152,7 @@ namespace Deepglint.XR.Log
             FlushLogToFile(null);
             if (!Global.SystemName.Contains("Mac"))
             {
-                Application.logMessageReceived -= OnLogCallBack;
+                Application.logMessageReceivedThreaded -= OnLogCallBack;
             } 
         }
     }
