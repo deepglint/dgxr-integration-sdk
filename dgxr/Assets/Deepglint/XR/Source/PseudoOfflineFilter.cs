@@ -84,7 +84,7 @@ namespace Deepglint.XR.Source
             if (!ROI.Contains(position))
             {
                 result = true;
-                Debug.LogFormat("{0} is far from ROI", BodyId);
+                Debug.Log($"{BodyId} is far from ROI");
             }
 
             return result;
@@ -129,12 +129,12 @@ namespace Deepglint.XR.Source
         {
             if (Features.TryRemove(bodyId, out PersonFeature value))
             {
-                Debug.LogWarningFormat("add {0} to offline cache", bodyId);
+                Debug.LogWarning($"add {bodyId} to offline cache");
                 value.Time = DateTime.Now;
                 OfflineFeatures[bodyId] = value; 
                 if (Newbee.Remove(bodyId))
                 {
-                    Debug.LogFormat("remove {0} from newbee cache", bodyId); 
+                    Debug.Log($"remove {bodyId} from newbee cache"); 
                 }
             } 
         }
@@ -174,7 +174,7 @@ namespace Deepglint.XR.Source
                     {
                         if (OfflineFeatures.TryRemove(key, out PersonFeature timeoutValue))
                         {
-                            Debug.LogFormat("remove {0} from offline cache", key);
+                            Debug.Log($"remove {key} from offline cache");
                         } 
                     }
                 }
@@ -188,7 +188,7 @@ namespace Deepglint.XR.Source
                     if (Mathf.Abs(currentFrameId - value.FrameId) > NewbeeFrameGap)
                     {
                         Newbee.Remove(key);
-                        Debug.LogFormat("remove {0} from newbee cache", key); 
+                        Debug.Log($"remove {key} from newbee cache"); 
                     }
                 }
             }
@@ -205,7 +205,7 @@ namespace Deepglint.XR.Source
                     result = OfflineFeatures.TryRemove(data.BodyId, out PersonFeature value);
                     if (result)
                     {
-                        Debug.LogFormat("person {0} reconnected, remove it from offline cache", data.BodyId);
+                        Debug.Log($"person {data.BodyId} reconnected, remove it from offline cache");
                     }
                 } else if (!Source.Data.Contains(data.BodyId))
                 {
@@ -221,32 +221,32 @@ namespace Deepglint.XR.Source
                     } 
                     if (changeFeature != null)
                     {
-                        Debug.LogWarningFormat("change body from {0} to {1}", feature.BodyId, changeFeature.BodyId);
+                        Debug.LogWarning($"change body from {feature.BodyId} to {changeFeature.BodyId}");
                         result = OfflineFeatures.TryRemove(changeFeature.BodyId, out PersonFeature value);
                         if (result)
                         {
                             ChangeLog[feature.BodyId] = changeFeature;
                             data.BodyId = changeFeature.BodyId;
-                            Debug.LogFormat("remove {0} from offline cache", changeFeature.BodyId);
+                            Debug.Log($"remove {changeFeature.BodyId} from offline cache");
                         }
                     }
                     else
                     {
                         Newbee.Add(data.BodyId, feature); 
-                        Debug.LogFormat("add {0} to newbee cache", data.BodyId); 
+                        Debug.Log($"add {data.BodyId} to newbee cache"); 
                     }
                 } else if (Newbee.ContainsKey(data.BodyId))
                 {
                     PersonFeature changeFeature = GetMostSimilarOfflineFeature(feature);
                     if (changeFeature != null)
                     {
-                        Debug.LogWarningFormat("change body from {0} to {1}", feature.BodyId, changeFeature.BodyId);
+                        Debug.LogWarning($"change body from {feature.BodyId} to {changeFeature.BodyId}");
                         result = OfflineFeatures.TryRemove(changeFeature.BodyId, out PersonFeature value);
                         if (result)
                         {
                             ChangeLog[feature.BodyId] = changeFeature;
                             data.BodyId = changeFeature.BodyId;
-                            Debug.LogFormat("remove {0} from offline cache", changeFeature.BodyId);
+                            Debug.Log($"remove {changeFeature.BodyId} from offline cache");
                         }
                     }  
                 }
@@ -268,7 +268,7 @@ namespace Deepglint.XR.Source
                     float similarity = pf.Similarity(item.Value);
                     if (ShowDetailLog)
                     {
-                        Debug.LogFormat("person {0} similarity with {1} is {2} and distance is {3}", pf.BodyId, item.Value.BodyId, similarity, distance);
+                        Debug.Log($"person {pf.BodyId} similarity with {item.Value.BodyId} is {similarity} and distance is {distance}");
                     }
                     if (useThreshold)
                     {
@@ -291,7 +291,7 @@ namespace Deepglint.XR.Source
                     }
                 } else if (ShowDetailLog)
                 {
-                    Debug.LogFormat("person {0} missed offline person {1} because of too big frame gap", pf.BodyId, item.Value.BodyId);
+                    Debug.Log($"person {pf.BodyId} missed offline person {item.Value.BodyId} because of too big frame gap");
                 }
             }
 
