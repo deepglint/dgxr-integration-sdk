@@ -24,10 +24,10 @@ namespace Samples.HumanControlInputModule
         private void Start()
         {
             // 检查摄像机上是否已经有 PhysicsRaycaster 组件
-            if (Global.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
+            if (DGXR.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
             {
                 // 添加 PhysicsRaycaster 组件
-                Global.Space.Bottom.SpaceCamera.gameObject.AddComponent<PhysicsRaycaster>();
+                DGXR.Space.Bottom.SpaceCamera.gameObject.AddComponent<PhysicsRaycaster>();
                 Debug.Log("PhysicsRaycaster has been added to the bottom camera.");
             }
             else

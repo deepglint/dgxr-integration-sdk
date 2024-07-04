@@ -10,7 +10,7 @@ namespace Deepglint.XR
     /// <summary>
     /// 全局静态类 
     /// </summary>
-    public static class Global
+    public static class DGXR
     {
         public static Config.Config.ConfigData.ConfigInfo Config;
         public delegate void MetaGearDataEventHandler(MetaGearInfo.MetaGearData data);

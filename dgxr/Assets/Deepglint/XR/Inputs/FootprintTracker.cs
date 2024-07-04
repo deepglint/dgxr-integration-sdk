@@ -64,9 +64,9 @@ namespace Deepglint.XR.Inputs
                 {
                     leftFootRectTransform = _leftFoots[device.deviceId];
                 }
-                var leftFootPosition =
-                    Global.Space.gameObject.transform.InverseTransformPoint(device.HumanBody.LeftFoot.position.value);
-                leftFootRectTransform.anchoredPosition = Global.Space.Bottom.SpaceToPixelOnScreen(leftFootPosition);
+
+                var leftFootPosition = device.HumanBody.LeftFoot.position.value;
+                leftFootRectTransform.anchoredPosition = DGXR.Space.Bottom.SpaceToPixelOnScreen(leftFootPosition);
                 
                 RectTransform rightFootRectTransform;
                 if (!_rightFoots.ContainsKey(device.deviceId))
@@ -82,9 +82,8 @@ namespace Deepglint.XR.Inputs
                     rightFootRectTransform = _rightFoots[device.deviceId];
                 }
 
-                var rightFootPosition =
-                    Global.Space.gameObject.transform.InverseTransformPoint(device.HumanBody.RightFoot.position.value);
-                rightFootRectTransform.anchoredPosition = Global.Space.Bottom.SpaceToPixelOnScreen(rightFootPosition);
+                var rightFootPosition = device.HumanBody.RightFoot.position.value;
+                rightFootRectTransform.anchoredPosition = DGXR.Space.Bottom.SpaceToPixelOnScreen(rightFootPosition);
                 
                 Vector3 eulerRotation = device.HumanPose.Rotation.value.eulerAngles;
                 Vector3 localEulerAngles = new Vector3(0, 0, -eulerRotation.y);

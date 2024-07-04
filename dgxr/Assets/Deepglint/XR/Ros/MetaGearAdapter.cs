@@ -70,7 +70,7 @@ namespace Deepglint.XR.Ros
         public void DealMsg(std_msgs.msg.String msg)
         {
             MetaGearInfo.MetaGearData info = JsonConvert.DeserializeObject<MetaGearInfo.MetaGearData>(msg.Data);
-            Global.TriggerMetaGearDataReceived(info);
+            DGXR.TriggerMetaGearDataReceived(info);
         }
     }
 }

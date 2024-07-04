@@ -28,7 +28,7 @@ namespace Samples.CustomPlayerManager
 
         public void Start()
         {
-            RectTransform parentRT = Global.Space.Bottom.ScreenCanvas.GetComponent<RectTransform>();
+            RectTransform parentRT = DGXR.Space.Bottom.ScreenCanvas.GetComponent<RectTransform>();
             ui = Instantiate(_circlePrefab, parentRT, false);
             ui.SetActive(true);
             RectTransform circleRT = ui.GetComponent<RectTransform>();
@@ -89,8 +89,8 @@ namespace Samples.CustomPlayerManager
                     {
                         position = xrDevice.HumanBody.RightFoot.position.value;
                     }
-                    var screenPoint = new Vector2(position.x * Global.Space.Bottom.Resolution.width / Global.Space.Bottom.Size.x, 
-                        position.z * Global.Space.Bottom.Resolution.width / Global.Space.Bottom.Size.y);
+                    var screenPoint = new Vector2(position.x * DGXR.Space.Bottom.Resolution.width / DGXR.Space.Bottom.Size.x, 
+                        position.z * DGXR.Space.Bottom.Resolution.width / DGXR.Space.Bottom.Size.y);
                     if (!RectTransformUtility.RectangleContainsScreenPoint(_characterUI.GetComponent<RectTransform>(), screenPoint))
                     {
                         Destroy(_player);

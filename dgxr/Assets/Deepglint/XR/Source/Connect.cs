@@ -25,7 +25,7 @@ public class Connection : MonoBehaviour
 
     void Start()
     {
-        _wsUrl = $"ws://{Global.Config.Space.EngineHost}:{Global.Config.Space.WsPort}";
+        _wsUrl = $"ws://{DGXR.Config.Space.EngineHost}:{DGXR.Config.Space.WsPort}";
         _poseAdapter = new Ros2PoseAdapter();
         _cancellationTokenSource = new CancellationTokenSource();
         ConnectAsync(_cancellationTokenSource.Token);

@@ -101,7 +101,7 @@ namespace Deepglint.XR.Space
 
         void Start()
         {
-            if (!Global.SystemName.Contains("Mac") && Global.Config.Space.ScreenMode == ScreenStyle.Default)
+            if (!DGXR.SystemName.Contains("Mac") && DGXR.Config.Space.ScreenMode == ScreenStyle.Default)
             {
                 foreach (var display in Display.displays)
                 {
@@ -119,14 +119,14 @@ namespace Deepglint.XR.Space
             _backBottomTex.Create();
 #endif
             InstantiateXR();
-            var numberScreens = Global.Config.Space.Screens.Count;
+            var numberScreens = DGXR.Config.Space.Screens.Count;
             _screenEdges = new Dictionary<int, GameObject[]>();
-            foreach (var screen in Global.Config.Space.Screens)
+            foreach (var screen in DGXR.Config.Space.Screens)
             {
                 GameObject[] games = new GameObject[4];
                 for (int corner = 0; corner < 4; corner++)
                 {
-                    var sc = Global.Space[screen.TargetScreen];
+                    var sc = DGXR.Space[screen.TargetScreen];
                     games[corner] = sc.ScreenObject.transform.GetChild(corner).gameObject;
                 }
 
@@ -224,9 +224,9 @@ namespace Deepglint.XR.Space
         public void SetHead()
         {
             SetHeadPosition();
-            foreach (var screen in Global.Config.Space.Screens)
+            foreach (var screen in DGXR.Config.Space.Screens)
             {
-                var tarDisplay = Global.Space[screen.TargetScreen];
+                var tarDisplay = DGXR.Space[screen.TargetScreen];
                 if (tarDisplay != null && tarDisplay.SpaceCamera != null)
                 {
                     SetHeadFovAndOrientationScreen((int)screen.TargetScreen, tarDisplay.SpaceCamera, _screenEdges);
@@ -239,29 +239,27 @@ namespace Deepglint.XR.Space
         /// </summary>
         private void SetHeadPosition()
         {
-            if (Global.CavePosition.x != 0 || Global.CavePosition.y != 0 || Global.CavePosition.z != 0)
+            if (DGXR.CavePosition.x != 0 || DGXR.CavePosition.y != 0 || DGXR.CavePosition.z != 0)
             {
-                _head = Global.CavePosition;
+                _head = DGXR.CavePosition;
             }
 
             _headLockPosition = _head;
+            var space = GameObject.Find("XRSpace");
+            Vector3 position = space.transform.position;
             if (lockAll)
             {
-                var space = GameObject.Find("XRSpace");
-                Vector3 position = space.transform.position;
                 _headLockPosition = position + _eyePosition * spaceScale;
             }
             else if (lockXZ)
             {
-                var space = GameObject.Find("XRSpace");
-                Vector3 position = space.transform.position;
                 _headLockPosition = new Vector3(_eyePosition.x, _head.y, _eyePosition.z) * spaceScale + position;
             }
 
-            foreach (var userCamera in Global.Config.Space.Screens)
+            foreach (var userCamera in DGXR.Config.Space.Screens)
             {
-                var cam = Global.Space[userCamera.TargetScreen];
-                cam.SpaceCamera.transform.position = _headLockPosition;
+                var cam = DGXR.Space[userCamera.TargetScreen];
+                cam.SpaceCamera.transform.position = _headLockPosition+position;
             }
         }
 
@@ -327,23 +325,23 @@ namespace Deepglint.XR.Space
             var uiRoot = GameObject.Find("UIRoot");
             XRSpace.Instance.gameObject = space.gameObject;
 
-            XRSpace.Instance.RealSize = new Vector3(Global.Config.Space.Length, Global.Config.Space.Height,
-                Global.Config.Space.Width);
+            XRSpace.Instance.RealSize = new Vector3(DGXR.Config.Space.Length, DGXR.Config.Space.Height,
+                DGXR.Config.Space.Width);
 
             var length = spaceScale * (isCave
-                ? (Global.Space.RealSize.x > Global.Space.RealSize.z
-                    ? Global.Space.RealSize.x
-                    : Global.Space.RealSize.z)
+                ? (DGXR.Space.RealSize.x > DGXR.Space.RealSize.z
+                    ? DGXR.Space.RealSize.x
+                    : DGXR.Space.RealSize.z)
                 : 5);
-            var height = spaceScale * (isCave ? Global.Space.RealSize.y : 3.125f);
+            var height = spaceScale * (isCave ? DGXR.Space.RealSize.y : 3.125f);
             XRSpace.Instance.Size = new Vector3(length, height, length);
-            if (Global.Config.Space.Roi.Length == 4)
+            if (DGXR.Config.Space.Roi.Length == 4)
             {
-                XRSpace.Instance.Roi = new Rect(Global.Config.Space.Roi[0], Global.Config.Space.Roi[1],
-                    Global.Config.Space.Roi[2], Global.Config.Space.Roi[3]);
+                XRSpace.Instance.Roi = new Rect(DGXR.Config.Space.Roi[0], DGXR.Config.Space.Roi[1],
+                    DGXR.Config.Space.Roi[2], DGXR.Config.Space.Roi[3]);
             }
 
-            foreach (var screen in Global.Config.Space.Screens)
+            foreach (var screen in DGXR.Config.Space.Screens)
             {
                 var position = new Vector3(screen.Position.x, screen.Position.y, screen.Position.z);
                 var rotation = Quaternion.Euler(screen.Rotation.x, screen.Rotation.y, screen.Rotation.z);

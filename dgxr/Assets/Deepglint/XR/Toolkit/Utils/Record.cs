@@ -14,7 +14,7 @@ namespace Deepglint.XR.Toolkit.Utils
         {
             _path = path;
             _marker = marker;
-            if (!Global.SystemName.Contains("Mac"))
+            if (!DGXR.SystemName.Contains("Mac"))
             {
                 if (!Directory.Exists(_path))
                 {
@@ -70,7 +70,7 @@ namespace Deepglint.XR.Toolkit.Utils
             {
                 DateTime creationTime = File.GetCreationTime(file);
                 TimeSpan age = currentTime - creationTime;
-                if (age.TotalDays > Global.Config.Record.SaveDay)
+                if (age.TotalDays > DGXR.Config.Record.SaveDay)
                 {
                     File.Delete(file);
                 }

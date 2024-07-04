@@ -11,7 +11,7 @@ namespace Deepglint.XR.Space
     {
         static ScreenUpdate()
         {
-            Global.SystemName =  SystemInfo.operatingSystem;
+            DGXR.SystemName =  SystemInfo.operatingSystem;
             CheckResourceUpdates();
         }
         

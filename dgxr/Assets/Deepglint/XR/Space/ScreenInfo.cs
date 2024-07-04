@@ -168,17 +168,6 @@ namespace Deepglint.XR.Space
         }
         
         /// <summary>
-        /// 将实体空间中的3维坐标投影到当前屏幕,不受XRSpace空间拖动移动的影响
-        /// </summary>
-        /// <param name="point"></param>
-        /// <returns></returns>
-        public Vector2 ProjectionLocalVector3(Vector3 point)
-        {
-            return ProjectionLocalVector3(point, this);
-        }
-        
-
-        /// <summary>
         /// 计算实体空间中的3维坐标到当前屏幕的物理距离
         /// </summary>
         /// <param name="point"></param>
@@ -229,29 +218,6 @@ namespace Deepglint.XR.Space
             return ProjectionVector3(point, screen.TargetScreen);
         }
         
-        /// <summary>
-        /// 将空间3维坐标投影到某个屏幕,不受XRSpace 空间拖动的影响
-        /// </summary>
-        /// <param name="point"></param>
-        /// <param name="screen"></param>
-        /// <returns></returns>
-        public static Vector2 ProjectionLocalVector3(Vector3 point, ScreenInfo screen)
-        {
-            return ProjectionLocalVector3(point, screen.TargetScreen);
-        }
-
-        /// <summary>
-        /// 将空间3维坐标投影到屏幕，不受XRSpace 空间拖动的影响
-        /// </summary>
-        /// <param name="point"></param>
-        /// <param name="screen"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static Vector2 ProjectionLocalVector3(Vector3 point, TargetScreen screen)
-        {
-            point -= Global.Space.gameObject.transform.position;
-            return ProjectionVector3(point, screen);
-        }
 
         public static Vector2 ProjectionVector3(Vector3 point, TargetScreen screen)
         {
@@ -312,11 +278,6 @@ namespace Deepglint.XR.Space
         /// <returns>映射后的像素坐标</returns>
         public static Vector2 SpaceToPixelOnScreen(Vector2 spacePosition, ScreenInfo screen)
         {
-            // todo 增加 realSize 属性，真实空间属性
-            // 计算真实 size 大小
-            // 提供一个方法给出相对于屏幕的 position
-            // 提供一个方法的获取真实世界坐标
-            // 提供一个方法获取
             float xRatio = screen.Resolution.width / screen.Size.x;
             float yRatio = screen.Resolution.height / screen.Size.y;
 

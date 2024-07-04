@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Deepglint.XR.Space;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -13,16 +14,19 @@ namespace Deepglint.XR.Toolkit.DebugTool
         /// <summary>
         /// 默认样式，多屏渲染
         /// </summary>
+        [JsonProperty("default")]
         Default,
 
         /// <summary>
         /// 标准样式
         /// </summary>
+        [JsonProperty("normalMode")]
         NormalMode,
 
         /// <summary>
         /// 主屏优先样式
         /// </summary>
+        [JsonProperty("mainMode")]
         MainMode,
     }
 
@@ -38,7 +42,7 @@ namespace Deepglint.XR.Toolkit.DebugTool
 
         private void Start()
         {
-            if (Global.Config.Space.ScreenMode != ScreenStyle.Default)
+            if (DGXR.Config.Space.ScreenMode != ScreenStyle.Default)
             {
                 Screen.SetResolution((int)Width, (int)Height, true);
                 Camera cam = gameObject.AddComponent<Camera>();
@@ -63,7 +67,7 @@ namespace Deepglint.XR.Toolkit.DebugTool
                 float bottomY = edgeBorder / Height;
 
 
-                switch (Global.Config.Space.ScreenMode)
+                switch (DGXR.Config.Space.ScreenMode)
                 {
                     case ScreenStyle.Default:
                         return;
@@ -90,7 +94,7 @@ namespace Deepglint.XR.Toolkit.DebugTool
 
         void Update()
         {
-            if (Global.Config.Space.ScreenMode != ScreenStyle.Default)
+            if (DGXR.Config.Space.ScreenMode != ScreenStyle.Default)
             {
                 if (Input.GetKeyDown(KeyCode.C))
                 {
@@ -130,15 +134,15 @@ namespace Deepglint.XR.Toolkit.DebugTool
             {
                 if (rec.Value.Contains(point))
                 {
-                    Global.Space[rec.Key].SpaceCamera.rect = new Rect(0, 0, 1, 1);
-                    Global.Space[rec.Key].SpaceCamera.depth = 100;
+                    DGXR.Space[rec.Key].SpaceCamera.rect = new Rect(0, 0, 1, 1);
+                    DGXR.Space[rec.Key].SpaceCamera.depth = 100;
                 }
             }
         }
 
         private void SplitScreenMode()
         {
-            foreach (var space in Global.Space)
+            foreach (var space in DGXR.Space)
             {
                 space.SpaceCamera.targetDisplay = 0;
                 space.SpaceCamera.depth = 1;

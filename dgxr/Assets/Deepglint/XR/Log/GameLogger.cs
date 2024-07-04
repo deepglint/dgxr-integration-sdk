@@ -31,10 +31,10 @@ namespace Deepglint.XR.Log
                     break;
             }
 
-            if (!Global.SystemName.Contains("Mac"))
+            if (!DGXR.SystemName.Contains("Mac"))
             {
                 CreateLogFile();
-                Application.logMessageReceived += OnLogCallBack;
+                Application.logMessageReceivedThreaded += OnLogCallBack;
                 _logFlushTimer = new Timer(FlushLogToFile, null, 5000, 5000);
             }
         }
@@ -43,14 +43,14 @@ namespace Deepglint.XR.Log
         {
             var t = DateTime.Now.ToString("yyyyMMddhhmmss");
 
-            if (!string.IsNullOrEmpty(Global.Config.Log.SavePath))
+            if (!string.IsNullOrEmpty(DGXR.Config.Log.SavePath))
             {
                 _logFileSavePath =
-                    $"{Global.Config.Log.SavePath}/{Global.AppName}/DGXR_{Global.Version}_{t}.log";
+                    $"{DGXR.Config.Log.SavePath}/{DGXR.AppName}/DGXR_{DGXR.Version}_{t}.log";
             }
             else
             {
-                _logFileSavePath = $"{Application.persistentDataPath}/{Global.AppName}/DGXR_{Global.Version}_{t}.log";
+                _logFileSavePath = $"{Application.persistentDataPath}/{DGXR.AppName}/DGXR_{DGXR.Version}_{t}.log";
             }
 
             var logDirectory = Path.GetDirectoryName(_logFileSavePath);
@@ -127,14 +127,14 @@ namespace Deepglint.XR.Log
                     {
                         DateTime creationTime = File.GetCreationTime(filePath);
                         TimeSpan age = currentTime - creationTime;
-                        if (age.TotalDays > Global.Config.Log.SaveDay)
+                        if (age.TotalDays > DGXR.Config.Log.SaveDay)
                         {
                             File.Delete(filePath);
                         }
                     }
                 }
 
-                long maxFileSize = 1024 * 1024 * Global.Config.Log.SingFileMaxSize;
+                long maxFileSize = 1024 * 1024 * DGXR.Config.Log.SingFileMaxSize;
                 FileInfo logFileInfo = new FileInfo(_logFileSavePath);
 
                 if (logFileInfo.Exists && logFileInfo.Length > maxFileSize)
@@ -149,9 +149,9 @@ namespace Deepglint.XR.Log
         {
             _logFlushTimer?.Dispose();
             FlushLogToFile(null);
-            if (!Global.SystemName.Contains("Mac"))
+            if (!DGXR.SystemName.Contains("Mac"))
             {
-                Application.logMessageReceived -= OnLogCallBack;
+                Application.logMessageReceivedThreaded -= OnLogCallBack;
             } 
         }
     }

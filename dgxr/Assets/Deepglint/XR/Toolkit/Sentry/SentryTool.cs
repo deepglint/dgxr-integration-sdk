@@ -15,7 +15,7 @@ namespace Deepglint.XR.Toolkit.Sentry
         }
         private static void UpdateSentryRuntimeConfiguration()
         {
-            string packagePath = Path.GetFullPath(Path.Combine("Packages", Global.PackageName));
+            string packagePath = Path.GetFullPath(Path.Combine("Packages", DGXR.PackageName));
             string sourcePath = Path.Combine(packagePath, "Resources/Sentry/SentryRuntimeConfiguration.asset");
             string targetAssetsPath = "Resources/Sentry";
             

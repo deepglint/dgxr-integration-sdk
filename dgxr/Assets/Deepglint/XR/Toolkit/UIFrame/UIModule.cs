@@ -128,7 +128,7 @@ namespace Deepglint.XR.Toolkit.UIFrame
         public static T Create<T>(TargetScreen target, UIModule moduleParent = null, GameObject parent = null)
             where T : UIModule
         {
-            var screen = Global.Space[target];
+            var screen = DGXR.Space[target];
             return Create<T>(screen, moduleParent, parent);
         }
 

@@ -82,10 +82,6 @@ namespace Deepglint.XR.Inputs
             var device = DeviceManager.AddOrActiveDevice(data.BodyId, nameof(DGXRHumanController));
             if (device != null)
             {
-                if (!Application.isEditor && !Application.isFocused)
-                {
-                    return;
-                }
                 var xrDevice = device as DGXRHumanController;
                 if (xrDevice == null) return;
                 using (StateEvent.From(xrDevice, out var eventPtr))
@@ -100,11 +96,11 @@ namespace Deepglint.XR.Inputs
         private Quaternion GetQuaternion(JointData data)
         {
             Vector3 hip = new Vector3(
-                (data.LeftHip.x + data.RightHip.x) * 0.5f,
-                (data.LeftHip.y + data.RightHip.y) * 0.5f,
-                (data.LeftHip.z + data.RightHip.z) * 0.5f
+                (data.LeftHip.LocalPosition.x + data.RightHip.LocalPosition.x) * 0.5f,
+                (data.LeftHip.LocalPosition.y + data.RightHip.LocalPosition.y) * 0.5f,
+                (data.LeftHip.LocalPosition.z + data.RightHip.LocalPosition.z) * 0.5f
             );
-            Vector3 forward = -Vector3.Cross(data.LeftShoulder - hip, data.RightShoulder - hip).normalized;
+            Vector3 forward = -Vector3.Cross(data.LeftShoulder.LocalPosition - hip, data.RightShoulder.LocalPosition - hip).normalized;
             return Quaternion.LookRotation(forward);
         }
         
@@ -113,52 +109,52 @@ namespace Deepglint.XR.Inputs
             xrDevice.HumanPose.IsTracked.WriteValueIntoEvent(1.0f, eventPtr);
             xrDevice.HumanPose.TrackingState.WriteValueIntoEvent((int)(InputTrackingState.Position | InputTrackingState.Rotation), eventPtr);
             Vector3 humanPosition = new Vector3(
-                (data.LeftHip.x + data.RightHip.x) * 0.5f,
-                (data.LeftHip.y + data.RightHip.y) * 0.5f,
-                (data.LeftHip.z + data.RightHip.z) * 0.5f
+                (data.LeftHip.LocalPosition.x + data.RightHip.LocalPosition.x) * 0.5f,
+                (data.LeftHip.LocalPosition.y + data.RightHip.LocalPosition.y) * 0.5f,
+                (data.LeftHip.LocalPosition.z + data.RightHip.LocalPosition.z) * 0.5f
             );
             xrDevice.HumanPose.Position.WriteValueIntoEvent(humanPosition, eventPtr);
 
             xrDevice.HumanPose.Rotation.WriteValueIntoEvent(GetQuaternion(data), eventPtr);
 
-            xrDevice.HumanBody.HeadTop.position.WriteValueIntoEvent(data.HeadTop, eventPtr);
-            xrDevice.HumanBody.Nose.position.WriteValueIntoEvent(data.Nose, eventPtr);
-            xrDevice.HumanBody.LeftEye.position.WriteValueIntoEvent(data.LeftEye, eventPtr);
-            xrDevice.HumanBody.RightEye.position.WriteValueIntoEvent(data.RightEye, eventPtr);
-            xrDevice.HumanBody.LeftEar.position.WriteValueIntoEvent(data.LeftEar, eventPtr);
-            xrDevice.HumanBody.RightEar.position.WriteValueIntoEvent(data.RightEar, eventPtr);
-            xrDevice.HumanBody.LeftShoulder.position.WriteValueIntoEvent(data.LeftShoulder, eventPtr);
-            xrDevice.HumanBody.RightShoulder.position.WriteValueIntoEvent(data.RightShoulder, eventPtr);
-            xrDevice.HumanBody.LeftElbow.position.WriteValueIntoEvent(data.LeftElbow, eventPtr);
-            xrDevice.HumanBody.RightElbow.position.WriteValueIntoEvent(data.RightElbow, eventPtr);
-            xrDevice.HumanBody.LeftWrist.position.WriteValueIntoEvent(data.LeftWrist, eventPtr);
-            xrDevice.HumanBody.RightWrist.position.WriteValueIntoEvent(data.RightWrist, eventPtr);
-            xrDevice.HumanBody.LeftHip.position.WriteValueIntoEvent(data.LeftHip, eventPtr);
-            xrDevice.HumanBody.RightHip.position.WriteValueIntoEvent(data.RightHip, eventPtr);
-            xrDevice.HumanBody.LeftKnee.position.WriteValueIntoEvent(data.LeftKnee, eventPtr);
-            xrDevice.HumanBody.RightKnee.position.WriteValueIntoEvent(data.RightKnee, eventPtr);
-            xrDevice.HumanBody.LeftAnkle.position.WriteValueIntoEvent(data.LeftAnkle, eventPtr);
-            xrDevice.HumanBody.RightAnkle.position.WriteValueIntoEvent(data.RightAnkle, eventPtr);
-            xrDevice.HumanBody.LeftTiptoe.position.WriteValueIntoEvent(data.LeftTiptoe, eventPtr);
-            xrDevice.HumanBody.RightTiptoe.position.WriteValueIntoEvent(data.RightTiptoe, eventPtr);
-            xrDevice.HumanBody.LeftHeel.position.WriteValueIntoEvent(data.LeftHeel, eventPtr);
-            xrDevice.HumanBody.RightHeel.position.WriteValueIntoEvent(data.RightHeel, eventPtr);
-            xrDevice.HumanBody.LeftHand.position.WriteValueIntoEvent(data.LeftHand, eventPtr);
-            xrDevice.HumanBody.RightHand.position.WriteValueIntoEvent(data.RightHand, eventPtr);
+            xrDevice.HumanBody.HeadTop.position.WriteValueIntoEvent(data.HeadTop.LocalPosition, eventPtr);
+            xrDevice.HumanBody.Nose.position.WriteValueIntoEvent(data.Nose.LocalPosition, eventPtr);
+            xrDevice.HumanBody.LeftEye.position.WriteValueIntoEvent(data.LeftEye.LocalPosition, eventPtr);
+            xrDevice.HumanBody.RightEye.position.WriteValueIntoEvent(data.RightEye.LocalPosition, eventPtr);
+            xrDevice.HumanBody.LeftEar.position.WriteValueIntoEvent(data.LeftEar.LocalPosition, eventPtr);
+            xrDevice.HumanBody.RightEar.position.WriteValueIntoEvent(data.RightEar.LocalPosition, eventPtr);
+            xrDevice.HumanBody.LeftShoulder.position.WriteValueIntoEvent(data.LeftShoulder.LocalPosition, eventPtr);
+            xrDevice.HumanBody.RightShoulder.position.WriteValueIntoEvent(data.RightShoulder.LocalPosition, eventPtr);
+            xrDevice.HumanBody.LeftElbow.position.WriteValueIntoEvent(data.LeftElbow.LocalPosition, eventPtr);
+            xrDevice.HumanBody.RightElbow.position.WriteValueIntoEvent(data.RightElbow.LocalPosition, eventPtr);
+            xrDevice.HumanBody.LeftWrist.position.WriteValueIntoEvent(data.LeftWrist.LocalPosition, eventPtr);
+            xrDevice.HumanBody.RightWrist.position.WriteValueIntoEvent(data.RightWrist.LocalPosition, eventPtr);
+            xrDevice.HumanBody.LeftHip.position.WriteValueIntoEvent(data.LeftHip.LocalPosition, eventPtr);
+            xrDevice.HumanBody.RightHip.position.WriteValueIntoEvent(data.RightHip.LocalPosition, eventPtr);
+            xrDevice.HumanBody.LeftKnee.position.WriteValueIntoEvent(data.LeftKnee.LocalPosition, eventPtr);
+            xrDevice.HumanBody.RightKnee.position.WriteValueIntoEvent(data.RightKnee.LocalPosition, eventPtr);
+            xrDevice.HumanBody.LeftAnkle.position.WriteValueIntoEvent(data.LeftAnkle.LocalPosition, eventPtr);
+            xrDevice.HumanBody.RightAnkle.position.WriteValueIntoEvent(data.RightAnkle.LocalPosition, eventPtr);
+            xrDevice.HumanBody.LeftTiptoe.position.WriteValueIntoEvent(data.LeftTiptoe.LocalPosition, eventPtr);
+            xrDevice.HumanBody.RightTiptoe.position.WriteValueIntoEvent(data.RightTiptoe.LocalPosition, eventPtr);
+            xrDevice.HumanBody.LeftHeel.position.WriteValueIntoEvent(data.LeftHeel.LocalPosition, eventPtr);
+            xrDevice.HumanBody.RightHeel.position.WriteValueIntoEvent(data.RightHeel.LocalPosition, eventPtr);
+            xrDevice.HumanBody.LeftHand.position.WriteValueIntoEvent(data.LeftHand.LocalPosition, eventPtr);
+            xrDevice.HumanBody.RightHand.position.WriteValueIntoEvent(data.RightHand.LocalPosition, eventPtr);
             xrDevice.HumanBody.LeftFoot.position.WriteValueIntoEvent(new Vector3(
-                (data.LeftTiptoe.x + data.LeftHeel.x) * 0.5f,
-                Math.Min(data.LeftTiptoe.y, data.LeftHeel.y),
-                (data.LeftTiptoe.z + data.LeftHeel.z) * 0.5f
+                (data.LeftTiptoe.LocalPosition.x + data.LeftHeel.LocalPosition.x) * 0.5f,
+                Math.Min(data.LeftTiptoe.LocalPosition.y, data.LeftHeel.LocalPosition.y),
+                (data.LeftTiptoe.LocalPosition.z + data.LeftHeel.LocalPosition.z) * 0.5f
                 ), eventPtr);
             xrDevice.HumanBody.RightFoot.position.WriteValueIntoEvent(new Vector3(
-                (data.RightTiptoe.x + data.RightHeel.x) * 0.5f,
-                Math.Min(data.RightTiptoe.y, data.RightHeel.y),
-                (data.RightTiptoe.z + data.RightHeel.z) * 0.5f
+                (data.RightTiptoe.LocalPosition.x + data.RightHeel.LocalPosition.x) * 0.5f,
+                Math.Min(data.RightTiptoe.LocalPosition.y, data.RightHeel.LocalPosition.y),
+                (data.RightTiptoe.LocalPosition.z + data.RightHeel.LocalPosition.z) * 0.5f
                 ), eventPtr);
 
             if (xrDevice.Anchor != null)
             {
-                Vector3 position = Global.Space.gameObject.transform.InverseTransformPoint(humanPosition);
+                Vector3 position = humanPosition;
                 Vector2 point = new Vector2(position.x, position.z);
                 Vector2 anchorPoint = new Vector2(xrDevice.Anchor.Point.x, xrDevice.Anchor.Point.z);
                 if (Vector2.Distance(point, anchorPoint) < xrDevice.Anchor.Radius)

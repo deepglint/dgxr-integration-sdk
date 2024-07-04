@@ -44,21 +44,21 @@ namespace Deepglint.XR.EventSystem.InputModules
             bool result = false;
             float anchorThreshold = GetAnchorThreshold(p1, p2);
             
-            if (p1.Joints.LeftHand.y < anchorThreshold && p1.Joints.RightHand.y < anchorThreshold)
+            if (p1.Joints.LeftHand.LocalPosition.y < anchorThreshold && p1.Joints.RightHand.LocalPosition.y < anchorThreshold)
             {
                 return false;
             }
             
-            if (p2.Joints.LeftHand.y < anchorThreshold && p2.Joints.RightHand.y < anchorThreshold)
+            if (p2.Joints.LeftHand.LocalPosition.y < anchorThreshold && p2.Joints.RightHand.LocalPosition.y < anchorThreshold)
             {
                 return false;
             }
             
-            float left1 = Vector3.Distance(p1.Joints.LeftHand, p2.Joints.RightHand);
-            float left2 = Vector3.Distance(p1.Joints.LeftHand, p2.Joints.LeftHand);
+            float left1 = Vector3.Distance(p1.Joints.LeftHand.LocalPosition, p2.Joints.RightHand.LocalPosition);
+            float left2 = Vector3.Distance(p1.Joints.LeftHand.LocalPosition, p2.Joints.LeftHand.LocalPosition);
             float leftDistance = left2 < left1 ? left2 : left1;
-            float right1 = Vector3.Distance(p1.Joints.RightHand, p2.Joints.RightHand);
-            float right2 = Vector3.Distance(p1.Joints.RightHand, p2.Joints.LeftHand);
+            float right1 = Vector3.Distance(p1.Joints.RightHand.LocalPosition, p2.Joints.RightHand.LocalPosition);
+            float right2 = Vector3.Distance(p1.Joints.RightHand.LocalPosition, p2.Joints.LeftHand.LocalPosition);
             float rightDistance = right2 < right1 ? right2 : right1;
             float handDistance = rightDistance < leftDistance ? rightDistance : leftDistance;
             
@@ -73,11 +73,11 @@ namespace Deepglint.XR.EventSystem.InputModules
         private bool IsHighFiveOffHappened(SourceData p1, SourceData p2)
         {
             bool result = false;
-            float left1 = Vector3.Distance(p1.Joints.LeftHand, p2.Joints.RightHand);
-            float left2 = Vector3.Distance(p1.Joints.LeftHand, p2.Joints.LeftHand);
+            float left1 = Vector3.Distance(p1.Joints.LeftHand.LocalPosition, p2.Joints.RightHand.LocalPosition);
+            float left2 = Vector3.Distance(p1.Joints.LeftHand.LocalPosition, p2.Joints.LeftHand.LocalPosition);
             float leftDistance = left2 < left1 ? left2 : left1;
-            float right1 = Vector3.Distance(p1.Joints.RightHand, p2.Joints.RightHand);
-            float right2 = Vector3.Distance(p1.Joints.RightHand, p2.Joints.LeftHand);
+            float right1 = Vector3.Distance(p1.Joints.RightHand.LocalPosition, p2.Joints.RightHand.LocalPosition);
+            float right2 = Vector3.Distance(p1.Joints.RightHand.LocalPosition, p2.Joints.LeftHand.LocalPosition);
             float rightDistance = right2 < right1 ? right2 : right1;
             float handDistance = rightDistance < leftDistance ? rightDistance : leftDistance;
             
@@ -91,10 +91,10 @@ namespace Deepglint.XR.EventSystem.InputModules
 
         private float GetLowestShoulder(SourceData p1, SourceData p2)
         {
-            float shoulder1 = p1.Joints.LeftShoulder.y <= p1.Joints.RightShoulder.y ? 
-                p1.Joints.LeftShoulder.y : p1.Joints.RightShoulder.y;
-            float shoulder2 = p2.Joints.LeftShoulder.y <= p2.Joints.RightShoulder.y ? 
-                p2.Joints.LeftShoulder.y : p2.Joints.RightShoulder.y;
+            float shoulder1 = p1.Joints.LeftShoulder.LocalPosition.y <= p1.Joints.RightShoulder.LocalPosition.y ? 
+                p1.Joints.LeftShoulder.LocalPosition.y : p1.Joints.RightShoulder.LocalPosition.y;
+            float shoulder2 = p2.Joints.LeftShoulder.LocalPosition.y <= p2.Joints.RightShoulder.LocalPosition.y ? 
+                p2.Joints.LeftShoulder.LocalPosition.y : p2.Joints.RightShoulder.LocalPosition.y;
             return shoulder1 <= shoulder2 ? shoulder1 : shoulder2;
         }
 

@@ -21,7 +21,7 @@ namespace Deepglint.XR.Toolkit.Manager
             _fps = transform.GetComponent<FPS>();
             _versionCode = transform.GetComponent<VersionCode>();
             _inGameDebugConsole = GameObject.Find("IngameDebugConsole");
-            bool openDebug = Global.Config.Debug;
+            bool openDebug = DGXR.Config.Debug;
             _fps.enabled = openDebug;
             _versionCode.enabled = openDebug;
             if (_inGameDebugConsole != null)

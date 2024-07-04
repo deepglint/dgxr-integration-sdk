@@ -384,7 +384,7 @@ namespace Deepglint.XR.EventSystem.InputModules
             }
 
             // data.displayIndex = Global.Space.Bottom.UICamera.targetDisplay;
-            data.displayIndex = (int)Global.Space.Bottom.TargetScreen;
+            data.displayIndex = (int)DGXR.Space.Bottom.TargetScreen;
             eventSystem.RaycastAll(data, m_RaycastResultCache);
             data.pointerCurrentRaycast = FindFirstRaycast(m_RaycastResultCache);
             m_RaycastResultCache.Clear();
@@ -399,12 +399,11 @@ namespace Deepglint.XR.EventSystem.InputModules
         /// <returns></returns>
         private Vector2 WorldToBottomScreenPosition(Vector3 position)
         {
-            var localPosition = Global.Space.gameObject.transform.InverseTransformPoint(position);
             return new Vector2(
-                localPosition.x * Global.Space.Bottom.Resolution.width / Global.Space.Bottom.Size.x 
-                + Global.Space.Bottom.Resolution.width * 0.5f, 
-                localPosition.z * Global.Space.Bottom.Resolution.height / Global.Space.Bottom.Size.y 
-                + Global.Space.Bottom.Resolution.height * 0.5f);
+                position.x * DGXR.Space.Bottom.Resolution.width / DGXR.Space.Bottom.Size.x 
+                + DGXR.Space.Bottom.Resolution.width * 0.5f, 
+                position.z * DGXR.Space.Bottom.Resolution.height / DGXR.Space.Bottom.Size.y 
+                + DGXR.Space.Bottom.Resolution.height * 0.5f);
         }
 
         /// <summary>

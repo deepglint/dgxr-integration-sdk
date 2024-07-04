@@ -81,33 +81,33 @@ namespace Samples.HumanBody
                     _bodyMap.TryAdd(body.BodyId, bodyInfo);
                 }
 
-                _bodyMap[body.BodyId].Nose.transform.localPosition = body.Joints.Nose;
-                _bodyMap[body.BodyId].LeftEye.transform.localPosition = body.Joints.LeftEye;
-                _bodyMap[body.BodyId].RightEye.transform.localPosition = body.Joints.RightEye;
-                _bodyMap[body.BodyId].LeftEar.transform.localPosition = body.Joints.LeftEar;
-                _bodyMap[body.BodyId].RightEar.transform.localPosition = body.Joints.RightEar;
-                _bodyMap[body.BodyId].LeftShoulder.transform.localPosition = body.Joints.LeftShoulder;
-                _bodyMap[body.BodyId].RightShoulder.transform.localPosition = body.Joints.RightShoulder;
-                _bodyMap[body.BodyId].LeftElbow.transform.localPosition = body.Joints.LeftElbow;
-                _bodyMap[body.BodyId].RightElbow.transform.localPosition = body.Joints.RightElbow;
-                _bodyMap[body.BodyId].LeftWrist.transform.localPosition = body.Joints.LeftWrist;
-                _bodyMap[body.BodyId].RightWrist.transform.localPosition = body.Joints.RightWrist;
-                _bodyMap[body.BodyId].LeftHip.transform.localPosition = body.Joints.LeftHip;
-                _bodyMap[body.BodyId].RightHip.transform.localPosition = body.Joints.RightHip;
-                _bodyMap[body.BodyId].LeftKnee.transform.localPosition = body.Joints.LeftKnee;
-                _bodyMap[body.BodyId].RightKnee.transform.localPosition = body.Joints.RightKnee;
-                _bodyMap[body.BodyId].LeftAnkle.transform.localPosition = body.Joints.LeftAnkle;
-                _bodyMap[body.BodyId].RightAnkle.transform.localPosition = body.Joints.RightAnkle;
-                _bodyMap[body.BodyId].LeftTiptoe.transform.localPosition = body.Joints.LeftTiptoe;
-                _bodyMap[body.BodyId].RightTiptoe.transform.localPosition = body.Joints.RightTiptoe;
-                _bodyMap[body.BodyId].LeftHeel.transform.localPosition = body.Joints.LeftHeel;
-                _bodyMap[body.BodyId].RightHeel.transform.localPosition = body.Joints.RightHeel;
-                _bodyMap[body.BodyId].HeadTop.transform.localPosition = body.Joints.HeadTop;
-                _bodyMap[body.BodyId].LeftHand.transform.localPosition = body.Joints.LeftHand;
-                _bodyMap[body.BodyId].RightHand.transform.localPosition = body.Joints.RightHand;
+                _bodyMap[body.BodyId].Nose.transform.localPosition = body.Joints.Nose.Position;
+                _bodyMap[body.BodyId].LeftEye.transform.localPosition = body.Joints.LeftEye.Position;
+                _bodyMap[body.BodyId].RightEye.transform.localPosition = body.Joints.RightEye.Position;
+                _bodyMap[body.BodyId].LeftEar.transform.localPosition = body.Joints.LeftEar.Position;
+                _bodyMap[body.BodyId].RightEar.transform.localPosition = body.Joints.RightEar.Position;
+                _bodyMap[body.BodyId].LeftShoulder.transform.localPosition = body.Joints.LeftShoulder.Position;
+                _bodyMap[body.BodyId].RightShoulder.transform.localPosition = body.Joints.RightShoulder.Position;
+                _bodyMap[body.BodyId].LeftElbow.transform.localPosition = body.Joints.LeftElbow.Position;
+                _bodyMap[body.BodyId].RightElbow.transform.localPosition = body.Joints.RightElbow.Position;
+                _bodyMap[body.BodyId].LeftWrist.transform.localPosition = body.Joints.LeftWrist.Position;
+                _bodyMap[body.BodyId].RightWrist.transform.localPosition = body.Joints.RightWrist.Position;
+                _bodyMap[body.BodyId].LeftHip.transform.localPosition = body.Joints.LeftHip.Position;
+                _bodyMap[body.BodyId].RightHip.transform.localPosition = body.Joints.RightHip.Position;
+                _bodyMap[body.BodyId].LeftKnee.transform.localPosition = body.Joints.LeftKnee.Position;
+                _bodyMap[body.BodyId].RightKnee.transform.localPosition = body.Joints.RightKnee.Position;
+                _bodyMap[body.BodyId].LeftAnkle.transform.localPosition = body.Joints.LeftAnkle.Position;
+                _bodyMap[body.BodyId].RightAnkle.transform.localPosition = body.Joints.RightAnkle.Position;
+                _bodyMap[body.BodyId].LeftTiptoe.transform.localPosition = body.Joints.LeftTiptoe.Position;
+                _bodyMap[body.BodyId].RightTiptoe.transform.localPosition = body.Joints.RightTiptoe.Position;
+                _bodyMap[body.BodyId].LeftHeel.transform.localPosition = body.Joints.LeftHeel.Position;
+                _bodyMap[body.BodyId].RightHeel.transform.localPosition = body.Joints.RightHeel.Position;
+                _bodyMap[body.BodyId].HeadTop.transform.localPosition = body.Joints.HeadTop.Position;
+                _bodyMap[body.BodyId].LeftHand.transform.localPosition = body.Joints.LeftHand.Position;
+                _bodyMap[body.BodyId].RightHand.transform.localPosition = body.Joints.RightHand.Position;
                 _bodyMap[body.BodyId].Neck.transform.localPosition =
-                    (body.Joints.LeftShoulder + body.Joints.RightShoulder) / 2;
-                _bodyMap[body.BodyId].Root.transform.localPosition = (body.Joints.LeftHip + body.Joints.RightHip) / 2;
+                    (body.Joints.LeftShoulder.Position + body.Joints.RightShoulder.Position) / 2;
+                _bodyMap[body.BodyId].Root.transform.localPosition = (body.Joints.LeftHip.Position + body.Joints.RightHip.Position) / 2;
 
                 //it requires 4 lines to connect all the joints
                 _bodyMap[body.BodyId].LineRenderer1

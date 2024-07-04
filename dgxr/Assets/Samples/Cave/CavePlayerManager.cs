@@ -27,13 +27,13 @@ namespace Samples.Cave
                         if (device is DGXRHumanController dgXRDevice)
                         {
                             Vector3 position = dgXRDevice.HumanBody.HeadTop.position.ReadValue();
-                            Global.CavePosition = position;
+                            DGXR.CavePosition = position;
                         }
                     }
                 }
                 else
                 {
-                    Global.CavePosition = new Vector3(0, 1.6f, 0);
+                    DGXR.CavePosition = new Vector3(0, 1.6f, 0);
                 }
 
             }

@@ -6,6 +6,7 @@ using System.Threading;
 using Deepglint.XR.Source;
 using Deepglint.XR.Toolkit.Utils;
 using Newtonsoft.Json;
+using UnityEditor;
 using UnityEngine;
 using Joint = Deepglint.XR.Source.Joint;
 
@@ -79,7 +80,7 @@ namespace Deepglint.XR.Ros
     /// </summary>
     public class Ros2PoseAdapter
     {
-        private readonly Record _record = new(Global.Config.Record.SavePath,
+        private readonly Record _record = new(DGXR.Config.Record.SavePath,
             "Ros2");
 
         private readonly Dictionary<String, Source.SourceData> _oldData = new Dictionary<string, Source.SourceData>();
@@ -95,6 +96,12 @@ namespace Deepglint.XR.Ros
         /// <param name="msg">ros 接收到的string消息</param> 
         public void DealMsgData(string msg)
         {
+#if UNITY_EDITOR
+            if (!PlayerSettings.runInBackground && !Application.isFocused)
+            {
+                return;
+            }
+#endif
             Dictionary<string, SourceData> data = new Dictionary<string, SourceData>();
             MetaPoseData info = JsonConvert.DeserializeObject<MetaPoseData>(msg);
             HashSet<string> humans = new HashSet<string>();
@@ -106,7 +113,7 @@ namespace Deepglint.XR.Ros
                     return;
                 }
 
-                if (!Global.SystemName.Contains("Mac"))
+                if (!DGXR.SystemName.Contains("Mac"))
                 {
                     ThreadPool.QueueUserWorkItem(_record.SaveMsgData, msg);
                 }
@@ -135,199 +142,199 @@ namespace Deepglint.XR.Ros
                                 case Joint.Nose:
                                     if (isZero)
                                     {
-                                        joints.Nose = sourceData.Joints.Nose;
+                                        joints.Nose.LocalPosition = sourceData.Joints.Nose.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.Nose = UnifyCoordinate(pose);
+                                    joints.Nose.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.LeftEye:
                                     if (isZero)
                                     {
-                                        joints.LeftEye = sourceData.Joints.LeftEye;
+                                        joints.LeftEye.LocalPosition = sourceData.Joints.LeftEye.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.LeftEye = UnifyCoordinate(pose);
+                                    joints.LeftEye.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.RightEye:
                                     if (isZero)
                                     {
-                                        joints.RightEye = sourceData.Joints.RightEye;
+                                        joints.RightEye.LocalPosition = sourceData.Joints.RightEye.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.RightEye = UnifyCoordinate(pose);
+                                    joints.RightEye.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.LeftEar:
                                     if (isZero)
                                     {
-                                        joints.LeftEar = sourceData.Joints.LeftEar;
+                                        joints.LeftEar.LocalPosition = sourceData.Joints.LeftEar.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.LeftEar = UnifyCoordinate(pose);
+                                    joints.LeftEar.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.RightEar:
                                     if (isZero)
                                     {
-                                        joints.RightEar = sourceData.Joints.RightEar;
+                                        joints.RightEar.LocalPosition = sourceData.Joints.RightEar.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.RightEar = UnifyCoordinate(pose);
+                                    joints.RightEar.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.LeftShoulder:
                                     if (isZero)
                                     {
-                                        joints.LeftShoulder = sourceData.Joints.LeftShoulder;
+                                        joints.LeftShoulder.LocalPosition = sourceData.Joints.LeftShoulder.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.LeftShoulder = UnifyCoordinate(pose);
+                                    joints.LeftShoulder.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.RightShoulder:
                                     if (isZero)
                                     {
-                                        joints.RightShoulder = sourceData.Joints.RightShoulder;
+                                        joints.RightShoulder.LocalPosition = sourceData.Joints.RightShoulder.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.RightShoulder = UnifyCoordinate(pose);
+                                    joints.RightShoulder.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.LeftElbow:
                                     if (isZero)
                                     {
-                                        joints.LeftElbow = sourceData.Joints.LeftElbow;
+                                        joints.LeftElbow.LocalPosition = sourceData.Joints.LeftElbow.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.LeftElbow = UnifyCoordinate(pose);
+                                    joints.LeftElbow.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.RightElbow:
                                     if (isZero)
                                     {
-                                        joints.RightElbow = sourceData.Joints.RightElbow;
+                                        joints.RightElbow.LocalPosition = sourceData.Joints.RightElbow.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.RightElbow = UnifyCoordinate(pose);
+                                    joints.RightElbow.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.LeftWrist:
                                     if (isZero)
                                     {
-                                        joints.LeftWrist = sourceData.Joints.LeftWrist;
+                                        joints.LeftWrist.LocalPosition = sourceData.Joints.LeftWrist.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.LeftWrist = UnifyCoordinate(pose);
+                                    joints.LeftWrist.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.RightWrist:
                                     if (isZero)
                                     {
-                                        joints.RightWrist = sourceData.Joints.RightWrist;
+                                        joints.RightWrist.LocalPosition = sourceData.Joints.RightWrist.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.RightWrist = UnifyCoordinate(pose);
+                                    joints.RightWrist.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.LeftHip:
                                     if (isZero)
                                     {
-                                        joints.LeftHip = sourceData.Joints.LeftHip;
+                                        joints.LeftHip.LocalPosition = sourceData.Joints.LeftHip.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.LeftHip = UnifyCoordinate(pose);
+                                    joints.LeftHip.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.RightHip:
                                     if (isZero)
                                     {
-                                        joints.RightHip = sourceData.Joints.RightHip;
+                                        joints.RightHip.LocalPosition = sourceData.Joints.RightHip.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.RightHip = UnifyCoordinate(pose);
+                                    joints.RightHip.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.LeftKnee:
                                     if (isZero)
                                     {
-                                        joints.LeftKnee = sourceData.Joints.LeftKnee;
+                                        joints.LeftKnee.LocalPosition = sourceData.Joints.LeftKnee.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.LeftKnee = UnifyCoordinate(pose);
+                                    joints.LeftKnee.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.RightKnee:
                                     if (isZero)
                                     {
-                                        joints.RightKnee = sourceData.Joints.RightKnee;
+                                        joints.RightKnee.LocalPosition = sourceData.Joints.RightKnee.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.RightKnee = UnifyCoordinate(pose);
+                                    joints.RightKnee.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.LeftAnkle:
                                     if (isZero)
                                     {
-                                        joints.LeftAnkle = sourceData.Joints.LeftAnkle;
+                                        joints.LeftAnkle.LocalPosition = sourceData.Joints.LeftAnkle.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.LeftAnkle = UnifyCoordinate(pose);
+                                    joints.LeftAnkle.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.RightAnkle:
                                     if (isZero)
                                     {
-                                        joints.RightAnkle = sourceData.Joints.RightAnkle;
+                                        joints.RightAnkle.LocalPosition = sourceData.Joints.RightAnkle.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.RightAnkle = UnifyCoordinate(pose);
+                                    joints.RightAnkle.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.LeftTiptoe:
                                     if (isZero)
                                     {
-                                        joints.LeftTiptoe = sourceData.Joints.LeftTiptoe;
+                                        joints.LeftTiptoe.LocalPosition = sourceData.Joints.LeftTiptoe.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.LeftTiptoe = UnifyCoordinate(pose);
+                                    joints.LeftTiptoe.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.RightTiptoe:
                                     if (isZero)
                                     {
-                                        joints.RightTiptoe = sourceData.Joints.RightTiptoe;
+                                        joints.RightTiptoe.LocalPosition = sourceData.Joints.RightTiptoe.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.RightTiptoe = UnifyCoordinate(pose);
+                                    joints.RightTiptoe.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.LeftHeel:
                                     if (isZero)
                                     {
-                                        joints.LeftHeel = sourceData.Joints.LeftHeel;
+                                        joints.LeftHeel.LocalPosition = sourceData.Joints.LeftHeel.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.LeftHeel = UnifyCoordinate(pose);
+                                    joints.LeftHeel.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.RightHeel:
                                     if (isZero)
                                     {
-                                        joints.RightHeel = sourceData.Joints.RightHeel;
+                                        joints.RightHeel.LocalPosition = sourceData.Joints.RightHeel.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.RightHeel = UnifyCoordinate(pose);
+                                    joints.RightHeel.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.HeadTop:
                                     if (isZero)
                                     {
-                                        joints.HeadTop = sourceData.Joints.HeadTop;
+                                        joints.HeadTop.LocalPosition = sourceData.Joints.HeadTop.LocalPosition;
                                         continue;
                                     }
-                                    joints.HeadTop = UnifyCoordinate(pose);
+                                    joints.HeadTop.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.LeftHand:
                                     if (isZero)
@@ -336,16 +343,16 @@ namespace Deepglint.XR.Ros
                                         continue;
                                     }
 
-                                    joints.LeftHand = UnifyCoordinate(pose);
+                                    joints.LeftHand.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.RightHand:
                                     if (isZero)
                                     {
-                                        joints.RightHand = sourceData.Joints.RightHand;
+                                        joints.RightHand.LocalPosition = sourceData.Joints.RightHand.LocalPosition;
                                         continue;
                                     }
 
-                                    joints.RightHand = UnifyCoordinate(pose);
+                                    joints.RightHand.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 default:
                                     throw new ArgumentOutOfRangeException();
@@ -354,14 +361,15 @@ namespace Deepglint.XR.Ros
                     }
                     var body = new SourceData
                     {
-                        FrameId = info.FrameId,
+                        FrameId = int.Parse(info.FrameId),
                         BodyId = val.Key,
                         Actions = action,
                         Joints = joints,
                     };
+                    Source.Source.SetData(body);
                     Source.Source.TriggerMetaPoseDataReceived(body);
                     data[val.Key] = body;
-                    if (Global.IsFilterZero)
+                    if (DGXR.IsFilterZero)
                     {
                         _oldData[val.Key] = body;
                     }
@@ -372,12 +380,11 @@ namespace Deepglint.XR.Ros
             {
                 if (!humans.Contains(human.BodyId))
                 {
+                    Source.Source.DelData(human.BodyId);
                     Source.Source.TriggerMetaPostDataLost(human.BodyId);
-                  
                 }
             }
 
-            Source.Source.SetData(data); 
             Source.Source.TriggerMetaPoseFrameDataReceived(data.Values.ToList());
         }
 
@@ -388,7 +395,7 @@ namespace Deepglint.XR.Ros
         /// /// <param name="BodyId">人员 id</param>  
         private (bool, SourceData) IsZero(IReadOnlyList<float> pose, string BodyId)
         {
-            if (Global.IsFilterZero && pose[0] == 0 && pose[1] == 0 && pose[2] == 0 &&
+            if (DGXR.IsFilterZero && pose[0] == 0 && pose[1] == 0 && pose[2] == 0 &&
                 _oldData.TryGetValue(BodyId, out var sourceData))
             {
                 return (true, sourceData);
@@ -403,18 +410,20 @@ namespace Deepglint.XR.Ros
         /// <param name="pose">人体骨骼点</param>
         private Vector3 UnifyCoordinate(List<float> poseList)
         {
-            Vector3 pose =Global.Space.Origin;
-            if (Global.Space != null)
+            Vector3 pose =Vector3.zero;
+            if (DGXR.Space != null)
             {
-                var size = Global.Space.Size;
-                poseList[0] = (size.x / Global.Space.RealSize.x) *
+                var size = DGXR.Space.Size;
+                poseList[0] = (size.x / DGXR.Space.RealSize.x) *
                     poseList[0];
-                poseList[1] = (size.z / Global.Space.RealSize.z) *
-                              poseList[1];  
-                pose += new Vector3(poseList[0], poseList[2], poseList[1]);
+                poseList[1] = (size.z / DGXR.Space.RealSize.z) *
+                              poseList[1]; 
+                poseList[2] = (size.y / DGXR.Space.RealSize.y) *
+                              poseList[2];  
+                pose = new Vector3(poseList[0], poseList[2], poseList[1]);
             }
            
-            switch (Global.Config.Space.XDirection, Global.Config.Space.ZDirection)
+            switch (DGXR.Config.Space.XDirection, DGXR.Config.Space.ZDirection)
             {
                 case ("left", "up"):
                     return new Vector3(-pose.x, pose.y, pose.z);

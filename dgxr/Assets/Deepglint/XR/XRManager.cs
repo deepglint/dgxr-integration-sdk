@@ -15,11 +15,11 @@ namespace Deepglint.XR
         public void Awake()
         {
 
-            Global.UniqueID = SystemInfo.deviceUniqueIdentifier;
-            Global.AppName = Application.productName;
-            Global.Version = Application.version;
-            Global.SystemName = SystemInfo.operatingSystem;
-            Global.Config = new Config.Config().InitConfig();
+            DGXR.UniqueID = SystemInfo.deviceUniqueIdentifier;
+            DGXR.AppName = Application.productName;
+            DGXR.Version = Application.version;
+            DGXR.SystemName = SystemInfo.operatingSystem;
+            DGXR.Config = new Config.Config().InitConfig();
             
 #if !UNITY_EDITOR
             if (Global.Config.Space.ScreenMode is ScreenStyle.Default)
@@ -28,7 +28,7 @@ namespace Deepglint.XR
             }
 #endif
             
-            GameLogger.Init(Global.Config.Log);
+            GameLogger.Init(DGXR.Config.Log);
             if (UseRos())
             {
                 var ros = Extends.FindChildGameObject(gameObject,"RosConnect" );
@@ -45,13 +45,13 @@ namespace Deepglint.XR
 
         public void Start()
         {
-            Global.Space = XRSpace.Instance;
-            Global.IsFilterZero = isFilterZero;
+            DGXR.Space = XRSpace.Instance;
+            DGXR.IsFilterZero = isFilterZero;
         }
 
         private bool UseRos()
         {
-            if (!Application.isEditor && !Global.SystemName.Contains("Mac"))
+            if (!Application.isEditor && !DGXR.SystemName.Contains("Mac"))
             {
                 return true;
             }
