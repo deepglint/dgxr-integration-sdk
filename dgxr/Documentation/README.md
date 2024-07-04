@@ -111,7 +111,7 @@ public class NewBehaviourScript : MonoBehaviour
         }
 
         var body = Source.Data[0];
-        Global.CavePosition = body.Joints.HeadTop;
+        Global.CavePosition = body.Joints.HeadTop.LocalPosition;
     }
 }
 ```
@@ -203,7 +203,12 @@ public class Demo: MonoBehaviour
         }
 
         var body = Source.Data[0];
-        var nose = body.Joints.Nose;
+
+        // position unity世界坐标系中的坐标
+        var nose = body.Joints.Nose.Position;
+
+        // LocalPosition 空间中心原点相对坐标
+        var nose = body.Joints.Nose.LocalPosition;
     }
 }
 ```
