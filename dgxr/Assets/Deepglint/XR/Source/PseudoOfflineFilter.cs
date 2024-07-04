@@ -76,10 +76,15 @@ namespace Deepglint.XR.Source
             bool result = false;
             var head = Global.Space.gameObject.transform.InverseTransformPoint(HeadTop);
             var position = Global.Space.Bottom.SpaceToPixelOnScreen(head);
-            if (Mathf.Abs(position.x - Global.Space.Roi.x) > Global.Space.Roi.width + 0.5f && 
-                Mathf.Abs(position.y - Global.Space.Roi.y) > Global.Space.Roi.height + 0.5f)
+            Rect ROI = new Rect(Global.Space.Roi.x, Global.Space.Roi.y, Global.Space.Roi.width, Global.Space.Roi.width);
+            if (ROI.height == 0)
+            {
+                ROI.height = 0.65f / Global.Space.Bottom.Size.y * Global.Space.Bottom.Resolution.height; 
+            }
+            if (!ROI.Contains(position))
             {
                 result = true;
+                Debug.LogFormat("{0} is far from ROI", BodyId);
             }
 
             return result;
@@ -91,7 +96,7 @@ namespace Deepglint.XR.Source
         internal bool EnableFilter = false;
         public int OfflineFrameGap = 150;
         public int NewbeeFrameGap = 90;
-        public float DistanceThreshold = 0.5f;
+        public float DistanceThreshold = 0.65f;
         public float SimilarityThreshold = 0.90f;
         public bool ShowDetailLog = false;
         public float MAEThreshold = 0.06f; 
@@ -99,8 +104,9 @@ namespace Deepglint.XR.Source
         
         private static readonly ConcurrentDictionary<string, PersonFeature> Features = new ConcurrentDictionary<string, PersonFeature>();
         private static Dictionary<string, PersonFeature> Newbee = new Dictionary<string, PersonFeature>();
+        private static HashSet<string> oldPersons = new HashSet<string>();
         internal static ConcurrentDictionary<string, PersonFeature> OfflineFeatures = new ConcurrentDictionary<string, PersonFeature>();
-        internal static Dictionary<string, string> ChangeLog = new Dictionary<string, string>();
+        internal static Dictionary<string, PersonFeature> ChangeLog = new Dictionary<string, PersonFeature>();
         
         public static PseudoOfflineFilter Instance { get; private set; }
         
@@ -118,11 +124,6 @@ namespace Deepglint.XR.Source
                 }
             }
             Features[feature.BodyId] = feature;
-            if (!Source.Data.Contains(data.BodyId))
-            {
-                Newbee.Add(data.BodyId, feature);
-                Debug.LogFormat("add {0} to newbee cache", data.BodyId);
-            }
         }
 
         private void OnMetaPoseDataLost(string bodyId)
@@ -207,8 +208,9 @@ namespace Deepglint.XR.Source
                     {
                         Debug.LogFormat("person {0} reconnected, remove it from offline cache", data.BodyId);
                     }
-                } else if (!Source.Data.Contains(data.BodyId) || Newbee.ContainsKey(data.BodyId))
+                } else if (!Source.Data.Contains(data.BodyId))
                 {
+                    // 首次出现的骨骼根据距离ROI的位置放宽找回条件
                     PersonFeature changeFeature = null;
                     if (feature.IsFarFromROI())
                     {
@@ -217,14 +219,33 @@ namespace Deepglint.XR.Source
                     else
                     {
                         changeFeature = GetMostSimilarOfflineFeature(feature);
-                    }
+                    } 
                     if (changeFeature != null)
                     {
                         Debug.LogWarningFormat("change body from {0} to {1}", feature.BodyId, changeFeature.BodyId);
                         result = OfflineFeatures.TryRemove(changeFeature.BodyId, out PersonFeature value);
                         if (result)
                         {
-                            ChangeLog[feature.BodyId] = changeFeature.BodyId;
+                            ChangeLog[feature.BodyId] = changeFeature;
+                            data.BodyId = changeFeature.BodyId;
+                            Debug.LogFormat("remove {0} from offline cache", changeFeature.BodyId);
+                        }
+                    }
+                    else
+                    {
+                        Newbee.Add(data.BodyId, feature); 
+                        Debug.LogFormat("add {0} to newbee cache", data.BodyId); 
+                    }
+                } else if (Newbee.ContainsKey(data.BodyId))
+                {
+                    PersonFeature changeFeature = GetMostSimilarOfflineFeature(feature);
+                    if (changeFeature != null)
+                    {
+                        Debug.LogWarningFormat("change body from {0} to {1}", feature.BodyId, changeFeature.BodyId);
+                        result = OfflineFeatures.TryRemove(changeFeature.BodyId, out PersonFeature value);
+                        if (result)
+                        {
+                            ChangeLog[feature.BodyId] = changeFeature;
                             data.BodyId = changeFeature.BodyId;
                             Debug.LogFormat("remove {0} from offline cache", changeFeature.BodyId);
                         }

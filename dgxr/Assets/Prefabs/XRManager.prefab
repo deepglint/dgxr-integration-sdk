@@ -2085,7 +2085,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OfflineFrameGap: 150
   NewbeeFrameGap: 90
-  DistanceThreshold: 0.5
+  DistanceThreshold: 0.65
   SimilarityThreshold: 0.9
   ShowDetailLog: 1
   MAEThreshold: 0.06

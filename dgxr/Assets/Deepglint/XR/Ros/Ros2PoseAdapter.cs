@@ -114,9 +114,9 @@ namespace Deepglint.XR.Ros
                 foreach (var val in result.ThreeDim)
                 {
                     string bodyId = val.Key;
-                    if (PseudoOfflineFilter.ChangeLog.TryGetValue(val.Key, out var changedBodyId))
+                    if (PseudoOfflineFilter.ChangeLog.TryGetValue(val.Key, out var personFeature))
                     {
-                        bodyId =  changedBodyId;
+                        bodyId =  personFeature.BodyId;
                     }
                     humans.Add(bodyId);
                     var action = new Dictionary<ActionType, float>();
