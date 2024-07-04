@@ -71,6 +71,7 @@ namespace Deepglint.XR.Log
 
         private static void OnLogCallBack(string condition, string stackTrace, LogType type)
         {
+            Debug.Log($"{condition}, {type}");
             if ((type == LogType.Log && !_debugLogEnable) || (type == LogType.Warning && !_warningLogEnable))
             {
                 return;
