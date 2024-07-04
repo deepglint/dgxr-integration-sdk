@@ -104,7 +104,6 @@ namespace Deepglint.XR.Source
         
         private static readonly ConcurrentDictionary<string, PersonFeature> Features = new ConcurrentDictionary<string, PersonFeature>();
         private static Dictionary<string, PersonFeature> Newbee = new Dictionary<string, PersonFeature>();
-        private static HashSet<string> oldPersons = new HashSet<string>();
         internal static ConcurrentDictionary<string, PersonFeature> OfflineFeatures = new ConcurrentDictionary<string, PersonFeature>();
         internal static Dictionary<string, PersonFeature> ChangeLog = new Dictionary<string, PersonFeature>();
         
@@ -130,7 +129,7 @@ namespace Deepglint.XR.Source
         {
             if (Features.TryRemove(bodyId, out PersonFeature value))
             {
-                Debug.LogFormat("add {0} to offline cache", bodyId);
+                Debug.LogWarningFormat("add {0} to offline cache", bodyId);
                 value.Time = DateTime.Now;
                 OfflineFeatures[bodyId] = value; 
                 if (Newbee.Remove(bodyId))
