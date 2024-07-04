@@ -1,0 +1,251 @@
+{
+    "name": "CharacterActions",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "28f04f06-fc64-4354-b714-d463ae6bf8fd",
+            "actions": [
+                {
+                    "name": "Pose",
+                    "type": "Value",
+                    "id": "73fe1f94-f5ff-41bf-9032-10fd8b76977e",
+                    "expectedControlType": "HumanPose",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RaiseRightHand",
+                    "type": "Value",
+                    "id": "4cb50855-c11f-48d0-9f55-8e7682a14e62",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Join",
+                    "type": "Value",
+                    "id": "a1dd88d5-f972-4ad9-859c-210c9820d52d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Jump",
+                    "type": "Value",
+                    "id": "67f72c51-f486-4c69-965a-be078b2cefdf",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RaiseBothHand",
+                    "type": "Value",
+                    "id": "f4ad58cf-c6f9-4be1-9d7f-1e3e0a691957",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Stick",
+                    "type": "Value",
+                    "id": "65529dcd-6b89-4ac6-ac5f-ecb95ab1962d",
+                    "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "DeepSquat",
+                    "type": "Value",
+                    "id": "f043a1c7-7f5d-4c06-b903-de5fcf8592b9",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "FreeSwim",
+                    "type": "Value",
+                    "id": "621bb058-4857-4252-aa8e-f9472a562e0f",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "129ab4fd-0d5d-490a-9dbd-d89001e658b8",
+                    "path": "<DGXRHumanController>/HumanPose",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pose",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "de994201-1856-47e0-a0ba-0a6a6548774e",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "RaiseRightHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RaiseRightHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9778e48b-1e89-4e98-b448-fc2d5bfa8a76",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "Jump",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "370497f2-db07-4e6c-9c53-59c80e46149d",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9b985366-7d23-456d-8204-20ae73763c9a",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "RaiseBothHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0ba05d75-cf2e-4b10-9e3e-ec45cb8bf203",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e0913ca4-447f-49a7-a542-e7fd1b7bd3d0",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "RaiseBothHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RaiseBothHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6071900d-007a-49a2-a766-437b6d726239",
+                    "path": "<DGXRHumanController>/stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Stick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "0c262acc-6f0d-4c8a-8609-36bab5f4baf2",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Stick",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "dc5f9212-e837-4da6-ba0e-cbe54a3af4a1",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Stick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "3952d383-b32d-48ab-a93e-181494ce4a8e",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Stick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "82c36549-29cd-402a-9987-41be1112a816",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Stick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "2857727a-ad36-41f8-a371-dddaf7c04db7",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Stick",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "3ed87f55-833d-4b15-a534-601e834ec6ef",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "DeepSquat",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DeepSquat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3c1a8ef6-a8c0-4ab3-916d-27e0c0995cde",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "FreeSwim",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FreeSwim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

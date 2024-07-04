@@ -1,0 +1,476 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &741762115920667733
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7330977931139233662}
+  - component: {fileID: 105455282207150834}
+  - component: {fileID: 4068554202276023242}
+  - component: {fileID: 2048890726175800575}
+  m_Layer: 0
+  m_Name: Capsule
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7330977931139233662
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741762115920667733}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 0.49, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4663787132946593674}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &105455282207150834
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741762115920667733}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &4068554202276023242
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741762115920667733}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: ca07ec0ce27ef44e0b3868bc389564a1, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &2048890726175800575
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741762115920667733}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &3551220982172497546
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4663787132946593674}
+  - component: {fileID: 8479744745225881778}
+  - component: {fileID: 382916188180016889}
+  - component: {fileID: 3801298116289163105}
+  m_Layer: 0
+  m_Name: Capsule
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4663787132946593674
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3551220982172497546}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.8, z: 0}
+  m_LocalScale: {x: 0.5, y: 1.5999995, z: 0.5}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7330977931139233662}
+  m_Father: {fileID: 5334887761186846116}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &8479744745225881778
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3551220982172497546}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &382916188180016889
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3551220982172497546}
+  m_Enabled: 0
+  m_CastShadows: 0
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 1b42cfc268a1b4cc59b7415a94164600, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &3801298116289163105
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3551220982172497546}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0.00000047683716}
+--- !u!1 &7627373918704466203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5334887761186846116}
+  - component: {fileID: 7232945368589636939}
+  - component: {fileID: 3332457918468011876}
+  - component: {fileID: 8868293569555557863}
+  - component: {fileID: 5879047331684728701}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5334887761186846116
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7627373918704466203}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.000000038402504, y: -0.0000007748631, z: -0.000000012194505,
+    w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4663787132946593674}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7232945368589636939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7627373918704466203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 46530886f2d52427882fd3513b8d5249,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5879047331684728701}
+        m_TargetAssemblyTypeName: Samples.Roam.RealHumanEvent, Deepglint.XR
+        m_MethodName: OnDeviceLost
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5879047331684728701}
+        m_TargetAssemblyTypeName: Samples.Roam.RealHumanEvent, Deepglint.XR
+        m_MethodName: PoseControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 73fe1f94-f5ff-41bf-9032-10fd8b76977e
+    m_ActionName: Player/Pose
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5879047331684728701}
+        m_TargetAssemblyTypeName: Samples.Roam.RealHumanEvent, Deepglint.XR
+        m_MethodName: OnRaiseOneHand
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4cb50855-c11f-48d0-9f55-8e7682a14e62
+    m_ActionName: Player/RaiseRightHand
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5879047331684728701}
+        m_TargetAssemblyTypeName: Samples.Roam.RealHumanEvent, Deepglint.XR
+        m_MethodName: OnJoin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a1dd88d5-f972-4ad9-859c-210c9820d52d
+    m_ActionName: Player/Join
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5879047331684728701}
+        m_TargetAssemblyTypeName: Samples.Roam.RealHumanEvent, Deepglint.XR
+        m_MethodName: OnJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 67f72c51-f486-4c69-965a-be078b2cefdf
+    m_ActionName: Player/Jump[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody,/DGXRHumanController18/HumanBody,/DGXRHumanController20/HumanBody,/DGXRHumanController19/HumanBody,/DGXRHumanController21/HumanBody,/DGXRHumanController22/HumanBody,/DGXRHumanController23/HumanBody,/DGXRHumanController24/HumanBody,/DGXRHumanController25/HumanBody,/DGXRHumanController26/HumanBody,/DGXRHumanController27/HumanBody,/DGXRHumanController28/HumanBody,/DGXRHumanController29/HumanBody,/DGXRHumanController30/HumanBody,/DGXRHumanController31/HumanBody,/DGXRHumanController32/HumanBody,/DGXRHumanController33/HumanBody,/DGXRHumanController34/HumanBody,/DGXRHumanController35/HumanBody,/DGXRHumanController36/HumanBody,/DGXRHumanController37/HumanBody,/DGXRHumanController38/HumanBody,/DGXRHumanController39/HumanBody,/DGXRHumanController40/HumanBody,/DGXRHumanController42/HumanBody,/DGXRHumanController43/HumanBody,/DGXRHumanController41/HumanBody,/DGXRHumanController44/HumanBody,/DGXRHumanController45/HumanBody,/DGXRHumanController46/HumanBody,/DGXRHumanController47/HumanBody,/DGXRHumanController48/HumanBody,/DGXRHumanController49/HumanBody,/DGXRHumanController50/HumanBody,/DGXRHumanController51/HumanBody,/DGXRHumanController52/HumanBody,/DGXRHumanController53/HumanBody,/DGXRHumanController54/HumanBody,/DGXRHumanController55/HumanBody,/DGXRHumanController56/HumanBody,/DGXRHumanController57/HumanBody,/DGXRHumanController58/HumanBody,/DGXRHumanController59/HumanBody,/DGXRHumanController60/HumanBody,/DGXRHumanController61/HumanBody,/DGXRHumanController62/HumanBody,/DGXRHumanController63/HumanBody,/DGXRHumanController64/HumanBody,/DGXRHumanController65/HumanBody,/DGXRHumanController66/HumanBody,/DGXRHumanController67/HumanBody,/DGXRHumanController68/HumanBody,/DGXRHumanController69/HumanBody,/DGXRHumanController70/HumanBody,/DGXRHumanController71/HumanBody,/DGXRHumanController72/HumanBody,/DGXRHumanController73/HumanBody,/DGXRHumanController74/HumanBody,/DGXRHumanController75/HumanBody,/DGXRHumanController76/HumanBody,/DGXRHumanController77/HumanBody,/DGXRHumanController78/HumanBody,/DGXRHumanController79/HumanBody,/DGXRHumanController80/HumanBody,/DGXRHumanController81/HumanBody,/DGXRHumanController82/HumanBody,/DGXRHumanController83/HumanBody,/DGXRHumanController84/HumanBody,/DGXRHumanController85/HumanBody,/DGXRHumanController86/HumanBody,/DGXRHumanController87/HumanBody,/DGXRHumanController88/HumanBody,/DGXRHumanController89/HumanBody,/DGXRHumanController90/HumanBody,/DGXRHumanController91/HumanBody,/DGXRHumanController92/HumanBody,/DGXRHumanController93/HumanBody,/DGXRHumanController94/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5879047331684728701}
+        m_TargetAssemblyTypeName: Samples.Roam.RealHumanEvent, Deepglint.XR
+        m_MethodName: OnRaiseBothHand
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f4ad58cf-c6f9-4be1-9d7f-1e3e0a691957
+    m_ActionName: Player/RaiseBothHand[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody,/DGXRHumanController18/HumanBody,/DGXRHumanController20/HumanBody,/DGXRHumanController19/HumanBody,/DGXRHumanController21/HumanBody,/DGXRHumanController22/HumanBody,/DGXRHumanController23/HumanBody,/DGXRHumanController24/HumanBody,/DGXRHumanController25/HumanBody,/DGXRHumanController26/HumanBody,/DGXRHumanController27/HumanBody,/DGXRHumanController28/HumanBody,/DGXRHumanController29/HumanBody,/DGXRHumanController30/HumanBody,/DGXRHumanController31/HumanBody,/DGXRHumanController32/HumanBody,/DGXRHumanController33/HumanBody,/DGXRHumanController34/HumanBody,/DGXRHumanController35/HumanBody,/DGXRHumanController36/HumanBody,/DGXRHumanController37/HumanBody,/DGXRHumanController38/HumanBody,/DGXRHumanController39/HumanBody,/DGXRHumanController40/HumanBody,/DGXRHumanController42/HumanBody,/DGXRHumanController43/HumanBody,/DGXRHumanController41/HumanBody,/DGXRHumanController44/HumanBody,/DGXRHumanController45/HumanBody,/DGXRHumanController46/HumanBody,/DGXRHumanController47/HumanBody,/DGXRHumanController48/HumanBody,/DGXRHumanController49/HumanBody,/DGXRHumanController50/HumanBody,/DGXRHumanController51/HumanBody,/DGXRHumanController52/HumanBody,/DGXRHumanController53/HumanBody,/DGXRHumanController54/HumanBody,/DGXRHumanController55/HumanBody,/DGXRHumanController56/HumanBody,/DGXRHumanController57/HumanBody,/DGXRHumanController58/HumanBody,/DGXRHumanController59/HumanBody,/DGXRHumanController60/HumanBody,/DGXRHumanController61/HumanBody,/DGXRHumanController62/HumanBody,/DGXRHumanController63/HumanBody,/DGXRHumanController64/HumanBody,/DGXRHumanController65/HumanBody,/DGXRHumanController66/HumanBody,/DGXRHumanController67/HumanBody,/DGXRHumanController68/HumanBody,/DGXRHumanController69/HumanBody,/DGXRHumanController70/HumanBody,/DGXRHumanController71/HumanBody,/DGXRHumanController72/HumanBody,/DGXRHumanController73/HumanBody,/DGXRHumanController74/HumanBody,/DGXRHumanController75/HumanBody,/DGXRHumanController76/HumanBody,/DGXRHumanController77/HumanBody,/DGXRHumanController78/HumanBody,/DGXRHumanController79/HumanBody,/DGXRHumanController80/HumanBody,/DGXRHumanController81/HumanBody,/DGXRHumanController82/HumanBody,/DGXRHumanController83/HumanBody,/DGXRHumanController84/HumanBody,/DGXRHumanController85/HumanBody,/DGXRHumanController86/HumanBody,/DGXRHumanController87/HumanBody,/DGXRHumanController88/HumanBody,/DGXRHumanController89/HumanBody,/DGXRHumanController90/HumanBody,/DGXRHumanController91/HumanBody,/DGXRHumanController92/HumanBody,/DGXRHumanController93/HumanBody,/DGXRHumanController94/HumanBody,/DGXRHumanController95/HumanBody,/DGXRHumanController96/HumanBody,/DGXRHumanController97/HumanBody,/DGXRHumanController98/HumanBody,/DGXRHumanController99/HumanBody,/DGXRHumanController100/HumanBody,/DGXRHumanController101/HumanBody,/DGXRHumanController102/HumanBody,/DGXRHumanController103/HumanBody,/DGXRHumanController104/HumanBody,/DGXRHumanController105/HumanBody,/DGXRHumanController106/HumanBody,/DGXRHumanController107/HumanBody,/DGXRHumanController108/HumanBody]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 65529dcd-6b89-4ac6-ac5f-ecb95ab1962d
+    m_ActionName: Player/Stick[/DGXRHumanController/Stick,/DGXRHumanController1/Stick,/DGXRHumanController2/Stick,/DGXRHumanController3/Stick,/DGXRHumanController6/Stick,/DGXRHumanController5/Stick,/DGXRHumanController4/Stick,/DGXRHumanController8/Stick,/DGXRHumanController7/Stick,/DGXRHumanController9/Stick,/DGXRHumanController10/Stick,/DGXRHumanController11/Stick,/DGXRHumanController12/Stick,/DGXRHumanController14/Stick,/DGXRHumanController13/Stick,/DGXRHumanController15/Stick,/DGXRHumanController16/Stick,/DGXRHumanController17/Stick,/DGXRHumanController18/Stick,/DGXRHumanController19/Stick,/DGXRHumanController20/Stick,/DGXRHumanController22/Stick,/DGXRHumanController21/Stick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5879047331684728701}
+        m_TargetAssemblyTypeName: Samples.Roam.RealHumanEvent, Deepglint.XR
+        m_MethodName: OnDeepSquat
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f043a1c7-7f5d-4c06-b903-de5fcf8592b9
+    m_ActionName: Player/DeepSquat[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody,/DGXRHumanController18/HumanBody,/DGXRHumanController19/HumanBody,/DGXRHumanController20/HumanBody,/DGXRHumanController22/HumanBody,/DGXRHumanController21/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5879047331684728701}
+        m_TargetAssemblyTypeName: Samples.Roam.RealHumanEvent, Deepglint.XR
+        m_MethodName: OnFreeSwim
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 621bb058-4857-4252-aa8e-f9472a562e0f
+    m_ActionName: Player/FreeSwim[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody,/DGXRHumanController18/HumanBody,/DGXRHumanController19/HumanBody,/DGXRHumanController20/HumanBody,/DGXRHumanController22/HumanBody,/DGXRHumanController21/HumanBody]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: 0
+  m_Camera: {fileID: 0}
+--- !u!54 &3332457918468011876
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7627373918704466203}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 1
+--- !u!136 &8868293569555557863
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7627373918704466203}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.49079424
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0.0011653304, y: 0, z: 0.003980845}
+--- !u!114 &5879047331684728701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7627373918704466203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab18ce2b3148e414ca8db335fef1c2da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRealHuman: 0
