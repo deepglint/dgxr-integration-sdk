@@ -1,3 +1,4 @@
+using Deepglint.XR.Inputs.Devices;
 using Deepglint.XR.Player;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
@@ -33,6 +34,7 @@ namespace Samples.Roam
     {
         public readonly Roi Roi;
         public bool IsRealHuman;
+        public DGXRHumanController Device;
 
         public AppCharacter(string name, Roi roi)
         {
@@ -45,6 +47,7 @@ namespace Samples.Roam
             Debug.LogFormat("device name: {0}", device.name);
             if (!IsBindable()) return null;
             IsRealHuman = device.name != "Keyboard";
+            if (IsRealHuman) Device = (DGXRHumanController)device;
             return this;
         }
     }

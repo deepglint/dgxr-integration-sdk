@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using Deepglint.XR.Space;
-using Deepglint.XR.Toolkit.Manager;
 using Deepglint.XR.Toolkit.Utils;
-using Samples.HumanControlInputModule;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -91,7 +89,7 @@ namespace Deepglint.XR.Toolkit.RoamStick
 
             _stickRotation.gameObject.SetActive(_crossBorder == CrossBorderType.Toroidal);
 
-            MoveFromStick(_crossBorder == CrossBorderType.Toroidal
+            MoveFromStick(_crossBorder != CrossBorderType.InnerCircle
                 ? new Vector2(position3d.x, position3d.z).normalized * speed
                 : Vector2.zero);
         }
@@ -168,7 +166,6 @@ namespace Deepglint.XR.Toolkit.RoamStick
         private void SetActiveJoystickTouch(bool status)
         {
             ScrollRect scrollRect = gameObject.GetComponent<ScrollRect>();
-            Debug.LogFormat("scrollRect: {0}", scrollRect);
             scrollRect.enabled = status;
         }
 

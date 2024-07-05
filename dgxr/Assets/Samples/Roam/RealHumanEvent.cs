@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Deepglint.XR;
 using Deepglint.XR.EventSystem.InputModules;
@@ -125,7 +126,7 @@ namespace Samples.Roam
                     } 
                 }
 
-                Destroy(transform.gameObject);
+                // Destroy(transform.gameObject);
                 OnDeviceLost();
             }
         }
@@ -139,11 +140,27 @@ namespace Samples.Roam
 
         public void PoseControl(InputAction.CallbackContext value)
         {
-            Debug.LogFormat("PoseControl: {0}", value.ReadValue<Vector2>());
+            if (_appCharacter == null) return;
             if (_appCharacter.IsRealHuman)
             {
                 HumanPoseState humanPose = value.ReadValue<HumanPoseState>();
                 Vector3 rootPosition = humanPose.position;
+                if (_appCharacter is { Device: { HumanBody: { LeftFoot: not null } } })
+                {
+                    try
+                    {
+                        var leftFootPosition = _appCharacter.Device.HumanBody.LeftFoot.position.value;
+                        var rightFootPosition = _appCharacter.Device.HumanBody.RightFoot.position.value;
+                        Vector3 headTopPosition = _appCharacter.Device.HumanBody.HeadTop.position.value;
+                        rootPosition = (leftFootPosition + rightFootPosition) / 2;
+                        rootPosition = new Vector3(rootPosition.x, headTopPosition.y, rootPosition.z);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogWarning(e);
+                    }
+                }
+                
                 Vector2 root2DPosition = Global.Space.Bottom.SpaceToPixelOnScreen(rootPosition);
                 _roamStick.Move(rootPosition, root2DPosition);
             }
