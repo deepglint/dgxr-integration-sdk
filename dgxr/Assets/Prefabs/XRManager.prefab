@@ -74,6 +74,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFilterZero: 1
+  isRoam: 0
 --- !u!1 &486550265539237202
 GameObject:
   m_ObjectHideFlags: 0
@@ -2087,7 +2088,6 @@ MonoBehaviour:
   NewbeeFrameGap: 90
   DistanceThreshold: 0.65
   SimilarityThreshold: 0.9
-  ShowDetailLog: 1
   MAEThreshold: 0.06
 --- !u!1 &8473003254323490860
 GameObject:
@@ -2787,6 +2787,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 299902797223919315, guid: 36a32e2a2e662dc4eb41903bbbd132a5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4878613529320275887}
     - targetCorrespondingSourceObject: {fileID: 299902797223919315, guid: 36a32e2a2e662dc4eb41903bbbd132a5,
         type: 3}
       insertIndex: -1

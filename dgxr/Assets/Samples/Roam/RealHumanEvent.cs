@@ -62,7 +62,7 @@ namespace Samples.Roam
             await Task.Delay(100);
             OnJoin();
 
-            GameObject.Find("Body")?.SetActive(Global.Config.Debug);
+            GameObject.Find("Body")?.SetActive(DGXR.Config.Debug);
             SetEventSystem();
         }
 
@@ -111,22 +111,18 @@ namespace Samples.Roam
 
             if (Input.GetKeyDown(KeyCode.Alpha0))
             {
-                if (_appCharacter.IsRealHuman)
+                foreach (var device in _appCharacter.Player.PairedDevices)
                 {
-                    foreach (var device in _appCharacter.Player.PairedDevices)
+                    if (device is DGXRHumanController dgXRDevice)
                     {
-                        if (device is DGXRHumanController dgXRDevice)
-                        {
-                            _appCharacter.Player.UnPairDeviceManually(device); 
-                        }
-                        else
-                        {
-                            Debug.LogFormat("device {0} is not dgxr device", device.deviceId);
-                        }
-                    } 
-                }
-
-                // Destroy(transform.gameObject);
+                        _appCharacter.Player.UnPairDeviceManually(device); 
+                    }
+                    else
+                    {
+                        Debug.LogFormat("device {0} is not dgxr device", device.deviceId);
+                    }
+                }  
+                Destroy(transform.gameObject);
                 OnDeviceLost();
             }
         }
@@ -161,14 +157,14 @@ namespace Samples.Roam
                     }
                 }
                 
-                Vector2 root2DPosition = Global.Space.Bottom.SpaceToPixelOnScreen(rootPosition);
+                Vector2 root2DPosition = DGXR.Space.Bottom.SpaceToPixelOnScreen(rootPosition);
                 _roamStick.Move(rootPosition, root2DPosition);
             }
             else
             {
                 _movePosition += value.ReadValue<Vector2>() * 0.1f;
                 Vector3 rootPosition =  new Vector3(_movePosition.x, 0, _movePosition.y);
-                Vector2 root2DPosition = Global.Space.Bottom.SpaceToPixelOnScreen(rootPosition);
+                Vector2 root2DPosition = DGXR.Space.Bottom.SpaceToPixelOnScreen(rootPosition);
                 _roamStick.Move(rootPosition, root2DPosition);
             }
         }

@@ -60,7 +60,7 @@ namespace Deepglint.XR.Toolkit.RoamStick
             transform.localPosition = Vector3.zero;
             _stickRange[1] = transform.localScale.x;
 
-            if (!Global.IsRoam) gameObject.SetActive(false);
+            if (!DGXR.IsRoam) gameObject.SetActive(false);
             SetActive(false);
         }
 
@@ -205,11 +205,11 @@ namespace Deepglint.XR.Toolkit.RoamStick
             if (_xrManager.GetComponent<SpaceManager>().isCave)
             {
                 _xrManager.GetComponent<SpaceManager>().lockAll = false;
-                Global.CavePosition = _currentMovePos;
+                DGXR.CavePosition = _currentMovePos;
             }
             else
             {
-                Global.CavePosition = _xrManager.transform.position + new Vector3(0, 1.6f, 0);
+                DGXR.CavePosition = _xrManager.transform.position + new Vector3(0, 1.6f, 0);
             }
         }
     }

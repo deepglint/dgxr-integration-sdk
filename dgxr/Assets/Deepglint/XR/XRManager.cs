@@ -46,9 +46,9 @@ namespace Deepglint.XR
 
         public void Start()
         {
-            Global.Space = XRSpace.Instance;
-            Global.IsFilterZero = isFilterZero;
-            Global.IsRoam = isRoam;
+            DGXR.Space = XRSpace.Instance;
+            DGXR.IsFilterZero = isFilterZero;
+            DGXR.IsRoam = isRoam;
         }
 
         private bool UseRos()
