@@ -100,7 +100,7 @@ npm_publish:
   needs:
     - job: lint_analyze
   script:
-    - sed -i "s/public const string SdkVersionCode = \"\";/public const string SdkVersionCode = \"$CI_COMMIT_TAG\";/g" ./dgxr/Assets/Deepglint/XR/Toolkit/DebugTool/VersionCode.cs
+    - sed -i "s/public const string SdkVersionCode = \"\";/public const string SdkVersionCode = \"$CI_COMMIT_TAG\";/g" ./Assets/Deepglint/XR/Toolkit/DebugTool/VersionCode.cs
     - echo "https://mirrors.ustc.edu.cn/alpine/v3.15/main" > /etc/apk/repositories
     - echo "https://mirrors.ustc.edu.cn/alpine/v3.15/community" >> /etc/apk/repositories
     - apk update
