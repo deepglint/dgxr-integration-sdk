@@ -120,10 +120,9 @@ namespace Deepglint.XR.Source
         public JointInfo RightHand;
     }
 
-
     public struct SourceData
     {
-        public int FrameId;
+        public long FrameId;
         public string BodyId;
         public Dictionary<ActionType, float> Actions;
         public JointData Joints;
@@ -138,17 +137,21 @@ namespace Deepglint.XR.Source
         public static SourceType DataFrom;
 
         public delegate void MetaPoseDataEventHandler(SourceData data);
-
         public delegate void MetaPoseFrameDataEventHandler(List<SourceData> data);
-
-        public static event MetaPoseDataEventHandler OnMetaPoseDataReceived;
-        public static event MetaPoseFrameDataEventHandler OnMetaPoseFrameDataReceived;
+        
+        public static  event MetaPoseDataEventHandler OnMetaPoseDataReceived;
+        public static  event MetaPoseFrameDataEventHandler OnMetaPoseFrameDataReceived;
 
         public static Action<string> OnMetaPoseDataLost;
 
         public int Count => _dataDic.Count;
 
         public SourceData this[string id] => _dataDic[id];
+
+        public bool Contains(string id)
+        {
+            return _dataDic.ContainsKey(id);
+        }
 
         public bool TryGetValue(string id, out SourceData data)
         {

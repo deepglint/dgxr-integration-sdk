@@ -22,7 +22,7 @@ namespace Deepglint.XR
             DGXR.Config = new Config.Config().InitConfig();
             
 #if !UNITY_EDITOR
-            if (Global.Config.Space.ScreenMode is ScreenStyle.Default)
+            if (DGXR.Config.Space.ScreenMode is ScreenStyle.Default)
             {
                 Cursor.visible = false;
             }

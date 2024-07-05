@@ -226,7 +226,7 @@ namespace Deepglint.XR.Player
                     });
 
                     trigger.triggers.Add(entry);
-                    Debug.LogFormat("Add OnPointerEnter listener to {0}", joinUI.name);
+                    Debug.Log($"Add OnPointerEnter listener to {joinUI.name}");
                     
                     break;
             }
@@ -387,11 +387,11 @@ namespace Deepglint.XR.Player
                 {
                     if (PairDeviceToCharacter(character, device))
                     {
-                        Debug.LogFormat("succeed to bind device {0} to player {1}", device.deviceId, character.Name);
+                        Debug.Log($"succeed to bind device {device.deviceId} to player {character.Name}");
                     }
                     else
                     {
-                        Debug.LogFormat("failed to bind device {0} to player {1}", device.deviceId, character.Name);
+                        Debug.Log($"failed to bind device {device.deviceId} to player {character.Name}");
                     }
                 }
             }
@@ -408,7 +408,7 @@ namespace Deepglint.XR.Player
                     if (obj != null)
                     {
                         _characters.Add(playerInput.user.id, (ICharacter)obj);
-                        Debug.LogFormat("player {0} which paired to {1} joined with ICharacter succeed", playerInput.user.id, device.deviceId);
+                        Debug.Log($"player {playerInput.user.id} which paired to {device.deviceId} joined with ICharacter succeed");
                     }
                     else
                     {
@@ -475,7 +475,7 @@ namespace Deepglint.XR.Player
                 // 玩家主动离场
                 _characters.Remove(pi.user.id);
                 iCharacter.OnPlayerLeft();
-                Debug.LogFormat("player {0} was destroyed", pi.user.id);
+                Debug.Log($"player {pi.user.id} was destroyed");
             }
         }
 
@@ -496,7 +496,7 @@ namespace Deepglint.XR.Player
                 character.m_Player = player;
                 player.m_Character = character;
                 player.m_PlayerInput = playerInput;
-                Debug.LogFormat("player {0} joined with character {1}", playerInput.user.id, character.Name);
+                Debug.Log($"player {playerInput.user.id} joined with character {character.Name}");
                 return true;
             }
 
@@ -543,7 +543,7 @@ namespace Deepglint.XR.Player
             {
                 ArrayHelper.EraseAtWithCapacity(_allActivePlayers, ref _allActivePlayersCount, index);
             }
-            Debug.LogFormat("Player {0} left, and current paired device count is {1}", playerInput.playerIndex, playerInput.devices.Count);
+            Debug.Log($"Player {playerInput.playerIndex} left, and current paired device count is {playerInput.devices.Count}");
         }
 
         /// <summary>
@@ -564,7 +564,7 @@ namespace Deepglint.XR.Player
                         _characters.Remove(pi.user.id);
                         iCharacter.OnPlayerLeft();
                         Destroy(pi.gameObject);
-                        Debug.LogFormat("player {0} was destroyed passively", pi.user.id); 
+                        Debug.Log($"player {pi.user.id} was destroyed passively"); 
                     }
                     
                 }
@@ -578,7 +578,7 @@ namespace Deepglint.XR.Player
         /// <param name="device"></param>
         private static void OnDeviceRegained(PlayerInput pi, InputDevice device)
         {
-            Debug.LogFormat("device {0} was regained", device.deviceId);
+            Debug.Log($"device {device.deviceId} was regained");
         }
 
         /// <summary>
@@ -588,11 +588,11 @@ namespace Deepglint.XR.Player
         /// <param name="device"></param>
         private static void OnDevicePaired(PlayerInput pi, InputDevice device)
         {
-            Debug.LogFormat("device {0} was paired to player {1}", device.deviceId, pi.user.id);
+            Debug.Log($"device {device.deviceId} was paired to player {pi.user.id}");
             // double check: it is forbidden to pair more than one main device to on player;
             if (pi.devices.Count > 1)
             {
-                Debug.LogFormat("unpair device {0} from player {1}, cause over size", device.deviceId, pi.user.id);
+                Debug.Log($"unpair device {device.deviceId} from player {pi.user.id}, cause over size");
                 pi.user.UnpairDevice(device);
             } 
         }

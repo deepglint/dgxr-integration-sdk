@@ -74,7 +74,7 @@ namespace Deepglint.XR.Space
         private void Awake()
         {
 #if !UNITY_EDITOR
-            if (!Global.SystemName.Contains("Mac"))
+            if (!DGXR.SystemName.Contains("Mac"))
             {
                 _screenWidth = GetSystemMetrics(SM_CXSCREEN);
                 _screenHeight = GetSystemMetrics(SM_CYSCREEN);
@@ -156,7 +156,7 @@ namespace Deepglint.XR.Space
 #if !UNITY_EDITOR
         private void ProcessRendersCoroutine()
         {
-            foreach (var screen in Global.Config.Space.Screens)
+            foreach (var screen in DGXR.Config.Space.Screens)
             {
                 if (screen.Render.Length > 0)
                 {
@@ -192,7 +192,7 @@ namespace Deepglint.XR.Space
 
         public void HandleSplitScreen(ScriptableRenderContext paramContext, Camera[] paramCamera)
         {
-            if (Global.Config.Space.ScreenMode == ScreenStyle.Default)
+            if (DGXR.Config.Space.ScreenMode == ScreenStyle.Default)
             {
                 ProcessRendersCoroutine();
             }
@@ -408,7 +408,7 @@ namespace Deepglint.XR.Space
                     dis.AddCameraToStack(uiCamera);
                 }
 #if !UNITY_EDITOR
-                if (screen.Render.Length > 0 && Global.Config.Space.ScreenMode == ScreenStyle.Default)
+                if (screen.Render.Length > 0 && DGXR.Config.Space.ScreenMode == ScreenStyle.Default)
                 {
                     uiCamera.targetTexture = _uiRenderTexture;
                     _renderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);

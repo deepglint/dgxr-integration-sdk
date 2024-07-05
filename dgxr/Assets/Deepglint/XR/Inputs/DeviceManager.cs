@@ -121,7 +121,7 @@ namespace Deepglint.XR.Inputs
                 }
                 m_ActiveDevices[serial] = device;
                 m_ActiveDeviceCount++;
-                Debug.LogFormat("Device {0} which serial is {1} which type is {2} was created", device.deviceId, serial, product);
+                Debug.Log($"Device {device.deviceId} which serial is {serial} which type is {product} was created");
                 if (m_ActiveDeviceCount > MaxActiveHumanDeviceCount)
                 {
                     OnTooManyActiveHumanDevices?.Invoke();
@@ -144,7 +144,7 @@ namespace Deepglint.XR.Inputs
                 m_ActiveDeviceCount--;
                 m_ActiveDevices.TryRemove(serial, out device);
                 OnDeviceLost?.Invoke(device);
-                Debug.LogFormat("Device {0} which serial is {1} was removed", device.deviceId, serial);
+                Debug.Log($"Device {device.deviceId} which serial is {serial} was removed");
             }
         }
     }

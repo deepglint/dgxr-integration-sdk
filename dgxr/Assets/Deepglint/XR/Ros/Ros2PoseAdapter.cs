@@ -120,13 +120,18 @@ namespace Deepglint.XR.Ros
 
                 foreach (var val in result.ThreeDim)
                 {
-                    humans.Add(val.Key);
-                    var action = new Dictionary<ActionType, float>();
+                    string bodyId = val.Key;
+                    if (PseudoOfflineFilter.ChangeLog.TryGetValue(val.Key, out var personFeature))
+                    {
+                        bodyId =  personFeature.BodyId;
+                    }
+                    humans.Add(bodyId);
+                    var actions = new Dictionary<ActionType, float>();
                     if (val.Value is { RecActions: not null })
                     {
                         foreach (var act in val.Value.RecActions)
                         {
-                            action[(ActionType)act.Action] = act.Confidence;
+                            actions[(ActionType)act.Action] = act.Confidence;
                         }
                     }
 
@@ -136,7 +141,7 @@ namespace Deepglint.XR.Ros
                         for (var i = 0; i < 24; i++)
                         {
                             var pose = val.Value.Objs[i].Value;
-                            (bool isZero, SourceData sourceData) = IsZero(pose, val.Key);
+                            (bool isZero, SourceData sourceData) = IsZero(pose, bodyId);
                             switch ((Joint)i)
                             {
                                 case Joint.Nose:
@@ -361,17 +366,15 @@ namespace Deepglint.XR.Ros
                     }
                     var body = new SourceData
                     {
-                        FrameId = int.Parse(info.FrameId),
-                        BodyId = val.Key,
-                        Actions = action,
+                        FrameId = long.Parse(info.FrameId),
+                        BodyId = bodyId,
+                        Actions = actions,
                         Joints = joints,
                     };
-                    Source.Source.SetData(body);
-                    Source.Source.TriggerMetaPoseDataReceived(body);
-                    data[val.Key] = body;
+                    data[bodyId] = body;
                     if (DGXR.IsFilterZero)
                     {
-                        _oldData[val.Key] = body;
+                        _oldData[bodyId] = body;
                     }
                 }
             }
@@ -383,6 +386,20 @@ namespace Deepglint.XR.Ros
                     Source.Source.DelData(human.BodyId);
                     Source.Source.TriggerMetaPostDataLost(human.BodyId);
                 }
+            }
+
+            List<string> keys = new List<string>(data.Keys);
+            foreach (var key in keys)
+            {
+                var sourceData = data[key];
+                if (PseudoOfflineFilter.Instance.Filter(ref sourceData))
+                {
+                    data.Remove(key);
+                    Source.Source.DelData(key);
+                    data[sourceData.BodyId] = sourceData;
+                } 
+                Source.Source.SetData(sourceData); 
+                Source.Source.TriggerMetaPoseDataReceived(sourceData);
             }
 
             Source.Source.TriggerMetaPoseFrameDataReceived(data.Values.ToList());

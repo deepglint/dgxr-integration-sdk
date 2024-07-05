@@ -19,7 +19,6 @@ namespace Deepglint.XR.EventSystem.InputModules
         [SerializeField]
         public int HighFiveHitThreshold = 3;
         
-        private float _logThreshold = 0.2f;
         private ConcurrentDictionary<string, int> _highFiveOnQueue = new ConcurrentDictionary<string, int>();
         private ConcurrentDictionary<string, int> _highFiveOffQueue = new ConcurrentDictionary<string, int>();
         private HashSet<string> _highFiveResult = new HashSet<string>();
