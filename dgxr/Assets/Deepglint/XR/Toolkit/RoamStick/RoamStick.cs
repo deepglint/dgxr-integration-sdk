@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using Deepglint.XR.Space;
+using Deepglint.XR.Toolkit.Manager;
 using Deepglint.XR.Toolkit.Utils;
+using Samples.HumanControlInputModule;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Deepglint.XR.Toolkit.RoamStick
 {
-    public class RoamStick: MonoBehaviour 
+    public class RoamStick : MonoBehaviour
     {
         private enum CrossBorderType
         {
@@ -21,22 +24,24 @@ namespace Deepglint.XR.Toolkit.RoamStick
 
         private readonly float[] _stickRange = new float[] { 60f, 460f };
         private CrossBorderType _crossBorder;
-        private float _averageDistance;
-        
+
         // speed
-        private readonly float _speedWeight = 0.5f;
-        
+        [FormerlySerializedAs("Speed")] public float speed = 1;
+
         // roam
-        [FormerlySerializedAs("human")] [FormerlySerializedAs("Human")] public GameObject humanBody;
+        [FormerlySerializedAs("human")] [FormerlySerializedAs("Human")]
+        public GameObject humanBody;
+
         private GameObject _xrManager;
         private Vector2 _roamDirection;
-    
+
         // SmoothingFilter
         private readonly float _alpha = 0.1f;
         private Vector3 _lastSmoothedPos = Vector3.zero;
         private readonly List<Vector3> _cacheList = new List<Vector3>();
-        private Vector3 _currentMovePos;
-
+        private Vector3 _currentMovePos = Vector3.zero;
+        private Vector3 _currentPos = Vector3.zero;
+        
         private void SetCache(Vector3 pos)
         {
             _cacheList.Add(pos);
@@ -55,14 +60,15 @@ namespace Deepglint.XR.Toolkit.RoamStick
             _stickRotation = gameObject.FindChildGameObject("Rotation");
             _stickBtn = gameObject.FindChildGameObject("StickBtn");
             transform.localPosition = Vector3.zero;
-            _averageDistance = (_stickRange[1] - _stickRange[0]) / 6;
-            _stickRange[1] = Mathf.Max(400f, transform.localScale.x);
+            _stickRange[1] = transform.localScale.x;
 
+            if (!Global.IsRoam) gameObject.SetActive(false);
             SetActive(false);
         }
 
-        public void Move(Vector3 position3d, Vector2 position2d, float angle)
+        public void Move(Vector3 position3d, Vector2 position2d)
         {
+            SetActiveJoystickTouch(false);
             SetCache(position3d);
             Vector2 direction = position2d - Vector2.zero;
             float distance = direction.magnitude;
@@ -84,18 +90,86 @@ namespace Deepglint.XR.Toolkit.RoamStick
             }
 
             _stickRotation.gameObject.SetActive(_crossBorder == CrossBorderType.Toroidal);
-            _stickRotation.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-            _stickBtn.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-            
-            // 根据相对于原点距离计算速度
-            float diffDistance = (distance - _stickRange[0]);
-            int speed = Mathf.Clamp(Mathf.RoundToInt(diffDistance / _averageDistance), 1, 6);
-            UpdateRoamMoveFromStick(_crossBorder == CrossBorderType.Toroidal ? new Vector2(position3d.x, position3d.z).normalized * (speed * _speedWeight) : Vector2.zero); 
+
+            MoveFromStick(_crossBorder == CrossBorderType.Toroidal
+                ? new Vector2(position3d.x, position3d.z).normalized * speed
+                : Vector2.zero);
         }
-       
-        public void UpdateRoamMoveFromStick(Vector2 roamDirection)
+        
+        private float CalculateRotationAngle()
         {
+            Vector2 stickBtnPos = _stickBtn.GetComponent<RectTransform>().anchoredPosition; 
+            float angleInRadians = Mathf.Atan2(stickBtnPos.y, stickBtnPos.x);
+            float angleInDegrees = Mathf.Rad2Deg * angleInRadians;
+        
+            if (angleInDegrees < 0)
+            {
+                angleInDegrees += 360;
+            }
+
+            return angleInDegrees - 90;
+        }
+
+        public void ResetMove(bool isBackStart)
+        {
+            if (!isBackStart || humanBody == null) return;
+            MoveFromStick(Vector2.zero);
+            humanBody.transform.position = new Vector3(0, 3f, 0);
+        }
+
+        public void OnStick(Vector2 stick)
+        {
+            if (Vector2.Distance(_stickBtn.GetComponent<RectTransform>().anchoredPosition, Vector2.zero) < 0.1)
+            {
+                MoveFromStick(Vector2.zero);
+                return;
+            }
+            Debug.LogFormat("stick: {0}", stick);
+
+            if (stick == new Vector2(0, 0))
+            {
+                MoveFromStick(new Vector2(0, 1) * speed);
+            }
+            else if (stick == new Vector2(1, 1))
+            {
+                MoveFromStick(new Vector2(0, -1) * speed);
+            }
+            else if (stick == new Vector2(1, 0))
+            {
+                MoveFromStick(new Vector2(-1, 0) * speed);
+            }
+            else if (stick == new Vector2(0, 1))
+            {
+                MoveFromStick(new Vector2(1, 0) * speed);
+            }
+        }
+
+        public void MoveFromStick(Vector2 roamDirection)
+        {
+            Debug.LogFormat("roamDirection: {0}", roamDirection);
             _roamDirection = roamDirection;
+
+            if (roamDirection == Vector2.zero)
+            {
+                SetActiveJoystickTouch(true);
+                _stickRotation.gameObject.SetActive(false);
+                _stickRotation.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                _stickBtn.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0)); 
+            }
+            else
+            {
+                _stickRotation.gameObject.SetActive(true);
+                float angle = CalculateRotationAngle();
+                _stickRotation.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+                _stickBtn.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+            }
+        }
+
+        private void SetActiveJoystickTouch(bool status)
+        {
+            ScrollRect scrollRect = gameObject.GetComponent<ScrollRect>();
+            Debug.LogFormat("scrollRect: {0}", scrollRect);
+            scrollRect.enabled = status;
         }
 
         private void Update()
@@ -108,19 +182,17 @@ namespace Deepglint.XR.Toolkit.RoamStick
 
         private void FixedUpdate()
         {
-            if (humanBody == null) return;
             if (_xrManager == null) _xrManager = GameObject.Find("XRManager");
-            _xrManager.transform.position = humanBody.transform.position - _currentMovePos;
+            if (humanBody == null)
+            {
+                _xrManager.transform.position = _currentPos;
+                if (_roamDirection == Vector2.zero) return;
+                _currentPos += (new Vector3(_roamDirection.x, 0, _roamDirection.y) * Time.deltaTime);
+                return;
+            }
 
-            if (_xrManager.GetComponent<SpaceManager>().isCave)
-            {
-                _xrManager.GetComponent<SpaceManager>().lockAll = false;
-                Global.CavePosition = _currentMovePos;  
-            }
-            else
-            {
-                Global.CavePosition = _xrManager.transform.position + new Vector3(0, 1.6f, 0);
-            }
+            _xrManager.transform.position = humanBody.transform.position - _currentMovePos;
+            SetCave();
 
             if (_roamDirection == Vector2.zero) return;
             var position = humanBody.transform.position;
@@ -129,6 +201,19 @@ namespace Deepglint.XR.Toolkit.RoamStick
             humanBody.transform.position = position;
             humanBody.FindChildGameObject("Capsule").transform.localScale =
                 new Vector3(0.5f, _currentMovePos.y, 0.5f);
+        }
+
+        private void SetCave()
+        {
+            if (_xrManager.GetComponent<SpaceManager>().isCave)
+            {
+                _xrManager.GetComponent<SpaceManager>().lockAll = false;
+                Global.CavePosition = _currentMovePos;
+            }
+            else
+            {
+                Global.CavePosition = _xrManager.transform.position + new Vector3(0, 1.6f, 0);
+            }
         }
     }
 }

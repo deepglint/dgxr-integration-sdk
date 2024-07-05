@@ -11,6 +11,7 @@ namespace Deepglint.XR
     public class XRManager : MonoBehaviour
     {
         public bool isFilterZero;
+        public bool isRoam;
 
         public void Awake()
         {
@@ -45,8 +46,9 @@ namespace Deepglint.XR
 
         public void Start()
         {
-            DGXR.Space = XRSpace.Instance;
-            DGXR.IsFilterZero = isFilterZero;
+            Global.Space = XRSpace.Instance;
+            Global.IsFilterZero = isFilterZero;
+            Global.IsRoam = isRoam;
         }
 
         private bool UseRos()

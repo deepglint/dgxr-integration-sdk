@@ -36,6 +36,11 @@
       "displayName": "HumanBody",
       "description": "人体检测",
       "path": "Samples/HumanBody"
+    },
+    {
+      "displayName": "Roam",
+      "description": "场景漫游",
+      "path": "Samples/Roam"
     }
   ]
 }

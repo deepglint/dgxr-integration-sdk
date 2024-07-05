@@ -24,6 +24,7 @@ namespace Deepglint.XR
         public static XRSpace Space;
         public static Vector3 CavePosition;
         public const string PackageName = "com.deepglint.xr";
+        public static bool IsRoam;
         
         /// <summary>
         /// 设置 metaGear 消息到订阅

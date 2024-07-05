@@ -7,29 +7,19 @@ namespace Samples.Roam
     {
         private enum JumpStatus 
         {
+            Idle,
             Charging,
-            Jumping,
-            Idle 
+            Jumping
         }
         
         public float jumpForce = 10f;
         private float _currentChargeTime;
-        private JumpStatus _jumpStatus; 
+        private JumpStatus _jumpStatus = JumpStatus.Idle; 
 
         public Rigidbody rb;
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.J))
-            {
-                Charging();
-            }
-
-            if (Input.GetKeyUp(KeyCode.J))
-            {
-                Jump();
-            }
-
             if (_jumpStatus != JumpStatus.Charging) return;
             _currentChargeTime = Mathf.Min(_currentChargeTime + Time.deltaTime * jumpForce, 20);
             Debug.LogFormat("jump height is {0} and jump force is {1}", _currentChargeTime + Time.deltaTime * jumpForce, jumpForce);

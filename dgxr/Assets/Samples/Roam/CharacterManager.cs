@@ -32,6 +32,7 @@ namespace Samples.Roam
     public class AppCharacter : Character
     {
         public readonly Roi Roi;
+        public bool IsRealHuman;
 
         public AppCharacter(string name, Roi roi)
         {
@@ -41,7 +42,10 @@ namespace Samples.Roam
 
         public override Character OnTryToJoin(UnityEngine.InputSystem.InputDevice device)
         {
-            return IsBindable() ? this : null;
+            Debug.LogFormat("device name: {0}", device.name);
+            if (!IsBindable()) return null;
+            IsRealHuman = device.name != "Keyboard";
+            return this;
         }
     }
 }

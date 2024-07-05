@@ -9,7 +9,7 @@
                     "name": "Pose",
                     "type": "Value",
                     "id": "73fe1f94-f5ff-41bf-9032-10fd8b76977e",
-                    "expectedControlType": "HumanPose",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -18,7 +18,7 @@
                     "name": "RaiseRightHand",
                     "type": "Value",
                     "id": "4cb50855-c11f-48d0-9f55-8e7682a14e62",
-                    "expectedControlType": "HumanBody",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -45,7 +45,7 @@
                     "name": "RaiseBothHand",
                     "type": "Value",
                     "id": "f4ad58cf-c6f9-4be1-9d7f-1e3e0a691957",
-                    "expectedControlType": "HumanBody",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -54,7 +54,7 @@
                     "name": "Stick",
                     "type": "Value",
                     "id": "65529dcd-6b89-4ac6-ac5f-ecb95ab1962d",
-                    "expectedControlType": "Stick",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -63,7 +63,7 @@
                     "name": "DeepSquat",
                     "type": "Value",
                     "id": "f043a1c7-7f5d-4c06-b903-de5fcf8592b9",
-                    "expectedControlType": "HumanBody",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -72,7 +72,7 @@
                     "name": "FreeSwim",
                     "type": "Value",
                     "id": "621bb058-4857-4252-aa8e-f9472a562e0f",
-                    "expectedControlType": "HumanBody",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -91,10 +91,76 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "2D Vector",
+                    "id": "8ad404b0-b46e-42e9-b214-8b7307469236",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pose",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "b40deb24-c2e1-47cb-8f83-abbfa72cd0b2",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pose",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "eb251eaf-9fce-4ae5-994e-7359fdb577bc",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pose",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "0ba44c07-f3b3-4328-841f-048103498105",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pose",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "6b370ac8-5d20-41c4-96a5-890aaa900fa1",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pose",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "de994201-1856-47e0-a0ba-0a6a6548774e",
                     "path": "<DGXRHumanController>/HumanBody",
                     "interactions": "RaiseRightHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RaiseRightHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d5342a6b-dd59-4254-b46b-313ebbc2d0eb",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "RaiseRightHand",
@@ -115,7 +181,7 @@
                 {
                     "name": "",
                     "id": "370497f2-db07-4e6c-9c53-59c80e46149d",
-                    "path": "<Keyboard>/b",
+                    "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -137,7 +203,7 @@
                 {
                     "name": "",
                     "id": "0ba05d75-cf2e-4b10-9e3e-ec45cb8bf203",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -150,6 +216,17 @@
                     "id": "e0913ca4-447f-49a7-a542-e7fd1b7bd3d0",
                     "path": "<DGXRHumanController>/HumanBody",
                     "interactions": "RaiseBothHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RaiseBothHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "97954976-01b9-4799-bbce-1d4d3413c273",
+                    "path": "<Keyboard>/h",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "RaiseBothHand",
@@ -235,9 +312,31 @@
                 },
                 {
                     "name": "",
+                    "id": "b497e079-8def-404e-b006-35ba34bedeef",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DeepSquat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "3c1a8ef6-a8c0-4ab3-916d-27e0c0995cde",
                     "path": "<DGXRHumanController>/HumanBody",
                     "interactions": "FreeSwim",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FreeSwim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "daf71715-cdd8-495f-9517-e73544dc924d",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "FreeSwim",
