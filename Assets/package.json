@@ -1,0 +1,42 @@
+{
+  "name": "com.deepglint.xr",
+  "displayName": "DGXR Integration SDK",
+  "version": "2.0.0-beta8",
+  "unity": "2022.3",
+  "documentationUrl": "https://gitlab.deepglint.com/alpha/stardust/-/blob/main/dgxr/README.md",
+  "changelogUrl": "https://gitlab.deepglint.com/alpha/stardust/-/tags",
+  "description": "Provides Deepglint XR support",
+  "dependencies": {
+    "com.unity.inputsystem": "1.6.3",
+    "com.unity.nuget.newtonsoft-json": "3.2.1",
+    "com.unity.textmeshpro": "3.0.9",
+    "com.yasirkula.ingamedebugconsole": "1.6.7",
+    "io.sentry.unity": "2.1.0"
+  },
+  "scopedRegistries": [
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.yasirkula.ingamedebugconsole"
+      ]
+    }
+  ],
+  "samples": [
+    {
+      "displayName": "PlayerManager",
+      "description": "玩家管理",
+      "path": "Samples/CustomPlayerManager"
+    },
+    {
+      "displayName": "HumanControlInputModule",
+      "description": "UI元素的人体交互控制",
+      "path": "Samples/HumanControlInputModule" 
+    },
+    {
+      "displayName": "HumanBody",
+      "description": "人体检测",
+      "path": "Samples/HumanBody"
+    }
+  ]
+}

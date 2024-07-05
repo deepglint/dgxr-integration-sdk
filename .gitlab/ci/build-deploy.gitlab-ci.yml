@@ -1,0 +1,91 @@
+# CI编译docker镜像流程
+# gitlab pipelines
+default:
+  interruptible: true
+  # 指定runner的tag
+  tags:
+    - alpha
+
+variables:
+  GIT_DEPTH: 1
+  GIT_STRATEGY: fetch
+
+stages:
+  - build pre
+  - build stardust
+  - prerelease stardust
+  - release
+  - deploy
+
+include:
+ - local: .gitlab/ci/build-stardust.gitlab-ci.yml
+
+workflow:
+  rules:
+    - if: $CI_ENVIRONMENT_NAME
+
+build:prepare:
+  stage: .pre
+  image: ccr.ccs.tencentyun.com/solution/docker:20.10.15-alpine3.15
+  before_script:
+    - mkdir -p /results/$CI_PIPELINE_ID
+  script:
+    - CI_COMMIT_TAG=`echo $CI_COMMIT_TAG | sed 's/^0*//'`
+    - echo $CI_COMMIT_TAG > .tags
+    - if [ -z $CI_COMMIT_TAG ]; then echo $CI_COMMIT_SHORT_SHA > .tags; fi
+    - export IMAGE_TAG=$(cat .tags)
+    - echo "IMAGE_TAG=$IMAGE_TAG" > .env
+    - echo $IMAGE_TAG
+    - IMAGE_TAG=`echo $IMAGE_TAG | sed 's/^v//g'`
+    - if [ -z $CI_COMMIT_TAG ]; then echo v0.0.0-$IMAGE_TAG > .tags; fi
+    - export TAG=$(cat .tags)
+
+    - export IMAGE_TAG=$(cat .tags)
+    - echo $IMAGE_TAG
+    - echo "IMAGE_TAG=$IMAGE_TAG" >> .env
+
+    - echo $TAG
+    - echo "TAG=$TAG" >> .env
+  artifacts:
+    reports:
+      dotenv: .env
+
+build:cleanup:
+  stage: .post
+  variables:
+    GIT_STRATEGY: none
+  image: ccr.ccs.tencentyun.com/solution/docker:20.10.15-alpine3.15
+  script:
+    - trap 'rm -rf  /results/$CI_PIPELINE_ID' EXIT
+    - docker system prune --force --volumes || true
+  when: always
+
+prerelease:stardust:
+  stage: prerelease stardust
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  script:
+    - echo 'running release_job'
+    - echo 'Previous Job ID is printed below'
+    - echo $DGXR_VERSION
+    - echo "Publishing artifacts to release ${CI_COMMIT_TAG}..."
+  release:
+    name: '${CI_COMMIT_TAG}'
+    description: 'Created using the release-cli'
+    tag_name: '${CI_COMMIT_TAG}'
+    assets:
+      links:
+        - name: 'DGXR-Integration-SDK-${CI_COMMIT_TAG}'
+          url: 'https://gitlab.deepglint.com/alpha/stardust_reverie/-/jobs/${DGXR_VERSION}/artifacts/download'
+  rules:
+    - if: $CI_COMMIT_TAG
+
+release:push:
+  stage: release
+  image: 
+    name: ccr.ccs.tencentyun.com/solution/python-gitlab:v3.15.0
+    entrypoint: [""]
+  script:
+    - pip install --trusted-host package.nemoface.com -i http://package.nemoface.com/repository/pypi/simple gitbot
+    - git-release
+  rules:
+    - if: $CI_COMMIT_TAG
