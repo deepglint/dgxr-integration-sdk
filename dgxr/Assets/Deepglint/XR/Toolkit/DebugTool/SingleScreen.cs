@@ -30,7 +30,7 @@ namespace Deepglint.XR.Toolkit.DebugTool
         MainMode,
     }
 
-    public class SingleScreen : MonoBehaviour
+    internal class SingleScreen : MonoBehaviour
     {
         private bool _isDoubleClick;
         private float _lastClickTime;

@@ -10,11 +10,7 @@ namespace Deepglint.XR.Toolkit.Utils
         {
             if (Input.GetKeyDown(_keyCode))
             {
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#else
-                Application.Quit();
-#endif
+                Quit();
             }
         }
         
@@ -25,6 +21,14 @@ namespace Deepglint.XR.Toolkit.Utils
         }
 #endif
 
+        public static void Quit()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
         public void SetKeyCode(KeyCode keyCode)
         {
             _keyCode = keyCode;

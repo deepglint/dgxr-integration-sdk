@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Deepglint.XR.Toolkit.DebugTool
 {
-    public class FPS : MonoBehaviour
+    internal class FPS : MonoBehaviour
     {
         public float frequency = 0.5f;
         private float _fPS;

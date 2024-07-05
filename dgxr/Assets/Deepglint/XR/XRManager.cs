@@ -14,12 +14,12 @@ namespace Deepglint.XR
 
         public void Awake()
         {
-
             DGXR.UniqueID = SystemInfo.deviceUniqueIdentifier;
             DGXR.AppName = Application.productName;
-            DGXR.Version = Application.version;
+            DGXR.Version = VersionCode.SdkVersionCode;
             DGXR.SystemName = SystemInfo.operatingSystem;
             DGXR.Config = new Config.Config().InitConfig();
+            
             
 #if !UNITY_EDITOR
             if (DGXR.Config.Space.ScreenMode is ScreenStyle.Default)
