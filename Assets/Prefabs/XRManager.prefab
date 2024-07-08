@@ -56,7 +56,7 @@ MonoBehaviour:
   userViewCameraPrefab: {fileID: 1853268713308010614, guid: bf3abd3ef0209432e81aa1fc3add93c3, type: 3}
   lockAll: 0
   lockXZ: 0
-  isCave: 1
+  isCave: 0
   spaceScale: 1
 --- !u!114 &7714738920680356628
 MonoBehaviour:

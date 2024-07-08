@@ -107,7 +107,7 @@ npm_publish:
     - apk add jq
     - cd Assets
     - version=`echo $CI_COMMIT_TAG | sed 's/^v//g'`
-    - jq --arg new_version "$version" --arg doc_url "$COS_REPO/dgxr-doc-$CI_COMMIT_TAG/html/index.html" \
+    - jq --arg new_version "$version" --arg doc_url "$COS_REPO/dgxr/dgxr-doc-$CI_COMMIT_TAG/html/index.html" \
       '.version = $new_version | .documentationUrl = $doc_url' package.json > tmp.json && mv tmp.json package.json
     - cat package.json
     - npm config set registry http://package.nemoface.com/repository/unity
