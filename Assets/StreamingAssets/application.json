@@ -1,0 +1,11 @@
+{
+    "type": "益智",
+    "version": "v1.0.0",
+    "playerCount": {
+        "min": 1,
+        "max": 5
+    },
+    "description": "格灵深瞳灵境空间应用",
+    "space": "1",
+    "sentry": "1"
+}
