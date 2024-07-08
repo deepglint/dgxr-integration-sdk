@@ -64,7 +64,7 @@ namespace Deepglint.XR.Space
             denominator = 1
         };
 
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
         private RenderTexture _renderTexture;
         private RenderTexture _uiRenderTexture;
         private RenderTexture _frontBottomTex;
@@ -73,7 +73,7 @@ namespace Deepglint.XR.Space
 #endif
         private void Awake()
         {
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
             if (!DGXR.SystemName.Contains("Mac"))
             {
                 _screenWidth = GetSystemMetrics(SM_CXSCREEN);
@@ -110,7 +110,7 @@ namespace Deepglint.XR.Space
 
                 Screen.SetResolution(_screenWidth, _screenHeight, true);
             }
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
             _uiRenderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
             _frontBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
             _backBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
@@ -132,12 +132,12 @@ namespace Deepglint.XR.Space
 
                 _screenEdges.Add((int)screen.TargetScreen, games);
             }
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
             RenderPipelineManager.endFrameRendering += HandleSplitScreen;
 #endif
         }
 
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
         private void OnApplicationQuit()
         {
             RenderPipelineManager.endFrameRendering -= HandleSplitScreen;
@@ -153,7 +153,7 @@ namespace Deepglint.XR.Space
             }
         }
 
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
         private void ProcessRendersCoroutine()
         {
             foreach (var screen in DGXR.Config.Space.Screens)
@@ -295,7 +295,7 @@ namespace Deepglint.XR.Space
 
         public void OnDestroy()
         {
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
             RenderPipelineManager.endFrameRendering -= HandleSplitScreen;
 #endif
         }
@@ -407,7 +407,7 @@ namespace Deepglint.XR.Space
                 {
                     dis.AddCameraToStack(uiCamera);
                 }
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
                 if (screen.Render.Length > 0 && DGXR.Config.Space.ScreenMode == ScreenStyle.Default)
                 {
                     uiCamera.targetTexture = _uiRenderTexture;
