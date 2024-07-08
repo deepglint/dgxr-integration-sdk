@@ -24,14 +24,15 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
 
         public void Start()
         {
-            _bottomCanvas = GameObject.Find("UIRoot/Bottom");
+            _bottomCanvas = GameObject.Find("ToolkitCanvas/Bottom");
             _cameraRoiPrefab =
                 Instantiate(Resources.Load<GameObject>("GameExitButton"), _bottomCanvas.transform, false);
             _pointerListener = _cameraRoiPrefab.GetComponent<GameExitButtonPointerListener>();
             _pointerListener.OnEnter += OnEnter;
             _pointerListener.OnExit += OnExit;
             _buttonImg = _cameraRoiPrefab.FindChildGameObject("GameExitButton_inner").GetComponent<RawImage>();
-            _timeText = _cameraRoiPrefab.FindChildGameObject("GameExitButton_inner").FindChildGameObject("TimeText").GetComponent<TextMeshProUGUI>();
+            _timeText = _cameraRoiPrefab.FindChildGameObject("GameExitButton_inner").FindChildGameObject("TimeText")
+                .GetComponent<TextMeshProUGUI>();
             _exitText = _cameraRoiPrefab.FindChildGameObject("GameExitButton_inner").FindChildGameObject("ExitText");
             RectTransform rectTransform = _cameraRoiPrefab.GetComponent<RectTransform>();
             rectTransform.anchoredPosition = new(850, DGXR.Space.Roi.y + 110);
@@ -40,6 +41,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
 
             _cameraRoiPrefab.SetActive(true);
             _countdownTimer = 0;
+            SetAlpha(0.5f);
         }
 
         private void Update()
@@ -100,12 +102,6 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             color.a = alpha;
             _buttonImg.color = color;
             _exitText.GetComponent<TextMeshProUGUI>().alpha = alpha;
-        }
-
-        private void OnDestroy()
-        {
-            _pointerListener.OnEnter -= OnEnter;
-            _pointerListener.OnExit -= OnExit;
         }
     }
 }

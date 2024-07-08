@@ -7,7 +7,7 @@ namespace Deepglint.XR.Toolkit.Monitor
 {
 #if UNITY_EDITOR
     [InitializeOnLoad]
-    public static class SentryTool
+    internal static class SentryTool
     {
         static SentryTool()
         {

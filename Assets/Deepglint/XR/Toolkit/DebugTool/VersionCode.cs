@@ -22,11 +22,11 @@ namespace Deepglint.XR.Toolkit.DebugTool
 
 
             GUI.Label(
-                new Rect(screenWidth - appVersionNumberSize.x - 10, screenHeight - appVersionNumberSize.y - 10,
+                new Rect(screenWidth - appVersionNumberSize.x - 10, appVersionNumberSize.y,
                     appVersionNumberSize.x, appVersionNumberSize.y),
                 appVersionNumber, style);
             GUI.Label(
-                new Rect(screenWidth - sdkVersionNumberSize.x - 10, screenHeight - sdkVersionNumberSize.y - 50,
+                new Rect(screenWidth - sdkVersionNumberSize.x - 10, sdkVersionNumberSize.y - 40,
                     sdkVersionNumberSize.x, sdkVersionNumberSize.y),
                 sdkVersionNumber, style);
         }

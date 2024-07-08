@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Deepglint.XR.Toolkit.Monitor.Alert
 {
-    public class Alert : MonoBehaviour
+    internal class Alert : MonoBehaviour
     {
         [FormerlySerializedAs("Ros2UnityManager")]
         public ROS2UnityManager ros2UnityManager;
@@ -23,7 +23,7 @@ namespace Deepglint.XR.Toolkit.Monitor.Alert
 
         private void Start()
         {
-            _frontCanvas = GameObject.Find("UIRoot/Front");
+            _frontCanvas = GameObject.Find("ToolkitCanvas/Front");
             _alertPrefab = Instantiate(Resources.Load<GameObject>("Alert"), _frontCanvas.transform, false);
             _alertPrefab.GetComponent<RectTransform>().localPosition = Vector3.zero;
             _playerOutNumber = _alertPrefab.FindChildGameObject("PlayerOutNumber");

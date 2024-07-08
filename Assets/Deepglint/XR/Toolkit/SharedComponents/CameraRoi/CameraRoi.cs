@@ -16,7 +16,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.CameraRoi
 
         private void Start()
         {
-            _bottomCanvas = GameObject.Find("UIRoot/Bottom");
+            _bottomCanvas = GameObject.Find("ToolkitCanvas/Bottom");
             _cameraRoiPrefab = Instantiate(Resources.Load<GameObject>("CameraRoi"), _bottomCanvas.transform, false);
             _cameraRoiPrefab.GetComponent<RectTransform>().localPosition = Vector3.zero;
 

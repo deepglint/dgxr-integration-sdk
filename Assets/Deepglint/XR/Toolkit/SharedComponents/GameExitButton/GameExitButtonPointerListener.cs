@@ -32,5 +32,11 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
                 OnExit?.Invoke();
             }
         }
+
+        public void OnDestroy()
+        {
+            OnEnter = null;
+            OnExit = null;
+        }
     }
 }
