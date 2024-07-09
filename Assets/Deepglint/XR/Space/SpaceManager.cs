@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Deepglint.XR.Toolkit.DebugTool;
@@ -64,7 +65,7 @@ namespace Deepglint.XR.Space
             denominator = 1
         };
 
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
         private RenderTexture _renderTexture;
         private RenderTexture _uiRenderTexture;
         private RenderTexture _frontBottomTex;
@@ -73,7 +74,7 @@ namespace Deepglint.XR.Space
 #endif
         private void Awake()
         {
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
             if (!DGXR.SystemName.Contains("Mac"))
             {
                 _screenWidth = GetSystemMetrics(SM_CXSCREEN);
@@ -110,7 +111,7 @@ namespace Deepglint.XR.Space
 
                 Screen.SetResolution(_screenWidth, _screenHeight, true);
             }
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
             _uiRenderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
             _frontBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
             _backBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
@@ -132,12 +133,12 @@ namespace Deepglint.XR.Space
 
                 _screenEdges.Add((int)screen.TargetScreen, games);
             }
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
             RenderPipelineManager.endFrameRendering += HandleSplitScreen;
 #endif
         }
 
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
         private void OnApplicationQuit()
         {
             RenderPipelineManager.endFrameRendering -= HandleSplitScreen;
@@ -153,7 +154,7 @@ namespace Deepglint.XR.Space
             }
         }
 
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
         private void ProcessRendersCoroutine()
         {
             foreach (var screen in DGXR.Config.Space.Screens)
@@ -200,12 +201,17 @@ namespace Deepglint.XR.Space
 
         private void ClippedRenderTexture(RenderTexture sourceTexture, Rect rect, int display)
         {
+           
+            
+            
+            Debug.LogError($"width: {rect.width / sourceTexture.width} height:{rect.height / sourceTexture.height} _OffsetX:{rect.x / sourceTexture.width} _OffsetY{rect.y / sourceTexture.height} ");
             _cropMaterial.SetTexture("_MainTex", sourceTexture);
             _cropMaterial.SetFloat("_OffsetX", rect.x / sourceTexture.width);
             _cropMaterial.SetFloat("_OffsetY", rect.y / sourceTexture.height);
             _cropMaterial.SetFloat("_ScaleX", rect.width / sourceTexture.width);
             _cropMaterial.SetFloat("_ScaleY", rect.height / sourceTexture.height);
             _cropMaterial.SetFloat("_Rotation", _buttonRotation * Mathf.Deg2Rad);
+            
             if (display == 4)
             {
                 Graphics.Blit(sourceTexture, _frontBottomTex, _cropMaterial);
@@ -214,7 +220,7 @@ namespace Deepglint.XR.Space
             {
                 Graphics.Blit(sourceTexture, _backBottomTex, _cropMaterial);
             }
-
+            
             RenderTexture.active = null;
         }
 #endif
@@ -295,7 +301,7 @@ namespace Deepglint.XR.Space
 
         public void OnDestroy()
         {
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
             RenderPipelineManager.endFrameRendering -= HandleSplitScreen;
 #endif
         }
@@ -407,9 +413,10 @@ namespace Deepglint.XR.Space
                 {
                     dis.AddCameraToStack(uiCamera);
                 }
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
                 if (screen.Render.Length > 0 && DGXR.Config.Space.ScreenMode == ScreenStyle.Default)
                 {
+                    Transform xr = GameObject.Find("XRManager").transform;
                     uiCamera.targetTexture = _uiRenderTexture;
                     _renderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
                     spaceCamera.targetTexture = _renderTexture;
@@ -420,9 +427,9 @@ namespace Deepglint.XR.Space
                         foreach (var tarDisplay in render.TarDisplay)
                         {
                             GameObject displayImage = Instantiate(displayImagePrefab,
-                                spaceCamera.transform.position,
-                                spaceCamera.transform.rotation,
-                                spaceCamera.transform);
+                                xr.position,
+                                xr.rotation,
+                                xr);
                             Canvas[] displayCanvas = displayImage.GetComponentsInChildren<Canvas>();
                             foreach (var can in displayCanvas)
                             {
