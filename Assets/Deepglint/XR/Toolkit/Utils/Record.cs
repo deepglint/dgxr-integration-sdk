@@ -30,7 +30,7 @@ namespace Deepglint.XR.Toolkit.Utils
         {
             string msg = (string)data;
             DateTime currentTime = DateTime.Now;
-            currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, 0, 0);
+            currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, currentTime.Second);
             string fileName = currentTime.ToString("yyyyMMddHHmmss");
             string filePath = Path.Combine(_path, fileName + "_"+_marker+".txt");
             if (_currentHouse == -1)
@@ -42,7 +42,7 @@ namespace Deepglint.XR.Toolkit.Utils
             
             if (_currentHouse!=currentTime.Hour)
             {
-                currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, _currentHouse, 0, 0);
+                currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, _currentHouse,currentTime.Minute, currentTime.Second);
                 string oldFileName = currentTime.ToString("yyyyMMddHHmmss");
                 string oldFilePath = Path.Combine(_path, oldFileName + "_"+_marker+".txt");
                 CheckFile(oldFilePath);

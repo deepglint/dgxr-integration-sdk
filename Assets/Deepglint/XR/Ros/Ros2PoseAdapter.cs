@@ -113,7 +113,7 @@ namespace Deepglint.XR.Ros
                     return;
                 }
 
-                if (!DGXR.SystemName.Contains("Mac"))
+                if (!DGXR.SystemName.Contains("Mac") && Application.isFocused)
                 {
                     ThreadPool.QueueUserWorkItem(_record.SaveMsgData, msg);
                 }

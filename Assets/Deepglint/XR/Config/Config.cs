@@ -45,6 +45,8 @@ namespace Deepglint.XR.Config
             [System.Serializable]
             public struct LogInfo
             {
+                [JsonProperty("enable")]
+                public bool Enable { get; set; }
                 [JsonProperty("level")]
                 public string Level { get; set; }
                 [JsonProperty("singFileMaxSize")]

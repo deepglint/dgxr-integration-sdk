@@ -20,14 +20,14 @@ namespace Deepglint.XR.Toolkit.DebugTool
         /// <summary>
         /// 标准样式
         /// </summary>
-        [JsonProperty("normalMode")]
-        NormalMode,
+        [JsonProperty("normal")]
+        Normal,
 
         /// <summary>
         /// 主屏优先样式
         /// </summary>
-        [JsonProperty("mainMode")]
-        MainMode,
+        [JsonProperty("main")]
+        Main,
     }
 
     internal class SingleScreen : MonoBehaviour
@@ -71,14 +71,14 @@ namespace Deepglint.XR.Toolkit.DebugTool
                 {
                     case ScreenStyle.Default:
                         return;
-                    case ScreenStyle.NormalMode:
+                    case ScreenStyle.Normal:
                         _screenRects.Add(TargetScreen.Front, new Rect(midX, topY, ratioWidth, ratioHeight));
                         _screenRects.Add(TargetScreen.Right, new Rect(rightX, topY, ratioWidth, ratioHeight));
                         _screenRects.Add(TargetScreen.Back, new Rect(rightX, midY, ratioWidth, ratioHeight));
                         _screenRects.Add(TargetScreen.Left, new Rect(leftX, topY, ratioWidth, ratioHeight));
                         _screenRects.Add(TargetScreen.Bottom, new Rect(midX, bottomY, ratioWidth, ratioBottomHeight));
                         break;
-                    case ScreenStyle.MainMode:
+                    case ScreenStyle.Main:
                         _screenRects.Add(TargetScreen.Front, new Rect(0, 0, 2 * ratioWidth, 2 * ratioHeight));
                         _screenRects.Add(TargetScreen.Right, new Rect(leftX, topY, ratioWidth, ratioHeight));
                         _screenRects.Add(TargetScreen.Back, new Rect(midX, topY, ratioWidth, ratioHeight));

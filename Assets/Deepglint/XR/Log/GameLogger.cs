@@ -18,6 +18,11 @@ namespace Deepglint.XR.Log
 
         public static void Init(Config.Config.ConfigData.LogInfo logInfo)
         {
+            if (!logInfo.Enable)
+            {
+                return;
+            }
+
             switch (logInfo.Level)
             {
                 case "debug":

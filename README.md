@@ -111,7 +111,7 @@ public class NewBehaviourScript : MonoBehaviour
         }
 
         var body = Source.Data[0];
-        Global.CavePosition = body.Joints.HeadTop.LocalPosition;
+        DGXR.CavePosition = body.Joints.HeadTop.LocalPosition;
     }
 }
 ```
@@ -176,7 +176,7 @@ private void Start()
 {
 Camera camera = new Camera();
 camera.GetUniversalAdditionalCameraData().renderType = CameraRenderType.Overlay;
-Global.Space.Front.AddCameraToStack(camera);
+DGXR.Space.Front.AddCameraToStack(camera);
 }
 } 
 ```
@@ -334,10 +334,10 @@ public class Demo : MonoBehaviour
 备注：当需要与3D 物体进行交互时需要手动开启物理射线
 ```
 // 检查摄像机上是否已经有 PhysicsRaycaster 组件
-if (Global.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
+if (DGXR.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
 {
    // 添加 PhysicsRaycaster 组件
-   Global.Space.Bottom.SpaceCamera.gameObject.AddComponent<PhysicsRaycaster>();
+   DGXR.Space.Bottom.SpaceCamera.gameObject.AddComponent<PhysicsRaycaster>();
    Debug.Log("PhysicsRaycaster has been added to the bottom camera.");
 }
 ```

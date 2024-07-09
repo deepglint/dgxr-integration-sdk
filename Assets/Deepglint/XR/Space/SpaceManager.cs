@@ -30,11 +30,6 @@ namespace Deepglint.XR.Space
         [FormerlySerializedAs("UserViewCameraPrefab")]
         public Camera userViewCameraPrefab;
 
-        [FormerlySerializedAs("LockAll")] [Header("视角跟随相关设置")]
-        public Boolean lockAll;
-
-        [FormerlySerializedAs("LockXZ")] public Boolean lockXZ;
-
         public Boolean isCave;
 
         private GameObject[] _screens;
@@ -244,22 +239,13 @@ namespace Deepglint.XR.Space
                 _head = DGXR.CavePosition;
             }
 
-            _headLockPosition = _head;
             var space = GameObject.Find("XRSpace");
             Vector3 position = space.transform.position;
-            if (lockAll)
-            {
-                _headLockPosition = position + _eyePosition * spaceScale;
-            }
-            else if (lockXZ)
-            {
-                _headLockPosition = new Vector3(_eyePosition.x, _head.y, _eyePosition.z) * spaceScale + position;
-            }
 
             foreach (var userCamera in DGXR.Config.Space.Screens)
             {
                 var cam = DGXR.Space[userCamera.TargetScreen];
-                cam.SpaceCamera.transform.position = _headLockPosition+position;
+                cam.SpaceCamera.transform.position = _head+position;
             }
         }
 
@@ -420,9 +406,9 @@ namespace Deepglint.XR.Space
                         foreach (var tarDisplay in render.TarDisplay)
                         {
                             GameObject displayImage = Instantiate(displayImagePrefab,
-                                spaceCamera.transform.position,
-                                spaceCamera.transform.rotation,
-                                spaceCamera.transform);
+                                DGXR.Space.gameObject.transform.position,
+                                DGXR.Space.gameObject.transform.rotation,
+                                DGXR.Space.gameObject.transform);
                             Canvas[] displayCanvas = displayImage.GetComponentsInChildren<Canvas>();
                             foreach (var can in displayCanvas)
                             {
