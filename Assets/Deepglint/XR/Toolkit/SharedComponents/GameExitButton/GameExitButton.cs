@@ -63,7 +63,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             }
             else
             {
-                _gameExitingText.text = $"{Mathf.RoundToInt(_countdownTimer).ToString()}秒后退出游戏";
+                _gameExitingText.text = $"{Mathf.RoundToInt(_countdownTimer).ToString()}秒后退出";
                 _gameExitingPrefab.SetActive(true);
                 _timeText.text = Mathf.RoundToInt(_countdownTimer).ToString();
                 _timeText.gameObject.SetActive(true);
