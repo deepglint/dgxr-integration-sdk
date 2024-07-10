@@ -64,3 +64,8 @@ mono_crash.*
 **/out/
 **/*.puml.meta
 **/out.meta
+
+Assets/StreamingAssets/application.json
+Assets/StreamingAssets/application.json.meta
+Assets/Resources/XRApplicationSettings.asset
+Assets/Resources/XRApplicationSettings.asset.meta
