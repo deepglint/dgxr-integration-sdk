@@ -1,7 +1,6 @@
-﻿using System;
+﻿
 using Deepglint.XR.Ros;
 using Deepglint.XR.Toolkit.Utils;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -17,7 +16,7 @@ namespace Deepglint.XR.Toolkit.Monitor.Alert
         private GameObject _alertPrefab;
 
         private GameObject _playerOutNumber;
-        private TextMeshProUGUI _playerOutNumberText;
+        private Text _playerOutNumberText;
         private GameObject _serviceInterrupt;
         private GameObject _loseFocus;
 
@@ -28,7 +27,7 @@ namespace Deepglint.XR.Toolkit.Monitor.Alert
             _alertPrefab.GetComponent<RectTransform>().localPosition = Vector3.zero;
             _playerOutNumber = _alertPrefab.FindChildGameObject("PlayerOutNumber");
             _playerOutNumberText =
-                _alertPrefab.FindChildGameObject("PlayerOutNumberText").GetComponent<TextMeshProUGUI>();
+                _alertPrefab.FindChildGameObject("PlayerOutNumberText").GetComponent<Text>();
             _serviceInterrupt = _alertPrefab.FindChildGameObject("ServiceInterrupt");
             _loseFocus = _alertPrefab.FindChildGameObject("LoseFocus");
 
