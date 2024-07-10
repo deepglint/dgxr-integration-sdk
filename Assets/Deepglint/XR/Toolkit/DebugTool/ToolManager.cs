@@ -18,7 +18,7 @@ namespace Deepglint.XR.Toolkit.DebugTool
             if (toolkitCanvas is null)
             {
                 var prefab = Resources.Load<GameObject>("ToolkitCanvas");
-                var newToolkitCanvas = Instantiate(prefab, null, false);
+                var newToolkitCanvas = Instantiate(prefab, this.transform.parent, false);
                 newToolkitCanvas.name = prefab.name;
                 var canvas = newToolkitCanvas.GetComponent<Canvas>();
                 canvas.renderMode = RenderMode.WorldSpace;
