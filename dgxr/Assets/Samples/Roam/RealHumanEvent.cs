@@ -22,16 +22,15 @@ namespace Samples.Roam
         private Player _player;
         
         // jumpController
-        private JumpController _jumpController;
-        // roamStick
-        private RoamStick _roamStick;
+        // private JumpController _jumpController;
+        private RoamController _roamController;
         private Vector2 _movePosition = Vector2.zero;
         
         public void OnJoin()
         {
             if (_isJoined) return;
             _isJoined = true;
-            _roamStick.SetActive(true);
+            _roamController.SetActive(true);
             
             if (isRealHuman)
             {
@@ -40,21 +39,20 @@ namespace Samples.Roam
 
             transform.gameObject.name = $"RealHuman{_appCharacter?.Name}";
             if (_appCharacter == null) return;
-            _jumpController.rb = transform.GetComponent<Rigidbody>();
+            // _jumpController.rb = transform.GetComponent<Rigidbody>();
         }
         
         private void Awake()
         {
-            _jumpController = gameObject.AddComponent<JumpController>();
+            // _jumpController = gameObject.AddComponent<JumpController>();
+            _roamController = GameObject.Find("Roam").GetComponent<RoamController>();
         }
 
         private async void Start()
         {
-            _roamStick = GameObject.Find("RoamStick")?.GetComponent<RoamStick>();
-            _roamStick.humanBody = transform.gameObject;
             _player = GetComponent<Player>();
             isRealHuman = _player != null;
-            
+            _roamController.hasPlayer = true; 
             if (isRealHuman) return;
             GetComponent<PlayerInput>().enabled = false;
             
@@ -88,8 +86,7 @@ namespace Samples.Roam
         {
             _isJoined = false;
             // ⚠️️设备离线了，但是 humanPlayer 的节点还在
-            _roamStick.SetActive(false);
-            _roamStick.ResetMove(false);
+            _roamController.SetActive(false);
         }
 
         private void PutOffCheckLost()
@@ -158,14 +155,14 @@ namespace Samples.Roam
                 }
                 
                 Vector2 root2DPosition = DGXR.Space.Bottom.SpaceToPixelOnScreen(rootPosition);
-                _roamStick.Move(rootPosition, root2DPosition);
+                _roamController.Move(rootPosition, root2DPosition);
             }
             else
             {
                 _movePosition += value.ReadValue<Vector2>() * 0.1f;
                 Vector3 rootPosition =  new Vector3(_movePosition.x, 0, _movePosition.y);
                 Vector2 root2DPosition = DGXR.Space.Bottom.SpaceToPixelOnScreen(rootPosition);
-                _roamStick.Move(rootPosition, root2DPosition);
+                _roamController.Move(rootPosition, root2DPosition);
             }
         }
 
@@ -185,10 +182,10 @@ namespace Samples.Roam
 
         public void OnDeepSquat(InputAction.CallbackContext value)
         {
-            if(!value.performed) return;
+            if(!value.performed && !value.started) return;
             if (_appCharacter == null) return;
             Debug.Log("character.Name: " + _appCharacter.Name + " 深蹲 ");
-            _jumpController.Charging();
+            _roamController.Charging();
         }
 
         public void OnJump(InputAction.CallbackContext value)
@@ -196,7 +193,7 @@ namespace Samples.Roam
             if(!value.performed) return;
             if (_appCharacter == null) return;
             Debug.Log("character.Name: " + _appCharacter.Name + " 跳跃 ");
-            _jumpController.Jump(); 
+            _roamController.Jump();
         }
 
         public void OnFreeSwim(InputAction.CallbackContext value)
@@ -204,7 +201,7 @@ namespace Samples.Roam
             if(!value.performed) return;
             if (_appCharacter == null) return;
             Debug.Log("character.Name: " + _appCharacter.Name + " 自由泳 ");
-            _roamStick.ResetMove(true);
+            _roamController.Reset();
         }
     }
 }

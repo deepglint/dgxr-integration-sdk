@@ -59,7 +59,7 @@ MonoBehaviour:
     type: 3}
   lockAll: 0
   lockXZ: 0
-  isCave: 1
+  isCave: 0
   spaceScale: 1
 --- !u!114 &7714738920680356628
 MonoBehaviour:
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFilterZero: 1
-  isRoam: 0
+  isRoam: 1
 --- !u!1 &486550265539237202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1868,7 +1868,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6370128756738033635}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
@@ -2333,7 +2333,7 @@ PrefabInstance:
     - target: {fileID: 2004426611228676228, guid: 8d165614e3b50764790d4ef0fd435d96,
         type: 3}
       propertyPath: m_Size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2004426611228676228, guid: 8d165614e3b50764790d4ef0fd435d96,
         type: 3}
@@ -2790,10 +2790,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 299902797223919315, guid: 36a32e2a2e662dc4eb41903bbbd132a5,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4878613529320275887}
-    - targetCorrespondingSourceObject: {fileID: 299902797223919315, guid: 36a32e2a2e662dc4eb41903bbbd132a5,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5506943890236122210}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2579590279852452919, guid: 36a32e2a2e662dc4eb41903bbbd132a5,
@@ -2814,7 +2810,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5428689361199872993}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7fd08e70c4ed4b928b098a0f5ecf1cd3, type: 3}
   m_Name: 

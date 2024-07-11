@@ -20,14 +20,6 @@ namespace Samples.Roam
             MainCharacter = new AppCharacter("漫游者", new Roi(){ Anchor = Vector2.zero, Radius = 1.0f });
             PlayerManager.Instance.OnTryToJoinWithCharacter += MainCharacter.OnTryToJoin;
         }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                Instantiate(transform.GetComponent<PlayerManager>().PlayerPrefab);
-            }
-        }
     }
     
     public class AppCharacter : Character
