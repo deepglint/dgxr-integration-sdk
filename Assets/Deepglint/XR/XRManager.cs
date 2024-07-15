@@ -1,8 +1,10 @@
+using Deepglint.XR.Inputs;
 using Deepglint.XR.Log;
 using Deepglint.XR.Source;
 using Deepglint.XR.Space;
 using Deepglint.XR.Toolkit.DebugTool;
 using Deepglint.XR.Toolkit.Utils;
+using UnityEditor;
 using UnityEngine;
 
 namespace Deepglint.XR
@@ -19,6 +21,11 @@ namespace Deepglint.XR
             DGXR.Version = VersionCode.SdkVersionCode;
             DGXR.SystemName = SystemInfo.operatingSystem;
             DGXR.Config = new Config.Config().InitConfig();
+            XRApplicationSettings settings = AssetDatabase.LoadAssetAtPath<XRApplicationSettings>("Assets/Resources/XRApplicationSettings.asset");
+            if (settings != null)
+            {
+                DeviceManager.MaxActiveHumanDeviceCount = settings.playerSetting.maxPlayerCount;
+            }
             
             
 #if !UNITY_EDITOR

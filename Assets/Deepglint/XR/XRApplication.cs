@@ -58,24 +58,21 @@ namespace Deepglint.XR
                 AssetDatabase.CreateAsset(settings, "Assets/Resources/XRApplicationSettings.asset");
                 AssetDatabase.SaveAssets();
                 string content = JsonConvert.SerializeObject(settings);
-                Debug.Log(content);
                 File.WriteAllText("Assets/StreamingAssets/application.json", content);
             }
         }
         
         private void OnGUI()
         {
-            // GUILayout.Label("DGXR Application Settings", EditorStyles.boldLabel);
-
             settings.type = EditorGUILayout.TextField("Application Type", settings.type);
             settings.playerSetting.minPlayerCount = EditorGUILayout.IntField("Minimum Player Count", settings.playerSetting.minPlayerCount);
             settings.playerSetting.maxPlayerCount = EditorGUILayout.IntField("Maximum Player Count", settings.playerSetting.maxPlayerCount);
             settings.description = EditorGUILayout.TextField("Description", settings.description);
-            if (settings.playerSetting.maxPlayerCount == 0)
+            if (settings.playerSetting.maxPlayerCount <= 0 || settings.playerSetting.maxPlayerCount >= 5)
             {
                 settings.playerSetting.maxPlayerCount = 5;
             }
-            if (settings.playerSetting.minPlayerCount == 0)
+            if (settings.playerSetting.minPlayerCount <= 0)
             {
                 settings.playerSetting.minPlayerCount = 1;
             } 
@@ -104,7 +101,6 @@ namespace Deepglint.XR
                 AssetDatabase.CreateAsset(settings, "Assets/Resources/XRApplicationSettings.asset");
                 AssetDatabase.SaveAssets();
                 string content = JsonConvert.SerializeObject(settings);
-                Debug.Log(content);
                 File.WriteAllText(filePath, content);
             }
             else
@@ -114,7 +110,6 @@ namespace Deepglint.XR
                 EditorUtility.SetDirty(settings);
                 AssetDatabase.SaveAssets();
                 string content = JsonConvert.SerializeObject(settings);
-                Debug.Log(content);
                 File.WriteAllText(filePath, content);
             }
         }
