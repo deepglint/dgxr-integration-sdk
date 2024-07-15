@@ -133,5 +133,5 @@ build_dgxr:
     reports:
       dotenv: dgxr.env
   tags:
-    - alpha
+    - alpha-ci
 
