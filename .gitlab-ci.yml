@@ -9,7 +9,7 @@ default:
   interruptible: true
   # 指定runner的tag
   tags:
-    - alpha
+    - alpha-ci
 
 variables:
   GIT_DEPTH: 1
