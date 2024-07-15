@@ -49,6 +49,8 @@ build:prepare:
   artifacts:
     reports:
       dotenv: .env
+  tags:
+    - alpha-ci
 
 build:cleanup:
   stage: .post

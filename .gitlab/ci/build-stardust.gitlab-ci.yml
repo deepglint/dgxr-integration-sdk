@@ -30,12 +30,16 @@ get-unity-version:
   artifacts:
     reports:
       dotenv: prepare.env
+  tags:
+    - alpha-ci
 
 lint_analyze:
   stage: build pre
   image: mcr.microsoft.com/dotnet/core/sdk:latest
   script:
     - 'echo "lint succeed"'
+  tags:
+    - alpha-ci
   
 cache: # 缓存
   paths:
