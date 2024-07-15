@@ -21,10 +21,14 @@ namespace Deepglint.XR
             DGXR.Version = VersionCode.SdkVersionCode;
             DGXR.SystemName = SystemInfo.operatingSystem;
             DGXR.Config = new Config.Config().InitConfig();
-            XRApplicationSettings settings = AssetDatabase.LoadAssetAtPath<XRApplicationSettings>("Assets/Resources/XRApplicationSettings.asset");
+            XRApplicationSettings settings = Resources.Load<XRApplicationSettings>("XRApplicationSettings");
             if (settings != null)
             {
                 DeviceManager.MaxActiveHumanDeviceCount = settings.playerSetting.maxPlayerCount;
+            }
+            else
+            {
+                Debug.LogError("load XRApplicationSettings failed");
             }
             
             

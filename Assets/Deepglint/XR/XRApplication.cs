@@ -47,9 +47,9 @@ namespace Deepglint.XR
         private void OnEnable()
         {
             Debug.Log("load application settings");
+            settings = AssetDatabase.LoadAssetAtPath<XRApplicationSettings>("Assets/Resources/XRApplicationSettings.asset");
             if (settings == null)
             {
-                settings = AssetDatabase.LoadAssetAtPath<XRApplicationSettings>("Assets/Resources/XRApplicationSettings.asset");
                 settings = CreateInstance<XRApplicationSettings>();
                 settings.name = Application.productName;
                 settings.version = Application.version;
@@ -57,8 +57,6 @@ namespace Deepglint.XR
                 settings.playerSetting.maxPlayerCount = 5;
                 AssetDatabase.CreateAsset(settings, "Assets/Resources/XRApplicationSettings.asset");
                 AssetDatabase.SaveAssets();
-                string content = JsonConvert.SerializeObject(settings);
-                File.WriteAllText("Assets/StreamingAssets/application.json", content);
             }
         }
         
