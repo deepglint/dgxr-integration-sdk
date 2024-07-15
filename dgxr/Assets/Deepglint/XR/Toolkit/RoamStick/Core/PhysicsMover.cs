@@ -154,13 +154,13 @@ namespace Deepglint.XR.Toolkit.RoamStick.Core
 
         private void OnEnable()
         {
-            KinematicCharacterSystem.EnsureCreation();
-            KinematicCharacterSystem.RegisterPhysicsMover(this);
+            KCharacterSystem.EnsureCreation();
+            KCharacterSystem.RegisterPhysicsMover(this);
         }
 
         private void OnDisable()
         {
-            KinematicCharacterSystem.UnregisterPhysicsMover(this);
+            KCharacterSystem.UnregisterPhysicsMover(this);
         }
 
         private void Awake()

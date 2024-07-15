@@ -531,13 +531,13 @@ namespace Deepglint.XR.Toolkit.RoamStick.Core
 
         private void OnEnable()
         {
-            KinematicCharacterSystem.EnsureCreation();
-            KinematicCharacterSystem.RegisterCharacterMotor(this);
+            KCharacterSystem.EnsureCreation();
+            KCharacterSystem.RegisterCharacterMotor(this);
         }
 
         private void OnDisable()
         {
-            KinematicCharacterSystem.UnregisterCharacterMotor(this);
+            KCharacterSystem.UnregisterCharacterMotor(this);
         }
 
         private void Reset()

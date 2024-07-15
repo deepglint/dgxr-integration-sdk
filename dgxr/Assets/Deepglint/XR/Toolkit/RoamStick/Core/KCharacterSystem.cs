@@ -7,9 +7,9 @@ namespace Deepglint.XR.Toolkit.RoamStick.Core
     /// The system that manages the simulation of KinematicCharacterMotor and PhysicsMover
     /// </summary>
     [DefaultExecutionOrder(-100)]
-    public class KinematicCharacterSystem : MonoBehaviour
+    public class KCharacterSystem : MonoBehaviour
     {
-        private static KinematicCharacterSystem _instance;
+        private static KCharacterSystem _instance;
 
         public static List<KCharacterMotor> CharacterMotors = new List<KCharacterMotor>();
         public static List<PhysicsMover> PhysicsMovers = new List<PhysicsMover>();
@@ -27,7 +27,7 @@ namespace Deepglint.XR.Toolkit.RoamStick.Core
             if (_instance == null)
             {
                 GameObject systemGameObject = new GameObject("KinematicCharacterSystem");
-                _instance = systemGameObject.AddComponent<KinematicCharacterSystem>();
+                _instance = systemGameObject.AddComponent<KCharacterSystem>();
 
                 systemGameObject.hideFlags = HideFlags.NotEditable;
                 _instance.hideFlags = HideFlags.NotEditable;
@@ -42,7 +42,7 @@ namespace Deepglint.XR.Toolkit.RoamStick.Core
         /// Gets the KinematicCharacterSystem instance if any
         /// </summary>
         /// <returns></returns>
-        public static KinematicCharacterSystem GetInstance()
+        public static KCharacterSystem GetInstance()
         {
             return _instance;
         }
