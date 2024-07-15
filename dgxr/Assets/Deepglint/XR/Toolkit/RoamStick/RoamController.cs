@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Deepglint.XR.Space;
+using Deepglint.XR.Toolkit.Utils;
+using Samples.Roam;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -15,8 +18,10 @@ namespace Deepglint.XR.Toolkit.RoamStick
             Jumping
         }
         
+        public Action<Collision> OnListenCollision;
+        
         private GameObject _roamCharacterObj;
-        private GameObject _xrManager;
+        [FormerlySerializedAs("_xrManager")] public GameObject xrManager;
         private GameObject _roamStickObj;
         private RoamStick _roamStick;
         private RoamCharacter _roamCharacter;
@@ -39,11 +44,11 @@ namespace Deepglint.XR.Toolkit.RoamStick
 
         private void LateUpdate()
         {
-            if (_xrManager == null) _xrManager = GameObject.Find("XRManager");
+            if (xrManager == null) xrManager = GameObject.Find("XRManager");
             if (_roamCharacterObj == null) return;
 
             // _xrManager.transform.position = _roamCharacter.GetCameraTarget();
-            _xrManager.transform.position = Character.CameraFollowPoint.transform.position;
+            xrManager.transform.position = Character.CameraFollowPoint.transform.position;
         }
 
         private void HandleCharacterInput()
@@ -86,10 +91,17 @@ namespace Deepglint.XR.Toolkit.RoamStick
             GameObject uiRoot = GameObject.Find("UIRoot");
             _roamStickObj = Instantiate(Resources.Load<GameObject>("RoamStick"), uiRoot.transform);
             _roamStick = _roamStickObj.GetComponent<RoamStick>();
-            _roamCharacterObj = Instantiate(Resources.Load<GameObject>("RoamCharacter"), transform);
+            _roamCharacterObj = transform.gameObject.FindChildGameObject("RoamCharacter");
+            _roamCharacterObj = _roamCharacterObj == null ? Instantiate(Resources.Load<GameObject>("RoamCharacter"), transform) : _roamCharacterObj;
             _roamCharacter = _roamCharacterObj.GetComponent<RoamCharacter>();
             Character = _roamCharacterObj.GetComponent<RoamCharacterController>();
+            Character.OnListenCollision += ListenCollision;
             SetActive(false);
+        }
+
+        public void ListenCollision(Collision collision)
+        {
+            OnListenCollision?.Invoke(collision); 
         }
 
         public void SetActive(bool status)
@@ -99,9 +111,10 @@ namespace Deepglint.XR.Toolkit.RoamStick
         }
 
         public void Reset()
-        { 
+        {
             _roamStick.ControlStick(Vector2.zero);
             _roamCharacterObj.transform.position = new Vector3(0, 3f, 0);
+            xrManager.transform.position = new Vector3(0, 0, 0);
         }
 
         public void Move(Vector3 position3d, Vector2 position2d)
@@ -116,18 +129,18 @@ namespace Deepglint.XR.Toolkit.RoamStick
         {
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                _xrManager.GetComponent<SpaceManager>().isCave = !_xrManager.GetComponent<SpaceManager>().isCave;
+                xrManager.GetComponent<SpaceManager>().isCave = !xrManager.GetComponent<SpaceManager>().isCave;
             }
-            
+           
             HandleCharacterInput();
         }
 
         private void FixedUpdateTmp()
         {
-            if (_xrManager == null) _xrManager = GameObject.Find("XRManager");
+            if (xrManager == null) xrManager = GameObject.Find("XRManager");
             if (_roamCharacterObj == null) return;
             
-            _xrManager.transform.position = _roamCharacter.GetCameraTarget() - _currentMovePos;
+            xrManager.transform.position = _roamCharacter.GetCameraTarget() - _currentMovePos;
             SetCave();
         
             if (_roamStick.roamDirection == Vector2.zero) return;
@@ -140,14 +153,14 @@ namespace Deepglint.XR.Toolkit.RoamStick
 
         private void SetCave()
         {
-            if (_xrManager.GetComponent<SpaceManager>().isCave)
+            if (xrManager.GetComponent<SpaceManager>().isCave)
             {
-                _xrManager.GetComponent<SpaceManager>().lockAll = false;
+                xrManager.GetComponent<SpaceManager>().lockAll = false;
                 DGXR.CavePosition = _currentMovePos;
             }
             else
             {
-                DGXR.CavePosition = _xrManager.transform.position + new Vector3(0, 1.6f, 0);
+                DGXR.CavePosition = xrManager.transform.position + new Vector3(0, 1.6f, 0);
             }
         }
         

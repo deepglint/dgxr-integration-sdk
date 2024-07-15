@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Deepglint.XR.Toolkit.RoamStick.Core;
 using UnityEngine;
 
@@ -87,6 +88,14 @@ namespace Deepglint.XR.Toolkit.RoamStick
         private Vector3 lastInnerNormal = Vector3.zero;
         private Vector3 lastOuterNormal = Vector3.zero;
 
+        public Action<Collision> OnListenCollision;
+
+        
+        private void OnCollisionEnter(Collision collision)
+        {
+            OnListenCollision?.Invoke(collision);
+        }
+        
         private void Awake()
         {
             // Handle initial state

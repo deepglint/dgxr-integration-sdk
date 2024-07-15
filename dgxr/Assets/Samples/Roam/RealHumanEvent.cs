@@ -46,6 +46,7 @@ namespace Samples.Roam
         {
             // _jumpController = gameObject.AddComponent<JumpController>();
             _roamController = GameObject.Find("Roam").GetComponent<RoamController>();
+            _roamController.OnListenCollision += OnCollisionEnter;
         }
 
         private async void Start()
@@ -126,8 +127,16 @@ namespace Samples.Roam
 
         private void OnCollisionEnter(Collision other)
         {
-            if (other.gameObject.CompareTag("Ground"))
+            Debug.Log("碰撞到了：" + other.gameObject.name + " " + other.gameObject.tag);
+            switch (other.gameObject.tag)
             {
+                case "Water":
+                    _roamController.Reset();
+                    CharacterManager.OnGameOver?.Invoke();
+                    break;
+                default:
+                    CharacterManager.OnListenCollision?.Invoke(other);
+                    break;
             }
         }
 
@@ -202,6 +211,7 @@ namespace Samples.Roam
             if (_appCharacter == null) return;
             Debug.Log("character.Name: " + _appCharacter.Name + " 自由泳 ");
             _roamController.Reset();
+            CharacterManager.OnGameOver?.Invoke();
         }
     }
 }

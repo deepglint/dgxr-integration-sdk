@@ -1,3 +1,4 @@
+using System;
 using Deepglint.XR.Inputs.Devices;
 using Deepglint.XR.Player;
 using Deepglint.XR.Toolkit.Utils;
@@ -14,7 +15,10 @@ namespace Samples.Roam
     public class CharacterManager: SingletonMono<MonoBehaviour>
     {
         public static AppCharacter MainCharacter;
-        
+        public static Action OnGameStart;
+        public static Action OnGameOver;
+        public static Action<Collision> OnListenCollision;
+
         public void Start()
         {
             MainCharacter = new AppCharacter("漫游者", new Roi(){ Anchor = Vector2.zero, Radius = 1.0f });
@@ -40,6 +44,7 @@ namespace Samples.Roam
             if (!IsBindable()) return null;
             IsRealHuman = device.name != "Keyboard";
             if (IsRealHuman) Device = (DGXRHumanController)device;
+            CharacterManager.OnGameStart?.Invoke();
             return this;
         }
     }
