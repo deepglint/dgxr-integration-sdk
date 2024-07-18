@@ -1,8 +1,3 @@
-.build: &build
-  stage: build stardust
-  image: ccr.ccs.tencentyun.com/solution/go-gcc-mingw-w64:0.1
-  needs: 
-    - build:prepare
 variables:
   GIT_DEPTH: 1
   GIT_STRATEGY: fetch
@@ -19,6 +14,42 @@ variables:
   VERSION_BUILD_VAR: $CI_PIPELINE_IID
 
 image: $IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
+
+.build: &build
+  stage: build stardust
+  image: ccr.ccs.tencentyun.com/solution/go-gcc-mingw-w64:0.1
+  needs: 
+    - build:prepare
+
+.unity_before_script: &unity_before_script
+  before_script:
+    - export UNITY_DIR=$CI_PROJECT_DIR
+    - chmod +x ./ci/before_script.sh && ./ci/before_script.sh
+  needs:
+    - job: get-unity-version
+      artifacts: true
+
+.cache: &cache
+  cache:
+    key: "$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-$TEST_PLATFORM"
+    paths:
+      - $UNITY_DIR/Library/
+
+.license: &license
+  rules:
+    - if: '$UNITY_LICENSE != null'
+      when: always
+
+.ci_defaults: &ci_defaults
+  tags:
+    - alpha-ci
+
+.unity_defaults: &unity_defaults
+  <<:
+    - *unity_before_script
+    - *cache
+    - *license
+    - *ci_defaults
 
 get-unity-version:
   stage: build pre
@@ -56,30 +87,6 @@ generate_doc:
       - $UNITY_DIR/code_docs
     name: dgxr-doc-$CI_COMMIT_TAG
 
-.unity_before_script: &unity_before_script
-  before_script:
-    - export UNITY_DIR=$CI_PROJECT_DIR
-    - chmod +x ./ci/before_script.sh && ./ci/before_script.sh
-  needs:
-    - job: get-unity-version
-      artifacts: true
-
-.cache: &cache
-  cache:
-    key: "$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-$TEST_PLATFORM"
-    paths:
-      - $UNITY_DIR/Library/
-
-.license: &license
-  rules:
-    - if: '$UNITY_LICENSE != null'
-      when: always
-
-.unity_defaults: &unity_defaults
-  <<:
-    - *unity_before_script
-    - *cache
-    - *license
 
 get-activation-file:
   <<: *unity_before_script
@@ -132,6 +139,4 @@ build_dgxr:
     name: dgxr-$CI_COMMIT_TAG
     reports:
       dotenv: dgxr.env
-  tags:
-    - alpha
 

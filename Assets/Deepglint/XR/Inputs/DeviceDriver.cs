@@ -25,12 +25,14 @@ namespace Deepglint.XR.Inputs
         {
             Source.Source.OnMetaPoseDataReceived += OnMetaPoseDataReceived;
             Source.Source.OnMetaPoseDataLost += OnMetaPoseDataLost;
+            PseudoOfflineFilter.OnPersonOffline += OnPersonOffline;
         }
         
         private void OnDisable()
         {
             Source.Source.OnMetaPoseDataReceived -= OnMetaPoseDataReceived;
             Source.Source.OnMetaPoseDataLost -= OnMetaPoseDataLost;
+            PseudoOfflineFilter.OnPersonOffline -= OnPersonOffline;
         }
 
         private void Update()
@@ -48,6 +50,10 @@ namespace Deepglint.XR.Inputs
         
         private void OnMetaPoseDataLost(string key)
         {
+            if (PseudoOfflineFilter.Enabled)
+            {
+                return;
+            }
             if (Source.Source.DataFrom == SourceType.ROS)
             {
                 ExecuteRosMsgEventInUpdate(() =>
@@ -59,6 +65,11 @@ namespace Deepglint.XR.Inputs
             {
                 DeviceManager.RemoveDevice(key);
             }
+        }
+
+        private void OnPersonOffline(string key)
+        {
+            DeviceManager.RemoveDevice(key); 
         }
         
         private void OnMetaPoseDataReceived(SourceData data)

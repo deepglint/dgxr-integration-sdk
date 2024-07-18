@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using Deepglint.XR.Config;
 using Deepglint.XR.Ros;
 using UnityEngine;
 using Deepglint.XR.Space;
@@ -20,6 +20,8 @@ namespace Deepglint.XR
         public static string AppName;
         public static string Version;
         public static string SystemName;
+        internal static XRApplicationSettings Settings;
+        public static XRApplicationSettings ApplicationSettings => Settings;
         public static bool IsFilterZero;
         public static XRSpace Space;
         public static Vector3 CavePosition;

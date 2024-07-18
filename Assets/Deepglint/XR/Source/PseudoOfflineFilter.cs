@@ -92,20 +92,22 @@ namespace Deepglint.XR.Source
     
     public class PseudoOfflineFilter : MonoBehaviour
     {
-        internal bool EnableFilter = false;
         public int OfflineFrameGap = 150;
         public int NewbeeFrameGap = 90;
         public float DistanceThreshold = 0.65f;
         public float SimilarityThreshold = 0.90f;
         public float MAEThreshold = 0.06f; 
         private Int64 currentFrameId = 0;
-        
+
+        private static bool EnableFilter = false;
         private static readonly ConcurrentDictionary<string, PersonFeature> Features = new ConcurrentDictionary<string, PersonFeature>();
         private static readonly Dictionary<string, PersonFeature> Newbee = new Dictionary<string, PersonFeature>();
         internal static ConcurrentDictionary<string, PersonFeature> OfflineFeatures = new ConcurrentDictionary<string, PersonFeature>();
         internal static Dictionary<string, PersonFeature> ChangeLog = new Dictionary<string, PersonFeature>();
-        
+
+        public static bool Enabled => EnableFilter;
         public static PseudoOfflineFilter Instance { get; private set; }
+        public static Action<string> OnPersonOffline;
         
         private void OnMetaPoseDataReceived(SourceData data)
         {
@@ -151,6 +153,15 @@ namespace Deepglint.XR.Source
             EnableFilter = false;
             Source.OnMetaPoseDataLost -= OnMetaPoseDataLost;
             Source.OnMetaPoseDataReceived -= OnMetaPoseDataReceived;
+            List<string> offlineKeys = new List<string>(OfflineFeatures.Keys);
+            foreach (var key in offlineKeys)
+            {
+                if (OfflineFeatures.TryRemove(key, out _))
+                {
+                    OnPersonOffline?.Invoke(key);
+                    Debug.Log($"remove {key} from offline cache");
+                }
+            }
         }
 
         private void Awake()
@@ -172,6 +183,7 @@ namespace Deepglint.XR.Source
                     {
                         if (OfflineFeatures.TryRemove(key, out _))
                         {
+                            OnPersonOffline?.Invoke(key);
                             Debug.Log($"remove {key} from offline cache");
                         } 
                     }
