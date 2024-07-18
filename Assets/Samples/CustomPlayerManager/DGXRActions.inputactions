@@ -85,6 +85,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "RaiseSingleHand",
+                    "type": "Value",
+                    "id": "04089197-f810-4f24-92f5-79294bc32fe3",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RaiseLeftHand",
+                    "type": "Value",
+                    "id": "a4fc1c1d-57b1-46bd-94bb-4653b70fa886",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -250,6 +268,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "DeepSquat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9b98fc35-fddd-4ae2-82cc-ed92ace12899",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "RaiseSingleHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RaiseSingleHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e8d69c7-d065-49ac-8cdc-24f62a7fa9d9",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "RaiseLeftHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RaiseLeftHand",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

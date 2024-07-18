@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Deepglint.XR.Inputs.Devices;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Deepglint.XR.Interaction
@@ -13,7 +14,7 @@ namespace Deepglint.XR.Interaction
         /// <summary>
         /// required hit count to perform this action
         /// </summary>
-        public int RequiredHits = 3;
+        public int RequiredHits = 6;
 
         /// <summary>
         /// required arm angle to perform this action
@@ -21,6 +22,7 @@ namespace Deepglint.XR.Interaction
         public float RequiredArmAngle = 120f;
         
         private Dictionary<int, int> _hitDictionary = new Dictionary<int, int>();
+        private Dictionary<int, int> _missDictionary = new Dictionary<int, int>();
 
         public void Process(ref InputInteractionContext context)
         {
@@ -28,6 +30,7 @@ namespace Deepglint.XR.Interaction
             {
                 if (IsRaiseBothHandHappening(dgXRDevice, RequiredArmAngle))
                 {
+                    _missDictionary[dgXRDevice.deviceId] = 0;
                     if (_hitDictionary.ContainsKey(dgXRDevice.deviceId))
                     {
                         _hitDictionary[dgXRDevice.deviceId] += 1;
@@ -45,17 +48,28 @@ namespace Deepglint.XR.Interaction
                         if (_hitDictionary[dgXRDevice.deviceId] >= RequiredHits)
                         {
                             context.PerformedAndStayPerformed();
-                            //Debug.Log("perform raise both hand on device " + device.deviceId);
+                            // Debug.Log($"RaiseBothHand action performed on device {dgXRDevice.deviceId}");
                         }
                     }
                 }
                 else
                 {
                     _hitDictionary[dgXRDevice.deviceId] = 0;
+                    if (_missDictionary.ContainsKey(dgXRDevice.deviceId))
+                    {
+                        _missDictionary[dgXRDevice.deviceId] += 1;
+                    }
+                    else
+                    {
+                        _missDictionary[dgXRDevice.deviceId] = 1;
+                    }
                     if (context.phase == InputActionPhase.Performed)
                     {
-                        //Debug.Log("cancel raise both hand on device" + device.deviceId);
-                        context.Canceled();
+                        if (_missDictionary[dgXRDevice.deviceId] >= RequiredHits)
+                        {
+                            //Debug.Log("cancel raise both hand on device" + device.deviceId);
+                            context.Canceled(); 
+                        }
                     }
                 }
             }

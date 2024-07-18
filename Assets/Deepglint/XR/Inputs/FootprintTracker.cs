@@ -17,16 +17,19 @@ namespace Deepglint.XR.Inputs
         
         private void OnDeviceLost(InputDevice device)
         {
-            if (_leftFoots.ContainsKey(device.deviceId))
+            if (DGXR.Config.Debug)
             {
-                Destroy(_leftFoots[device.deviceId].gameObject);
-                _leftFoots.Remove(device.deviceId);
-            }
+                if (_leftFoots.ContainsKey(device.deviceId))
+                {
+                    Destroy(_leftFoots[device.deviceId].gameObject);
+                    _leftFoots.Remove(device.deviceId);
+                }
 
-            if (_rightFoots.ContainsKey(device.deviceId))
-            {
-                Destroy(_rightFoots[device.deviceId].gameObject);
-                _rightFoots.Remove(device.deviceId);
+                if (_rightFoots.ContainsKey(device.deviceId))
+                {
+                    Destroy(_rightFoots[device.deviceId].gameObject);
+                    _rightFoots.Remove(device.deviceId);
+                }
             }
         }
 
@@ -49,46 +52,49 @@ namespace Deepglint.XR.Inputs
 
         public void Update()
         {
-            foreach (var device in DeviceManager.AllActiveXRHumanDevices)
+            if (DGXR.Config.Debug)
             {
-                RectTransform leftFootRectTransform;
-                if (!_leftFoots.ContainsKey(device.deviceId))
+                foreach (var device in DeviceManager.AllActiveXRHumanDevices)
                 {
-                    // init foot;
-                    var leftFoot = Instantiate(leftFootPrefab, _rectTransform, false);
-                    leftFoot.SetActive(true);
-                    leftFootRectTransform = leftFoot.GetComponent<RectTransform>();
-                    _leftFoots[device.deviceId] = leftFootRectTransform;
-                }
-                else
-                {
-                    leftFootRectTransform = _leftFoots[device.deviceId];
-                }
+                    RectTransform leftFootRectTransform;
+                    if (!_leftFoots.ContainsKey(device.deviceId))
+                    {
+                        // init foot;
+                        var leftFoot = Instantiate(leftFootPrefab, _rectTransform, false);
+                        leftFoot.SetActive(true);
+                        leftFootRectTransform = leftFoot.GetComponent<RectTransform>();
+                        _leftFoots[device.deviceId] = leftFootRectTransform;
+                    }
+                    else
+                    {
+                        leftFootRectTransform = _leftFoots[device.deviceId];
+                    }
 
-                var leftFootPosition = device.HumanBody.LeftFoot.position.value;
-                leftFootRectTransform.anchoredPosition = DGXR.Space.Bottom.SpaceToPixelOnScreen(leftFootPosition);
+                    var leftFootPosition = device.HumanBody.LeftFoot.position.value;
+                    leftFootRectTransform.anchoredPosition = DGXR.Space.Bottom.SpaceToPixelOnScreen(leftFootPosition);
                 
-                RectTransform rightFootRectTransform;
-                if (!_rightFoots.ContainsKey(device.deviceId))
-                {
-                    // init foot;
-                    var rightFoot = Instantiate(rightFootPrefab, _rectTransform, false);
-                    rightFoot.SetActive(true);
-                    rightFootRectTransform = rightFoot.GetComponent<RectTransform>();
-                    _rightFoots[device.deviceId] = rightFootRectTransform;
-                }
-                else
-                {
-                    rightFootRectTransform = _rightFoots[device.deviceId];
-                }
+                    RectTransform rightFootRectTransform;
+                    if (!_rightFoots.ContainsKey(device.deviceId))
+                    {
+                        // init foot;
+                        var rightFoot = Instantiate(rightFootPrefab, _rectTransform, false);
+                        rightFoot.SetActive(true);
+                        rightFootRectTransform = rightFoot.GetComponent<RectTransform>();
+                        _rightFoots[device.deviceId] = rightFootRectTransform;
+                    }
+                    else
+                    {
+                        rightFootRectTransform = _rightFoots[device.deviceId];
+                    }
 
-                var rightFootPosition = device.HumanBody.RightFoot.position.value;
-                rightFootRectTransform.anchoredPosition = DGXR.Space.Bottom.SpaceToPixelOnScreen(rightFootPosition);
+                    var rightFootPosition = device.HumanBody.RightFoot.position.value;
+                    rightFootRectTransform.anchoredPosition = DGXR.Space.Bottom.SpaceToPixelOnScreen(rightFootPosition);
                 
-                Vector3 eulerRotation = device.HumanPose.Rotation.value.eulerAngles;
-                Vector3 localEulerAngles = new Vector3(0, 0, -eulerRotation.y);
-                leftFootRectTransform.localEulerAngles = localEulerAngles;
-                rightFootRectTransform.localEulerAngles = localEulerAngles;
+                    Vector3 eulerRotation = device.HumanPose.Rotation.value.eulerAngles;
+                    Vector3 localEulerAngles = new Vector3(0, 0, -eulerRotation.y);
+                    leftFootRectTransform.localEulerAngles = localEulerAngles;
+                    rightFootRectTransform.localEulerAngles = localEulerAngles;
+                }
             }
         }
     }

@@ -30,7 +30,7 @@ namespace Deepglint.XR.Interaction
                         case InputActionPhase.Started:
                             if (IsDeepSquatActionPerformed(dgXRDevice))
                             {
-                                // Debug.Log("Deep-Squat action performed");
+                                // Debug.Log($"DeepSquat action performed on device {dgXRDevice.deviceId}");
                                 context.PerformedAndStayPerformed();
                             }
                             break;

@@ -261,8 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 78aeaed33c7644dd29dbcc9ff8081cff,
-    type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 78aeaed33c7644dd29dbcc9ff8081cff, type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -407,6 +406,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 537814b8-cacd-4070-a387-7dc0e5d06e92
     m_ActionName: Player/DeepSquat[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: RaiseSingleHandControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 04089197-f810-4f24-92f5-79294bc32fe3
+    m_ActionName: Player/RaiseSingleHand[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: RaiseLeftHandControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a4fc1c1d-57b1-46bd-94bb-4653b70fa886
+    m_ActionName: Player/RaiseLeftHand[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

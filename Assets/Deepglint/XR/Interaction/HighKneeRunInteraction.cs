@@ -34,7 +34,7 @@ namespace Deepglint.XR.Interaction
                         case InputActionPhase.Started:
                             if (IsHighKneeRunHit(dgXRDevice, _rightKneeHit))
                             {
-                                // Debug.Log("High-Knee-Run action performed");
+                                // Debug.Log($"HighKneeRun action performed on device {dgXRDevice.deviceId}");
                                 context.PerformedAndStayPerformed();
                             }
                             break;
