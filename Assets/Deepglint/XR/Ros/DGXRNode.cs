@@ -43,7 +43,7 @@ namespace Deepglint.XR.Ros
             {
                 if (ros2Node == null)
                 {
-                    string sanitizedName = Regex.Replace(DGXR.AppName, @"[^a-zA-Z0-9_]", "");
+                    string sanitizedName = DGXR.ApplicationSettings.id;
                     ros2Node = ros2Unity.CreateNode("unity_"+sanitizedName);
                     Debug.Log("ros2 node name: "+sanitizedName);
                     QualityOfServiceProfile qualityOfServiceProfille = new QualityOfServiceProfile();
