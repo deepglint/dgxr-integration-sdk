@@ -97,6 +97,8 @@ namespace Deepglint.XR
             _settings.version = Application.version;
             EditorUtility.SetDirty(_settings);
             AssetDatabase.SaveAssets();
+            DGXR.Settings = _settings;
+            DeviceManager.MaxActiveHumanDeviceCount = _settings.playerSetting.maxPlayerCount;
             string content = JsonConvert.SerializeObject(_settings);
             File.WriteAllText(filePath, content);
         }
