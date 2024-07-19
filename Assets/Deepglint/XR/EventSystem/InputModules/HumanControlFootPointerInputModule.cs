@@ -399,11 +399,9 @@ namespace Deepglint.XR.EventSystem.InputModules
         /// <returns></returns>
         private Vector2 WorldToBottomScreenPosition(Vector3 position)
         {
-            return new Vector2(
-                position.x * DGXR.Space.Bottom.Resolution.width / DGXR.Space.Bottom.Size.x 
-                + DGXR.Space.Bottom.Resolution.width * 0.5f, 
-                position.z * DGXR.Space.Bottom.Resolution.height / DGXR.Space.Bottom.Size.y 
-                + DGXR.Space.Bottom.Resolution.height * 0.5f);
+            float x = Mathf.Clamp(position.x / DGXR.Space.Bottom.Size.x + 0.5f, 0f, 1f);
+            float y = Mathf.Clamp(position.z / DGXR.Space.Bottom.Size.y + 0.5f, 0f, 1f);
+            return new Vector2(x * DGXR.Space.Bottom.Resolution.width, y * DGXR.Space.Bottom.Resolution.height);
         }
 
         /// <summary>
