@@ -84,6 +84,9 @@ namespace Deepglint.XR
                 EditorGUILayout.Toggle("EnableExitButton", _settings.toolkit.enableExitButton);
             _settings.toolkit.enableLoseFocusTip =
                 EditorGUILayout.Toggle("EnableLoseFocusTip", _settings.toolkit.enableLoseFocusTip);
+            EditorUtility.SetDirty(_settings);
+            AssetDatabase.SaveAssets();
+            DGXR.Settings = _settings;
         }
 
         public int callbackOrder => 0;
