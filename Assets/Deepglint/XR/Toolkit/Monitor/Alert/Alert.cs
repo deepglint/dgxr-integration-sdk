@@ -43,7 +43,7 @@ namespace Deepglint.XR.Toolkit.Monitor.Alert
             }
             else
             {
-                _serviceInterrupt.SetActive(false);
+                _playerOutNumber.SetActive(false);
             }
 
 
@@ -51,7 +51,7 @@ namespace Deepglint.XR.Toolkit.Monitor.Alert
             {
                 if (ros2UnityManager.Ok())
                 {
-                    _playerOutNumber.SetActive(false);
+                    _serviceInterrupt.SetActive(false);
                 }
                 else
                 {
