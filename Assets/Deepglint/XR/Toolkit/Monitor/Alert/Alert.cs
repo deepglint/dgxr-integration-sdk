@@ -1,5 +1,4 @@
-﻿
-using Deepglint.XR.Ros;
+﻿using Deepglint.XR.Ros;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -14,7 +13,6 @@ namespace Deepglint.XR.Toolkit.Monitor.Alert
 
         private GameObject _frontCanvas;
         private GameObject _alertPrefab;
-
         private GameObject _playerOutNumber;
         private Text _playerOutNumberText;
         private GameObject _serviceInterrupt;
@@ -38,20 +36,18 @@ namespace Deepglint.XR.Toolkit.Monitor.Alert
 
         private void Update()
         {
-            // TODO: 对接文件中的最大人数
-            if (false)
+            if (Source.Source.Data.Count > DGXR.ApplicationSettings.playerSetting.maxPlayerCount)
             {
-                var count = 2;
-                _playerOutNumberText.text = $"人数超出{count}人上限";
+                _playerOutNumberText.text = $"人数超出{DGXR.ApplicationSettings.playerSetting.maxPlayerCount}人上限";
                 _playerOutNumber.SetActive(true);
             }
-            else if (false)
+            else
             {
                 _serviceInterrupt.SetActive(false);
             }
 
 
-            if (ros2UnityManager.gameObject.activeSelf)
+            if (ros2UnityManager is not null && ros2UnityManager.gameObject.activeSelf)
             {
                 if (ros2UnityManager.Ok())
                 {
@@ -64,13 +60,20 @@ namespace Deepglint.XR.Toolkit.Monitor.Alert
             }
 
 #if !UNITY_EDITOR
-            if (Application.isFocused)
+            if (DGXR.ApplicationSettings.toolkit.enableLoseFocusTip)
             {
-                _loseFocus.SetActive(false);
+                if (Application.isFocused)
+                {
+                    _loseFocus.SetActive(false);
+                }
+                else
+                {
+                    _loseFocus.SetActive(true);
+                }
             }
             else
             {
-                _loseFocus.SetActive(true);
+                _loseFocus.SetActive(false);
             }
 #endif
         }

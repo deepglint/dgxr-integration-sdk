@@ -13,18 +13,18 @@ using UnityEngine;
 
 namespace Deepglint.XR
 {
-#if UNITY_EDITOR    
+#if UNITY_EDITOR
     public class XRApplication : EditorWindow, IPreprocessBuildWithReport
     {
-        private XRApplicationSettings settings;
-        
-        [MenuItem("Window/XRApplication Settings")]
+        private static XRApplicationSettings _settings;
+
+        [MenuItem("DGXR/XRApplication Settings")]
         public static void ShowWindow()
         {
             GetWindow<XRApplication>("DGXR Application Settings");
         }
 
-        private string GetMD5Hash(string input)
+        private static string GetMD5Hash(string input)
         {
             byte[] inputBytes = Encoding.UTF8.GetBytes(input);
 
@@ -38,82 +38,66 @@ namespace Deepglint.XR
                 {
                     sb.Append(hashBytes[i].ToString("x2"));
                 }
+
                 return sb.ToString();
             }
         }
-        
-        private void OnEnable()
+
+        [InitializeOnLoadMethod]
+        public static void CreateXRApplicationSettingsAssets()
         {
-            settings = AssetDatabase.LoadAssetAtPath<XRApplicationSettings>("Assets/Resources/XRApplicationSettings.asset");
-            if (settings == null)
+            _settings = AssetDatabase.LoadAssetAtPath<XRApplicationSettings>(
+                "Assets/Resources/XRApplicationSettings.asset");
+            if (_settings == null)
             {
-                settings = CreateInstance<XRApplicationSettings>();
-                settings.name = Application.productName;
-                settings.id = GetMD5Hash(settings.name).Substring(0,8);
-                settings.version = Application.version;
-                settings.playerSetting.minPlayerCount = 1;
-                settings.playerSetting.maxPlayerCount = 6;
-                AssetDatabase.CreateAsset(settings, "Assets/Resources/XRApplicationSettings.asset");
-                AssetDatabase.SaveAssets();
-                DGXR.Settings = settings;
-                DeviceManager.MaxActiveHumanDeviceCount = settings.playerSetting.maxPlayerCount;
+                _settings = CreateInstance<XRApplicationSettings>();
+                _settings.id = GetMD5Hash(_settings.name).Substring(0, 8);
+                _settings.playerSetting.minPlayerCount = 1;
+                _settings.playerSetting.maxPlayerCount = 6;
+                AssetDatabase.CreateAsset(_settings, "Assets/Resources/XRApplicationSettings.asset");
             }
+
+            EditorUtility.SetDirty(_settings);
+            AssetDatabase.SaveAssets();
+            DGXR.Settings = _settings;
+            DeviceManager.MaxActiveHumanDeviceCount = _settings.playerSetting.maxPlayerCount;
+            Debug.Log("XRApplication Settings Saved");
         }
-        
+
         private void OnGUI()
         {
-            settings.type = EditorGUILayout.TextField("Application Type", settings.type);
-            settings.playerSetting.minPlayerCount = EditorGUILayout.IntField("Minimum Player Count", settings.playerSetting.minPlayerCount);
-            settings.playerSetting.maxPlayerCount = EditorGUILayout.IntField("Maximum Player Count", settings.playerSetting.maxPlayerCount);
-            settings.description = EditorGUILayout.TextField("Description", settings.description);
-            if (settings.playerSetting.maxPlayerCount <= 0 || settings.playerSetting.maxPlayerCount >= 6)
+            _settings.type = EditorGUILayout.TextField("Application Type", _settings.type);
+            _settings.playerSetting.minPlayerCount =
+                EditorGUILayout.IntField("Minimum Player Count", _settings.playerSetting.minPlayerCount);
+            _settings.playerSetting.maxPlayerCount =
+                EditorGUILayout.IntField("Maximum Player Count", _settings.playerSetting.maxPlayerCount);
+            _settings.description = EditorGUILayout.TextField("Description", _settings.description);
+            if (_settings.playerSetting.maxPlayerCount <= 0 || _settings.playerSetting.maxPlayerCount >= 6)
             {
-                settings.playerSetting.maxPlayerCount = 6;
+                _settings.playerSetting.maxPlayerCount = 6;
             }
-            if (settings.playerSetting.minPlayerCount <= 0)
+
+            if (_settings.playerSetting.minPlayerCount <= 0 || _settings.playerSetting.minPlayerCount >= 6)
             {
-                settings.playerSetting.minPlayerCount = 1;
-            } 
-            if (GUILayout.Button("Save Settings"))
-            {
-                EditorUtility.SetDirty(settings);
-                AssetDatabase.SaveAssets();
-                DGXR.Settings = settings;
-                DeviceManager.MaxActiveHumanDeviceCount = settings.playerSetting.maxPlayerCount;
-                Debug.Log("XRApplication Settings Saved");
+                _settings.playerSetting.minPlayerCount = 1;
             }
+
+            _settings.toolkit.enableExitButton =
+                EditorGUILayout.Toggle("UseExitButton", _settings.toolkit.enableExitButton);
         }
 
         public int callbackOrder => 0;
-        
+
         public void OnPreprocessBuild(BuildReport report)
         {
             string filePath = "Assets/StreamingAssets/application.json";
-            Debug.Log("load applications settings2");
-            settings = AssetDatabase.LoadAssetAtPath<XRApplicationSettings>("Assets/Resources/XRApplicationSettings.asset");
-            if (settings == null)
-            {
-                settings = CreateInstance<XRApplicationSettings>();
-                settings.name = Application.productName;
-                settings.id = GetMD5Hash(settings.name).Substring(0,8);
-                settings.version = Application.version;
-                settings.playerSetting.minPlayerCount = 1;
-                settings.playerSetting.maxPlayerCount = 6;
-                AssetDatabase.CreateAsset(settings, "Assets/Resources/XRApplicationSettings.asset");
-                AssetDatabase.SaveAssets();
-                string content = JsonConvert.SerializeObject(settings);
-                File.WriteAllText(filePath, content);
-            }
-            else
-            {
-                settings.name = Application.productName;
-                settings.version = Application.version;
-                EditorUtility.SetDirty(settings);
-                AssetDatabase.SaveAssets();
-                string content = JsonConvert.SerializeObject(settings);
-                File.WriteAllText(filePath, content);
-            }
+            _settings.name = Application.productName;
+            _settings.version = Application.version;
+            EditorUtility.SetDirty(_settings);
+            AssetDatabase.SaveAssets();
+            string content = JsonConvert.SerializeObject(_settings);
+            File.WriteAllText(filePath, content);
         }
     }
-#endif    
+#endif
 }
