@@ -60,6 +60,23 @@ DGXR Unity Integration SDK 是 deepglint 官方基于 Unity XR 提供的开发�
 | 导入本地的 SDK 包 | <p>1. 前往deepglint 开发者平台页面，下载最新版本的 SDK。 </p><p>2. 解压所下载的 SDK 压缩包。 你将会得到一个包含 package.json 文件的文件夹。 </p><p>3. 返回 Unity 编辑器页面。 </p><p>4. 在上方菜单栏处，选择 Windows > Package Manager。 </p><p>5. 在 Package Manager 窗口中，点击 + > Add package from disk。 </p><p>6. 选择 package.json 文件并导入。 </p><p>导入完成后，你将看到 XR SDK Setting 窗口，关闭即可。 </p>                                                                                                                                                                                                                                                                                            |
 | 注册Scope     | <p>1. 打开 Unity 编辑器页面。 </p><p>2. 在上方菜单栏处，选择 Edit > Project Setting > Package Manager。 </p><p>3. 在 Package Manager 窗口中，点击 + > Add package。 </p><p>![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/DG%20Unity%20Integration%20SDK.005.png)</p><p>4. 输入仓库的地址，然后点击 Add。<br/>`name: package.openupm.com`<br/>`url:https://package.openupm.com`<br/>` com.yasirkula.ingamedebugconsole`<br/>` io.sentry.unity`<br/><br/>` name: alpha`<br/>` url:http://package.nemoface.com/repository/unity`<br/>`  com.deepglint` </p><p>5.Unity 编辑器Windows > Package Manager>My registry。开始从中导入 SDK。 </p> |
 
+
+### 第三步：初始化XRApplicationSettings应用配置
+
+导入DGXR Unity Integration SDK 后可通过DGXR-->XRApplicationSettings 菜单，根据应用的特点自定义应用描述文件。
+![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/init-sdk-001.jpg)
+![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/init-sdk-002.jpg)
+
+| 配置项          | 功能说明                                                    |
+|:--------------|:--------------------------------------------------------|
+| Application Type | 描述应用的类型（如：益智、棋牌、影视等）                     |
+| Minimum Player Count | 应用支持的最小玩家数                                  |
+| Maxmum Player Count   | 应用支持的最大玩家数                                 |
+| Description     | 应用描述信息                                               |
+| EnableExitButton |  是否为应用启用默认退出按钮                                  |
+| EnableLoseFocuseTip  | 是否为应用启用失焦提示                                  |
+
+
 ## 创建一个 XR 场景
 
 **预计阅读和完成时间：15 分钟**

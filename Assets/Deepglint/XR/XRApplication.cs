@@ -1,7 +1,6 @@
 using System.IO;
 using System.Text;
 using Deepglint.XR.Config;
-using Deepglint.XR.Inputs;
 using Newtonsoft.Json;
 #if UNITY_EDITOR
 using System.Security.Cryptography;
@@ -42,28 +41,22 @@ namespace Deepglint.XR
                 return sb.ToString();
             }
         }
-
-        [InitializeOnLoadMethod]
-        public static void CreateXRApplicationSettingsAssets()
+        
+        private void OnEnable()
         {
-            _settings = AssetDatabase.LoadAssetAtPath<XRApplicationSettings>(
-                "Assets/Resources/XRApplicationSettings.asset");
+            _settings = AssetDatabase.LoadAssetAtPath<XRApplicationSettings>("Assets/Resources/XRApplicationSettings.asset");
             if (_settings == null)
             {
                 _settings = CreateInstance<XRApplicationSettings>();
                 _settings.name = Application.productName;
+                _settings.id = GetMD5Hash(_settings.name).Substring(0,8);
                 _settings.version = Application.version;
-                _settings.id = GetMD5Hash(_settings.name).Substring(0, 8);
                 _settings.playerSetting.minPlayerCount = 1;
                 _settings.playerSetting.maxPlayerCount = 6;
                 AssetDatabase.CreateAsset(_settings, "Assets/Resources/XRApplicationSettings.asset");
+                AssetDatabase.SaveAssets();
+                DGXR.Settings = _settings;
             }
-
-            EditorUtility.SetDirty(_settings);
-            AssetDatabase.SaveAssets();
-            DGXR.Settings = _settings;
-            DeviceManager.MaxActiveHumanDeviceCount = _settings.playerSetting.maxPlayerCount;
-            Debug.Log("XRApplication Settings Saved");
         }
 
         private void OnGUI()
@@ -78,14 +71,19 @@ namespace Deepglint.XR
             {
                 _settings.playerSetting.maxPlayerCount = 6;
             }
-
-            if (_settings.playerSetting.minPlayerCount <= 0 || _settings.playerSetting.minPlayerCount >= 6)
+            if (_settings.playerSetting.minPlayerCount <= 0)
             {
                 _settings.playerSetting.minPlayerCount = 1;
             }
+            if (_settings.playerSetting.minPlayerCount >= _settings.playerSetting.maxPlayerCount)
+            {
+                _settings.playerSetting.minPlayerCount = _settings.playerSetting.minPlayerCount;
+            }
 
             _settings.toolkit.enableExitButton =
-                EditorGUILayout.Toggle("UseExitButton", _settings.toolkit.enableExitButton);
+                EditorGUILayout.Toggle("EnableExitButton", _settings.toolkit.enableExitButton);
+            _settings.toolkit.enableLoseFocusTip =
+                EditorGUILayout.Toggle("EnableLoseFocusTip", _settings.toolkit.enableLoseFocusTip);
         }
 
         public int callbackOrder => 0;
