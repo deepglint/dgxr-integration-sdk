@@ -51,6 +51,8 @@ namespace Deepglint.XR
             if (_settings == null)
             {
                 _settings = CreateInstance<XRApplicationSettings>();
+                _settings.name = Application.productName;
+                _settings.version = Application.version;
                 _settings.id = GetMD5Hash(_settings.name).Substring(0, 8);
                 _settings.playerSetting.minPlayerCount = 1;
                 _settings.playerSetting.maxPlayerCount = 6;
