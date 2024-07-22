@@ -20,77 +20,111 @@ namespace Deepglint.XR.Config
             [System.Serializable]
             public struct ConfigInfo
             {
-                [JsonProperty("debug")] public bool Debug { get; set; }
+                [JsonProperty("debug")]
+                public bool Debug { get; set; }
+                
+                [JsonProperty("log")]
+                public LogInfo Log { get; set; }
+                [JsonProperty("space")]
+                public SpaceInfo Space{ get; set; }
+                [JsonProperty("record")]
+                public RecordInfo Record { get; set; }
 
-                [JsonProperty("log")] public LogInfo Log { get; set; }
-                [JsonProperty("space")] public SpaceInfo Space { get; set; }
-                [JsonProperty("record")] public RecordInfo Record { get; set; }
+
             }
 
             [System.Serializable]
             public struct RecordInfo
             {
-                [JsonProperty("saveDay")] public int SaveDay { get; set; }
-                [JsonProperty("savePath")] public string SavePath { get; set; }
+                [JsonProperty("saveDay")]
+                public int SaveDay { get; set; }
+                [JsonProperty("savePath")]
+                public string SavePath{ get; set; }
             }
 
             [System.Serializable]
             public struct LogInfo
             {
-                [JsonProperty("enable")] public bool Enable { get; set; }
-                [JsonProperty("level")] public string Level { get; set; }
-                [JsonProperty("singFileMaxSize")] public int SingFileMaxSize { get; set; }
-                [JsonProperty("saveDay")] public int SaveDay { get; set; }
-                [JsonProperty("savePath")] public string SavePath { get; set; }
+                [JsonProperty("enable")]
+                public bool Enable { get; set; }
+                [JsonProperty("level")]
+                public string Level { get; set; }
+                [JsonProperty("singFileMaxSize")]
+                public int SingFileMaxSize{ get; set; }
+                [JsonProperty("saveDay")]
+                public int SaveDay{ get; set; }
+                [JsonProperty("savePath")]
+                public string SavePath{ get; set; }
             }
 
             [System.Serializable]
-            public struct SpaceInfo
-            {
+            public struct SpaceInfo{
                 [JsonProperty("name")] public string Name { get; internal set; }
 
                 [JsonProperty("id")] public string ID { get; internal set; }
 
-                [JsonProperty("screenMode")] public ScreenStyle ScreenMode { get; internal set; }
-
-                [JsonProperty("engineHost")] public string EngineHost { get; set; }
-                [JsonProperty("wsPort")] public string WsPort { get; set; }
-                [JsonProperty("xDirection")] public string XDirection { get; set; }
-                [JsonProperty("zDirection")] public string ZDirection { get; set; }
-                [JsonProperty("length")] public float Length { get; set; }
-                [JsonProperty("width")] public float Width { get; set; }
-                [JsonProperty("height")] public float Height { get; set; }
-                [JsonProperty("roi")] public float[] Roi { get; set; }
-                [JsonProperty("screens")] public List<ScreenConfig> Screens { get; set; }
+                [JsonProperty("screenMode")]
+                public ScreenStyle ScreenMode { get; internal set; }
+                [JsonProperty("serverEndpoint")]
+                public string ServerEndpoint { get; internal set; }
+                [JsonProperty("engineHost")]
+                public string EngineHost { get; set; }
+                [JsonProperty("wsPort")]
+                public string WsPort { get; set; }
+                [JsonProperty("xDirection")]
+                public string XDirection { get; set; }
+                [JsonProperty("zDirection")]
+                public string ZDirection{ get; set; }
+                [JsonProperty("length")]
+                public float Length { get; set; }
+                [JsonProperty("width")]
+                public float Width { get; set; }
+                [JsonProperty("height")]
+                public float Height { get; set; }
+                [JsonProperty("roi")]
+                public float[] Roi { get; set; }
+                [JsonProperty("screens")]
+                public List<ScreenConfig> Screens { get; set; }
             }
         }
 
         [System.Serializable]
         public class ScreenConfig
         {
-            [JsonProperty("display")] public TargetScreen TargetScreen { get; set; }
+            [JsonProperty("display")]
+            public TargetScreen TargetScreen { get; set; }
 
-            [JsonProperty("render")] public RenderInfo[] Render { get; set; }
+            [JsonProperty("render")]
+            public RenderInfo[] Render { get; set; }
 
-            [JsonProperty("position")] public CoordinateInfo Position { get; set; }
-            [JsonProperty("rotation")] public CoordinateInfo Rotation { get; set; }
-            [JsonProperty("size")] public CoordinateInfo Scale { internal get; set; }
+            [JsonProperty("position")]
+            public CoordinateInfo Position{ get; set; }
+            [JsonProperty("rotation")]
+            public CoordinateInfo Rotation{ get; set; }
+            [JsonProperty("size")]
+            public CoordinateInfo Scale{ internal get; set; }
         }
 
         [System.Serializable]
         public struct RenderInfo
         {
-            [JsonProperty("display")] public int Display { get; set; }
-            [JsonProperty("tarDisplay")] public int[] TarDisplay { get; set; }
-            [JsonProperty("rect")] public float[] Rect { get; set; }
+            [JsonProperty("display")]
+            public int Display{ get; set; }
+            [JsonProperty("tarDisplay")]
+            public int[] TarDisplay{ get; set; }
+            [JsonProperty("rect")]
+            public float[] Rect{ get; set; }
         }
 
         [System.Serializable]
         public struct CoordinateInfo
         {
-            [JsonProperty("x")] public float x { get; set; }
-            [JsonProperty("y")] public float y { get; set; }
-            [JsonProperty("z")] public float z { get; set; }
+            [JsonProperty("x")]
+            public float x{ get; set; }
+            [JsonProperty("y")]
+            public float y{ get; set; }
+            [JsonProperty("z")]
+            public float z{ get; set; }
         }
 
         /// <summary>
@@ -99,14 +133,14 @@ namespace Deepglint.XR.Config
         private static string ReadData()
         {
             var path = Path.GetDirectoryName(FilePath);
-            if (Application.isEditor || DGXR.SystemName.Contains("Mac"))
+            if(Application.isEditor || DGXR.SystemName.Contains("Mac"))
             {
                 string packagePath = Path.GetFullPath(Path.Combine("Packages", DGXR.PackageName));
                 string envJsonPath = Path.Combine(packagePath, "StreamingAssets");
                 string streamingAssetsPath = Application.streamingAssetsPath;
                 if (!Directory.Exists(streamingAssetsPath))
                 {
-                    Directory.CreateDirectory(streamingAssetsPath);
+                    Directory.CreateDirectory(streamingAssetsPath); 
                 }
 
                 if (Directory.Exists(envJsonPath))
@@ -122,13 +156,12 @@ namespace Deepglint.XR.Config
                         }
                     }
                 }
-
-                using StreamReader srt = File.OpenText(Path.Combine(Application.streamingAssetsPath, ConfigName));
+                
+                using StreamReader srt =File.OpenText(Path.Combine(Application.streamingAssetsPath, ConfigName));
                 var data = srt.ReadToEnd();
                 srt.Close();
                 return data;
             }
-
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -149,12 +182,11 @@ namespace Deepglint.XR.Config
                 }
             }
 
-            using StreamReader sr = File.OpenText(FilePath);
+            using StreamReader sr =File.OpenText(FilePath);
             var readData = sr.ReadToEnd();
             sr.Close();
             return readData;
         }
-
         public ConfigData.ConfigInfo InitConfig()
         {
             var info = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadData());
