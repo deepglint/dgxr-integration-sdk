@@ -25,7 +25,7 @@ namespace Deepglint.XR.Interaction
                         case InputActionPhase.Started:
                             if (IsJumpActionPerformed())
                             {
-                                // Debug.Log("jump action performed");
+                                // Debug.Log($"Jump action performed on device {dgXRDevice.deviceId}");
                                 context.PerformedAndStayPerformed();
                             }
                             break;

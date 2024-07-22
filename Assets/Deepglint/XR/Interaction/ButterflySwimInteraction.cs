@@ -27,7 +27,7 @@ namespace Deepglint.XR.Interaction
                         case InputActionPhase.Started:
                             if (IsButterflySwimHit(dgXRDevice))
                             {
-                                // Debug.Log("Butterfly-Swim action performed");
+                                // Debug.Log($"ButterflySwim action performed on device {dgXRDevice.deviceId}");
                                 context.PerformedAndStayPerformed();
                             }
                             break;

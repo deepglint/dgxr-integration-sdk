@@ -35,7 +35,7 @@ namespace Deepglint.XR.Interaction
                         case InputActionPhase.Started:
                             if (IsFreeSwimHit(dgXRDevice, _rightHandHit))
                             {
-                                // Debug.Log("FreeSwim action performed");
+                                // Debug.Log($"FreeSwim action performed on device {dgXRDevice.deviceId}");
                                 context.PerformedAndStayPerformed();
                             }
                             break;

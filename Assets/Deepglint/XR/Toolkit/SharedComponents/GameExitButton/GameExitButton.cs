@@ -1,4 +1,5 @@
-﻿using Deepglint.XR.Toolkit.Utils;
+﻿using Deepglint.XR.Toolkit.DebugTool;
+using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -53,37 +54,46 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
 
         private void Update()
         {
-            if (!_gameExitButtonPrefab.activeSelf) return;
-            if (Mathf.RoundToInt(_countdownTimer).ToString() == "0")
+            if (DGXR.ApplicationSettings.toolkit.enableExitButton)
             {
-                _gameExitingText.text = "退出游戏中";
-                _timeText.text = "";
-                _timeText.gameObject.SetActive(false);
-                _exitText.SetActive(true);
-            }
-            else
-            {
-                _gameExitingText.text = $"{Mathf.RoundToInt(_countdownTimer).ToString()}秒后退出游戏";
-                _gameExitingPrefab.SetActive(true);
-                _timeText.text = Mathf.RoundToInt(_countdownTimer).ToString();
-                _timeText.gameObject.SetActive(true);
-                _exitText.SetActive(false);
-            }
-
-            if (_isExiting)
-            {
-                _countdownTimer -= Time.deltaTime;
-                if (_countdownTimer <= 0f)
+                if (!_gameExitButtonPrefab.activeSelf) return;
+                if (Mathf.RoundToInt(_countdownTimer).ToString() == "0")
                 {
-                    ExecuteCallback();
+                    _gameExitingText.text = "退出游戏中";
+                    _timeText.text = "";
+                    _timeText.gameObject.SetActive(false);
+                    _exitText.SetActive(true);
+                }
+                else
+                {
+                    _gameExitingText.text = $"{Mathf.RoundToInt(_countdownTimer).ToString()}秒后退出游戏";
+                    _gameExitingPrefab.SetActive(true);
+                    _timeText.text = Mathf.RoundToInt(_countdownTimer).ToString();
+                    _timeText.gameObject.SetActive(true);
+                    _exitText.SetActive(false);
+                }
+
+                if (_isExiting)
+                {
+                    _countdownTimer -= Time.deltaTime;
+                    if (_countdownTimer <= 0f)
+                    {
+                        ExecuteCallback();
+                    }
+                }
+                else
+                {
+                    if (_gameExitingPrefab != null) _gameExitingPrefab.SetActive(false);
+                    if (_timeText != null) _timeText.gameObject.SetActive(false);
+                    if (_exitText != null) _exitText.SetActive(true);
                 }
             }
             else
             {
-                if (_gameExitingPrefab != null) _gameExitingPrefab.SetActive(false);
-                if (_timeText != null) _timeText.gameObject.SetActive(false);
-                if (_exitText != null) _exitText.SetActive(true);
+                _gameExitingPrefab.SetActive(false);
+                _gameExitButtonPrefab.SetActive(false);
             }
+           
         }
 
         private void ExecuteCallback()

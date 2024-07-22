@@ -47,7 +47,7 @@ namespace Deepglint.XR.Interaction
                             // Debug.LogFormat("arm angle: {0}, shoulder angle {1}", _armAngle, shoulderAngle);
                             if (_armAngle - shoulderAngle * 0.5f <= PerformArmAngle)
                             {
-                                // Debug.Log("SlideRightArmToLeft action performed");
+                                // Debug.Log($"SlideRightArmToLeft action performed on device {dgXRDevice.deviceId}");
                                 context.PerformedAndStayPerformed();
                             }
 

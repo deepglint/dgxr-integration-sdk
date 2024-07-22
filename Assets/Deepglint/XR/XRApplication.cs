@@ -1,6 +1,9 @@
 using System.IO;
+using System.Text;
+using Deepglint.XR.Config;
 using Newtonsoft.Json;
 #if UNITY_EDITOR
+using System.Security.Cryptography;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -9,108 +12,95 @@ using UnityEngine;
 
 namespace Deepglint.XR
 {
-    [System.Serializable]
-    public struct PlayerSetting
-    {
-        [JsonProperty("minPlayerCount")]
-        public int minPlayerCount;
-        [JsonProperty("maxPlayerCount")]
-        public int maxPlayerCount;
-    }
-    
-    [CreateAssetMenu(fileName = "XRApplicationSettings", menuName = "Settings/XRApplication Settings")]
-    public class XRApplicationSettings : ScriptableObject
-    {
-        [JsonProperty("name")]
-        public string name;
-        [JsonProperty("version")]
-        public string version;
-        [JsonProperty("type")]
-        public string type = "灵境";
-        [JsonProperty("player")]
-        public PlayerSetting playerSetting;
-        [JsonProperty("description")]
-        public string description = "格灵深瞳灵境应用程序";
-    }
-    
-#if UNITY_EDITOR    
+#if UNITY_EDITOR
     public class XRApplication : EditorWindow, IPreprocessBuildWithReport
     {
-        private XRApplicationSettings settings;
-        
-        [MenuItem("Window/XRApplication Settings")]
+        private static XRApplicationSettings _settings;
+
+        [MenuItem("DGXR/XRApplication Settings")]
         public static void ShowWindow()
         {
             GetWindow<XRApplication>("DGXR Application Settings");
         }
+
+        private static string GetMD5Hash(string input)
+        {
+            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // 将字节数组转换为16进制字符串
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("x2"));
+                }
+
+                return sb.ToString();
+            }
+        }
         
         private void OnEnable()
         {
-            Debug.Log("load application settings");
-            settings = AssetDatabase.LoadAssetAtPath<XRApplicationSettings>("Assets/Resources/XRApplicationSettings.asset");
-            if (settings == null)
+            _settings = AssetDatabase.LoadAssetAtPath<XRApplicationSettings>("Assets/Resources/XRApplicationSettings.asset");
+            if (_settings == null)
             {
-                settings = CreateInstance<XRApplicationSettings>();
-                settings.name = Application.productName;
-                settings.version = Application.version;
-                settings.playerSetting.minPlayerCount = 1;
-                settings.playerSetting.maxPlayerCount = 5;
-                AssetDatabase.CreateAsset(settings, "Assets/Resources/XRApplicationSettings.asset");
+                _settings = CreateInstance<XRApplicationSettings>();
+                _settings.name = Application.productName;
+                _settings.id = GetMD5Hash(_settings.name).Substring(0,8);
+                _settings.version = Application.version;
+                _settings.playerSetting.minPlayerCount = 1;
+                _settings.playerSetting.maxPlayerCount = 6;
+                AssetDatabase.CreateAsset(_settings, "Assets/Resources/XRApplicationSettings.asset");
                 AssetDatabase.SaveAssets();
-            }
-        }
-        
-        private void OnGUI()
-        {
-            settings.type = EditorGUILayout.TextField("Application Type", settings.type);
-            settings.playerSetting.minPlayerCount = EditorGUILayout.IntField("Minimum Player Count", settings.playerSetting.minPlayerCount);
-            settings.playerSetting.maxPlayerCount = EditorGUILayout.IntField("Maximum Player Count", settings.playerSetting.maxPlayerCount);
-            settings.description = EditorGUILayout.TextField("Description", settings.description);
-            if (settings.playerSetting.maxPlayerCount <= 0 || settings.playerSetting.maxPlayerCount >= 5)
-            {
-                settings.playerSetting.maxPlayerCount = 5;
-            }
-            if (settings.playerSetting.minPlayerCount <= 0)
-            {
-                settings.playerSetting.minPlayerCount = 1;
-            } 
-            if (GUILayout.Button("Save Settings"))
-            {
-                EditorUtility.SetDirty(settings);
-                AssetDatabase.SaveAssets();
-                Debug.Log("XRApplication Settings Saved");
+                DGXR.Settings = _settings;
             }
         }
 
+        private void OnGUI()
+        {
+            _settings.type = EditorGUILayout.TextField("Application Type", _settings.type);
+            _settings.playerSetting.minPlayerCount =
+                EditorGUILayout.IntField("Minimum Player Count", _settings.playerSetting.minPlayerCount);
+            _settings.playerSetting.maxPlayerCount =
+                EditorGUILayout.IntField("Maximum Player Count", _settings.playerSetting.maxPlayerCount);
+            _settings.description = EditorGUILayout.TextField("Description", _settings.description);
+            if (_settings.playerSetting.maxPlayerCount <= 0 || _settings.playerSetting.maxPlayerCount >= 6)
+            {
+                _settings.playerSetting.maxPlayerCount = 6;
+            }
+            if (_settings.playerSetting.minPlayerCount <= 0)
+            {
+                _settings.playerSetting.minPlayerCount = 1;
+            }
+            if (_settings.playerSetting.minPlayerCount >= _settings.playerSetting.maxPlayerCount)
+            {
+                _settings.playerSetting.minPlayerCount = _settings.playerSetting.minPlayerCount;
+            }
+
+            _settings.toolkit.enableExitButton =
+                EditorGUILayout.Toggle("EnableExitButton", _settings.toolkit.enableExitButton);
+            _settings.toolkit.enableLoseFocusTip =
+                EditorGUILayout.Toggle("EnableLoseFocusTip", _settings.toolkit.enableLoseFocusTip);
+            EditorUtility.SetDirty(_settings);
+            AssetDatabase.SaveAssets();
+            DGXR.Settings = _settings;
+        }
+
         public int callbackOrder => 0;
-        
+
         public void OnPreprocessBuild(BuildReport report)
         {
             string filePath = "Assets/StreamingAssets/application.json";
-            Debug.Log("load applications settings2");
-            settings = AssetDatabase.LoadAssetAtPath<XRApplicationSettings>("Assets/Resources/XRApplicationSettings.asset");
-            if (settings == null)
-            {
-                settings = CreateInstance<XRApplicationSettings>();
-                settings.name = Application.productName;
-                settings.version = Application.version;
-                settings.playerSetting.minPlayerCount = 1;
-                settings.playerSetting.maxPlayerCount = 5;
-                AssetDatabase.CreateAsset(settings, "Assets/Resources/XRApplicationSettings.asset");
-                AssetDatabase.SaveAssets();
-                string content = JsonConvert.SerializeObject(settings);
-                File.WriteAllText(filePath, content);
-            }
-            else
-            {
-                settings.name = Application.productName;
-                settings.version = Application.version;
-                EditorUtility.SetDirty(settings);
-                AssetDatabase.SaveAssets();
-                string content = JsonConvert.SerializeObject(settings);
-                File.WriteAllText(filePath, content);
-            }
+            _settings.name = Application.productName;
+            _settings.version = Application.version;
+            EditorUtility.SetDirty(_settings);
+            AssetDatabase.SaveAssets();
+            string content = JsonConvert.SerializeObject(_settings);
+            File.WriteAllText(filePath, content);
         }
     }
-#endif    
+#endif
 }

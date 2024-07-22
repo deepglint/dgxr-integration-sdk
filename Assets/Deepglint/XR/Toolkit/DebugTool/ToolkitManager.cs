@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Deepglint.XR.Toolkit.DebugTool
 {
     [DefaultExecutionOrder(-90)]
-    internal class ToolManager : MonoBehaviour
+    public class ToolkitManager : MonoBehaviour
     {
         private FPS _fps;
         private VersionCode _versionCode;

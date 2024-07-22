@@ -1,3 +1,4 @@
+using Deepglint.XR.Config;
 using Deepglint.XR.Inputs;
 using Deepglint.XR.Log;
 using Deepglint.XR.Source;
@@ -24,11 +25,14 @@ namespace Deepglint.XR
             XRApplicationSettings settings = Resources.Load<XRApplicationSettings>("XRApplicationSettings");
             if (settings != null)
             {
+                DGXR.Settings = settings;
                 DeviceManager.MaxActiveHumanDeviceCount = settings.playerSetting.maxPlayerCount;
             }
             else
             {
+#if !UNITY_EDITOR
                 Debug.LogError("load XRApplicationSettings failed");
+#endif
             }
             
             

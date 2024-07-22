@@ -135,12 +135,28 @@ namespace Samples.CustomPlayerManager
                 }
             }
         }
+        
+        public void RaiseSingleHandControl(InputAction.CallbackContext value)
+        {
+            if(value.performed)
+            {
+                Debug.Log("Raise-Single-Hand action performed");
+            }
+        }
 
         public void RaiseRightHandControl(InputAction.CallbackContext value)
         {
             if(value.performed)
             {
                 Debug.Log("Raise-Right-Hand action performed");
+            }
+        }
+        
+        public void RaiseLeftHandControl(InputAction.CallbackContext value)
+        {
+            if(value.performed)
+            {
+                Debug.Log("Raise-Left-Hand action performed");
             }
         }
     
