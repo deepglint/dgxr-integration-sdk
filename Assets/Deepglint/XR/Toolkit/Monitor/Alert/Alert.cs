@@ -1,16 +1,14 @@
 ﻿using Deepglint.XR.Ros;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Deepglint.XR.Toolkit.Monitor.Alert
 {
     internal class Alert : MonoBehaviour
     {
-        [FormerlySerializedAs("Ros2UnityManager")]
-        public ROS2UnityManager ros2UnityManager;
-
+        
+        private ROS2UnityManager _ros2UnityManager;
         private GameObject _frontCanvas;
         private GameObject _alertPrefab;
         private GameObject _playerOutNumber;
@@ -20,6 +18,7 @@ namespace Deepglint.XR.Toolkit.Monitor.Alert
 
         private void Start()
         {
+            _ros2UnityManager = GameObject.Find("XRManager/Connect/RosConnect").GetComponent<ROS2UnityManager>();
             _frontCanvas = GameObject.Find("ToolkitCanvas/Front");
             _alertPrefab = Instantiate(Resources.Load<GameObject>("Alert"), _frontCanvas.transform, false);
             _alertPrefab.GetComponent<RectTransform>().localPosition = Vector3.zero;
@@ -46,10 +45,10 @@ namespace Deepglint.XR.Toolkit.Monitor.Alert
                 _playerOutNumber.SetActive(false);
             }
 
-
-            if (ros2UnityManager is not null && ros2UnityManager.gameObject.activeSelf)
+            
+            if (_ros2UnityManager is not null && _ros2UnityManager.gameObject.activeSelf)
             {
-                if (ros2UnityManager.Ok())
+                if (_ros2UnityManager.Ok())
                 {
                     _serviceInterrupt.SetActive(false);
                 }
