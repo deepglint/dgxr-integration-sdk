@@ -34,7 +34,6 @@ namespace Deepglint.XR.Toolkit.Game
 
     public struct ShareInfo
     {
-        public string GameId; //sdk自己获取
         public string SpaceId;
         public DateTime Time;
         public float[] Score;
@@ -61,10 +60,11 @@ namespace Deepglint.XR.Toolkit.Game
     {
         private List<Coroutine> _coroutine = new List<Coroutine>();
         private static GameDataManager _instance;
-        private Dictionary<string, RankInfo[]> _rankData = new Dictionary<string, RankInfo[]>();
         private MonoBehaviour _coroutineHolder;
         private static readonly object _lock = new object();
 
+        public delegate void RankDataEventHandler(RankInfo data);
+        public static event RankDataEventHandler OnRankDataReceived;
         public void SetId(RankInfoReq[] req, MonoBehaviour holder)
         {
             foreach (var cor in _coroutine)
@@ -83,12 +83,6 @@ namespace Deepglint.XR.Toolkit.Game
             }
         }
 
-        public bool TryGetRank(string id,GameMode mode, out RankInfo[] rank)
-        {
-            var rankId = $"{id}-{(int)mode}";
-            return _rankData.TryGetValue(rankId, out rank);
-        }
-
         public static Texture GenerateShareImage(ShareInfo info)
         {
             long unixTimestamp = ((DateTimeOffset)info.Time).ToUnixTimeSeconds();
@@ -103,8 +97,7 @@ namespace Deepglint.XR.Toolkit.Game
             }
 
             var content =
-                $"{DGXR.Config.Space.ServerEndpoint}/meta/auth?i={info.GameId}&s={info.SpaceId}&t={unixTimestamp}&sc={score}&a={info.AvatarId}&m={(int)info.GameMode}";
-            Debug.LogError(content);
+                $"{DGXR.Config.Space.ServerEndpoint}/meta/auth?i={DGXR.ApplicationSettings.id}&s={info.SpaceId}&t={unixTimestamp}&sc={score}&a={info.AvatarId}&m={(int)info.GameMode}";
             return GenerateQRCode.GenerateQRImage(content, 256, 256, info.QRImageColor);
         }
 
@@ -142,17 +135,17 @@ namespace Deepglint.XR.Toolkit.Game
                 else
                 {
                     string receiveContent = request.downloadHandler.text;
-                    var rank = JsonConvert.DeserializeObject<RankInfo[]>(receiveContent);
+                    var rank = JsonConvert.DeserializeObject<RankInfo>(receiveContent);
 
                     Uri uri = new Uri(url);
                     NameValueCollection queryParams = HttpUtility.ParseQueryString(uri.Query);
 
                     string id = queryParams["id"];
                     string mode = queryParams["mode"];
-                    if (id != null&& mode!=null)
+                    if (id != null && mode != null)
                     {
                         var rankId = $"{id}-{mode}";
-                        _rankData[rankId] = rank;
+                        if (OnRankDataReceived != null) OnRankDataReceived(rank);
                     }
                 }
 

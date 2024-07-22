@@ -10,9 +10,9 @@ namespace Deepglint.XR.Toolkit.Game
         public RawImage img;
         private void Start()
         {
+            GameDataManager.OnRankDataReceived += Rank;
             ShareInfo info = new ShareInfo()
             {
-                GameId = "eeadfa",
                 AvatarId = 1,
                 GameMode = GameMode.Single,
                 Score = new float[]{1,1000},
@@ -25,26 +25,27 @@ namespace Deepglint.XR.Toolkit.Game
             img.texture = GameDataManager.GenerateShareImage(info);
             var req = new RankInfoReq[]
             {
-                new RankInfoReq { GameId = "eeadfa",GameMode = GameMode.Single,Count = 20,Interval = 5f},
+                new RankInfoReq { GameId = "5f3c73f3",GameMode = GameMode.Single,Count = 20,Interval = 5f},
             };
             GameDataManager.Instance.SetId(req,this);
         }
 
-        private void FixedUpdate()
+        private void OnApplicationQuit()
         {
-            if (GameDataManager.Instance.TryGetRank("eeadfa",GameMode.Single, out var data))
+            GameDataManager.OnRankDataReceived -= Rank; 
+        }
+
+        public void Rank(RankInfo info)
+        {
+            Debug.Log($"id:{info.Id}");
+            foreach (var sc in info.Data)
             {
-                foreach (var ran in data)
+                Debug.Log($"score:{sc.Score},time:{sc.Time},mode:{sc.Mode}");
+                foreach (var player in sc.Player)
                 {
-                    Debug.Log(ran.Data.Length);
-                    // Debug.Log($"id:{ran.Id}");
-                    // foreach (var sc in ran.Data)
-                    // {
-                    //     Debug.Log($"score:{sc.Score},time:{sc.Time},mode:{sc.Mode}");
-                    // }
+                    Debug.Log($"{player.Id},{player.Url},{player.Name}");
                 }
             }
-          
         }
     }
 }
