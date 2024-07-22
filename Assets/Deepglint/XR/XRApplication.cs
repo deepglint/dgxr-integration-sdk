@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Text;
 using Deepglint.XR.Config;
@@ -41,21 +42,56 @@ namespace Deepglint.XR
                 return sb.ToString();
             }
         }
+
+        private static void InitXRApplicationSettings()
+        {
+            _settings = CreateInstance<XRApplicationSettings>();
+            _settings.name = Application.productName;
+            _settings.id = GetMD5Hash(_settings.name).Substring(0,8);
+            _settings.version = Application.version;
+            _settings.playerSetting.minPlayerCount = 1;
+            _settings.playerSetting.maxPlayerCount = 6;
+            try
+            {
+                AssetDatabase.CreateAsset(_settings, "Assets/Resources/XRApplicationSettings.asset");
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning(e);
+            }
+            DGXR.Settings = _settings;
+        }
+        
+        [InitializeOnLoadMethod]
+        public static void CreateXRApplicationSettingsAssets()
+        {
+            _settings = AssetDatabase.LoadAssetAtPath<XRApplicationSettings>("Assets/Resources/XRApplicationSettings.asset");
+            if (_settings == null)
+            {
+                // 使用 EditorApplication.delayCall 延迟初始化
+                EditorApplication.delayCall += () =>
+                {
+                    InitXRApplicationSettings();
+                };
+            }
+            else
+            {
+                EditorUtility.SetDirty(_settings);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+                DGXR.Settings = _settings;
+            }
+            
+        }
         
         private void OnEnable()
         {
             _settings = AssetDatabase.LoadAssetAtPath<XRApplicationSettings>("Assets/Resources/XRApplicationSettings.asset");
             if (_settings == null)
             {
-                _settings = CreateInstance<XRApplicationSettings>();
-                _settings.name = Application.productName;
-                _settings.id = GetMD5Hash(_settings.name).Substring(0,8);
-                _settings.version = Application.version;
-                _settings.playerSetting.minPlayerCount = 1;
-                _settings.playerSetting.maxPlayerCount = 6;
-                AssetDatabase.CreateAsset(_settings, "Assets/Resources/XRApplicationSettings.asset");
-                AssetDatabase.SaveAssets();
-                DGXR.Settings = _settings;
+                InitXRApplicationSettings();
             }
         }
 
@@ -84,9 +120,6 @@ namespace Deepglint.XR
                 EditorGUILayout.Toggle("EnableExitButton", _settings.toolkit.enableExitButton);
             _settings.toolkit.enableLoseFocusTip =
                 EditorGUILayout.Toggle("EnableLoseFocusTip", _settings.toolkit.enableLoseFocusTip);
-            EditorUtility.SetDirty(_settings);
-            AssetDatabase.SaveAssets();
-            DGXR.Settings = _settings;
         }
 
         public int callbackOrder => 0;
