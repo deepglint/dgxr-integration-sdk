@@ -89,7 +89,7 @@ namespace Deepglint.XR.Toolkit.Game
             var score = "";
             for (int i = 0; i < info.Score.Length; i++)
             {
-                score += i.ToString();
+                score += $"{info.Score[i]}";
                 if (i != info.Score.Length - 1)
                 {
                     score += ",";
