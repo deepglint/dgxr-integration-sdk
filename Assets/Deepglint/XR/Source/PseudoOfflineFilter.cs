@@ -153,6 +153,7 @@ namespace Deepglint.XR.Source
             EnableFilter = false;
             Source.OnMetaPoseDataLost -= OnMetaPoseDataLost;
             Source.OnMetaPoseDataReceived -= OnMetaPoseDataReceived;
+            
             List<string> offlineKeys = new List<string>(OfflineFeatures.Keys);
             foreach (var key in offlineKeys)
             {
@@ -162,6 +163,7 @@ namespace Deepglint.XR.Source
                     Debug.Log($"remove {key} from offline cache");
                 }
             }
+            ChangeLog.Clear();
         }
 
         private void Awake()
@@ -183,8 +185,8 @@ namespace Deepglint.XR.Source
                     {
                         if (OfflineFeatures.TryRemove(key, out _))
                         {
-                            OnPersonOffline?.Invoke(key);
-                            Debug.Log($"remove {key} from offline cache");
+                            TriggerPersonOffline(key); 
+                            Debug.Log($"remove {key} from offline cache, cause out of frame gap");
                         } 
                     }
                 }
@@ -198,8 +200,21 @@ namespace Deepglint.XR.Source
                     if (Mathf.Abs(currentFrameId - value.FrameId) > NewbeeFrameGap)
                     {
                         Newbee.Remove(key);
-                        Debug.Log($"remove {key} from newbee cache"); 
+                        Debug.Log($"remove {key} from newbee cache, cause out of frame gap"); 
                     }
+                }
+            }
+        }
+
+        private void TriggerPersonOffline(string bodyId)
+        {
+            OnPersonOffline?.Invoke(bodyId);
+            List<string> keys = new List<string>(ChangeLog.Keys);
+            foreach (var key in keys)
+            {
+                if (ChangeLog[key].BodyId == bodyId)
+                {
+                    ChangeLog.Remove(key);
                 }
             }
         }
