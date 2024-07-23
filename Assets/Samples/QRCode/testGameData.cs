@@ -8,9 +8,11 @@ namespace Deepglint.XR.Toolkit.Game
     public class TestGameData : MonoBehaviour
     {
         public RawImage img;
+        private RankInfoReq line;
         private void Start()
         {
-            GameDataManager.OnRankDataReceived += Rank;
+            line = new RankInfoReq("5f3c73f3", GameMode.Single, 20);
+            line.OnRankDataReceived += Rank; 
             ShareInfo info = new ShareInfo()
             {
                 AvatarId = 1,
@@ -22,16 +24,11 @@ namespace Deepglint.XR.Toolkit.Game
             };
 
             img.texture = GameDataManager.GenerateShareImage(info);
-            var req = new RankInfoReq[]
-            {
-                new RankInfoReq { GameId = "5f3c73f3",GameMode = GameMode.Single,Count = 20},
-            };
-            GameDataManager.Instance.SetId(req,this);
         }
 
         private void OnApplicationQuit()
         {
-            GameDataManager.OnRankDataReceived -= Rank; 
+            line.OnRankDataReceived -= Rank; 
         }
 
         public void Rank(RankInfo info)

@@ -47,57 +47,78 @@ namespace Deepglint.XR.Toolkit.Game
         Multi
     }
 
-    public struct RankInfoReq
+    public class RankInfoReq
     {
         public string GameId;
         public GameMode GameMode;
         public int Count;
+        public delegate void DataEventHandler(RankInfo data);
+        public event DataEventHandler OnRankDataReceived;
+
+        public RankInfoReq (string gameId,GameMode gameMode,int count)
+        {
+            GameId = gameId;
+            GameMode = gameMode;
+            Count = count;
+           GameDataManager.Instance.Subscribe(this); 
+        }
+        
+        public void OnDataReceived(RankInfo data)
+        {
+            OnRankDataReceived?.Invoke(data);
+        }
+
+        public void Close()
+        {
+            GameDataManager.Instance.Unsubscribe(this);
+        }
     }
 
-    public class GameDataManager
+    public class GameDataManager: MonoBehaviour
     {
-        private List<Coroutine> _coroutine = new List<Coroutine>();
+        private Dictionary<RankInfoReq,Coroutine> _coroutine = new ();
         private static GameDataManager _instance;
-        private Dictionary<string, string> _rankHash = new Dictionary<string, string>();
-        private MonoBehaviour _coroutineHolder;
+        private Dictionary<RankInfoReq, string> _rankHash = new Dictionary<RankInfoReq, string>();
         private static readonly object _lock = new object();
 
-        public delegate void RankDataEventHandler(RankInfo data);
-
-        public static event RankDataEventHandler OnRankDataReceived;
-
-        public void SetId(RankInfoReq[] req, MonoBehaviour holder)
+        private void Awake()
         {
-            foreach (var cor in _coroutine)
+            lock (_lock)
             {
-                _coroutineHolder.StopCoroutine(cor);
+                if (_instance == null)
+                {
+                    _instance = this;
+                }
+                else if (_instance != this)
+                {
+                    Destroy(gameObject);
+                }
             }
+        }
 
-            _rankHash = new Dictionary<string, string>();
-            _coroutineHolder = holder;
-            foreach (var val in req)
+        public void Subscribe(RankInfoReq req)
+        {
+            string url =
+                $"{DGXR.Config.Space.ServerEndpoint}/meta/rank?id={req.GameId}&mode={(int)req.GameMode}&count={req.Count}";
+            Debug.Log(url);
+
+            var coroutine = StartCoroutine(FetchDataRoutine(url,req));
+            _coroutine[req] = coroutine; 
+        }
+        
+        public void Unsubscribe(RankInfoReq req)
+        {
+            if (_coroutine.TryGetValue(req, out var coroutine))
             {
-                string url =
-                    $"{DGXR.Config.Space.ServerEndpoint}/meta/rank?id={val.GameId}&mode={(int)val.GameMode}&count={val.Count}";
-                Debug.Log(url);
-                var coroutine = _coroutineHolder.StartCoroutine(FetchDataRoutine(url, 3f));
-                _coroutine.Add(coroutine);
+                StopCoroutine(coroutine);
+                _coroutine.Remove(req);
             }
         }
 
         public static Texture GenerateShareImage(ShareInfo info)
         {
             long unixTimestamp = ((DateTimeOffset)info.Time).ToUnixTimeSeconds();
-            var score = "";
-            for (int i = 0; i < info.Score.Length; i++)
-            {
-                score += $"{info.Score[i]}";
-                if (i != info.Score.Length - 1)
-                {
-                    score += ",";
-                }
-            }
-
+            var score = string.Join(",",info.Score);
             var content =
                 $"{DGXR.Config.Space.ServerEndpoint}/meta/auth?i={DGXR.ApplicationSettings.id}&s={info.SpaceId}&t={unixTimestamp}&sc={score}&a={info.AvatarId}&m={(int)info.GameMode}";
             return GenerateQRCode.GenerateQRImage(content, 256, 256, info.QRImageColor);
@@ -107,23 +128,9 @@ namespace Deepglint.XR.Toolkit.Game
         {
         }
 
-        public static GameDataManager Instance
-        {
-            get
-            {
-                lock (_lock)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new GameDataManager();
-                    }
+        public static GameDataManager Instance => _instance;
 
-                    return _instance;
-                }
-            }
-        }
-
-        private IEnumerator FetchDataRoutine(string url, float interval)
+        private IEnumerator FetchDataRoutine(string url, RankInfoReq req)
         {
             while (true)
             {
@@ -136,8 +143,17 @@ namespace Deepglint.XR.Toolkit.Game
                 }
                 else
                 {
+                    var rank = new RankInfo();
                     string receiveContent = request.downloadHandler.text;
-                    var rank = JsonConvert.DeserializeObject<RankInfo>(receiveContent);
+                    try
+                    {
+                        rank = JsonConvert.DeserializeObject<RankInfo>(receiveContent);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"JSON deserialization error: {ex.Message}");
+                        continue;
+                    }
 
                     Uri uri = new Uri(url);
                     NameValueCollection queryParams = HttpUtility.ParseQueryString(uri.Query);
@@ -148,19 +164,20 @@ namespace Deepglint.XR.Toolkit.Game
                     {
                         var rankId = $"{id}-{mode}";
                         var rankHash = MD5.Hash(receiveContent);
-                        if (_rankHash.TryGetValue(rankId, out var data))
+                        if (_rankHash.TryGetValue(req, out var data))
                         {
-                            if (OnRankDataReceived == null || data == rankHash)
+                            if (data == rankHash)
                             {
-                                yield return new WaitForSeconds(interval);
+                                yield return new WaitForSeconds(3f);
+                                continue;
                             }
                         }
-                        _rankHash[rankId] = rankHash;
-                        OnRankDataReceived(rank);
+                        _rankHash[req] = rankHash;
+                        req.OnDataReceived(rank);
                     }
                 }
 
-                yield return new WaitForSeconds(interval);
+                yield return new WaitForSeconds(3f);
             }
         }
     }
