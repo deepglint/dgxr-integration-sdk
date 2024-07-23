@@ -73,7 +73,7 @@ namespace Deepglint.XR.Toolkit.Game
 
     public class GameDataManager : MonoBehaviour
     {
-        private Dictionary<RankInfoReq, Coroutine> _coroutine = new();
+        private Dictionary<int, Coroutine> _coroutine = new();
         private static GameDataManager _instance;
         private Dictionary<int, string> _rankHash = new Dictionary<int, string>();
         private static readonly object _lock = new object();
@@ -100,21 +100,21 @@ namespace Deepglint.XR.Toolkit.Game
                 "Subscribe functions can only be used if the GetRankInfoReq method is implemented");
             string url =
                 $"{DGXR.Config.Space.ServerEndpoint}/meta/rank?id={req.GameId}&mode={(int)req.GameMode}&count={req.Count}";
-            Debug.Log(url);
-
+            Debug.Log($"subscribe url: {url}");
+            if (_coroutine.TryGetValue(req.GetHashCode(), out var cor))
+            {
+                StopCoroutine(cor); 
+            }
             var coroutine = StartCoroutine(FetchDataRoutine(url, rank));
-            _coroutine[req] = coroutine;
+            _coroutine[req.GetHashCode()] = coroutine;
         }
 
         public void Unsubscribe(RankConsumer rank)
         {
-            var req = rank.GetRankInfoReq();
-            Debug.Assert(req is not null,
-                "Subscribe functions can only be used if the GetRankInfoReq method is implemented");
-            if (_coroutine.TryGetValue(req, out var coroutine))
+            if (_coroutine.TryGetValue(rank.GetHashCode(), out var coroutine))
             {
                 StopCoroutine(coroutine);
-                _coroutine.Remove(req);
+                _coroutine.Remove(rank.GetHashCode());
             }
         }
 
