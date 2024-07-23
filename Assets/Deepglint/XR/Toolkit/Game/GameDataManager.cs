@@ -63,13 +63,16 @@ namespace Deepglint.XR.Toolkit.Game
         private static readonly object _lock = new object();
 
         public delegate void RankDataEventHandler(RankInfo data);
+
         public static event RankDataEventHandler OnRankDataReceived;
+
         public void SetId(RankInfoReq[] req, MonoBehaviour holder)
         {
             foreach (var cor in _coroutine)
             {
                 _coroutineHolder.StopCoroutine(cor);
             }
+
             _rankHash = new Dictionary<string, string>();
             _coroutineHolder = holder;
             foreach (var val in req)
@@ -144,20 +147,16 @@ namespace Deepglint.XR.Toolkit.Game
                     if (id != null && mode != null)
                     {
                         var rankId = $"{id}-{mode}";
-                        var ranHash = Toolkit.Utils.MD5.Hash(rank.ToString());
+                        var rankHash = MD5.Hash(receiveContent);
                         if (_rankHash.TryGetValue(rankId, out var data))
                         {
-                            if (OnRankDataReceived != null&&data != ranHash)
+                            if (OnRankDataReceived == null || data == rankHash)
                             {
-                                _rankHash[rankId] = ranHash;
-                               OnRankDataReceived(rank); 
+                                yield return new WaitForSeconds(interval);
                             }
-                            
                         }
-                        else
-                        {
-                            _rankHash[rankId] = ranHash;
-                        }
+                        _rankHash[rankId] = rankHash;
+                        OnRankDataReceived(rank);
                     }
                 }
 

@@ -15,7 +15,7 @@ namespace Deepglint.XR.Toolkit.Game
             {
                 AvatarId = 1,
                 GameMode = GameMode.Single,
-                Score = new float[]{1,1000},
+                Score = new float[]{3,100},
                 Time = DateTime.Now,
                 SpaceId = "1111111",
                 // QRImageColor = Color.black
