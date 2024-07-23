@@ -24,7 +24,7 @@ namespace Deepglint.XR.Toolkit.Game
             img.texture = GameDataManager.GenerateShareImage(info);
             var req = new RankInfoReq[]
             {
-                new RankInfoReq { GameId = "5f3c73f3",GameMode = GameMode.Single,Count = 20,Interval = 5f},
+                new RankInfoReq { GameId = "5f3c73f3",GameMode = GameMode.Single,Count = 20},
             };
             GameDataManager.Instance.SetId(req,this);
         }

@@ -7,7 +7,6 @@ using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
-using UnityEngine.PlayerLoop;
 
 namespace Deepglint.XR.Toolkit.Game
 {
@@ -53,13 +52,13 @@ namespace Deepglint.XR.Toolkit.Game
         public string GameId;
         public GameMode GameMode;
         public int Count;
-        public float Interval; //获取间隔时间
     }
 
     public class GameDataManager
     {
         private List<Coroutine> _coroutine = new List<Coroutine>();
         private static GameDataManager _instance;
+        private Dictionary<string, string> _rankHash = new Dictionary<string, string>();
         private MonoBehaviour _coroutineHolder;
         private static readonly object _lock = new object();
 
@@ -71,14 +70,14 @@ namespace Deepglint.XR.Toolkit.Game
             {
                 _coroutineHolder.StopCoroutine(cor);
             }
-
+            _rankHash = new Dictionary<string, string>();
             _coroutineHolder = holder;
             foreach (var val in req)
             {
                 string url =
                     $"{DGXR.Config.Space.ServerEndpoint}/meta/rank?id={val.GameId}&mode={(int)val.GameMode}&count={val.Count}";
                 Debug.Log(url);
-                var coroutine = _coroutineHolder.StartCoroutine(FetchDataRoutine(url, val.Interval));
+                var coroutine = _coroutineHolder.StartCoroutine(FetchDataRoutine(url, 3f));
                 _coroutine.Add(coroutine);
             }
         }
@@ -145,7 +144,20 @@ namespace Deepglint.XR.Toolkit.Game
                     if (id != null && mode != null)
                     {
                         var rankId = $"{id}-{mode}";
-                        if (OnRankDataReceived != null) OnRankDataReceived(rank);
+                        var ranHash = Toolkit.Utils.MD5.Hash(rank.ToString());
+                        if (_rankHash.TryGetValue(rankId, out var data))
+                        {
+                            if (OnRankDataReceived != null&&data != ranHash)
+                            {
+                                _rankHash[rankId] = ranHash;
+                               OnRankDataReceived(rank); 
+                            }
+                            
+                        }
+                        else
+                        {
+                            _rankHash[rankId] = ranHash;
+                        }
                     }
                 }
 
