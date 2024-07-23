@@ -61,7 +61,7 @@ namespace Deepglint.XR.Toolkit.Game
         }
     }
 
-    public interface Rankconsum
+    public interface RankConsumer
     {
         public void OnDataReceived(RankInfo data) {}
 
@@ -93,7 +93,7 @@ namespace Deepglint.XR.Toolkit.Game
             }
         }
 
-        public void Subscribe(Rankconsum rank)
+        public void Subscribe(RankConsumer rank)
         {
             var req = rank.GetRankInfoReq();
             Debug.Assert(req is not null,
@@ -106,7 +106,7 @@ namespace Deepglint.XR.Toolkit.Game
             _coroutine[req] = coroutine;
         }
 
-        public void Unsubscribe(Rankconsum rank)
+        public void Unsubscribe(RankConsumer rank)
         {
             var req = rank.GetRankInfoReq();
             Debug.Assert(req is not null,
@@ -133,7 +133,7 @@ namespace Deepglint.XR.Toolkit.Game
 
         public static GameDataManager Instance => _instance;
 
-        private IEnumerator FetchDataRoutine(string url, Rankconsum req)
+        private IEnumerator FetchDataRoutine(string url, RankConsumer req)
         {
             while (true)
             {

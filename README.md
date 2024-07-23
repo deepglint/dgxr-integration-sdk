@@ -619,7 +619,7 @@ using UnityEngine.UI;
 
 namespace Deepglint.XR.Toolkit.Game
 {
-    public class TestGameData :MonoBehaviour,Rankconsum
+    public class TestGameData :MonoBehaviour,RankConsumer
     {
         private void Start()
         {
