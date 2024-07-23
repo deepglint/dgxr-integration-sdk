@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Deepglint.XR.Toolkit.Game
 {
-    public class testGameData : MonoBehaviour
+    public class TestGameData : MonoBehaviour
     {
         public RawImage img;
         private void Start()
@@ -19,7 +19,6 @@ namespace Deepglint.XR.Toolkit.Game
                 Time = DateTime.Now,
                 SpaceId = "1111111",
                 // QRImageColor = Color.black
-                
             };
 
             img.texture = GameDataManager.GenerateShareImage(info);
