@@ -52,33 +52,30 @@ namespace Deepglint.XR.Toolkit.Game
         public string GameId;
         public GameMode GameMode;
         public int Count;
-        public delegate void DataEventHandler(RankInfo data);
-        public event DataEventHandler OnRankDataReceived;
 
-        public RankInfoReq (string gameId,GameMode gameMode,int count)
+        public RankInfoReq(string id,GameMode mode, int count)
         {
-            GameId = gameId;
-            GameMode = gameMode;
+            GameId = id;
+            GameMode = mode;
             Count = count;
-           GameDataManager.Instance.Subscribe(this); 
-        }
-        
-        public void OnDataReceived(RankInfo data)
-        {
-            OnRankDataReceived?.Invoke(data);
-        }
-
-        public void Close()
-        {
-            GameDataManager.Instance.Unsubscribe(this);
         }
     }
 
-    public class GameDataManager: MonoBehaviour
+    public interface Rankconsum
     {
-        private Dictionary<RankInfoReq,Coroutine> _coroutine = new ();
+        public void OnDataReceived(RankInfo data) {}
+
+        public RankInfoReq GetRankInfoReq()
+        {
+            return null;
+        }
+    }
+
+    public class GameDataManager : MonoBehaviour
+    {
+        private Dictionary<RankInfoReq, Coroutine> _coroutine = new();
         private static GameDataManager _instance;
-        private Dictionary<RankInfoReq, string> _rankHash = new Dictionary<RankInfoReq, string>();
+        private Dictionary<int, string> _rankHash = new Dictionary<int, string>();
         private static readonly object _lock = new object();
 
         private void Awake()
@@ -96,18 +93,24 @@ namespace Deepglint.XR.Toolkit.Game
             }
         }
 
-        public void Subscribe(RankInfoReq req)
+        public void Subscribe(Rankconsum rank)
         {
+            var req = rank.GetRankInfoReq();
+            Debug.Assert(req is not null,
+                "Subscribe functions can only be used if the GetRankInfoReq method is implemented");
             string url =
                 $"{DGXR.Config.Space.ServerEndpoint}/meta/rank?id={req.GameId}&mode={(int)req.GameMode}&count={req.Count}";
             Debug.Log(url);
 
-            var coroutine = StartCoroutine(FetchDataRoutine(url,req));
-            _coroutine[req] = coroutine; 
+            var coroutine = StartCoroutine(FetchDataRoutine(url, rank));
+            _coroutine[req] = coroutine;
         }
-        
-        public void Unsubscribe(RankInfoReq req)
+
+        public void Unsubscribe(Rankconsum rank)
         {
+            var req = rank.GetRankInfoReq();
+            Debug.Assert(req is not null,
+                "Subscribe functions can only be used if the GetRankInfoReq method is implemented");
             if (_coroutine.TryGetValue(req, out var coroutine))
             {
                 StopCoroutine(coroutine);
@@ -118,7 +121,7 @@ namespace Deepglint.XR.Toolkit.Game
         public static Texture GenerateShareImage(ShareInfo info)
         {
             long unixTimestamp = ((DateTimeOffset)info.Time).ToUnixTimeSeconds();
-            var score = string.Join(",",info.Score);
+            var score = string.Join(",", info.Score);
             var content =
                 $"{DGXR.Config.Space.ServerEndpoint}/meta/auth?i={DGXR.ApplicationSettings.id}&s={info.SpaceId}&t={unixTimestamp}&sc={score}&a={info.AvatarId}&m={(int)info.GameMode}";
             return GenerateQRCode.GenerateQRImage(content, 256, 256, info.QRImageColor);
@@ -130,7 +133,7 @@ namespace Deepglint.XR.Toolkit.Game
 
         public static GameDataManager Instance => _instance;
 
-        private IEnumerator FetchDataRoutine(string url, RankInfoReq req)
+        private IEnumerator FetchDataRoutine(string url, Rankconsum req)
         {
             while (true)
             {
@@ -162,9 +165,8 @@ namespace Deepglint.XR.Toolkit.Game
                     string mode = queryParams["mode"];
                     if (id != null && mode != null)
                     {
-                        var rankId = $"{id}-{mode}";
                         var rankHash = MD5.Hash(receiveContent);
-                        if (_rankHash.TryGetValue(req, out var data))
+                        if (_rankHash.TryGetValue(req.GetHashCode(), out var data))
                         {
                             if (data == rankHash)
                             {
@@ -172,7 +174,7 @@ namespace Deepglint.XR.Toolkit.Game
                                 continue;
                             }
                         }
-                        _rankHash[req] = rankHash;
+                        _rankHash[req.GetHashCode()] = rankHash;
                         req.OnDataReceived(rank);
                     }
                 }

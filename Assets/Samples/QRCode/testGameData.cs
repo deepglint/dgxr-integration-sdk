@@ -5,14 +5,11 @@ using UnityEngine.UI;
 
 namespace Deepglint.XR.Toolkit.Game
 {
-    public class TestGameData : MonoBehaviour
+    public class TestGameData :MonoBehaviour,Rankconsum
     {
         public RawImage img;
-        private RankInfoReq line;
         private void Start()
         {
-            line = new RankInfoReq("5f3c73f3", GameMode.Single, 20);
-            line.OnRankDataReceived += Rank; 
             ShareInfo info = new ShareInfo()
             {
                 AvatarId = 1,
@@ -24,14 +21,21 @@ namespace Deepglint.XR.Toolkit.Game
             };
 
             img.texture = GameDataManager.GenerateShareImage(info);
+            GameDataManager.Instance.Subscribe(this);
         }
+
 
         private void OnApplicationQuit()
         {
-            line.OnRankDataReceived -= Rank; 
+            GameDataManager.Instance.Unsubscribe(this);
         }
-
-        public void Rank(RankInfo info)
+        
+        public RankInfoReq GetRankInfoReq()
+        {
+            return new RankInfoReq("5f3c73f3", GameMode.Single, 20); 
+        }
+        
+        public void OnDataReceived(RankInfo info)
         {
             Debug.Log($"id:{info.Id}");
             foreach (var sc in info.Data)

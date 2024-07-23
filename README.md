@@ -611,24 +611,33 @@ AudioManager的方法不再管理流程，如果想实现播放音频结束后�
 
 #### 获取游戏排行榜数据
 
-##### 第一步，设置设置要获取那些的排行榜
+```
+using System;
+using Deepglint.XR.Toolkit.Utils;
+using UnityEngine;
+using UnityEngine.UI;
 
-```
-           line = new RankInfoReq("5f3c73f3", GameMode.Single, 20);
-```
-##### 第二步，订阅排行榜数据
-
-```
-    public class TestGameData : MonoBehaviour
+namespace Deepglint.XR.Toolkit.Game
+{
+    public class TestGameData :MonoBehaviour,Rankconsum
     {
-        public RawImage img;
         private void Start()
         {
-             line = new RankInfoReq("5f3c73f3", GameMode.Single, 20);
-             line.OnRankDataReceived += Rank; 
+            GameDataManager.Instance.Subscribe(this);
         }
 
-         public void Rank(RankInfo info)
+
+        private void OnApplicationQuit()
+        {
+            GameDataManager.Instance.Unsubscribe(this);
+        }
+        
+        public RankInfoReq GetRankInfoReq()
+        {
+            return new RankInfoReq("5f3c73f3", GameMode.Single, 20); 
+        }
+        
+        public void OnDataReceived(RankInfo info)
         {
             Debug.Log($"id:{info.Id}");
             foreach (var sc in info.Data)
@@ -640,15 +649,6 @@ AudioManager的方法不再管理流程，如果想实现播放音频结束后�
                 }
             }
         }
-
-        private void OnApplicationQuit()
-        {
-            line.Close();
-             line.OnRankDataReceived -= Rank; 
-        }
     }
-
+}
 ```
-
-
-
