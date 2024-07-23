@@ -596,7 +596,7 @@ AudioManager的方法不再管理流程，如果想实现播放音频结束后�
 #### 生成游戏数据二维码
 
 ```
-ShareInfo info = new ShareInfo()
+            ShareInfo info = new ShareInfo()
             {
                 AvatarId = 1,
                 GameMode = GameMode.Single,
@@ -614,11 +614,7 @@ ShareInfo info = new ShareInfo()
 ##### 第一步，设置设置要获取那些的排行榜
 
 ```
-            var req = new RankInfoReq[]
-            {
-                new RankInfoReq { GameId = "5f3c73f3",GameMode = GameMode.Single,Count = 20},
-            };
-            GameDataManager.Instance.SetId(req,this);
+           line = new RankInfoReq("5f3c73f3", GameMode.Single, 20);
 ```
 ##### 第二步，订阅排行榜数据
 
@@ -628,7 +624,8 @@ ShareInfo info = new ShareInfo()
         public RawImage img;
         private void Start()
         {
-            GameDataManager.OnRankDataReceived += Rank;
+             line = new RankInfoReq("5f3c73f3", GameMode.Single, 20);
+             line.OnRankDataReceived += Rank; 
         }
 
          public void Rank(RankInfo info)
@@ -646,7 +643,8 @@ ShareInfo info = new ShareInfo()
 
         private void OnApplicationQuit()
         {
-            GameDataManager.OnRankDataReceived -= Rank; 
+            line.Close();
+             line.OnRankDataReceived -= Rank; 
         }
     }
 
