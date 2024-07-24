@@ -8,21 +8,68 @@ default:
 
 variables:
   GIT_DEPTH: 1
-  GIT_STRATEGY: fetch
+  GIT_STRATEGY: clone
 
 stages:
+  - validate-tag
+  - delete-tag
+  - update-version
+  - tag-and-push
   - build pre
   - build stardust
-  - prerelease stardust
   - release
   - deploy
 
-include:
- - local: .gitlab/ci/build-stardust.gitlab-ci.yml
+include_build_stardust:
+  stage: validate-tag
+  script:
+    - echo "Including .gitlab/ci/build-stardust.gitlab-ci.yml"
+  include:
+    - local: .gitlab/ci/build-stardust.gitlab-ci.yml
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+-upm$/'
 
 workflow:
   rules:
     - if: $CI_ENVIRONMENT_NAME
+
+delete_tag:
+  stage: delete-tag
+  needs: ["include_build_stardust"]
+  only:
+    - /^v\d+\.\d+\.\d+-upm$/
+  script:
+    - echo delete tag $CI_COMMIT_REF_NAME
+    - git tag -d $CI_COMMIT_REF_NAME
+    - git push --delete origin $CI_COMMIT_REF_NAME
+
+update_version:
+  stage: update-version
+  needs: ["include_build_stardust"]
+  only:
+    - /^v\d+\.\d+\.\d+-upm$/
+  script:
+    - cd Assets
+    - NEW_VERSION=$(echo $CI_COMMIT_REF_NAME | sed 's/-upm//')
+    - jq --arg new_version "$NEW_VERSION" --arg doc_url "$COS_REPO/dgxr/dgxr-doc-$NEW_VERSION/html/index.html" \
+      '.version = $new_version | .documentationUrl = $doc_url' package.json > tmp.json && mv tmp.json package.json
+    - cat package.json
+    - git config --global user.email "ibalpha.monitor@deepglint.com"
+    - git config --global user.name "ibalpha"
+    - git add package.json
+    - git commit -m "Update version to $NEW_VERSION"
+
+tag_and_push:
+  stage: tag-and-push
+  needs: ["include_build_stardust"]
+  only:
+    - /^v\d+\.\d+\.\d+-upm$/
+  script:
+    - |
+      NEW_TAG=$(echo $CI_COMMIT_REF_NAME | sed 's/-upm//')
+      git tag $NEW_TAG
+      git push origin $NEW_TAG
+      git push origin HEAD     
 
 build:prepare:
   stage: .pre
@@ -59,25 +106,6 @@ build:cleanup:
     - trap 'rm -rf  /results/$CI_PIPELINE_ID' EXIT
     - docker system prune --force --volumes || true
   when: always
-
-prerelease:stardust:
-  stage: prerelease stardust
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
-  script:
-    - echo 'running release_job'
-    - echo 'Previous Job ID is printed below'
-    - echo $DGXR_VERSION
-    - echo "Publishing artifacts to release ${CI_COMMIT_TAG}..."
-  release:
-    name: '${CI_COMMIT_TAG}'
-    description: 'Created using the release-cli'
-    tag_name: '${CI_COMMIT_TAG}'
-    assets:
-      links:
-        - name: 'DGXR-Integration-SDK-${CI_COMMIT_TAG}'
-          url: 'https://gitlab.deepglint.com/alpha/stardust_reverie/-/jobs/${DGXR_VERSION}/artifacts/download'
-  rules:
-    - if: $CI_COMMIT_TAG
 
 release:push:
   stage: release
