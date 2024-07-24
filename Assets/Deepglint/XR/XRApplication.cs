@@ -24,30 +24,11 @@ namespace Deepglint.XR
             GetWindow<XRApplication>("DGXR Application Settings");
         }
 
-        private static string GetMD5Hash(string input)
-        {
-            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-
-            using (MD5 md5 = MD5.Create())
-            {
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
-
-                // 将字节数组转换为16进制字符串
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < hashBytes.Length; i++)
-                {
-                    sb.Append(hashBytes[i].ToString("x2"));
-                }
-
-                return sb.ToString();
-            }
-        }
-
         private static void InitXRApplicationSettings()
         {
             _settings = CreateInstance<XRApplicationSettings>();
             _settings.name = Application.productName;
-            _settings.id = GetMD5Hash(_settings.name).Substring(0,8);
+            _settings.id = Toolkit.Utils.MD5.Hash(_settings.name).Substring(0,8);
             _settings.version = Application.version;
             _settings.playerSetting.minPlayerCount = 1;
             _settings.playerSetting.maxPlayerCount = 6;

@@ -585,9 +585,70 @@ namespace Samples.CustomPlayerManager
 }
 ```
 
-## 空间音频
+## 空间管理
+### 空间音频
 
 基础功能有播放音频、播放音频列表、停止等
 
 AudioManager的方法不再管理流程，如果想实现播放音频结束后触发某方法的功能，则自己开启一个TimerManager，时间为音频长度 
 
+### 游戏排行榜
+#### 生成游戏数据二维码
+
+```
+            ShareInfo info = new ShareInfo()
+            {
+                AvatarId = 1,
+                GameMode = GameMode.Single,
+                Score = new float[]{1,1000},
+                Time = DateTime.Now,
+                SpaceId = "1111111",
+                // QRImageColor = Color.black
+            };
+
+            img.texture = GameDataManager.GenerateShareImage(info);
+```
+
+#### 获取游戏排行榜数据
+
+```
+using System;
+using Deepglint.XR.Toolkit.Utils;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace Deepglint.XR.Toolkit.Game
+{
+    public class TestGameData :MonoBehaviour,RankConsumer
+    {
+        private void Start()
+        {
+            GameDataManager.Instance.Subscribe(this);
+        }
+
+
+        private void OnApplicationQuit()
+        {
+            GameDataManager.Instance.Unsubscribe(this);
+        }
+        
+        public RankInfoReq GetRankInfoReq()
+        {
+            return new RankInfoReq("5f3c73f3", GameMode.Single, 20); 
+        }
+        
+        public void OnDataReceived(RankInfo info)
+        {
+            Debug.Log($"id:{info.Id}");
+            foreach (var sc in info.Data)
+            {
+                Debug.Log($"score:{sc.Score},time:{sc.Time},mode:{sc.Mode}");
+                foreach (var player in sc.Player)
+                {
+                    Debug.Log($"{player.Id},{player.Url},{player.Name}");
+                }
+            }
+        }
+    }
+}
+```

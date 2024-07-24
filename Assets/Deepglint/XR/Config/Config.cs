@@ -52,7 +52,7 @@ namespace Deepglint.XR.Config
                 [JsonProperty("id")] public string ID { get; internal set; }
 
                 [JsonProperty("screenMode")] public ScreenStyle ScreenMode { get; internal set; }
-
+                [JsonProperty("serverEndpoint")] public string ServerEndpoint { get; internal set; }
                 [JsonProperty("engineHost")] public string EngineHost { get; set; }
                 [JsonProperty("wsPort")] public string WsPort { get; set; }
                 [JsonProperty("xDirection")] public string XDirection { get; set; }
