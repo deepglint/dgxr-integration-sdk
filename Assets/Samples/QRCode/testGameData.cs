@@ -32,6 +32,7 @@ namespace Deepglint.XR.Toolkit.Game
         
         public RankInfoReq GetRankInfoReq()
         {
+            // return null;
             return new RankInfoReq("5f3c73f3", GameMode.Single, 20); 
         }
         

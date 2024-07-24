@@ -53,7 +53,7 @@ namespace Deepglint.XR.Toolkit.Game
         public GameMode GameMode;
         public int Count;
 
-        public RankInfoReq(string id,GameMode mode, int count)
+        public RankInfoReq(string id, GameMode mode, int count)
         {
             GameId = id;
             GameMode = mode;
@@ -63,7 +63,9 @@ namespace Deepglint.XR.Toolkit.Game
 
     public interface RankConsumer
     {
-        public void OnDataReceived(RankInfo data) {}
+        public void OnDataReceived(RankInfo data)
+        {
+        }
 
         public RankInfoReq GetRankInfoReq()
         {
@@ -96,15 +98,20 @@ namespace Deepglint.XR.Toolkit.Game
         public void Subscribe(RankConsumer rank)
         {
             var req = rank.GetRankInfoReq();
-            Debug.Assert(req is not null,
-                "Subscribe functions can only be used if the GetRankInfoReq method is implemented");
+            if (req is null)
+            {
+                Debug.LogError("Subscribe functions can only be used if the GetRankInfoReq method is implemented");
+                return;
+            }
+
             string url =
                 $"{DGXR.Config.Space.ServerEndpoint}/meta/rank?id={req.GameId}&mode={(int)req.GameMode}&count={req.Count}";
             Debug.Log($"subscribe url: {url}");
             if (_coroutine.TryGetValue(req.GetHashCode(), out var cor))
             {
-                StopCoroutine(cor); 
+                StopCoroutine(cor);
             }
+
             var coroutine = StartCoroutine(FetchDataRoutine(url, rank));
             _coroutine[req.GetHashCode()] = coroutine;
         }
@@ -174,6 +181,7 @@ namespace Deepglint.XR.Toolkit.Game
                                 continue;
                             }
                         }
+
                         _rankHash[req.GetHashCode()] = rankHash;
                         req.OnDataReceived(rank);
                     }
