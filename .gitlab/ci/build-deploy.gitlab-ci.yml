@@ -33,6 +33,7 @@ delete_tag:
     - /^v\d+\.\d+\.\d+-upm$/
   script:
     - echo delete tag $CI_COMMIT_REF_NAME
+    - git config --global url."https://:${CI_ROBOT_TOKEN_WRITE}@gitlab.deepglint.com".insteadOf "https://gitlab.deepglint.com"
     - git tag -d $CI_COMMIT_REF_NAME
     - git push --delete origin $CI_COMMIT_REF_NAME
 
@@ -58,7 +59,7 @@ tag_and_push:
   script:
     - |
       NEW_TAG=$(echo $CI_COMMIT_REF_NAME | sed 's/-upm//')
-      - git config --global url."https://:${CI_ROBOT_TOKEN_WRITE}@gitlab.deepglint.com"
+      git config --global url."https://:${CI_ROBOT_TOKEN_WRITE}@gitlab.deepglint.com"
       git tag $NEW_TAG
       git push origin $NEW_TAG
       git push origin HEAD     
