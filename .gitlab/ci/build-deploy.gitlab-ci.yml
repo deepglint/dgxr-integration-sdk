@@ -33,7 +33,6 @@ delete_tag:
     - /^v\d+\.\d+\.\d+-upm$/
   script:
     - echo delete tag $CI_COMMIT_REF_NAME
-    - git config --global url."https://:${CI_ROBOT_TOKEN_WRITE}@gitlab.deepglint.com"
     - git tag -d $CI_COMMIT_REF_NAME
     - git push --delete origin $CI_COMMIT_REF_NAME
 
