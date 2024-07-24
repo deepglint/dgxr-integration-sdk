@@ -313,14 +313,12 @@ namespace Deepglint.XR.Space
 
             XRSpace.Instance.RealSize = new Vector3(DGXR.Config.Space.Length, DGXR.Config.Space.Height,
                 DGXR.Config.Space.Width);
-
-            var length = spaceScale * (isCave
-                ? (DGXR.Space.RealSize.x > DGXR.Space.RealSize.z
-                    ? DGXR.Space.RealSize.x
-                    : DGXR.Space.RealSize.z)
-                : 5);
+            
+            var length = spaceScale * (isCave ? DGXR.Space.RealSize.x : 5f);
+            var width = spaceScale * (isCave ? DGXR.Space.RealSize.z : 5f);
             var height = spaceScale * (isCave ? DGXR.Space.RealSize.y : 3.125f);
-            XRSpace.Instance.Size = new Vector3(length, height, length);
+            XRSpace.Instance.Size = new Vector3(length, height, width);
+            
             if (DGXR.Config.Space.Roi.Length == 4)
             {
                 XRSpace.Instance.Roi = new Rect(DGXR.Config.Space.Roi[0], DGXR.Config.Space.Roi[1],
