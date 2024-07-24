@@ -105,6 +105,7 @@ namespace Deepglint.XR.Ros
             Dictionary<string, SourceData> data = new Dictionary<string, SourceData>();
             MetaPoseData info = JsonConvert.DeserializeObject<MetaPoseData>(msg);
             HashSet<string> humans = new HashSet<string>();
+            long frameId = long.Parse(info.FrameId);
             if (info.Result != null && info.Result.TryGetValue("999001", out Result result))
             {
                 if (result == null)
@@ -366,7 +367,7 @@ namespace Deepglint.XR.Ros
                     }
                     var body = new SourceData
                     {
-                        FrameId = long.Parse(info.FrameId),
+                        FrameId = frameId,
                         BodyId = bodyId,
                         Actions = actions,
                         Joints = joints,
@@ -402,7 +403,7 @@ namespace Deepglint.XR.Ros
                 Source.Source.TriggerMetaPoseDataReceived(sourceData);
             }
 
-            Source.Source.TriggerMetaPoseFrameDataReceived(data.Values.ToList());
+            Source.Source.TriggerMetaPoseFrameDataReceived(frameId, data.Values.ToList());
         }
 
         /// <summary>

@@ -108,6 +108,11 @@ namespace Deepglint.XR.Source
         public static bool Enabled => EnableFilter;
         public static PseudoOfflineFilter Instance { get; private set; }
         public static Action<string> OnPersonOffline;
+
+        private void OnMetaPoseFrameDataReceived(long frameId, List<SourceData> data)
+        {
+            currentFrameId = frameId;
+        }
         
         private void OnMetaPoseDataReceived(SourceData data)
         {
@@ -145,6 +150,7 @@ namespace Deepglint.XR.Source
             EnableFilter = true;
             Source.OnMetaPoseDataLost += OnMetaPoseDataLost;
             Source.OnMetaPoseDataReceived += OnMetaPoseDataReceived;
+            Source.OnMetaPoseFrameDataReceived += OnMetaPoseFrameDataReceived;
         }
 
         private void OnDisable()
@@ -153,6 +159,7 @@ namespace Deepglint.XR.Source
             EnableFilter = false;
             Source.OnMetaPoseDataLost -= OnMetaPoseDataLost;
             Source.OnMetaPoseDataReceived -= OnMetaPoseDataReceived;
+            Source.OnMetaPoseFrameDataReceived -= OnMetaPoseFrameDataReceived;
             
             List<string> offlineKeys = new List<string>(OfflineFeatures.Keys);
             foreach (var key in offlineKeys)

@@ -141,7 +141,7 @@ public class NewBehaviourScript : MonoBehaviour
 
 ## 两种游戏模式
 
-#### 固定视角模式
+### 固定视角模式
 
 **介绍**
 
@@ -154,7 +154,7 @@ public class NewBehaviourScript : MonoBehaviour
 * 接下来就可以正常开发具体游戏逻辑。每一个 Game 窗口看到的内容就是在灵境空间内对应屏幕的内容。
 
 
-#### 沉浸式 cave 模式
+### 沉浸式 cave 模式
 
 **介绍**
 
@@ -326,7 +326,7 @@ public class Demo : MonoBehaviour
 1. 可以通过[玩家绑定及动作接入](#玩家绑定及设备接入)的方式，建立游戏角色、玩家与设备之间的映射关系，进而控制空间中的元素进行交互；
 2. 通过使用`HumanControlFootPointerInputModule`模块提供的能力直接与canvas 中的UI元素或者场景中的3d元素进行交互；
 
-### HumanControlFootPointerInputModule 
+#### HumanControlFootPointerInputModule 
 `HumanControlFootPointerInputModule` 通过实时获取人体左右脚的骨骼数据，以类似于触控板多点触控的方式，将人在场景中与UI 或3D元素的交互转化为EventSystem 中的PointerEnter，PointerExit, PointerDown, PointerUp等事件，通过对EventSystem中回调事件的处理我们可以轻松的处理人与场景中UI 或者3D元素交互的逻辑。
 
 `HumanControlFootPointerInputModule`支持的事件：

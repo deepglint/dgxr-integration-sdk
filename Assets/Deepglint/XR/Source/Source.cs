@@ -137,7 +137,7 @@ namespace Deepglint.XR.Source
         public static SourceType DataFrom;
 
         public delegate void MetaPoseDataEventHandler(SourceData data);
-        public delegate void MetaPoseFrameDataEventHandler(List<SourceData> data);
+        public delegate void MetaPoseFrameDataEventHandler(long frameId, List<SourceData> data);
         
         public static  event MetaPoseDataEventHandler OnMetaPoseDataReceived;
         public static  event MetaPoseFrameDataEventHandler OnMetaPoseFrameDataReceived;
@@ -216,9 +216,9 @@ namespace Deepglint.XR.Source
         /// <summary>
         /// 设置当前帧所有骨骼数据到订阅
         /// </summary> 
-        public static void TriggerMetaPoseFrameDataReceived(List<SourceData> data)
+        public static void TriggerMetaPoseFrameDataReceived(long frameId, List<SourceData> data)
         {
-            OnMetaPoseFrameDataReceived?.Invoke(data);
+            OnMetaPoseFrameDataReceived?.Invoke(frameId, data);
         }
 
         /// <summary>
