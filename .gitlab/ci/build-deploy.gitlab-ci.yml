@@ -29,7 +29,6 @@ workflow:
 
 delete_tag:
   stage: delete-tag
-  needs: ["include_build_stardust"]
   only:
     - /^v\d+\.\d+\.\d+-upm$/
   script:
@@ -39,7 +38,6 @@ delete_tag:
 
 update_version:
   stage: update-version
-  needs: ["include_build_stardust"]
   only:
     - /^v\d+\.\d+\.\d+-upm$/
   script:
@@ -55,7 +53,6 @@ update_version:
 
 tag_and_push:
   stage: tag-and-push
-  needs: ["include_build_stardust"]
   only:
     - /^v\d+\.\d+\.\d+-upm$/
   script:
