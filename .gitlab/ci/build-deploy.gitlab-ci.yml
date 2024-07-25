@@ -33,12 +33,12 @@ delete_tag:
     - /^v\d+\.\d+\.\d+-upm$/
   before_script:
     - env
-    - git clone --depth 1 https://ibalpha-robot:${CI_ROBOT_TOKEN}@gitlab.deepglint.com/alpha/stardust.git
-    - git config --global user.email "ibalpha.monitor@deepglint.com"
-    - git config --global user.name "ibalpha-robot"
+    #- git clone --depth 1 https://ibalpha-robot:${CI_ROBOT_TOKEN}@gitlab.deepglint.com/alpha/stardust.git
+    #- git config --global user.email "ibalpha.monitor@deepglint.com"
+    #- git config --global user.name "ibalpha-robot"
   script:
-    - cd stardust
-    - cat .git/config
+    #- cd stardust
+    #- cat .git/config
     - echo delete tag $CI_COMMIT_REF_NAME
     - git tag -d $CI_COMMIT_REF_NAME
     - git push --delete origin $CI_COMMIT_REF_NAME
