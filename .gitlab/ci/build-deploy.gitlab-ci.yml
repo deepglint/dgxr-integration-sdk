@@ -34,7 +34,7 @@ delete_tag:
   script:
     - echo delete tag $CI_COMMIT_REF_NAME
     - echo $CI_ROBOT_TOKEN_WRITE
-    - git config --global url."https://ci_robot_token_write:$CI_ROBOT_TOKEN_WRITE@gitlab.deepglint.com".insteadOf "https://gitlab.deepglint.com"
+    - git config --global url."https://:glpat-vbzyU6dA9TeN8DccsdUV@gitlab.deepglint.com".insteadOf "https://gitlab.deepglint.com"
     - git tag -d $CI_COMMIT_REF_NAME
     - git push --delete origin $CI_COMMIT_REF_NAME
 
