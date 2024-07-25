@@ -39,6 +39,9 @@ delete_tag:
   script:
     #- cd stardust
     #- cat .git/config
+    - git config --list
+    - git remote set-url origin https://oauth2:$CI_ROBOT_TOKEN_WRITE@gitlab.deepglint.com/alpha/stardust.git
+    - git remote -v
     - echo delete tag $CI_COMMIT_REF_NAME
     - git tag -d $CI_COMMIT_REF_NAME
     - git push --delete origin $CI_COMMIT_REF_NAME
