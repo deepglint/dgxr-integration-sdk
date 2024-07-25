@@ -33,7 +33,7 @@ namespace Deepglint.XR.Toolkit.Game
     {
         public string SpaceId;
         public DateTime Time;
-        public float[] Score;
+        public int[] Score;
         public int AvatarId;
         public GameMode GameMode;
         public Color QRImageColor;
@@ -44,18 +44,26 @@ namespace Deepglint.XR.Toolkit.Game
         Single,
         Multi
     }
-
+    
+    public enum RankOrder
+    {
+        Desc,
+        Asc
+    }
+    
     public class RankInfoReq
     {
         public string GameId;
         public GameMode GameMode;
         public int Count;
+        public RankOrder Order;
 
-        public RankInfoReq(string id, GameMode mode, int count)
+        public RankInfoReq(string id, GameMode mode, int count,RankOrder order = RankOrder.Desc)
         {
             GameId = id;
             GameMode = mode;
             Count = count;
+            Order = order;
         }
     }
 
@@ -103,7 +111,7 @@ namespace Deepglint.XR.Toolkit.Game
             }
 
             string url =
-                $"{DGXR.Config.Space.ServerEndpoint}/meta/rank?id={req.GameId}&mode={(int)req.GameMode}&count={req.Count}";
+                $"{DGXR.Config.Space.ServerEndpoint}/meta/rank?id={req.GameId}&mode={(int)req.GameMode}&count={req.Count}&order={(int)req.Order}";
             Debug.Log($"subscribe url: {url}");
             if (_coroutine.TryGetValue(req.GetHashCode(), out var cor))
             {
