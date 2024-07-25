@@ -45,6 +45,7 @@ update_version:
     - git add package.json
     - git commit -m "Update version to $NEW_VERSION"
     - echo update version to $NEW_VERSION
+    - git tag $NEW_VERSION
     - git push origin $NEW_VERSION
     - git push
 
