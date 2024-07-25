@@ -99,7 +99,7 @@ namespace Deepglint.XR.EventSystem.InputModules
 
         
         
-        private void OnMetaPoseFrameDataReceived(List<SourceData> data)
+        private void OnMetaPoseFrameDataReceived(long frameId, List<SourceData> data)
         {
             foreach (var p1 in data)
             {
