@@ -50,10 +50,13 @@ update_version:
     - git tag $NEW_VERSION
     - git push origin $TMP_BRANCH
     - git push origin $NEW_VERSION
-    - git fetch origin $CI_DEFAULT_BRANCH
+    - git fetch origin feat/test-release
+    - git push origin $TMP_BRANCH:feat/test-release
+    - git checkout feat/test-release
+    #- git fetch origin $CI_DEFAULT_BRANCH
     #- git push origin $TMP_BRANCH:$CI_DEFAULT_BRANCH
-    - git checkout $CI_DEFAULT_BRANCH
-    - git branch -d $TMP_BRANCH
+    # - git checkout $CI_DEFAULT_BRANCH
+    - git branch -D $TMP_BRANCH
     #- git push origin --delete $TMP_BRANCH
 
 build:prepare:
