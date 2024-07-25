@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Web;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -113,7 +111,7 @@ namespace Deepglint.XR.Toolkit.Game
             }
 
             var coroutine = StartCoroutine(FetchDataRoutine(url, rank));
-            _coroutine[req.GetHashCode()] = coroutine;
+            _coroutine[rank.GetHashCode()] = coroutine;
         }
 
         public void Unsubscribe(RankConsumer rank)
@@ -123,6 +121,8 @@ namespace Deepglint.XR.Toolkit.Game
                 StopCoroutine(coroutine);
                 _coroutine.Remove(rank.GetHashCode());
             }
+
+            _rankHash[rank.GetHashCode()] = "";
         }
 
         public static Texture GenerateShareImage(ShareInfo info)
@@ -164,27 +164,17 @@ namespace Deepglint.XR.Toolkit.Game
                         Debug.LogError($"JSON deserialization error: {ex.Message}");
                         continue;
                     }
-
-                    Uri uri = new Uri(url);
-                    NameValueCollection queryParams = HttpUtility.ParseQueryString(uri.Query);
-
-                    string id = queryParams["id"];
-                    string mode = queryParams["mode"];
-                    if (id != null && mode != null)
+                    var rankHash = MD5.Hash(receiveContent);
+                    if (_rankHash.TryGetValue(req.GetHashCode(), out var data))
                     {
-                        var rankHash = MD5.Hash(receiveContent);
-                        if (_rankHash.TryGetValue(req.GetHashCode(), out var data))
+                        if (data == rankHash)
                         {
-                            if (data == rankHash)
-                            {
-                                yield return new WaitForSeconds(3f);
-                                continue;
-                            }
+                            yield return new WaitForSeconds(3f);
+                            continue;
                         }
-
-                        _rankHash[req.GetHashCode()] = rankHash;
-                        req.OnDataReceived(rank);
                     }
+                    _rankHash[req.GetHashCode()] = rankHash;
+                    req.OnDataReceived(rank);
                 }
 
                 yield return new WaitForSeconds(3f);
