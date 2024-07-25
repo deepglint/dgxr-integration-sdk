@@ -113,7 +113,7 @@ namespace Deepglint.XR.Toolkit.Game
             }
 
             var coroutine = StartCoroutine(FetchDataRoutine(url, rank));
-            _coroutine[req.GetHashCode()] = coroutine;
+            _coroutine[rank.GetHashCode()] = coroutine;
         }
 
         public void Unsubscribe(RankConsumer rank)
@@ -123,6 +123,8 @@ namespace Deepglint.XR.Toolkit.Game
                 StopCoroutine(coroutine);
                 _coroutine.Remove(rank.GetHashCode());
             }
+
+            _rankHash[rank.GetHashCode()] = "";
         }
 
         public static Texture GenerateShareImage(ShareInfo info)
