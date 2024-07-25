@@ -31,15 +31,7 @@ delete_tag:
   stage: delete-tag
   only:
     - /^v\d+\.\d+\.\d+-upm$/
-  before_script:
-    - env
-    #- git clone --depth 1 https://ibalpha-robot:${CI_ROBOT_TOKEN}@gitlab.deepglint.com/alpha/stardust.git
-    #- git config --global user.email "ibalpha.monitor@deepglint.com"
-    #- git config --global user.name "ibalpha-robot"
   script:
-    #- cd stardust
-    #- cat .git/config
-    - git config --list
     - git remote set-url origin https://oauth2:$CI_ROBOT_TOKEN_WRITE@gitlab.deepglint.com/alpha/stardust.git
     - git remote -v
     - echo delete tag $CI_COMMIT_REF_NAME
@@ -56,8 +48,8 @@ update_version:
     - jq --arg new_version "$NEW_VERSION" --arg doc_url "$COS_REPO/dgxr/dgxr-doc-$NEW_VERSION/html/index.html" \
       '.version = $new_version | .documentationUrl = $doc_url' package.json > tmp.json && mv tmp.json package.json
     - cat package.json
-    - git config --global user.email "ibalpha.monitor@deepglint.com"
-    - git config --global user.name "ibalpha-robot"
+    - git remote set-url origin https://oauth2:$CI_ROBOT_TOKEN_WRITE@gitlab.deepglint.com/alpha/stardust.git
+    - git remote -v
     - git add package.json
     - git commit -m "Update version to $NEW_VERSION"
 
@@ -68,7 +60,8 @@ tag_and_push:
   script:
     - |
       NEW_TAG=$(echo $CI_COMMIT_REF_NAME | sed 's/-upm//')
-      git config --global url."https://:${CI_ROBOT_TOKEN_WRITE}@gitlab.deepglint.com"
+      git remote set-url origin https://oauth2:$CI_ROBOT_TOKEN_WRITE@gitlab.deepglint.com/alpha/stardust.git
+      git remote -v
       git tag $NEW_TAG
       git push origin $NEW_TAG
       git push origin HEAD     
