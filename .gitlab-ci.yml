@@ -67,9 +67,6 @@ test:summary:
   trigger:
     include: .gitlab/ci/build-deploy.gitlab-ci.yml
     strategy: depend
-  rules:
-    - if: $CI_ENVIRONMENT_NAME && $CI_PIPELINE_SOURCE != "schedule"
-      when: manual
   allow_failure: true
 
 deploy:
