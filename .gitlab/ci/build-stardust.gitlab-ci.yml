@@ -62,7 +62,7 @@ get-unity-version:
     reports:
       dotenv: prepare.env
   rules:
-    - unless: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+-upm$/'
+    - if: '$CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+-upm$/'
 
 lint_analyze:
   stage: build pre
@@ -70,7 +70,7 @@ lint_analyze:
   script:
     - 'echo "lint succeed"'
   rules:
-    - unless: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+-upm$/'
+    - if: '$CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+-upm$/'
   
 cache: # 缓存
   paths:
@@ -91,7 +91,7 @@ generate_doc:
       - $UNITY_DIR/code_docs
     name: dgxr-doc-$CI_COMMIT_TAG
   rules:
-    - unless: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+-upm$/'
+    - if: '$CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+-upm$/'
 
 
 get-activation-file:
@@ -102,7 +102,7 @@ get-activation-file:
   script:
     - chmod +x ./ci/get_activation_file.sh && ./ci/get_activation_file.sh
   rules:
-    - unless: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+-upm$/'
+    - if: '$CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+-upm$/'
   artifacts:
     paths:
       - $UNITY_ACTIVATION_FILE
@@ -128,7 +128,7 @@ npm_publish:
     - echo "//package.nemoface.com/repository/:_authToken=\${CI_NPM_TOKEN}" >> ~/.npmrc
     - npm publish
   rules:
-    - unless: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+-upm$/'
+    - if: '$CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+-upm$/'
 
 build_dgxr:
   <<: *unity_defaults
@@ -141,7 +141,7 @@ build_dgxr:
     - cd ci
     - chmod +x ./build_package.sh && ./build_package.sh
   rules:
-    - unless: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+-upm$/'
+    - if: '$CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+-upm$/'
   artifacts:
     paths:
       - $UNITY_DIR/Packages/
