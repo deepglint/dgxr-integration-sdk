@@ -166,27 +166,17 @@ namespace Deepglint.XR.Toolkit.Game
                         Debug.LogError($"JSON deserialization error: {ex.Message}");
                         continue;
                     }
-
-                    Uri uri = new Uri(url);
-                    NameValueCollection queryParams = HttpUtility.ParseQueryString(uri.Query);
-
-                    string id = queryParams["id"];
-                    string mode = queryParams["mode"];
-                    if (id != null && mode != null)
+                    var rankHash = MD5.Hash(receiveContent);
+                    if (_rankHash.TryGetValue(req.GetHashCode(), out var data))
                     {
-                        var rankHash = MD5.Hash(receiveContent);
-                        if (_rankHash.TryGetValue(req.GetHashCode(), out var data))
+                        if (data == rankHash)
                         {
-                            if (data == rankHash)
-                            {
-                                yield return new WaitForSeconds(3f);
-                                continue;
-                            }
+                            yield return new WaitForSeconds(3f);
+                            continue;
                         }
-
-                        _rankHash[req.GetHashCode()] = rankHash;
-                        req.OnDataReceived(rank);
                     }
+                    _rankHash[req.GetHashCode()] = rankHash;
+                    req.OnDataReceived(rank);
                 }
 
                 yield return new WaitForSeconds(3f);
