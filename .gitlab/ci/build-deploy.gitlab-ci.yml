@@ -44,10 +44,9 @@ update_version:
     - cat package.json
     - git add package.json
     - git commit -m "Update version to $NEW_VERSION"
-    - NEW_TAG=$(echo $CI_COMMIT_REF_NAME | sed 's/-upm//')
-    - echo update version to $NEW_TAG
-    - git push origin $NEW_TAG
-    - git push origin HEAD
+    - echo update version to $NEW_VERSION
+    - git push origin $NEW_VERSION
+    - git push
 
 build:prepare:
   stage: .pre
