@@ -51,6 +51,7 @@ update_version:
     - git push origin $TMP_BRANCH
     - git push origin $NEW_VERSION
     #- git push origin $TMP_BRANCH:master
+    - git checkout master
     - git branch -d $TMP_BRANCH
     #- git push origin --delete $TMP_BRANCH
 
