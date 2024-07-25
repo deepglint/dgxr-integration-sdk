@@ -50,6 +50,7 @@ update_version:
     - git tag $NEW_VERSION
     - git push origin $TMP_BRANCH
     - git push origin $NEW_VERSION
+    - git fetch origin
     #- git push origin $TMP_BRANCH:$CI_DEFAULT_BRANCH
     - git checkout $CI_DEFAULT_BRANCH
     - git branch -d $TMP_BRANCH
