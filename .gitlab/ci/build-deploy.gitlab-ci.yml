@@ -11,9 +11,7 @@ variables:
   GIT_STRATEGY: clone
 
 stages:
-  - validate-tag
   - update-version
-  - update-tag
   - build pre
   - build stardust
   - release
@@ -31,34 +29,25 @@ update_version:
   only:
     - /^v\d+\.\d+\.\d+-upm$/
   script:
+    - git remote set-url origin https://oauth2:$CI_ROBOT_TOKEN_WRITE@gitlab.deepglint.com/alpha/stardust.git
+    - git remote -v
+    - git config --global user.email "ibalpha.monitor@deepglint.com"
+    - git config --global user.name "ibalpha-robot"
+    - echo delete tag $CI_COMMIT_REF_NAME
+    - git tag -d $CI_COMMIT_REF_NAME
+    - git push --delete origin $CI_COMMIT_REF_NAME
+    - echo update package.json
     - cd Assets
     - NEW_VERSION=$(echo $CI_COMMIT_REF_NAME | sed 's/-upm//')
     - jq --arg new_version "$NEW_VERSION" --arg doc_url "$COS_REPO/dgxr/dgxr-doc-$NEW_VERSION/html/index.html" \
       '.version = $new_version | .documentationUrl = $doc_url' package.json > tmp.json && mv tmp.json package.json
     - cat package.json
-    - git remote set-url origin https://oauth2:$CI_ROBOT_TOKEN_WRITE@gitlab.deepglint.com/alpha/stardust.git
-    - git remote -v
-    - git config --global user.email "ibalpha.monitor@deepglint.com"
-    - git config --global user.name "ibalpha-robot"
     - git add package.json
     - git commit -m "Update version to $NEW_VERSION"
-
-update_tag:
-  stage: update-tag
-  only:
-    - /^v\d+\.\d+\.\d+-upm$/
-  script:
-    - |
-      NEW_TAG=$(echo $CI_COMMIT_REF_NAME | sed 's/-upm//')
-      git remote set-url origin https://oauth2:$CI_ROBOT_TOKEN_WRITE@gitlab.deepglint.com/alpha/stardust.git
-      git remote -v
-      echo delete tag $CI_COMMIT_REF_NAME
-      git tag -d $CI_COMMIT_REF_NAME
-      git push --delete origin $CI_COMMIT_REF_NAME
-      echo new tag $NEW_TAG
-      git tag $NEW_TAG
-      git push origin $NEW_TAG
-      git push origin HEAD     
+    - NEW_TAG=$(echo $CI_COMMIT_REF_NAME | sed 's/-upm//')
+    - echo update version to $NEW_TAG
+    - git push origin $NEW_TAG
+    - git push origin HEAD
 
 build:prepare:
   stage: .pre
