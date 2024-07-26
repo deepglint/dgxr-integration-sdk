@@ -98,11 +98,10 @@ get-activation-file:
   <<: *unity_before_script
   rules:
     - if: '$UNITY_LICENSE == null'
+      when: manual
   stage: build pre
   script:
     - chmod +x ./ci/get_activation_file.sh && ./ci/get_activation_file.sh
-  rules:
-    - if: '$CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+-upm$/'
   artifacts:
     paths:
       - $UNITY_ACTIVATION_FILE

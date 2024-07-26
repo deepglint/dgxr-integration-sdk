@@ -26,12 +26,16 @@ namespace Deepglint.XR
 
         private static void InitXRApplicationSettings()
         {
-            _settings = CreateInstance<XRApplicationSettings>();
-            _settings.name = Application.productName;
-            _settings.id = Toolkit.Utils.MD5.Hash(_settings.name).Substring(0,8);
-            _settings.version = Application.version;
-            _settings.playerSetting.minPlayerCount = 1;
-            _settings.playerSetting.maxPlayerCount = 6;
+            _settings = Resources.Load<XRApplicationSettings>("XRApplicationSettings");
+            if (_settings == null)
+            {
+                _settings = CreateInstance<XRApplicationSettings>();
+                _settings.name = Application.productName;
+                _settings.id = Toolkit.Utils.MD5.Hash(_settings.name).Substring(0,8);
+                _settings.version = Application.version;
+                _settings.playerSetting.minPlayerCount = 1;
+                _settings.playerSetting.maxPlayerCount = 6; 
+            }
             try
             {
                 AssetDatabase.CreateAsset(_settings, "Assets/Resources/XRApplicationSettings.asset");
