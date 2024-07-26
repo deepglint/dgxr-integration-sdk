@@ -78,6 +78,7 @@ namespace Deepglint.XR
 
         private void OnGUI()
         {
+            EditorGUI.BeginChangeCheck();
             _settings.type = EditorGUILayout.TextField("Application Type", _settings.type);
             _settings.playerSetting.minPlayerCount =
                 EditorGUILayout.IntField("Minimum Player Count", _settings.playerSetting.minPlayerCount);
@@ -101,6 +102,14 @@ namespace Deepglint.XR
                 EditorGUILayout.Toggle("EnableExitButton", _settings.toolkit.enableExitButton);
             _settings.toolkit.enableLoseFocusTip =
                 EditorGUILayout.Toggle("EnableLoseFocusTip", _settings.toolkit.enableLoseFocusTip);
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(_settings);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+                DGXR.Settings = _settings;
+                Debug.Log("XRApplication Settings Saved");
+            }
         }
 
         public int callbackOrder => 0;
