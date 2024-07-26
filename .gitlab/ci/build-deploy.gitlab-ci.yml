@@ -37,8 +37,9 @@ update_version:
     - git tag -d $CI_COMMIT_REF_NAME
     - git push --delete origin $CI_COMMIT_REF_NAME
     - echo update package.json
-    - cd Assets
     - NEW_VERSION=$(echo $CI_COMMIT_REF_NAME | sed 's/-upm//')
+    - sed -i "s/public const string SdkVersionCode = \"\";/public const string SdkVersionCode = \"$NEW_VERSION\";/g" ./Assets/Deepglint/XR/Toolkit/DebugTool/VersionCode.cs
+    - cd Assets
     - jq --arg new_version "$NEW_VERSION" --arg doc_url "$COS_REPO/dgxr/dgxr-doc-$NEW_VERSION/html/index.html" \
       '.version = $new_version | .documentationUrl = $doc_url' package.json > tmp.json && mv tmp.json package.json
     - cat package.json
