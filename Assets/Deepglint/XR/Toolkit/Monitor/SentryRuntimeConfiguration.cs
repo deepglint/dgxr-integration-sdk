@@ -1,3 +1,4 @@
+using System;
 using Sentry.Unity;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace Deepglint.XR.Toolkit.Monitor
         {
             options.Environment = DGXR.Config.Space.Name;
             options.CaptureInEditor = false;
+            options.EnableLogDebouncing = true;
         }
     }
 }

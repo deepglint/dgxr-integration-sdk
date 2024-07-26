@@ -1,10 +1,10 @@
 {
   "name": "com.deepglint.xr",
   "displayName": "DGXR Integration SDK",
-  "version": "2.0.0-beta8",
+  "version": "v2.4.3",
   "unity": "2022.3",
-  "documentationUrl": "https://gitlab.deepglint.com/alpha/stardust/-/blob/main/dgxr/README.md",
-  "changelogUrl": "https://gitlab.deepglint.com/alpha/stardust/-/tags",
+  "documentationUrl": "https://star-deploy-1253924368.cos.ap-beijing.myqcloud.com/unity/dgxr/dgxr-doc-v2.4.3/html/index.html",
+  "changelogUrl": "https://github.com/deepglint/dgxr-integration-sdk/tags",
   "description": "Provides Deepglint XR support",
   "dependencies": {
     "com.unity.inputsystem": "1.6.3",
