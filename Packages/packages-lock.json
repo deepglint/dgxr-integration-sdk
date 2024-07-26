@@ -122,7 +122,7 @@
       "url": "https://package.openupm.com"
     },
     "io.sentry.unity": {
-      "version": "2.1.0",
+      "version": "2.1.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
