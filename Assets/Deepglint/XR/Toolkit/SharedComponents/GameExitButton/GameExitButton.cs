@@ -59,7 +59,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
                 if (!_gameExitButtonPrefab.activeSelf) return;
                 if (Mathf.RoundToInt(_countdownTimer).ToString() == "0")
                 {
-                    _gameExitingText.text = "退出游戏中";
+                    _gameExitingText.text = "退出应用中";
                     _timeText.text = "";
                     _timeText.gameObject.SetActive(false);
                     _exitText.SetActive(true);
