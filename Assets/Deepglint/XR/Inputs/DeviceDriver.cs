@@ -11,16 +11,6 @@ namespace Deepglint.XR.Inputs
 {
     public class DeviceDriver : MonoBehaviour
     {
-        private static readonly Queue<Action> ExecuteRosMsgEventMainThreadQueue = new Queue<Action>();
-            
-        private static void ExecuteRosMsgEventInUpdate(Action action)
-        {
-            lock (ExecuteRosMsgEventMainThreadQueue)
-            {
-                ExecuteRosMsgEventMainThreadQueue.Enqueue(action);
-            }
-        }
-
         private void OnEnable()
         {
             Source.Source.OnMetaPoseDataReceived += OnMetaPoseDataReceived;
@@ -35,36 +25,13 @@ namespace Deepglint.XR.Inputs
             PseudoOfflineFilter.OnPersonOffline -= OnPersonOffline;
         }
 
-        private void Update()
-        {
-            while (ExecuteRosMsgEventMainThreadQueue.Count > 0)
-            {
-                Action action;
-                lock (ExecuteRosMsgEventMainThreadQueue)
-                {
-                    action = ExecuteRosMsgEventMainThreadQueue.Dequeue();
-                }
-                action?.Invoke();
-            }
-        }
-        
         private void OnMetaPoseDataLost(string key)
         {
             if (PseudoOfflineFilter.Enabled)
             {
                 return;
             }
-            if (Source.Source.DataFrom == SourceType.ROS)
-            {
-                ExecuteRosMsgEventInUpdate(() =>
-                {
-                    DeviceManager.RemoveDevice(key);
-                });
-            }
-            else
-            {
-                DeviceManager.RemoveDevice(key);
-            }
+            DeviceManager.RemoveDevice(key);
         }
 
         private void OnPersonOffline(string key)
@@ -74,17 +41,7 @@ namespace Deepglint.XR.Inputs
         
         private void OnMetaPoseDataReceived(SourceData data)
         {
-            if (Source.Source.DataFrom == SourceType.ROS)
-            {
-                ExecuteRosMsgEventInUpdate(() =>
-                {
-                    HandleMetaPoseData(data);
-                });
-            }
-            else
-            {
-                HandleMetaPoseData(data);
-            }
+            HandleMetaPoseData(data);
         }
         
         private void HandleMetaPoseData(SourceData data)
