@@ -600,7 +600,7 @@ AudioManager的方法不再管理流程，如果想实现播放音频结束后�
             {
                 AvatarId = 1,
                 GameMode = GameMode.Single,
-                Score = new float[]{1,1000},
+                Score = new int[]{1,1000},
                 Time = DateTime.Now,
                 SpaceId = "1111111",
                 // QRImageColor = Color.black
