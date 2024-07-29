@@ -136,13 +136,20 @@ namespace Deepglint.XR.Source
         private List<string> _dataList;
         public static SourceType DataFrom;
 
+        public delegate void RealTimePoseEventHandler(SourceData data);
+        public delegate void RealTimePoseFrameEventHandler(long frameId, List<SourceData> data);
+        
         public delegate void MetaPoseDataEventHandler(SourceData data);
         public delegate void MetaPoseFrameDataEventHandler(long frameId, List<SourceData> data);
         
         public static  event MetaPoseDataEventHandler OnMetaPoseDataReceived;
         public static  event MetaPoseFrameDataEventHandler OnMetaPoseFrameDataReceived;
-
+        
         public static Action<string> OnMetaPoseDataLost;
+        
+        public static  event RealTimePoseEventHandler RealTimePoseDataReceived;
+        public static  event RealTimePoseFrameEventHandler RealTimePoseFrameDataReceived;
+        public static Action<string> RealTimePoseDataLost;
 
         public int Count => _dataDic.Count;
 
@@ -219,6 +226,31 @@ namespace Deepglint.XR.Source
         public static void TriggerMetaPoseFrameDataReceived(long frameId, List<SourceData> data)
         {
             OnMetaPoseFrameDataReceived?.Invoke(frameId, data);
+        }
+        
+        /// <summary>
+        /// 设置数据单个人骨骼数据到订阅,不受主线程帧影响
+        /// </summary> 
+        public static void TriggerRealTimePoseReceived(SourceData data)
+        {
+            RealTimePoseDataReceived?.Invoke(data);
+        }
+
+        /// <summary>
+        /// 设置当前帧所有骨骼数据到订阅,不受主线程帧影响
+        /// </summary> 
+        public static void TriggerRealTimePoseFrameReceived(long frameId, List<SourceData> data)
+        {
+            RealTimePoseFrameDataReceived?.Invoke(frameId, data);
+        }
+        
+        /// <summary>
+        /// 设置具体人员骨骼消失到订阅,不受主线程帧影响
+        /// </summary>
+        /// <param name="key">人员 id</param>
+        public static void TriggerRealTimeMetaPostDataLost(string key)
+        {
+            RealTimePoseDataLost?.Invoke(key);
         }
 
         /// <summary>
