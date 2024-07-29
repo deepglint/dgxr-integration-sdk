@@ -1,4 +1,4 @@
-using System;
+using Sentry;
 using Sentry.Unity;
 using UnityEngine;
 
@@ -15,11 +15,12 @@ namespace Deepglint.XR.Toolkit.Monitor
         public override void Configure(SentryUnityOptions options)
         {
             var config = new Config.Config().InitConfig();
-            Debug.Log("Sentry Env: " + config.Space.Name);
             options.Environment = config.Space.Name;
             options.CaptureInEditor = false;
             options.EnableLogDebouncing = true;
             options.Debug = true;
+            options.DiagnosticLevel = SentryLevel.Warning;
         }
+        
     }
 }
