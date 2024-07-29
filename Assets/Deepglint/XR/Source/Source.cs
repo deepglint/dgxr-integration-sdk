@@ -231,7 +231,7 @@ namespace Deepglint.XR.Source
         /// <summary>
         /// 设置数据单个人骨骼数据到订阅,不受主线程帧影响
         /// </summary> 
-        public static void RealTimeTriggerPoseReceived(SourceData data)
+        public static void TriggerRealTimePoseReceived(SourceData data)
         {
             RealTimePoseDataReceived?.Invoke(data);
         }
@@ -239,7 +239,7 @@ namespace Deepglint.XR.Source
         /// <summary>
         /// 设置当前帧所有骨骼数据到订阅,不受主线程帧影响
         /// </summary> 
-        public static void RealTimeTriggerPoseFrameReceived(long frameId, List<SourceData> data)
+        public static void TriggerRealTimePoseFrameReceived(long frameId, List<SourceData> data)
         {
             RealTimePoseFrameDataReceived?.Invoke(frameId, data);
         }
@@ -248,9 +248,9 @@ namespace Deepglint.XR.Source
         /// 设置具体人员骨骼消失到订阅,不受主线程帧影响
         /// </summary>
         /// <param name="key">人员 id</param>
-        public static void RealTimeTriggerMetaPostDataLost(string key)
+        public static void TriggerRealTimeMetaPostDataLost(string key)
         {
-            OnMetaPoseDataLost?.Invoke(key);
+            RealTimePoseDataLost?.Invoke(key);
         }
 
         /// <summary>

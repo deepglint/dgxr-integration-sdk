@@ -385,8 +385,12 @@ namespace Deepglint.XR.Ros
                 if (!humans.Contains(human.BodyId))
                 {
                     Source.Source.DelData(human.BodyId);
-                    SourceMainThreadDispatcher.Enqueue(human.BodyId);
-                    Source.Source.RealTimeTriggerMetaPostDataLost(human.BodyId);
+                   
+                    SourceMainThreadDispatcher.Enqueue(() =>
+                    {
+                        Source.Source.TriggerMetaPostDataLost(human.BodyId);
+                    });
+                    Source.Source.TriggerRealTimeMetaPostDataLost(human.BodyId);
                 }
             }
 
@@ -401,11 +405,17 @@ namespace Deepglint.XR.Ros
                     data[sourceData.BodyId] = sourceData;
                 } 
                 Source.Source.SetData(sourceData);
-                SourceMainThreadDispatcher.Enqueue(sourceData);
-                Source.Source.RealTimeTriggerPoseReceived(sourceData);
+                SourceMainThreadDispatcher.Enqueue(() =>
+                {
+                    Source.Source.TriggerRealTimePoseReceived(sourceData);
+                });
+                Source.Source.TriggerRealTimePoseReceived(sourceData);
             }
-            SourceMainThreadDispatcher.Enqueue(data.Values.ToList());
-            Source.Source.RealTimeTriggerPoseFrameReceived(frameId,data.Values.ToList());
+            SourceMainThreadDispatcher.Enqueue(() =>
+            {
+                Source.Source.TriggerRealTimePoseFrameReceived(frameId,data.Values.ToList());
+            }); 
+            Source.Source.TriggerRealTimePoseFrameReceived(frameId,data.Values.ToList());
         }
 
         /// <summary>
