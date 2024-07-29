@@ -407,13 +407,13 @@ namespace Deepglint.XR.Ros
                 Source.Source.SetData(sourceData);
                 SourceMainThreadDispatcher.Enqueue(() =>
                 {
-                    Source.Source.TriggerRealTimePoseReceived(sourceData);
+                    Source.Source.TriggerMetaPoseDataReceived(sourceData);
                 });
                 Source.Source.TriggerRealTimePoseReceived(sourceData);
             }
             SourceMainThreadDispatcher.Enqueue(() =>
             {
-                Source.Source.TriggerRealTimePoseFrameReceived(frameId,data.Values.ToList());
+                Source.Source.TriggerMetaPoseFrameDataReceived(frameId,data.Values.ToList());
             }); 
             Source.Source.TriggerRealTimePoseFrameReceived(frameId,data.Values.ToList());
         }
