@@ -5,7 +5,8 @@
   "unity": "2022.3",
   "documentationUrl": "https://star-deploy-1253924368.cos.ap-beijing.myqcloud.com/unity/dgxr/dgxr-doc-v2.4.3/html/index.html",
   "changelogUrl": "https://github.com/deepglint/dgxr-integration-sdk/tags",
-  "description": "Provides Deepglint XR support",
+  "licensesUrl": "https://github.com/deepglint/dgxr-integration-sdk/blob/master/LICENSE",
+  "description": "This asset provides Deepglint XR support",
   "dependencies": {
     "com.unity.inputsystem": "1.6.3",
     "com.unity.nuget.newtonsoft-json": "3.2.1",
