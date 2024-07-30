@@ -63,7 +63,8 @@ test:summary:
 .deploy: &deploy
   stage: deploy
   trigger:
-    include: .gitlab/ci/build-deploy.gitlab-ci.yml
+    include: 
+      - local: .gitlab/ci/build-deploy.gitlab-ci.yml
     strategy: depend
   allow_failure: true
 
