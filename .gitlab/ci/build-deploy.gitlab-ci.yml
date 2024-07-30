@@ -34,7 +34,7 @@ update_version:
     - git config --global user.email "ibalpha.monitor@deepglint.com"
     - git config --global user.name "ibalpha-robot"
     - echo update package.json
-    - NEW_VERSION=upm1/$CI_COMMIT_TAG
+    - NEW_VERSION=upm/$CI_COMMIT_TAG
     - sed -i "s/public const string SdkVersionCode = \"\";/public const string SdkVersionCode = \"$CI_COMMIT_TAG\";/g" ./Assets/Deepglint/XR/Toolkit/DebugTool/VersionCode.cs
     - cd Assets
     - jq --arg new_version "$CI_COMMIT_TAG" --arg doc_url "$COS_REPO/dgxr/dgxr-doc-$CI_COMMIT_TAG/html/index.html" \
