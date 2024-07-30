@@ -27,7 +27,7 @@ workflow:
 update_version:
   stage: update-version
   rules:
-    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-alpha\d+|-beta\d+)?$/'
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-beta\d+)?$/'
   script:
     - git remote set-url origin https://oauth2:$CI_ROBOT_TOKEN_WRITE@gitlab.deepglint.com/alpha/stardust.git
     - git remote -v
