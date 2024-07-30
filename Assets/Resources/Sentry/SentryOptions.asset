@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: -668357930, guid: 43ec428a58422470fa764bdba9d9bc19, type: 3}
   m_Name: SentryOptions
   m_EditorClassIdentifier: 
-  <Enabled>k__BackingField: 1
-  <Dsn>k__BackingField: https://1427277ea43cf169e107511e422ceb91@o4507496919793664.ingest.us.sentry.io/4507496924119040
+  <Enabled>k__BackingField: 0
+  <Dsn>k__BackingField: 
   <CaptureInEditor>k__BackingField: 1
   <EnableLogDebouncing>k__BackingField: 0
   <DebounceTimeLog>k__BackingField: 1000
@@ -69,5 +69,5 @@ MonoBehaviour:
   <RuntimeOptionsConfiguration>k__BackingField: {fileID: 11400000, guid: bd4c0a30d560b384ab5af6c96c0fc8b5, type: 2}
   <BuildTimeOptionsConfiguration>k__BackingField: {fileID: 0}
   <Debug>k__BackingField: 1
-  <DebugOnlyInEditor>k__BackingField: 1
-  <DiagnosticLevel>k__BackingField: 2
+  <DebugOnlyInEditor>k__BackingField: 0
+  <DiagnosticLevel>k__BackingField: 0

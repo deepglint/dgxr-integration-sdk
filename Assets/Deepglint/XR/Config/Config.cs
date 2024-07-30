@@ -99,7 +99,7 @@ namespace Deepglint.XR.Config
         private static string ReadData()
         {
             var path = Path.GetDirectoryName(FilePath);
-            if (Application.isEditor || DGXR.SystemName.Contains("Mac"))
+            if (!string.IsNullOrEmpty(DGXR.SystemName) && (Application.isEditor || DGXR.SystemName.Contains("Mac")))
             {
                 string packagePath = Path.GetFullPath(Path.Combine("Packages", DGXR.PackageName));
                 string envJsonPath = Path.Combine(packagePath, "StreamingAssets");

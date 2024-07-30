@@ -1,16 +1,29 @@
+using System;
 using Deepglint.XR.EventSystem.InputModules;
+using Deepglint.XR.Toolkit.DebugTool;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 
-namespace Deepglint.XR.Toolkit.DebugTool
+namespace Deepglint.XR.Toolkit
 {
     [DefaultExecutionOrder(-90)]
     public class ToolkitManager : MonoBehaviour
     {
+        const string IngameDebugConsolePrefabName = "IngameDebugConsole";
         private FPS _fps;
         private VersionCode _versionCode;
         private GameObject _inGameDebugConsole;
-        
+
+        private void Awake()
+        {
+            if (GameObject.Find("_prefabName") == null)
+            {
+                GameObject prefab = Instantiate(Resources.Load<GameObject>(IngameDebugConsolePrefabName));
+                prefab.name = IngameDebugConsolePrefabName;
+                DontDestroyOnLoad(prefab);
+            }
+        }
+
 
         private void InitToolkitCanvas()
         {
@@ -37,7 +50,7 @@ namespace Deepglint.XR.Toolkit.DebugTool
 
             _fps = transform.GetComponent<FPS>();
             _versionCode = transform.GetComponent<VersionCode>();
-            _inGameDebugConsole = GameObject.Find("IngameDebugConsole");
+            _inGameDebugConsole = GameObject.Find(IngameDebugConsolePrefabName);
             bool openDebug = DGXR.Config.Debug;
             _fps.enabled = openDebug;
             _versionCode.enabled = openDebug;
