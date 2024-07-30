@@ -29,7 +29,6 @@ workflow:
     - if: $CI_COMMIT_MESSAGE =~ /^draft/i
       when: never
     - if: $CI_JOB_MANUAL
-    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 test:prepare:
   stage: .pre
