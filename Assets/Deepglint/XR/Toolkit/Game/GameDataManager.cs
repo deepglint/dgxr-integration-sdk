@@ -91,12 +91,7 @@ namespace Deepglint.XR.Toolkit.Game
         private Dictionary<int, string> _rankHash = new Dictionary<int, string>();
         private static readonly object _lock = new object();
         
-        public delegate void QRMsg(string message);
-        public static event QRMsg OnQREvent;
-        public static void TriggerQREvent(string message)
-        {
-            OnQREvent?.Invoke(message);
-        }
+        public static Action<string> OnQREvent;
        
         // ws服务
         private WebSocket _webSocket;
@@ -177,7 +172,7 @@ namespace Deepglint.XR.Toolkit.Game
             {
                 var message = Encoding.UTF8.GetString(bytes);
                 RecMsg info = JsonConvert.DeserializeObject<RecMsg>(message);
-                TriggerQREvent(info.Content);
+                OnQREvent?.Invoke(info.Content);
             };
 
             try
