@@ -596,17 +596,33 @@ AudioManager的方法不再管理流程，如果想实现播放音频结束后�
 #### 生成游戏数据二维码
 
 ```
+using System;
+using Scene.Common;
+using UnityEngine;
+
+namespace Deepglint.XR.Toolkit.Game
+{
+    public class TestGameData :MonoBehaviour,RankConsumer
+    {
+        public GameObject QRObj; 
+        private void Start()
+        {
             ShareInfo info = new ShareInfo()
             {
                 AvatarId = 1,
                 GameMode = GameMode.Single,
-                Score = new int[]{1,1000},
+                Score = new int[]{200,100},
                 Time = DateTime.Now,
                 SpaceId = "1111111",
                 // QRImageColor = Color.black
             };
 
-            img.texture = GameDataManager.GenerateShareImage(info);
+            GameObject instance = Instantiate(QRObj);
+            var qr = instance.GetComponent<QR>();
+            qr.SetQRInfo(info,DGXR.Space.Front,new Vector2(100,100),new Vector2(500,500),1);
+        }
+    }
+}
 ```
 
 #### 获取游戏排行榜数据

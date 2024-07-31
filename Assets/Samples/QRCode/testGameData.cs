@@ -1,13 +1,12 @@
 using System;
-using Deepglint.XR.Toolkit.Utils;
+using Scene.Common;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Deepglint.XR.Toolkit.Game
 {
     public class TestGameData :MonoBehaviour,RankConsumer
     {
-        public RawImage img;
+        public GameObject QRObj; 
         private void Start()
         {
             ShareInfo info = new ShareInfo()
@@ -20,7 +19,10 @@ namespace Deepglint.XR.Toolkit.Game
                 // QRImageColor = Color.black
             };
 
-            img.texture = GameDataManager.GenerateShareImage(info);
+            GameObject instance = Instantiate(QRObj);
+            var qr = instance.GetComponent<QR>();
+            qr.SetQRInfo(info,DGXR.Space.Front,new Vector2(100,100),new Vector2(500,500),1);
+            
             GameDataManager.Instance.Subscribe(this);
         }
 
@@ -32,13 +34,17 @@ namespace Deepglint.XR.Toolkit.Game
         
         public RankInfoReq GetRankInfoReq()
         {
-            // return null;
             return new RankInfoReq("5f3c73f3", GameMode.Single, 20); 
         }
         
         public void OnDataReceived(RankInfo info)
         {
             Debug.Log($"id:{info.Id}");
+            if (info.Data == null)
+            {
+                return;
+            }
+
             foreach (var sc in info.Data)
             {
                 Debug.Log($"score:{sc.Score},time:{sc.Time},mode:{sc.Mode}");

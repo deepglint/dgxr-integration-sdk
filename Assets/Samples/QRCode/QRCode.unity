@@ -588,6 +588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a848e39b35f94aaeb44b2aaacbf490e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  QRObj: {fileID: 7191469052042696792, guid: 642d700e894324993aae320b2208f209, type: 3}
   img: {fileID: 710859171}
 --- !u!1 &710859168
 GameObject:

@@ -1,10 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
+using WebSocket = NativeWebSocket.WebSocket;
+using WebSocketState = NativeWebSocket.WebSocketState;
 
 namespace Deepglint.XR.Toolkit.Game
 {
@@ -85,7 +90,139 @@ namespace Deepglint.XR.Toolkit.Game
         private static GameDataManager _instance;
         private Dictionary<int, string> _rankHash = new Dictionary<int, string>();
         private static readonly object _lock = new object();
+        
+        public delegate void QRMsg(string message);
+        public static event QRMsg OnQREvent;
+        public static void TriggerMyEvent(string message)
+        {
+            OnQREvent?.Invoke(message);
+        }
+       
+        // ws服务
+        private WebSocket _webSocket;
+        private bool _success;
+        private string _wsUrl;
+        private CancellationTokenSource _cancellationTokenSource;
 
+        public struct RecMsg
+        {
+            [JsonProperty("type")]
+            public int Type;
+            [JsonProperty("content")]
+            public string Content; 
+        }
+        
+        private void Start()
+        {
+            var host =DGXR.Config.Space.ServerEndpoint.Split("://");
+            _wsUrl = $"wss://{host[1]}/meta/ws";
+            _cancellationTokenSource = new CancellationTokenSource();
+            ConnectAsync(_cancellationTokenSource.Token);
+        }
+
+        private void Update()
+        {
+            if (_webSocket != null)
+            {
+                _webSocket.DispatchMessageQueue();
+            }
+        }
+        
+        private void OnApplicationQuit()
+        {
+            if (_cancellationTokenSource != null)
+            {
+                _cancellationTokenSource.Cancel();
+            }
+            if (_webSocket != null && _webSocket.State == WebSocketState.Open)
+            {
+                _webSocket.Close();
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (_cancellationTokenSource != null)
+            {
+                _cancellationTokenSource.Cancel();
+            }
+            if (_webSocket != null)
+            {
+                _webSocket.Close();
+            }
+        }
+        
+        private async Task ConnectAsync(CancellationToken cancellationToken)
+        {
+            _webSocket = new WebSocket(_wsUrl);
+
+            _webSocket.OnOpen += () =>
+            {
+                Debug.Log($"Connection {_wsUrl} open!");
+                _success = true;
+            };
+            _webSocket.OnError += (e) =>
+            {
+                Debug.Log("Error! " + e);
+                _success = false;
+                StartReconnect();
+            };
+            _webSocket.OnClose += (_) =>
+            {
+                Debug.Log($"Connection {_wsUrl} close!");
+                _success = false;
+                StartReconnect();
+            };
+            _webSocket.OnMessage += (bytes) =>
+            {
+                var message = Encoding.UTF8.GetString(bytes);
+                RecMsg info = JsonConvert.DeserializeObject<RecMsg>(message);
+                TriggerMyEvent(info.Content);
+            };
+
+            try
+            {
+                await _webSocket.Connect();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"WebSocket connection failed: {ex.Message}");
+                StartReconnect();
+            }
+        }
+
+        private void StartReconnect()
+        {
+            if (_cancellationTokenSource != null)
+            {
+                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource = new CancellationTokenSource();
+                ReconnectAsync(_cancellationTokenSource.Token);
+            }
+        }
+
+        private async void ReconnectAsync(CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                Debug.Log("Attempting to reconnect...");
+                await Task.Delay(5000, cancellationToken);
+
+                if (_webSocket != null)
+                {
+                    await _webSocket.Close();
+                }
+
+                await ConnectAsync(cancellationToken);
+                await Task.Delay(1000, cancellationToken);
+
+                if (_success)
+                {
+                    break;
+                }
+            }
+        }
+        
         private void Awake()
         {
             lock (_lock)
@@ -133,12 +270,12 @@ namespace Deepglint.XR.Toolkit.Game
             _rankHash[rank.GetHashCode()] = "";
         }
 
-        public static Texture GenerateShareImage(ShareInfo info)
+        public static Texture GenerateShareImage(ShareInfo info,string id)
         {
             long unixTimestamp = ((DateTimeOffset)info.Time).ToUnixTimeSeconds();
             var score = string.Join(",", info.Score);
             var content =
-                $"{DGXR.Config.Space.ServerEndpoint}/meta/auth?i={DGXR.ApplicationSettings.id}&s={info.SpaceId}&t={unixTimestamp}&sc={score}&a={info.AvatarId}&m={(int)info.GameMode}";
+                $"{DGXR.Config.Space.ServerEndpoint}/meta/auth?i={DGXR.ApplicationSettings.id}&s={info.SpaceId}&t={unixTimestamp}&sc={score}&a={info.AvatarId}&m={(int)info.GameMode}&u={id}";
             return GenerateQRCode.GenerateQRImage(content, 256, 256, info.QRImageColor);
         }
 
