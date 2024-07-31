@@ -36,15 +36,15 @@ namespace Scene.Common
 
         private void OnEnable()
         {
-            GameDataManager.OnQREvent += HandleMyEvent;
+            GameDataManager.OnQREvent += HandleQREvent;
         }
 
         private void OnDisable()
         {
-            GameDataManager.OnQREvent -= HandleMyEvent;
+            GameDataManager.OnQREvent -= HandleQREvent;
         }
 
-        private void HandleMyEvent(string message)
+        private void HandleQREvent(string message)
         {
             if (message == _id)
             {
