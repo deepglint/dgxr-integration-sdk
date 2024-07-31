@@ -93,7 +93,7 @@ namespace Deepglint.XR.Toolkit.Game
         
         public delegate void QRMsg(string message);
         public static event QRMsg OnQREvent;
-        public static void TriggerMyEvent(string message)
+        public static void TriggerQREvent(string message)
         {
             OnQREvent?.Invoke(message);
         }
@@ -177,7 +177,7 @@ namespace Deepglint.XR.Toolkit.Game
             {
                 var message = Encoding.UTF8.GetString(bytes);
                 RecMsg info = JsonConvert.DeserializeObject<RecMsg>(message);
-                TriggerMyEvent(info.Content);
+                TriggerQREvent(info.Content);
             };
 
             try
