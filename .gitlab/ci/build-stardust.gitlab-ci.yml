@@ -62,15 +62,14 @@ get-unity-version:
     reports:
       dotenv: prepare.env
   rules:
-    - if: '$CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+-upm$/'
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-alpha\d+|-beta\d+)?$/'
 
 lint_analyze:
   stage: build pre
-  image: mcr.microsoft.com/dotnet/core/sdk:latest
   script:
     - 'echo "lint succeed"'
   rules:
-    - if: '$CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+-upm$/'
+    - if: $CI_COMMIT_TAG
   
 cache: # 缓存
   paths:
@@ -91,7 +90,7 @@ generate_doc:
       - $UNITY_DIR/code_docs
     name: dgxr-doc-$CI_COMMIT_TAG
   rules:
-    - if: '$CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+-upm$/'
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-alpha\d+|-beta\d+)?$/'
 
 
 get-activation-file:
@@ -127,7 +126,7 @@ npm_publish:
     - echo "//package.nemoface.com/repository/:_authToken=\${CI_NPM_TOKEN}" >> ~/.npmrc
     - npm publish
   rules:
-    - if: '$CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+-upm$/'
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-alpha\d+|-beta\d+)?$/'
 
 build_dgxr:
   <<: *unity_defaults
@@ -140,7 +139,7 @@ build_dgxr:
     - cd ci
     - chmod +x ./build_package.sh && ./build_package.sh
   rules:
-    - if: '$CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+-upm$/'
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-alpha\d+|-beta\d+)?$/'
   artifacts:
     paths:
       - $UNITY_DIR/Packages/

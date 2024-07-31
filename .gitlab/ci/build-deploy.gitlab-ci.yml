@@ -8,7 +8,7 @@ default:
 
 variables:
   GIT_DEPTH: 1
-  GIT_STRATEGY: clone
+  GIT_STRATEGY: fetch
 
 stages:
   - update-version
@@ -27,25 +27,22 @@ workflow:
 update_version:
   stage: update-version
   rules:
-    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+-upm$/'
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-beta\d+)?$/'
   script:
     - git remote set-url origin https://oauth2:$CI_ROBOT_TOKEN_WRITE@gitlab.deepglint.com/alpha/stardust.git
     - git remote -v
     - git config --global user.email "ibalpha.monitor@deepglint.com"
     - git config --global user.name "ibalpha-robot"
-    - echo delete tag $CI_COMMIT_REF_NAME
-    - git tag -d $CI_COMMIT_REF_NAME
-    - git push --delete origin $CI_COMMIT_REF_NAME
     - echo update package.json
-    - NEW_VERSION=$(echo $CI_COMMIT_REF_NAME | sed 's/-upm//')
-    - sed -i "s/public const string SdkVersionCode = \"\";/public const string SdkVersionCode = \"$NEW_VERSION\";/g" ./Assets/Deepglint/XR/Toolkit/DebugTool/VersionCode.cs
+    - NEW_VERSION=upm/$CI_COMMIT_TAG
+    - sed -i "s/public const string SdkVersionCode = \"\";/public const string SdkVersionCode = \"$CI_COMMIT_TAG\";/g" ./Assets/Deepglint/XR/Toolkit/DebugTool/VersionCode.cs
     - cd Assets
-    - jq --arg new_version "$NEW_VERSION" --arg doc_url "$COS_REPO/dgxr/dgxr-doc-$NEW_VERSION/html/index.html" \
+    - jq --arg new_version "$CI_COMMIT_TAG" --arg doc_url "$COS_REPO/dgxr/dgxr-doc-$CI_COMMIT_TAG/html/index.html" \
       '.version = $new_version | .documentationUrl = $doc_url' package.json > tmp.json && mv tmp.json package.json
     - cat package.json
-    - TMP_BRANCH=feat/release-$NEW_VERSION
+    - TMP_BRANCH=feat/release-$CI_COMMIT_TAG
     - git checkout -b $TMP_BRANCH
-    - git add package.json
+    - git add package.json Deepglint/XR/Toolkit/DebugTool/VersionCode.cs
     - git commit -m "Update version to $NEW_VERSION"
     - echo update version to $NEW_VERSION
     - git tag $NEW_VERSION
@@ -101,4 +98,4 @@ release:push:
     - pip install --trusted-host package.nemoface.com -i http://package.nemoface.com/repository/pypi/simple gitbot
     - git-release
   rules:
-    - if: '$CI_COMMIT_TAG !~ /^v\d+\.\d+\.\d+-upm$/'
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-alpha\d+|-beta\d+)?$/'

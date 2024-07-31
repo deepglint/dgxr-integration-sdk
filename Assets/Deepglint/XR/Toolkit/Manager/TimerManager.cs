@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -64,11 +65,10 @@ namespace Deepglint.XR.Toolkit.Manager
             }
         }
 
-
-        public static async Task CustomTask(float duration)
+        public static async Task CustomTask(float duration, CancellationToken cancellationToken = default )
         {
             var newDuration = (float)(duration / _speed);
-            await Task.Delay((int)newDuration);
+            await Task.Delay((int)newDuration, cancellationToken);
         }
 
         private static void Create(bool useFrame, bool repeat, float delay, Delegate method, params object[] args)
