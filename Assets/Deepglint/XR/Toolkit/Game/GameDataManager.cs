@@ -49,13 +49,13 @@ namespace Deepglint.XR.Toolkit.Game
         Single,
         Multi
     }
-    
+
     public enum RankOrder
     {
         Desc,
         Asc
     }
-    
+
     public class RankInfoReq
     {
         public string GameId;
@@ -63,7 +63,7 @@ namespace Deepglint.XR.Toolkit.Game
         public int Count;
         public RankOrder Order;
 
-        public RankInfoReq(string id, GameMode mode, int count,RankOrder order = RankOrder.Desc)
+        public RankInfoReq(string id, GameMode mode, int count, RankOrder order = RankOrder.Desc)
         {
             GameId = id;
             GameMode = mode;
@@ -90,9 +90,9 @@ namespace Deepglint.XR.Toolkit.Game
         private static GameDataManager _instance;
         private Dictionary<int, string> _rankHash = new Dictionary<int, string>();
         private static readonly object _lock = new object();
-        
+
         public static Action<string> OnQREvent;
-       
+
         // ws服务
         private WebSocket _webSocket;
         private bool _success;
@@ -101,15 +101,13 @@ namespace Deepglint.XR.Toolkit.Game
 
         public struct RecMsg
         {
-            [JsonProperty("type")]
-            public int Type;
-            [JsonProperty("content")]
-            public string Content; 
+            [JsonProperty("type")] public int Type;
+            [JsonProperty("content")] public string Content;
         }
-        
+
         private void Start()
         {
-            var host =DGXR.Config.Space.ServerEndpoint.Split("://");
+            var host = DGXR.Config.Space.ServerEndpoint.Split("://");
             _wsUrl = $"wss://{host[1]}/meta/ws";
             _cancellationTokenSource = new CancellationTokenSource();
             ConnectAsync(_cancellationTokenSource.Token);
@@ -122,13 +120,14 @@ namespace Deepglint.XR.Toolkit.Game
                 _webSocket.DispatchMessageQueue();
             }
         }
-        
+
         private void OnApplicationQuit()
         {
             if (_cancellationTokenSource != null)
             {
                 _cancellationTokenSource.Cancel();
             }
+
             if (_webSocket != null && _webSocket.State == WebSocketState.Open)
             {
                 _webSocket.Close();
@@ -141,12 +140,13 @@ namespace Deepglint.XR.Toolkit.Game
             {
                 _cancellationTokenSource.Cancel();
             }
+
             if (_webSocket != null)
             {
                 _webSocket.Close();
             }
         }
-        
+
         private async Task ConnectAsync(CancellationToken cancellationToken)
         {
             _webSocket = new WebSocket(_wsUrl);
@@ -217,7 +217,7 @@ namespace Deepglint.XR.Toolkit.Game
                 }
             }
         }
-        
+
         private void Awake()
         {
             lock (_lock)
@@ -265,7 +265,7 @@ namespace Deepglint.XR.Toolkit.Game
             _rankHash[rank.GetHashCode()] = "";
         }
 
-        public static Texture GenerateShareImage(ShareInfo info,string id)
+        public static Texture GenerateShareImage(ShareInfo info, string id)
         {
             long unixTimestamp = ((DateTimeOffset)info.Time).ToUnixTimeSeconds();
             var score = string.Join(",", info.Score);
@@ -304,6 +304,7 @@ namespace Deepglint.XR.Toolkit.Game
                         Debug.LogError($"JSON deserialization error: {ex.Message}");
                         continue;
                     }
+
                     var rankHash = MD5.Hash(receiveContent);
                     if (_rankHash.TryGetValue(req.GetHashCode(), out var data))
                     {
@@ -313,6 +314,7 @@ namespace Deepglint.XR.Toolkit.Game
                             continue;
                         }
                     }
+
                     _rankHash[req.GetHashCode()] = rankHash;
                     req.OnDataReceived(rank);
                 }

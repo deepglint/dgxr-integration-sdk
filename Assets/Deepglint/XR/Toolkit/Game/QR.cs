@@ -13,7 +13,8 @@ namespace Scene.Common
         public Canvas canvas;
         private string _id;
         private int _scanCount;
-        public void SetQRInfo(ShareInfo info,ScreenInfo screen, Vector2 position, Vector2 size, int scanCount=1)
+
+        public void SetQRInfo(ShareInfo info, ScreenInfo screen, Vector2 position, Vector2 size, int scanCount = 1)
         {
             _scanCount = scanCount;
             string uuid = Guid.NewGuid().ToString();
@@ -22,9 +23,9 @@ namespace Scene.Common
             RectTransform rectTransform = img.GetComponent<RectTransform>();
             rectTransform.sizeDelta = size;
             rectTransform.anchoredPosition = position;
-            img.texture = GameDataManager.GenerateShareImage(info,_id);
+            img.texture = GameDataManager.GenerateShareImage(info, _id);
         }
-        
+
         public void Update()
         {
             if (_scanCount <= 0)
@@ -32,7 +33,7 @@ namespace Scene.Common
                 img.texture = ScanQR;
             }
         }
-        
+
         private void OnEnable()
         {
             GameDataManager.OnQREvent += HandleMyEvent;
@@ -42,7 +43,7 @@ namespace Scene.Common
         {
             GameDataManager.OnQREvent -= HandleMyEvent;
         }
-        
+
         private void HandleMyEvent(string message)
         {
             if (message == _id)
