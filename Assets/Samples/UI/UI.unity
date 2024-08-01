@@ -541,6 +541,7 @@ GameObject:
   m_Component:
   - component: {fileID: 431421408}
   - component: {fileID: 431421407}
+  - component: {fileID: 431421409}
   m_Layer: 0
   m_Name: Mono
   m_TagString: Untagged
@@ -575,6 +576,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &431421409
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431421406}
+  m_Enabled: 1
 --- !u!1 &962051114
 GameObject:
   m_ObjectHideFlags: 0
