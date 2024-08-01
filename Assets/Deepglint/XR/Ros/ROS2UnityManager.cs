@@ -64,6 +64,11 @@ public class ROS2UnityManager : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        Debug.Log("ros manager was disabled");
+    }
+
     void Start()
     {
         LazyConstruct();

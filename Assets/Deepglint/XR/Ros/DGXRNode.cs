@@ -1,3 +1,4 @@
+using System;
 using System.Text.RegularExpressions;
 using Deepglint.XR;
 using Deepglint.XR.Ros;
@@ -35,6 +36,11 @@ namespace Deepglint.XR.Ros
         void Start()
         {
             ros2Unity = GetComponent<ROS2UnityManager>();
+        }
+
+        private void OnDisable()
+        {
+            Debug.Log("ros node was disabled");
         }
 
         void Update()

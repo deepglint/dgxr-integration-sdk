@@ -23,6 +23,11 @@ public class Connection : MonoBehaviour
     private string _wsUrl;
     private CancellationTokenSource _cancellationTokenSource;
 
+    private void OnDisable()
+    {
+        Debug.Log("ws connect was disabled");  
+    }
+
     void Start()
     {
         _wsUrl = $"ws://{DGXR.Config.Space.EngineHost}:{DGXR.Config.Space.WsPort}";
