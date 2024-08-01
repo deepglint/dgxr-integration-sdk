@@ -14,15 +14,22 @@ namespace Scene.Common
         private string _id;
         private int _scanCount;
 
-        public void SetQRInfo(ShareInfo info, ScreenInfo screen, Vector2 position, Vector2 size, int scanCount = 1)
+        public void SetQRInfo(ShareInfo info, ScreenInfo screen, Vector2 position = new Vector2(), Vector2 size = new Vector2(), int scanCount = 1)
         {
             _scanCount = scanCount;
             string uuid = Guid.NewGuid().ToString();
             _id = uuid.Substring(0, 8);
             canvas.targetDisplay = (int)screen.TargetScreen;
             RectTransform rectTransform = img.GetComponent<RectTransform>();
-            rectTransform.sizeDelta = size;
-            rectTransform.anchoredPosition = position;
+            if (position != default)
+            {
+                rectTransform.anchoredPosition = position;
+            }
+
+            if (size != default)
+            {
+                rectTransform.sizeDelta = size;
+            }
             img.texture = GameDataManager.GenerateShareImage(info, _id);
         }
 
