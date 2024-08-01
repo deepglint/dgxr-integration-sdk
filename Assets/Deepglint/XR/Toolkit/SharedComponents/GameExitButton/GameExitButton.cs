@@ -16,13 +16,13 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
         private Text _timeText;
         private GameObject _exitText;
 
-
         private GameObject _bottomCanvas;
         private GameObject _frontCanvas;
         private GameObject _gameExitButtonPrefab;
         private GameObject _gameExitingPrefab;
         private Text _gameExitingText;
         private GameExitButtonPointerListener _pointerListener;
+        private AudioSource _audio;
 
         public void Start()
         {
@@ -42,6 +42,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
                 .GetComponent<Text>();
             _exitText = _gameExitButtonPrefab.FindChildGameObject("GameExitButton_inner")
                 .FindChildGameObject("ExitText");
+            _audio = _gameExitButtonPrefab.GetComponent<AudioSource>();
             RectTransform rectTransform = _gameExitButtonPrefab.GetComponent<RectTransform>();
             rectTransform.anchoredPosition = new(-850, DGXR.Space.Roi.y + 110);
 
@@ -57,27 +58,29 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             if (DGXR.ApplicationSettings.toolkit.enableExitButton)
             {
                 if (!_gameExitButtonPrefab.activeSelf) return;
-                if (Mathf.RoundToInt(_countdownTimer).ToString() == "0")
-                {
-                    _gameExitingText.text = "退出应用中";
-                    _timeText.text = "";
-                    _timeText.gameObject.SetActive(false);
-                    _exitText.SetActive(true);
-                }
-                else
-                {
-                    _gameExitingText.text = $"{Mathf.RoundToInt(_countdownTimer).ToString()}秒后退出游戏";
-                    _gameExitingPrefab.SetActive(true);
-                    _timeText.text = Mathf.RoundToInt(_countdownTimer).ToString();
-                    _timeText.gameObject.SetActive(true);
-                    _exitText.SetActive(false);
-                }
 
                 if (_isExiting)
                 {
+                    int previousSecond = Mathf.FloorToInt(_countdownTimer);
                     _countdownTimer -= Time.deltaTime;
-                    if (_countdownTimer <= 0f)
+                    int currentSecond = Mathf.FloorToInt(_countdownTimer);
+
+                    if (currentSecond != previousSecond)
                     {
+                        _gameExitingText.text = $"{currentSecond}秒后退出游戏";
+                        _gameExitingPrefab.SetActive(true);
+                        _timeText.text = currentSecond.ToString();
+                        _timeText.gameObject.SetActive(true);
+                        _exitText.SetActive(false);
+                        _audio.Play();
+                    }
+
+                    if (_countdownTimer <= 1)
+                    {
+                        _gameExitingText.text = "退出应用中";
+                        _timeText.text = "";
+                        _timeText.gameObject.SetActive(false);
+                        _exitText.SetActive(true);
                         ExecuteCallback();
                     }
                 }
@@ -93,8 +96,8 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
                 _gameExitingPrefab.SetActive(false);
                 _gameExitButtonPrefab.SetActive(false);
             }
-           
         }
+
 
         private void ExecuteCallback()
         {
@@ -104,7 +107,8 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
         public void OnEnter()
         {
             if (_isExiting) return;
-            _countdownTimer = Time.deltaTime + _duration;
+
+            _countdownTimer = Time.deltaTime + _duration + 1;
             _isExiting = true;
             SetAlpha(1);
         }
@@ -112,7 +116,8 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
         public void OnExit()
         {
             if (!_isExiting) return;
-            _countdownTimer = Time.deltaTime + _duration;
+
+            _countdownTimer = Time.deltaTime + _duration + 1;
             _isExiting = false;
             SetAlpha(0.5f);
         }
