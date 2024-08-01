@@ -67,7 +67,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
 
                     if (currentSecond != previousSecond)
                     {
-                        _gameExitingText.text = $"{currentSecond}秒后退出游戏";
+                        _gameExitingText.text = $"{currentSecond}秒后退出应用";
                         _gameExitingPrefab.SetActive(true);
                         _timeText.text = currentSecond.ToString();
                         _timeText.gameObject.SetActive(true);
