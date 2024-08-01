@@ -6,7 +6,19 @@ namespace Deepglint.XR.Source
 {
     public class SourceMainThreadDispatcher : MonoBehaviour
     {
-        private static readonly Queue<Action> ExecuteRosMsgEventMainThreadQueue = new(); 
+        private static readonly Queue<Action> ExecuteRosMsgEventMainThreadQueue = new();
+
+        private void OnDisable()
+        {
+            Debug.Log($"SourceMainThreadDispatcher was disable, start to clean the queue");
+            lock (ExecuteRosMsgEventMainThreadQueue)
+            {
+                while (ExecuteRosMsgEventMainThreadQueue.Count > 0)
+                {
+                    ExecuteRosMsgEventMainThreadQueue.Dequeue().Invoke();
+                }
+            }
+        }
         
         private void Update()
         {
