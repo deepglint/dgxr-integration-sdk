@@ -38,6 +38,11 @@
       "displayName": "HumanBody",
       "description": "人体检测",
       "path": "Samples/HumanBody"
+    },
+    {
+      "displayName": "QRCode",
+      "description": "二维码生成",
+      "path": "Samples/QRCode"
     }
   ]
 }
