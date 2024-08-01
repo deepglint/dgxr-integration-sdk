@@ -38,11 +38,6 @@ namespace Deepglint.XR.Ros
             ros2Unity = GetComponent<ROS2UnityManager>();
         }
 
-        private void OnDisable()
-        {
-            Debug.Log("ros node was disabled");
-        }
-
         void Update()
         {
             if (ros2Unity.Ok())
