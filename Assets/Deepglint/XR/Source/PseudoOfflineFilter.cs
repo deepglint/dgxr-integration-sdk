@@ -146,8 +146,8 @@ namespace Deepglint.XR.Source
 
         private void OnEnable()
         {
-            Debug.Log("enable pseudo-offline-filter");
             EnableFilter = true;
+            Debug.Log("enable pseudo-offline-filter");
             Source.OnMetaPoseDataLost += OnMetaPoseDataLost;
             Source.OnMetaPoseDataReceived += OnMetaPoseDataReceived;
             Source.OnMetaPoseFrameDataReceived += OnMetaPoseFrameDataReceived;
@@ -155,8 +155,8 @@ namespace Deepglint.XR.Source
 
         private void OnDisable()
         {
-            Debug.Log("disable pseudo-offline-filter");
             EnableFilter = false;
+            Debug.Log("disable pseudo-offline-filter");
             Source.OnMetaPoseDataLost -= OnMetaPoseDataLost;
             Source.OnMetaPoseDataReceived -= OnMetaPoseDataReceived;
             Source.OnMetaPoseFrameDataReceived -= OnMetaPoseFrameDataReceived;
