@@ -12,8 +12,7 @@ namespace Deepglint.XR.Config
     /// </summary>
     public class Config
     {
-        private const string ConfigName = "env.json";
-        private const string FilePath = @"D:\meta\env\env.json";
+        private const string EnvFilePath = @"C:\meta\env\env.json";
 
         public class ConfigData
         {
@@ -96,9 +95,12 @@ namespace Deepglint.XR.Config
         /// <summary>
         /// 读取空间配置文件，根据操作系统不同、空间不同、环境不同读取相应的文件
         /// </summary>
-        private static string ReadData()
+        private static string ReadEnvData()
         {
-            var path = Path.GetDirectoryName(FilePath);
+            var envFilename = "env.json";
+            StreamReader streamReader;
+            string data;
+            
             if (!string.IsNullOrEmpty(DGXR.SystemName) && (Application.isEditor || DGXR.SystemName.Contains("Mac")))
             {
                 string packagePath = Path.GetFullPath(Path.Combine("Packages", DGXR.PackageName));
@@ -123,24 +125,22 @@ namespace Deepglint.XR.Config
                     }
                 }
 
-                using StreamReader srt = File.OpenText(Path.Combine(Application.streamingAssetsPath, ConfigName));
-                var data = srt.ReadToEnd();
-                srt.Close();
+                streamReader = File.OpenText(Path.Combine(Application.streamingAssetsPath, envFilename));
+                data = streamReader.ReadToEnd();
+                streamReader.Close();
                 return data;
             }
 
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
-            if (!File.Exists(FilePath))
+            if (!File.Exists(EnvFilePath))
             {
                 string streamingAssetsPath = Application.streamingAssetsPath;
-                string sourceFilePath = Path.Combine(streamingAssetsPath, ConfigName);
+                string sourceFilePath = Path.Combine(streamingAssetsPath, envFilename);
                 if (File.Exists(sourceFilePath))
                 {
-                    File.Copy(sourceFilePath, FilePath);
+                    streamReader = File.OpenText(EnvFilePath);
+                    data = streamReader.ReadToEnd();
+                    streamReader.Close();
+                    return data;
                 }
                 else
                 {
@@ -149,16 +149,61 @@ namespace Deepglint.XR.Config
                 }
             }
 
-            using StreamReader sr = File.OpenText(FilePath);
-            var readData = sr.ReadToEnd();
-            sr.Close();
-            return readData;
+            streamReader = File.OpenText(EnvFilePath);
+            data = streamReader.ReadToEnd();
+            streamReader.Close();
+            return data;
+        }
+
+        private static string ReadConfigData(string configFilePath)
+        {
+            var configFilename = "config.json";
+            StreamReader streamReader;
+            string data;
+            if (configFilePath.Equals(""))
+            {
+                string streamingAssetsPath = Application.streamingAssetsPath;
+                string sourceFilePath = Path.Combine(streamingAssetsPath, configFilename);
+                if (File.Exists(sourceFilePath))
+                {
+                    streamReader = File.OpenText(sourceFilePath);
+                    data = streamReader.ReadToEnd();
+                    streamReader.Close();
+                    return data;
+                } else
+                {
+                    Debug.LogError("config.json does not exist in StreamingAssets folder.");
+                    Application.Quit();
+                }
+            }
+
+            if (!File.Exists(configFilePath))
+            {
+                Debug.LogError($"config.json does not exist in {configFilePath}");
+                Application.Quit(); 
+            }
+            streamReader = File.OpenText(configFilePath);
+            data = streamReader.ReadToEnd();
+            streamReader.Close();
+            return data; 
         }
 
         public ConfigData.ConfigInfo InitConfig()
         {
-            var info = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadData());
-            return info;
+            string[] args = System.Environment.GetCommandLineArgs();
+            string configFilePath = "";
+            foreach (string arg in args)
+            {
+                if (arg.Equals("config"))
+                {
+                    configFilePath = arg;
+                    Debug.Log($"read config from {arg}");
+                }
+            }
+            var config = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadConfigData(configFilePath));
+            var envConfig = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadEnvData());
+            config.Space = envConfig.Space;
+            return config;
         }
     }
 }
