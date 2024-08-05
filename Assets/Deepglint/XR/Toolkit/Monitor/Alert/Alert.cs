@@ -7,7 +7,6 @@ namespace Deepglint.XR.Toolkit.Monitor.Alert
 {
     internal class Alert : MonoBehaviour
     {
-        
         private ROS2UnityManager _ros2UnityManager;
         private GameObject _frontCanvas;
         private GameObject _alertPrefab;
@@ -45,18 +44,16 @@ namespace Deepglint.XR.Toolkit.Monitor.Alert
                 _playerOutNumber.SetActive(false);
             }
 
-            
-            if (_ros2UnityManager is not null && _ros2UnityManager.gameObject.activeSelf)
+
+            if (Source.Source.IsOnline)
             {
-                if (_ros2UnityManager.Ok())
-                {
-                    _serviceInterrupt.SetActive(false);
-                }
-                else
-                {
-                    _serviceInterrupt.SetActive(true);
-                }
+                _serviceInterrupt.SetActive(false);
             }
+            else
+            {
+                _serviceInterrupt.SetActive(true);
+            }
+
 
 #if !UNITY_EDITOR
             if (DGXR.ApplicationSettings.toolkit.enableLoseFocusTip)
