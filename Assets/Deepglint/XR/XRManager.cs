@@ -7,6 +7,7 @@ using Deepglint.XR.Toolkit.DebugTool;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Deepglint.XR
 {
@@ -17,6 +18,13 @@ namespace Deepglint.XR
 
         public void Awake()
         {
+            // 获取当前的 Input System 设置
+            var inputSystemSettings = InputSystem.settings;
+            // 修改 maxEventBytesPerUpdate 属性为0 移除限制
+            inputSystemSettings.maxEventBytesPerUpdate = 0;
+            // 应用修改后的设置
+            InputSystem.settings = inputSystemSettings;
+            
             DGXR.UniqueID = SystemInfo.deviceUniqueIdentifier;
             DGXR.AppName = Application.productName;
             DGXR.Version = VersionCode.SdkVersionCode;
