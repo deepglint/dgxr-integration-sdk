@@ -35,10 +35,10 @@ namespace Deepglint.XR
                 _settings.version = Application.version;
                 _settings.playerSetting.minPlayerCount = 1;
                 _settings.playerSetting.maxPlayerCount = 6; 
+                AssetDatabase.CreateAsset(_settings, "Assets/Resources/XRApplicationSettings.asset");
             }
             try
             {
-                AssetDatabase.CreateAsset(_settings, "Assets/Resources/XRApplicationSettings.asset");
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
                 DGXR.Settings = _settings;

@@ -200,8 +200,8 @@ namespace Deepglint.XR.Config
                     Debug.Log($"read config from {arg}");
                 }
             }
-            var config = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadConfigData(configFilePath));
             var envConfig = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadEnvData());
+            var config = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadConfigData(configFilePath));
             config.Space = envConfig.Space;
             return config;
         }
