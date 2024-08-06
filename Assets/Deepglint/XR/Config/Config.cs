@@ -137,7 +137,7 @@ namespace Deepglint.XR.Config
                 string sourceFilePath = Path.Combine(streamingAssetsPath, envFilename);
                 if (File.Exists(sourceFilePath))
                 {
-                    streamReader = File.OpenText(EnvFilePath);
+                    streamReader = File.OpenText(sourceFilePath);
                     data = streamReader.ReadToEnd();
                     streamReader.Close();
                     return data;
