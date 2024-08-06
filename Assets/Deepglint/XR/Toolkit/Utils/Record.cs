@@ -1,8 +1,5 @@
 using System;
 using System.IO;
-using UnityEngine;
-using UnityEngine.WSA;
-using Application = UnityEngine.WSA.Application;
 
 namespace Deepglint.XR.Toolkit.Utils
 {
