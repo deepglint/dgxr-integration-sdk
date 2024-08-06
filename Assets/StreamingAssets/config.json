@@ -7,11 +7,11 @@
     "singFileMaxSize": 100,
     "saveDay": 30,
     "~savePath": "D:\\meta\\logs",
-    "savePath": ""
+    "savePath": "D:\\meta\\logs"
   },
   "record": {
     "saveDay": 2,
     "~savePath": "D:\\meta\\records",
-    "savePath": ""
+    "savePath": "D:\\meta\\records"
   }
 }
