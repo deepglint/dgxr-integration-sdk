@@ -264,7 +264,7 @@ namespace Deepglint.XR.Source
                     }
                     else
                     {
-                        Newbee.Add(data.BodyId, feature); 
+                        Newbee[data.BodyId] = feature;
                         Debug.Log($"add {data.BodyId} to newbee cache"); 
                     }
                 } else if (Newbee.ContainsKey(data.BodyId))
