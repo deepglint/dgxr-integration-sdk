@@ -192,13 +192,13 @@ namespace Deepglint.XR.Config
         {
             string[] args = System.Environment.GetCommandLineArgs();
             string configFilePath = "";
-            foreach (string arg in args)
+            for (int i = 0; i < args.Length; i++)
             {
-                if (arg.Equals("config"))
+                if ((args[i].Equals("config") || args[i].Equals("-config")) && i < args.Length -1)
                 {
-                    configFilePath = arg;
-                    Debug.Log($"read config from {arg}");
-                }
+                    configFilePath = args[i+1];
+                    Debug.Log($"read config from {configFilePath}");
+                } 
             }
             var envConfig = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadEnvData());
             var config = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadConfigData(configFilePath));

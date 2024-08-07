@@ -29,7 +29,6 @@ namespace Deepglint.XR
             DGXR.AppName = Application.productName;
             DGXR.Version = VersionCode.SdkVersionCode;
             DGXR.SystemName = SystemInfo.operatingSystem;
-            string[] args = System.Environment.GetCommandLineArgs();
             DGXR.Config = new Config.Config().InitConfig();
             XRApplicationSettings settings = Resources.Load<XRApplicationSettings>("XRApplicationSettings");
             if (settings != null)
