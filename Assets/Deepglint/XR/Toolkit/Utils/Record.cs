@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using UnityEngine;
 
 namespace Deepglint.XR.Toolkit.Utils
 {
@@ -12,7 +13,14 @@ namespace Deepglint.XR.Toolkit.Utils
 
         public Record(string path, string marker)
         {
-            _path = path;
+            if (!string.IsNullOrEmpty(path))
+            {
+                _path = path;
+            }
+            else
+            {
+                _path = Path.Combine(Application.persistentDataPath, "records");
+            }
             _marker = marker;
             if (!DGXR.SystemName.Contains("Mac"))
             {

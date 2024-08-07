@@ -6,12 +6,12 @@
     "level": "debug",
     "singFileMaxSize": 100,
     "saveDay": 30,
-    "~savePath": "D:\\meta\\logs",
-    "savePath": "D:\\meta\\logs"
+    "~savePath": "{Application.persistentDataPath}//logs",
+    "savePath": ""
   },
   "record": {
     "saveDay": 2,
-    "~savePath": "D:\\meta\\records",
-    "savePath": "D:\\meta\\records"
+    "~savePath": "{Application.persistentDataPath}//records",
+    "savePath": ""
   }
 }
