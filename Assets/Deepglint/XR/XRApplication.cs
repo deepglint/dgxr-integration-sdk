@@ -1,10 +1,8 @@
 using System;
 using System.IO;
-using System.Text;
 using Deepglint.XR.Config;
 using Newtonsoft.Json;
 #if UNITY_EDITOR
-using System.Security.Cryptography;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
