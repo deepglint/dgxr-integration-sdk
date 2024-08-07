@@ -650,12 +650,6 @@ namespace NativeWebSocket
                             {
                               m_MessageList.Add(ms.ToArray());
                             }
-
-                            //using (var reader = new StreamReader(ms, Encoding.UTF8))
-                            //{
-                            //	string message = reader.ReadToEnd();
-                            //	OnMessage?.Invoke(this, new MessageEventArgs(message));
-                            //}
                         }
                         else if (result.MessageType == WebSocketMessageType.Binary)
                         {

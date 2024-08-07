@@ -98,6 +98,9 @@ namespace Deepglint.XR.Source
         public float SimilarityThreshold = 0.90f;
         public float MAEThreshold = 0.06f; 
         private Int64 currentFrameId = 0;
+        private float _checkInterval = 1f;
+        private bool _messageReceived = true;
+        private float _timeSinceLastCheck = 0f;
 
         private static bool EnableFilter = false;
         private static readonly ConcurrentDictionary<string, PersonFeature> Features = new ConcurrentDictionary<string, PersonFeature>();
@@ -108,9 +111,24 @@ namespace Deepglint.XR.Source
         public static bool Enabled => EnableFilter;
         public static PseudoOfflineFilter Instance { get; private set; }
         public static Action<string> OnPersonOffline;
-
+        
+        private void CheckMessageStatus()
+        {
+            if (!_messageReceived)
+            {
+                Source.IsOnline = false;
+                Debug.Log("No message received. Status: Offline");
+            }
+            else
+            {
+                Source.IsOnline = true;
+            }
+            _messageReceived = false;
+        }
+        
         private void OnMetaPoseFrameDataReceived(long frameId, List<SourceData> data)
         {
+            _messageReceived = true;
             currentFrameId = frameId;
         }
         
@@ -183,6 +201,14 @@ namespace Deepglint.XR.Source
 
         private void Update()
         {
+            _timeSinceLastCheck += Time.deltaTime;
+
+            if (_timeSinceLastCheck >= _checkInterval)
+            {
+                CheckMessageStatus();
+                _timeSinceLastCheck = 0f; 
+            }
+            
             List<string> offlineKeys = new List<string>(OfflineFeatures.Keys);
             foreach (var key in offlineKeys)
             {

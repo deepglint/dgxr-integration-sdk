@@ -135,6 +135,7 @@ namespace Deepglint.XR.Source
         private ConcurrentDictionary<string, SourceData> _dataDic;
         private List<string> _dataList;
         public static SourceType DataFrom;
+        public static bool IsOnline = true;
 
         public delegate void RealTimePoseEventHandler(SourceData data);
         public delegate void RealTimePoseFrameEventHandler(long frameId, List<SourceData> data);
