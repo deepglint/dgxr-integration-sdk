@@ -122,7 +122,6 @@ namespace Deepglint.XR.Source
             else
             {
                 Source.IsOnline = true;
-                Debug.Log("Message received. Status: Online");
             }
             _messageReceived = false;
         }
