@@ -1,11 +1,9 @@
-using System;
 using Deepglint.XR.EventSystem.InputModules;
 using Deepglint.XR.Toolkit.DebugTool;
 using Deepglint.XR.Toolkit.SharedComponents.CameraRoi;
 using Deepglint.XR.Toolkit.SharedComponents.GameExitButton;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Deepglint.XR.Toolkit
 {
@@ -17,8 +15,8 @@ namespace Deepglint.XR.Toolkit
         private FPS _fps;
         private VersionCode _versionCode;
         private GameObject _inGameDebugConsole;
-        
-        private GameObject _toolKitCanvasNode;
+
+        private GameObject _toolKitCanvas;
 
         private void Awake()
         {
@@ -33,16 +31,13 @@ namespace Deepglint.XR.Toolkit
 
         private void InitToolkitCanvas()
         {
-            _toolKitCanvasNode = GameObject.Find(ToolKitCanvasNodeName);
-            if (_toolKitCanvasNode is null)
+            _toolKitCanvas = GameObject.Find(ToolKitCanvasNodeName);
+            if (_toolKitCanvas is null)
             {
-                _toolKitCanvasNode = new GameObject();
-                _toolKitCanvasNode.name = ToolKitCanvasNodeName;
                 var prefab = Resources.Load<GameObject>("ToolkitCanvas");
-                var toolkitCanvas = Instantiate(prefab, _toolKitCanvasNode.transform, false);
-                toolkitCanvas.name = prefab.name;
-               
-                DontDestroyOnLoad(_toolKitCanvasNode);
+                _toolKitCanvas = Instantiate(prefab, null, false);
+                _toolKitCanvas.name = prefab.name;
+                DontDestroyOnLoad(_toolKitCanvas);
                 GameExitButton.CreateComponent();
                 CameraRoi.CreateComponent();
             }
@@ -50,7 +45,7 @@ namespace Deepglint.XR.Toolkit
 
         private void Update()
         {
-            _toolKitCanvasNode.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            _toolKitCanvas.transform.SetPositionAndRotation(transform.position, transform.rotation);
         }
 
         private void Start()
@@ -77,7 +72,5 @@ namespace Deepglint.XR.Toolkit
                 ?.FindChildGameObject("EventSystem")?.GetComponent<HumanControlFootPointerInputModule>();
             if (inputModule != null) inputModule.enableMouseEvent = openDebug;
         }
-
-       
     }
 }
