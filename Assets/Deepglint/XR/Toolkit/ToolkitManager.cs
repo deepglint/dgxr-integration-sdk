@@ -44,7 +44,6 @@ namespace Deepglint.XR.Toolkit
                 var canvas = toolkitCanvas.GetComponent<Canvas>();
                 canvas.renderMode = RenderMode.WorldSpace;
                 canvas.worldCamera = DGXR.Space.Bottom.UICamera;
-                Debug.Log("AAA ");
                 DontDestroyOnLoad(_toolKitCanvasNode);
                 GameExitButton.CreateComponent();
                 CameraRoi.CreateComponent();
