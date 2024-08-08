@@ -36,7 +36,7 @@ namespace Deepglint.XR.Toolkit
             _toolKitCanvasNode = GameObject.Find(ToolKitCanvasNodeName);
             if (_toolKitCanvasNode is null)
             {
-                _toolKitCanvasNode = Instantiate(new GameObject(), null, false);
+                _toolKitCanvasNode = new GameObject();
                 _toolKitCanvasNode.name = ToolKitCanvasNodeName;
                 var prefab = Resources.Load<GameObject>("ToolkitCanvas");
                 var toolkitCanvas = Instantiate(prefab, _toolKitCanvasNode.transform, false);
