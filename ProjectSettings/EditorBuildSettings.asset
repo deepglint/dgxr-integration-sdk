@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Samples/UI/UI.unity
     guid: 2e09ed69e24c82547af5fcd2c58041b3
-  - enabled: 0
+  - enabled: 1
     path: Assets/Samples/UI/UI 1.unity
-    guid: a8efcccc52a48064593bbcea969c0b64
+    guid: 0ad29ed7bfdf6f14391110b8ee5d3fcd
   m_configObjects: {}

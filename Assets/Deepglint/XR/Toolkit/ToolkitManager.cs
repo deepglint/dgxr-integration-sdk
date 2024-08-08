@@ -11,7 +11,6 @@ namespace Deepglint.XR.Toolkit
     public class ToolkitManager : MonoBehaviour
     {
         const string IngameDebugConsolePrefabName = "IngameDebugConsole";
-        const string ToolKitCanvasNodeName = "ToolkitCanvasNode";
         private FPS _fps;
         private VersionCode _versionCode;
         private GameObject _inGameDebugConsole;
@@ -31,12 +30,15 @@ namespace Deepglint.XR.Toolkit
 
         private void InitToolkitCanvas()
         {
-            _toolKitCanvas = GameObject.Find(ToolKitCanvasNodeName);
+            _toolKitCanvas = GameObject.Find("ToolkitCanvas");
             if (_toolKitCanvas is null)
             {
                 var prefab = Resources.Load<GameObject>("ToolkitCanvas");
                 _toolKitCanvas = Instantiate(prefab, null, false);
                 _toolKitCanvas.name = prefab.name;
+                var bottomCanvas = _toolKitCanvas.FindChildGameObject("Bottom").GetComponent<Canvas>();
+                bottomCanvas.renderMode = RenderMode.WorldSpace;
+                bottomCanvas.worldCamera = DGXR.Space.Bottom.UICamera;
                 DontDestroyOnLoad(_toolKitCanvas);
                 GameExitButton.CreateComponent();
                 CameraRoi.CreateComponent();
