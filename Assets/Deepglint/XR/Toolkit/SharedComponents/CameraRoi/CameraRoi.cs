@@ -6,17 +6,19 @@ namespace Deepglint.XR.Toolkit.SharedComponents.CameraRoi
 {
     internal class CameraRoi : MonoBehaviour
     {
-        private RectTransform _lineTop;
-        private RectTransform _lineBottom;
-        private RectTransform _lineLeft;
-        private RectTransform _lineRight;
+        private static RectTransform _lineTop;
+        private static RectTransform _lineBottom;
+        private static RectTransform _lineLeft;
+        private static RectTransform _lineRight;
 
-        private GameObject _bottomCanvas;
-        private GameObject _cameraRoiPrefab;
+        private static GameObject _bottomCanvas;
+        private static GameObject _cameraRoiPrefab;
 
-        private void Start()
+        public static void CreateComponent()
         {
-            _bottomCanvas = GameObject.Find("ToolkitCanvas/Bottom");
+            if (GameObject.Find("ToolkitCanvas/Bottom/CameraRoi") is null)
+            {
+                _bottomCanvas = GameObject.Find("ToolkitCanvas/Bottom");
             _cameraRoiPrefab = Instantiate(Resources.Load<GameObject>("CameraRoi"), _bottomCanvas.transform, false);
             _cameraRoiPrefab.GetComponent<RectTransform>().localPosition = Vector3.zero;
 
@@ -50,6 +52,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.CameraRoi
             _lineBottom.gameObject.FindChildGameObject("imgLine").GetComponent<RectTransform>().sizeDelta =
                 new(4, rect.width);
             if (Math.Abs(Math.Abs(rect.y) - height) == 0) _lineBottom.gameObject.SetActive(false);
+            }
         }
     }
 }
