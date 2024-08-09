@@ -216,6 +216,7 @@ namespace Deepglint.XR.Config
                 if (!string.IsNullOrEmpty(metaStarterHome))
                 {
                     configFilePath = Path.Combine(metaStarterHome, "config.json");
+                    Debug.Log($"read config from environment: {configFilePath}");
                 }
             }
             var envConfig = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadEnvData());
