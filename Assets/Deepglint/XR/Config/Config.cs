@@ -197,8 +197,26 @@ namespace Deepglint.XR.Config
                 if ((args[i].Equals("config") || args[i].Equals("-config")) && i < args.Length -1)
                 {
                     configFilePath = args[i+1];
-                    Debug.Log($"read config from {configFilePath}");
+                    Debug.Log($"read config from command line args: {configFilePath}");
                 } 
+            }
+
+            if (configFilePath.Equals(""))
+            { 
+                // read config file from env
+                string environmentVariable = "META_STARTER_HOME";
+                if (Application.version.EndsWith("_dev"))
+                {
+                    environmentVariable = "META_STARTER_DEV_HOME"; 
+                } else if (Application.version.EndsWith("_test"))
+                {
+                    environmentVariable = "META_STARTER_TEST_HOME";
+                }
+                string metaStarterHome = System.Environment.GetEnvironmentVariable(environmentVariable);
+                if (!string.IsNullOrEmpty(metaStarterHome))
+                {
+                    configFilePath = Path.Combine(metaStarterHome, "config.json");
+                }
             }
             var envConfig = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadEnvData());
             var config = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadConfigData(configFilePath));
