@@ -150,7 +150,6 @@ namespace Deepglint.XR.Source
         
         public static  event RealTimePoseEventHandler RealTimePoseDataReceived;
         public static  event RealTimePoseFrameEventHandler RealTimePoseFrameDataReceived;
-        public static Action<string> RealTimePoseDataLost;
 
         public int Count => _dataDic.Count;
 
@@ -245,14 +244,6 @@ namespace Deepglint.XR.Source
             RealTimePoseFrameDataReceived?.Invoke(frameId, data);
         }
         
-        /// <summary>
-        /// 设置具体人员骨骼消失到订阅,不受主线程帧影响
-        /// </summary>
-        /// <param name="key">人员 id</param>
-        public static void TriggerRealTimeMetaPostDataLost(string key)
-        {
-            RealTimePoseDataLost?.Invoke(key);
-        }
 
         /// <summary>
         /// 设置具体人员骨骼消失到订阅

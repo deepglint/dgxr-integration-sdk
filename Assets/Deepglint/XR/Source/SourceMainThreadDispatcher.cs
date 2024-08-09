@@ -33,6 +33,7 @@ namespace Deepglint.XR.Source
         
         public static void Enqueue(Action action)
         {
+            // TODO 无论开启不开启后台执行，都不推送骨骼
             if(!Application.isFocused)
             {
                 return;
