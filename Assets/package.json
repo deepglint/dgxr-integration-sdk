@@ -1,9 +1,9 @@
 {
   "name": "com.deepglint.xr",
   "displayName": "DGXR Integration SDK",
-  "version": "v2.4.3",
+  "version": "v2.4.8",
   "unity": "2022.3",
-  "documentationUrl": "https://star-deploy-1253924368.cos.ap-beijing.myqcloud.com/unity/dgxr/dgxr-doc-v2.4.3/html/index.html",
+  "documentationUrl": "https://star-deploy-1253924368.cos.ap-beijing.myqcloud.com/unity/dgxr/dgxr-doc-v2.4.8/html/index.html",
   "changelogUrl": "https://github.com/deepglint/dgxr-integration-sdk/tags",
   "licensesUrl": "https://github.com/deepglint/dgxr-integration-sdk/blob/master/LICENSE",
   "description": "This asset provides Deepglint XR support",
@@ -32,7 +32,7 @@
     {
       "displayName": "HumanControlInputModule",
       "description": "UI元素的人体交互控制",
-      "path": "Samples/HumanControlInputModule" 
+      "path": "Samples/HumanControlInputModule"
     },
     {
       "displayName": "HumanBody",
