@@ -4,7 +4,6 @@ using Deepglint.XR.Ros;
 using UnityEngine;
 using Deepglint.XR.Space;
 
-
 namespace Deepglint.XR
 {
     /// <summary>
