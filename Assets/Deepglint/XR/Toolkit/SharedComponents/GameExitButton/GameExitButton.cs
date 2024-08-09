@@ -9,7 +9,6 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
     {
         private bool _isExiting;
         private float _duration = 5f;
-        private float _size = 200f;
         private float _countdownTimer;
 
         private RawImage _buttonImg;
@@ -43,14 +42,34 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             _exitText = _gameExitButtonPrefab.FindChildGameObject("GameExitButton_inner")
                 .FindChildGameObject("ExitText");
             _audio = _gameExitButtonPrefab.GetComponent<AudioSource>();
-            RectTransform rectTransform = _gameExitButtonPrefab.GetComponent<RectTransform>();
-            rectTransform.anchoredPosition = new(-850, DGXR.Space.Roi.y + 110);
+            SetButtonRect();
 
-            rectTransform.localScale = new Vector3(_size, _size, _size);
             _gameExitingPrefab.SetActive(false);
             _gameExitButtonPrefab.SetActive(true);
             _countdownTimer = 0;
             SetAlpha(0.5f);
+        }
+        private void SetButtonRect()
+        {
+            float padding = 20;
+            float x;
+            float y;
+            float radius;
+
+            RectTransform rectTransform = _gameExitButtonPrefab.GetComponent<RectTransform>();
+            radius = rectTransform.sizeDelta.x / 2;
+            x = -960 + radius + padding;
+            
+            if (DGXR.Space.Roi.x > x + radius + padding)
+            {
+                y = DGXR.Space.Roi.y + radius + padding;
+            }
+            else
+            {
+                y = DGXR.Space.Roi.y + radius + padding + DGXR.Space.Roi.height;
+            }
+
+            rectTransform.anchoredPosition = new(x, y);
         }
 
         private void Update()
