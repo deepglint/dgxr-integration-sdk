@@ -40,7 +40,7 @@ namespace Deepglint.XR.Toolkit.Utils
             DateTime currentTime = DateTime.Now;
             currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, currentTime.Second);
             string timestamp = currentTime.ToString("yyyyMMddHHmmss");
-            string filePath = Path.Combine(_path, $"{DGXR.AppName}_{Application.version}_{timestamp}_{_marker}.txt");
+            string filePath = Path.Combine(_path, $"{DGXR.AppName}_{DGXR.AppVersion}_{timestamp}_{_marker}.txt");
             if (_currentHouse == -1)
             {
                 CheckFile(filePath);
@@ -52,7 +52,7 @@ namespace Deepglint.XR.Toolkit.Utils
             {
                 currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, _currentHouse,currentTime.Minute, currentTime.Second);
                 string oldTimestamp = currentTime.ToString("yyyyMMddHHmmss");
-                string oldFilePath = Path.Combine(_path,  $"{DGXR.AppName}_{Application.version}_{oldTimestamp}_{_marker}.txt");
+                string oldFilePath = Path.Combine(_path,  $"{DGXR.AppName}_{DGXR.AppVersion}_{oldTimestamp}_{_marker}.txt");
                 CheckFile(oldFilePath);
                 _writer.Close();
                 _writer = new StreamWriter(oldFilePath, true);

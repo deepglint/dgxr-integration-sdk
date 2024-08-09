@@ -27,6 +27,7 @@ namespace Deepglint.XR
             
             DGXR.UniqueID = SystemInfo.deviceUniqueIdentifier;
             DGXR.AppName = Application.productName;
+            DGXR.AppName = Application.version;
             DGXR.Version = VersionCode.SdkVersionCode;
             DGXR.SystemName = SystemInfo.operatingSystem;
             DGXR.Config = new Config.Config().InitConfig();

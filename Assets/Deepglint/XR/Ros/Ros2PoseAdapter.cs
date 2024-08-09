@@ -388,6 +388,7 @@ namespace Deepglint.XR.Ros
                    
                     SourceMainThreadDispatcher.Enqueue(() =>
                     {
+                        Source.Source.DelData(human.BodyId); 
                         Source.Source.TriggerMetaPostDataLost(human.BodyId);
                     });
                     Source.Source.TriggerRealTimeMetaPostDataLost(human.BodyId);
