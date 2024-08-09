@@ -122,10 +122,7 @@ namespace Deepglint.XR.Toolkit.Manager
             if (_audioRoot == null)
             {
                 _audioRoot = new GameObject("AudioRoot");
-                if (Application.isPlaying)
-                {
-                    Object.DontDestroyOnLoad(_audioRoot);
-                }
+                _audioRoot.transform.parent = XRManager.XRDontDestroy.transform;
             }
 
             var audioClip = Resources.Load<AudioClip>(Path.Combine(BasePath, audioType.ToString(), audioName));
