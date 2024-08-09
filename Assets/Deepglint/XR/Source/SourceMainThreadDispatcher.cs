@@ -30,8 +30,13 @@ namespace Deepglint.XR.Source
                 }
             }
         }
+        
         public static void Enqueue(Action action)
         {
+            if(!Application.isFocused)
+            {
+                return;
+            }
             lock (ExecuteRosMsgEventMainThreadQueue)
             {
                 ExecuteRosMsgEventMainThreadQueue.Enqueue(action);

@@ -102,10 +102,6 @@ namespace Deepglint.XR.Ros
                 return;
             }
 #endif
-            if(!Application.isFocused)
-            {
-                return;
-            }
             Dictionary<string, SourceData> data = new Dictionary<string, SourceData>();
             MetaPoseData info = JsonConvert.DeserializeObject<MetaPoseData>(msg);
             HashSet<string> humans = new HashSet<string>();
@@ -118,7 +114,7 @@ namespace Deepglint.XR.Ros
                     return;
                 }
 
-                if (!DGXR.SystemName.Contains("Mac") && Application.isFocused)
+                if (!DGXR.SystemName.Contains("Mac"))
                 {
                     ThreadPool.QueueUserWorkItem(_record.SaveMsgData, msg);
                 }
