@@ -96,12 +96,6 @@ namespace Deepglint.XR.Ros
         /// <param name="msg">ros 接收到的string消息</param> 
         public void DealMsgData(string msg)
         {
-#if UNITY_EDITOR
-            if (!PlayerSettings.runInBackground && !Application.isFocused)
-            {
-                return;
-            }
-#endif
             Dictionary<string, SourceData> data = new Dictionary<string, SourceData>();
             MetaPoseData info = JsonConvert.DeserializeObject<MetaPoseData>(msg);
             HashSet<string> humans = new HashSet<string>();
@@ -379,38 +373,35 @@ namespace Deepglint.XR.Ros
                     }
                 }
             }
-
+            
             foreach (var human in Source.Source.Data)
             {
                 if (!humans.Contains(human.BodyId))
                 {
-                    Source.Source.DelData(human.BodyId);
-                   
                     SourceMainThreadDispatcher.Enqueue(() =>
                     {
                         Source.Source.DelData(human.BodyId); 
                         Source.Source.TriggerMetaPostDataLost(human.BodyId);
                     });
-                    Source.Source.TriggerRealTimeMetaPostDataLost(human.BodyId);
                 }
             }
 
             List<string> keys = new List<string>(data.Keys);
             foreach (var key in keys)
             {
-                var sourceData = data[key];
-                if (PseudoOfflineFilter.Instance.Filter(ref sourceData))
-                {
-                    data.Remove(key);
-                    Source.Source.DelData(key);
-                    data[sourceData.BodyId] = sourceData;
-                } 
-                Source.Source.SetData(sourceData);
                 SourceMainThreadDispatcher.Enqueue(() =>
                 {
+                    var sourceData = data[key];
+                    if (PseudoOfflineFilter.Instance.Filter(ref sourceData))
+                    {
+                        data.Remove(key);
+                        Source.Source.DelData(key);
+                        data[sourceData.BodyId] = sourceData;
+                    } 
+                    Source.Source.SetData(sourceData);
                     Source.Source.TriggerMetaPoseDataReceived(sourceData);
                 });
-                Source.Source.TriggerRealTimePoseReceived(sourceData);
+                Source.Source.TriggerRealTimePoseReceived(data[key]);
             }
             SourceMainThreadDispatcher.Enqueue(() =>
             {

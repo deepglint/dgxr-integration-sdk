@@ -133,9 +133,15 @@ public class NewBehaviourScript : MonoBehaviour
 }
 ```
 
+
 **后续操作**
 
 参考《开发》文档，探索更多 DGXR Interaction SDK更多功能！
+
+**注意事项**
+
+- 当应用失去焦点的时候，骨骼数据不会接收和更新（source.Data数据也不会实时更新）
+- 可以通过 Source.Source.RealTimePoseFrameDataReceived 订阅实时帧数据
 
 # 开发
 
