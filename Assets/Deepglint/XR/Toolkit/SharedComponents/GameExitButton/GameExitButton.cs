@@ -23,7 +23,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
         private static GameExitButtonPointerListener _pointerListener;
         private static AudioSource _audio;
 
-        public static void CreateComponent()
+        public static void Create()
         {
             _bottomCanvas = GameObject.Find("ToolkitCanvas/Bottom");
             _frontCanvas = GameObject.Find("ToolkitCanvas/Front");

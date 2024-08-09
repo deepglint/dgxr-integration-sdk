@@ -14,7 +14,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.CameraRoi
         private static GameObject _bottomCanvas;
         private static GameObject _cameraRoiPrefab;
 
-        public static void CreateComponent()
+        public static void Create()
         {
             if (GameObject.Find("ToolkitCanvas/Bottom/CameraRoi") is null)
             {

@@ -1,5 +1,6 @@
 using Deepglint.XR.EventSystem.InputModules;
 using Deepglint.XR.Toolkit.DebugTool;
+using Deepglint.XR.Toolkit.Monitor.Alert;
 using Deepglint.XR.Toolkit.SharedComponents.CameraRoi;
 using Deepglint.XR.Toolkit.SharedComponents.GameExitButton;
 using Deepglint.XR.Toolkit.Utils;
@@ -21,9 +22,8 @@ namespace Deepglint.XR.Toolkit
         {
             if (GameObject.Find("_prefabName") == null)
             {
-                GameObject prefab = Instantiate(Resources.Load<GameObject>(IngameDebugConsolePrefabName));
+                GameObject prefab = Instantiate(Resources.Load<GameObject>(IngameDebugConsolePrefabName), XRManager.XRDontDestroy.transform, false);
                 prefab.name = IngameDebugConsolePrefabName;
-                DontDestroyOnLoad(prefab);
             }
         }
 
@@ -34,20 +34,15 @@ namespace Deepglint.XR.Toolkit
             if (_toolKitCanvas is null)
             {
                 var prefab = Resources.Load<GameObject>("ToolkitCanvas");
-                _toolKitCanvas = Instantiate(prefab, null, false);
+                _toolKitCanvas = Instantiate(prefab, XRManager.XRDontDestroy.transform, false);
                 _toolKitCanvas.name = prefab.name;
-                DontDestroyOnLoad(_toolKitCanvas);
-                GameExitButton.CreateComponent();
-                CameraRoi.CreateComponent();
+                GameExitButton.Create();
+                CameraRoi.Create();
+                Alert.Create();
             }
             var bottomCanvas = _toolKitCanvas.FindChildGameObject("Bottom").GetComponent<Canvas>();
             bottomCanvas.renderMode = RenderMode.WorldSpace;
             bottomCanvas.worldCamera = DGXR.Space.Bottom.UICamera;
-        }
-
-        private void Update()
-        {
-            _toolKitCanvas.transform.SetPositionAndRotation(transform.position, transform.rotation);
         }
 
         private void Start()
