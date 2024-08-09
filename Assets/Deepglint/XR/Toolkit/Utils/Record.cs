@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using UnityEngine;
 
 namespace Deepglint.XR.Toolkit.Utils
 {
@@ -12,7 +13,14 @@ namespace Deepglint.XR.Toolkit.Utils
 
         public Record(string path, string marker)
         {
-            _path = path;
+            if (!string.IsNullOrEmpty(path))
+            {
+                _path = path;
+            }
+            else
+            {
+                _path = Path.Combine(Application.persistentDataPath, "records");
+            }
             _marker = marker;
             if (!DGXR.SystemName.Contains("Mac"))
             {
@@ -31,8 +39,8 @@ namespace Deepglint.XR.Toolkit.Utils
             string msg = (string)data;
             DateTime currentTime = DateTime.Now;
             currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, currentTime.Second);
-            string fileName = currentTime.ToString("yyyyMMddHHmmss");
-            string filePath = Path.Combine(_path, fileName + "_"+_marker+".txt");
+            string timestamp = currentTime.ToString("yyyyMMddHHmmss");
+            string filePath = Path.Combine(_path, $"{DGXR.AppName}_{DGXR.AppVersion}_{timestamp}_{_marker}.txt");
             if (_currentHouse == -1)
             {
                 CheckFile(filePath);
@@ -43,8 +51,8 @@ namespace Deepglint.XR.Toolkit.Utils
             if (_currentHouse!=currentTime.Hour)
             {
                 currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, _currentHouse,currentTime.Minute, currentTime.Second);
-                string oldFileName = currentTime.ToString("yyyyMMddHHmmss");
-                string oldFilePath = Path.Combine(_path, oldFileName + "_"+_marker+".txt");
+                string oldTimestamp = currentTime.ToString("yyyyMMddHHmmss");
+                string oldFilePath = Path.Combine(_path,  $"{DGXR.AppName}_{DGXR.AppVersion}_{oldTimestamp}_{_marker}.txt");
                 CheckFile(oldFilePath);
                 _writer.Close();
                 _writer = new StreamWriter(oldFilePath, true);

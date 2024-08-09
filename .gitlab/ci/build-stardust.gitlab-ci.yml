@@ -51,32 +51,22 @@ image: $IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
     - *license
     - *ci_defaults
 
-get-unity-version:
-  stage: build pre
-  image: alpine
-  variables:
-    GIT_DEPTH: 1
-  script:
-    - echo UNITY_VERSION=$(cat $UNITY_DIR/ProjectSettings/ProjectVersion.txt | grep "m_EditorVersion:.*" | awk '{ print $2}') | tee prepare.env
-  artifacts:
-    reports:
-      dotenv: prepare.env
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-alpha\d+|-beta\d+)?$/'
-
-lint_analyze:
-  stage: build pre
-  script:
-    - 'echo "lint succeed"'
-  rules:
-    - if: $CI_COMMIT_TAG
   
 cache: # 缓存
   paths:
     - $UNITY_DIR/code_docs
 
+lint_analyze:
+  stage: build pre
+  image: ccr.ccs.tencentyun.com/solution/ubuntu:22.04
+  script:
+    - 'echo "lint succeed"'
+  rules:
+    - if: $CI_COMMIT_TAG
+
 generate_doc:
   stage: build stardust
+  image: ccr.ccs.tencentyun.com/solution/ubuntu:22.04
   needs:
     - job: lint_analyze
   script:
@@ -92,19 +82,6 @@ generate_doc:
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-alpha\d+|-beta\d+)?$/'
 
-
-get-activation-file:
-  <<: *unity_before_script
-  rules:
-    - if: '$UNITY_LICENSE == null'
-      when: manual
-  stage: build pre
-  script:
-    - chmod +x ./ci/get_activation_file.sh && ./ci/get_activation_file.sh
-  artifacts:
-    paths:
-      - $UNITY_ACTIVATION_FILE
-    expire_in: 10 min # Expiring this as artifacts may contain sensitive data and should not be kept public
 
 npm_publish:
   <<: *build
@@ -127,23 +104,3 @@ npm_publish:
     - npm publish
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-alpha\d+|-beta\d+)?$/'
-
-build_dgxr:
-  <<: *unity_defaults
-  stage: build stardust
-  needs:
-    - job: lint_analyze
-  script:
-    - echo $CI_JOB_ID
-    - echo DGXR_VERSION=$CI_JOB_ID >> dgxr.env
-    - cd ci
-    - chmod +x ./build_package.sh && ./build_package.sh
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+(-alpha\d+|-beta\d+)?$/'
-  artifacts:
-    paths:
-      - $UNITY_DIR/Packages/
-    name: dgxr-$CI_COMMIT_TAG
-    reports:
-      dotenv: dgxr.env
-

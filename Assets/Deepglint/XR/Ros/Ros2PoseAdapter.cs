@@ -114,7 +114,7 @@ namespace Deepglint.XR.Ros
                     return;
                 }
 
-                if (!DGXR.SystemName.Contains("Mac") && Application.isFocused)
+                if (!DGXR.SystemName.Contains("Mac"))
                 {
                     ThreadPool.QueueUserWorkItem(_record.SaveMsgData, msg);
                 }
@@ -388,6 +388,7 @@ namespace Deepglint.XR.Ros
                    
                     SourceMainThreadDispatcher.Enqueue(() =>
                     {
+                        Source.Source.DelData(human.BodyId); 
                         Source.Source.TriggerMetaPostDataLost(human.BodyId);
                     });
                     Source.Source.TriggerRealTimeMetaPostDataLost(human.BodyId);

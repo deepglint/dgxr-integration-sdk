@@ -4,7 +4,6 @@ using Deepglint.XR.Ros;
 using UnityEngine;
 using Deepglint.XR.Space;
 
-
 namespace Deepglint.XR
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace Deepglint.XR
         public static event MetaGearDataEventHandler OnMetaGearDataReceived;
         public static string UniqueID;
         public static string AppName;
+        public static string AppVersion;
         public static string Version;
         public static string SystemName;
         internal static XRApplicationSettings Settings;

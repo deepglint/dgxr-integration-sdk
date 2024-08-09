@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Deepglint.XR.Config
 {
