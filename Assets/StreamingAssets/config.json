@@ -1,0 +1,17 @@
+{
+  "debug": true,
+  "log": {
+    "enable": true,
+    "~level": "debug warn or error",
+    "level": "debug",
+    "singFileMaxSize": 100,
+    "saveDay": 30,
+    "~savePath": "{Application.persistentDataPath}//logs",
+    "savePath": ""
+  },
+  "record": {
+    "saveDay": 2,
+    "~savePath": "{Application.persistentDataPath}//records",
+    "savePath": ""
+  }
+}

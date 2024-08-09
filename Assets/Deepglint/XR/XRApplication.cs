@@ -1,10 +1,8 @@
 using System;
 using System.IO;
-using System.Text;
 using Deepglint.XR.Config;
 using Newtonsoft.Json;
 #if UNITY_EDITOR
-using System.Security.Cryptography;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -35,10 +33,10 @@ namespace Deepglint.XR
                 _settings.version = Application.version;
                 _settings.playerSetting.minPlayerCount = 1;
                 _settings.playerSetting.maxPlayerCount = 6; 
+                AssetDatabase.CreateAsset(_settings, "Assets/Resources/XRApplicationSettings.asset");
             }
             try
             {
-                AssetDatabase.CreateAsset(_settings, "Assets/Resources/XRApplicationSettings.asset");
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
                 DGXR.Settings = _settings;
