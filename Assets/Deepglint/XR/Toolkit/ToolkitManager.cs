@@ -36,13 +36,13 @@ namespace Deepglint.XR.Toolkit
                 var prefab = Resources.Load<GameObject>("ToolkitCanvas");
                 _toolKitCanvas = Instantiate(prefab, null, false);
                 _toolKitCanvas.name = prefab.name;
-                var bottomCanvas = _toolKitCanvas.FindChildGameObject("Bottom").GetComponent<Canvas>();
-                bottomCanvas.renderMode = RenderMode.WorldSpace;
-                bottomCanvas.worldCamera = DGXR.Space.Bottom.UICamera;
                 DontDestroyOnLoad(_toolKitCanvas);
                 GameExitButton.CreateComponent();
                 CameraRoi.CreateComponent();
             }
+            var bottomCanvas = _toolKitCanvas.FindChildGameObject("Bottom").GetComponent<Canvas>();
+            bottomCanvas.renderMode = RenderMode.WorldSpace;
+            bottomCanvas.worldCamera = DGXR.Space.Bottom.UICamera;
         }
 
         private void Update()
