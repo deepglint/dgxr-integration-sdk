@@ -203,7 +203,7 @@ namespace Deepglint.XR.Source
         {
             _timeSinceLastCheck += Time.deltaTime;
 
-            if (_timeSinceLastCheck >= _checkInterval)
+            if (_timeSinceLastCheck >= _checkInterval && Application.isFocused)
             {
                 CheckMessageStatus();
                 _timeSinceLastCheck = 0f; 
