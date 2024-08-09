@@ -97,11 +97,15 @@ namespace Deepglint.XR.Ros
         public void DealMsgData(string msg)
         {
 #if UNITY_EDITOR
-            if (!PlayerSettings.runInBackground && !Application.isFocused)
+            if (!PlayerSettings.runInBackground)
             {
                 return;
             }
 #endif
+            if(!Application.isFocused)
+            {
+                return;
+            }
             Dictionary<string, SourceData> data = new Dictionary<string, SourceData>();
             MetaPoseData info = JsonConvert.DeserializeObject<MetaPoseData>(msg);
             HashSet<string> humans = new HashSet<string>();
