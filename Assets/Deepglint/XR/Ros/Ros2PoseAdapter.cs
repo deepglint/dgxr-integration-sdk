@@ -389,20 +389,19 @@ namespace Deepglint.XR.Ros
             List<string> keys = new List<string>(data.Keys);
             foreach (var key in keys)
             {
-                var sourceData = data[key];
-                if (PseudoOfflineFilter.Instance.Filter(ref sourceData))
-                {
-                    data.Remove(key);
-                    Source.Source.DelData(key);
-                    data[sourceData.BodyId] = sourceData;
-                } 
-                
                 SourceMainThreadDispatcher.Enqueue(() =>
                 {
+                    var sourceData = data[key];
+                    if (PseudoOfflineFilter.Instance.Filter(ref sourceData))
+                    {
+                        data.Remove(key);
+                        Source.Source.DelData(key);
+                        data[sourceData.BodyId] = sourceData;
+                    } 
                     Source.Source.SetData(sourceData);
                     Source.Source.TriggerMetaPoseDataReceived(sourceData);
                 });
-                Source.Source.TriggerRealTimePoseReceived(sourceData);
+                Source.Source.TriggerRealTimePoseReceived( data[key]);
             }
             SourceMainThreadDispatcher.Enqueue(() =>
             {
