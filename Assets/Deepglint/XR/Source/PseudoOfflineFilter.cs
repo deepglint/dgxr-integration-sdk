@@ -106,6 +106,7 @@ namespace Deepglint.XR.Source
         private static readonly ConcurrentDictionary<string, PersonFeature> Features = new ConcurrentDictionary<string, PersonFeature>();
         private static readonly Dictionary<string, PersonFeature> Newbee = new Dictionary<string, PersonFeature>();
         internal static ConcurrentDictionary<string, PersonFeature> OfflineFeatures = new ConcurrentDictionary<string, PersonFeature>();
+        // 不要在组件销毁时手动清理ChangeLog，否则会导致找回的ID被清理掉。
         internal static Dictionary<string, PersonFeature> ChangeLog = new Dictionary<string, PersonFeature>();
 
         public static bool Enabled => EnableFilter;
@@ -188,7 +189,6 @@ namespace Deepglint.XR.Source
                     Debug.Log($"remove {key} from offline cache");
                 }
             }
-            ChangeLog.Clear();
         }
 
         private void Awake()
