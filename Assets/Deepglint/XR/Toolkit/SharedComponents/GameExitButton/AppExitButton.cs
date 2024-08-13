@@ -121,7 +121,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
 
         private static void ExecuteCallback()
         {
-            GameExit.Quit();
+            AppExit.Quit();
         }
 
         public static void OnEnter()
