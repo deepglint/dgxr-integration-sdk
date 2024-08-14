@@ -23,11 +23,16 @@ namespace Deepglint.XR.Interaction
         
         private Dictionary<int, int> _hitDictionary = new Dictionary<int, int>();
         private Dictionary<int, int> _missDictionary = new Dictionary<int, int>();
+        private Dictionary<int, InputActionPhase> _phases = new Dictionary<int, InputActionPhase>();
 
         public void Process(ref InputInteractionContext context)
         {
             if (context.control.device is DGXRHumanController dgXRDevice)
             {
+                if (!_phases.ContainsKey(dgXRDevice.deviceId))
+                {
+                    _phases[dgXRDevice.deviceId] = context.phase;
+                }
                 if (IsRaiseSingleHandHappening(dgXRDevice, RequiredArmAngle))
                 {
                     _missDictionary[dgXRDevice.deviceId] = 0;
@@ -40,14 +45,16 @@ namespace Deepglint.XR.Interaction
                         _hitDictionary[dgXRDevice.deviceId] = 1;
                     }
 
-                    if (context.phase == InputActionPhase.Waiting)
+                    if (_phases[dgXRDevice.deviceId] == InputActionPhase.Waiting)
                     {
                         context.Started();
-                    } else if (context.phase == InputActionPhase.Started)
+                        _phases[dgXRDevice.deviceId] = InputActionPhase.Started;
+                    } else if (_phases[dgXRDevice.deviceId] == InputActionPhase.Started)
                     {
                         if (_hitDictionary[dgXRDevice.deviceId] >= RequiredHits)
                         {
                             context.PerformedAndStayPerformed();
+                            _phases[dgXRDevice.deviceId] = InputActionPhase.Performed;
                             // Debug.Log($"RaiseSingleHand action performed on device {dgXRDevice.deviceId}");
                         }
                     }
@@ -63,12 +70,13 @@ namespace Deepglint.XR.Interaction
                     {
                         _missDictionary[dgXRDevice.deviceId] = 1;
                     }
-                    if (context.phase == InputActionPhase.Performed)
+                    if (_phases[dgXRDevice.deviceId] == InputActionPhase.Performed)
                     {
                         if (_missDictionary[dgXRDevice.deviceId] >= RequiredHits)
                         {
                             //Debug.Log("cancel raise both hand on device" + device.deviceId);
                             context.Canceled();
+                            _phases[dgXRDevice.deviceId] = InputActionPhase.Waiting;
                         }
                     }
                 }

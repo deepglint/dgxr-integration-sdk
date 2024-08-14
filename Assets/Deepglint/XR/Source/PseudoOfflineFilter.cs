@@ -12,6 +12,7 @@ namespace Deepglint.XR.Source
         public long FrameId;
         public Vector3 HeadTop;
         public float[] Features;
+        private float _maxDistanceFromRoi = 0;
 
         public PersonFeature(SourceData data)
         {
@@ -27,6 +28,7 @@ namespace Deepglint.XR.Source
                 Vector3.Distance(data.Joints.LeftHip.LocalPosition, data.Joints.LeftKnee.LocalPosition),
                 Vector3.Distance(data.Joints.RightHip.LocalPosition, data.Joints.RightKnee.LocalPosition),
             };
+            _maxDistanceFromRoi = 0.5f / DGXR.Space.Bottom.Size.y * DGXR.Space.Bottom.Resolution.height;
         }
 
         // 计算与目标特征之间的平均绝对误差
@@ -76,17 +78,24 @@ namespace Deepglint.XR.Source
             bool result = false;
             var position = DGXR.Space.Bottom.SpaceToPixelOnScreen(HeadTop);
             Rect roi = DGXR.Space.Roi;
-            if (roi.height == 0)
-            {
-                roi.height = 0.65f / DGXR.Space.Bottom.Size.y * DGXR.Space.Bottom.Resolution.height; 
-            }
-            if (!roi.Contains(position))
+            roi.width = roi.width <= 0 ? 1 : roi.width;
+            roi.height = roi.height <= 0 ? 1 : roi.height;
+            
+            if (!roi.Contains(position) && DistanceToRect(roi, position) > _maxDistanceFromRoi)
             {
                 result = true;
                 Debug.Log($"{BodyId} is far from ROI");
             }
 
             return result;
+        }
+        
+        private float DistanceToRect(Rect rect, Vector2 point)
+        {
+            return Mathf.Min(Mathf.Abs(rect.xMin - point.x), 
+                Mathf.Abs(point.x - rect.xMax), 
+                Mathf.Abs(rect.yMin - point.y), 
+                Mathf.Abs(point.y - rect.yMax));
         }
     }
     
@@ -106,6 +115,7 @@ namespace Deepglint.XR.Source
         private static readonly ConcurrentDictionary<string, PersonFeature> Features = new ConcurrentDictionary<string, PersonFeature>();
         private static readonly Dictionary<string, PersonFeature> Newbee = new Dictionary<string, PersonFeature>();
         internal static ConcurrentDictionary<string, PersonFeature> OfflineFeatures = new ConcurrentDictionary<string, PersonFeature>();
+        // 不要在组件销毁时手动清理ChangeLog，否则会导致找回的ID被清理掉。
         internal static Dictionary<string, PersonFeature> ChangeLog = new Dictionary<string, PersonFeature>();
 
         public static bool Enabled => EnableFilter;
@@ -188,7 +198,6 @@ namespace Deepglint.XR.Source
                     Debug.Log($"remove {key} from offline cache");
                 }
             }
-            ChangeLog.Clear();
         }
 
         private void Awake()
@@ -283,6 +292,8 @@ namespace Deepglint.XR.Source
                         result = OfflineFeatures.TryRemove(changeFeature.BodyId, out _);
                         if (result)
                         {
+                            OnPersonOffline?.Invoke(feature.BodyId);
+                            Debug.Log($"remove {feature.BodyId} in case of zombie device remained");
                             ChangeLog[feature.BodyId] = changeFeature;
                             data.BodyId = changeFeature.BodyId;
                             Debug.Log($"remove {changeFeature.BodyId} from offline cache");
@@ -302,6 +313,8 @@ namespace Deepglint.XR.Source
                         result = OfflineFeatures.TryRemove(changeFeature.BodyId, out _);
                         if (result)
                         {
+                            OnPersonOffline?.Invoke(feature.BodyId);
+                            Debug.Log($"remove {feature.BodyId} in case of zombie device remained");
                             ChangeLog[feature.BodyId] = changeFeature;
                             data.BodyId = changeFeature.BodyId;
                             Debug.Log($"remove {changeFeature.BodyId} from offline cache");

@@ -190,34 +190,21 @@ namespace Deepglint.XR.Config
 
         public ConfigData.ConfigInfo InitConfig()
         {
-            string[] args = System.Environment.GetCommandLineArgs();
             string configFilePath = "";
-            for (int i = 0; i < args.Length; i++)
+            // read config file from env
+            string environmentVariable = "META_STARTER_HOME";
+            if (Application.version.EndsWith("_dev"))
             {
-                if ((args[i].Equals("config") || args[i].Equals("-config")) && i < args.Length -1)
-                {
-                    configFilePath = args[i+1];
-                    Debug.Log($"read config from command line args: {configFilePath}");
-                } 
+                environmentVariable = "META_STARTER_DEV_HOME"; 
+            } else if (Application.version.EndsWith("_test"))
+            {
+                environmentVariable = "META_STARTER_TEST_HOME";
             }
-
-            if (configFilePath.Equals(""))
-            { 
-                // read config file from env
-                string environmentVariable = "META_STARTER_HOME";
-                if (Application.version.EndsWith("_dev"))
-                {
-                    environmentVariable = "META_STARTER_DEV_HOME"; 
-                } else if (Application.version.EndsWith("_test"))
-                {
-                    environmentVariable = "META_STARTER_TEST_HOME";
-                }
-                string metaStarterHome = System.Environment.GetEnvironmentVariable(environmentVariable, System.EnvironmentVariableTarget.User);
-                if (!string.IsNullOrEmpty(metaStarterHome))
-                {
-                    configFilePath = Path.Combine(metaStarterHome, "config.json");
-                    Debug.Log($"read config from environment: {configFilePath}");
-                }
+            string metaStarterHome = System.Environment.GetEnvironmentVariable(environmentVariable, System.EnvironmentVariableTarget.User);
+            if (!string.IsNullOrEmpty(metaStarterHome))
+            {
+                configFilePath = Path.Combine(metaStarterHome, "config.json");
+                Debug.Log($"read config from environment: {configFilePath}");
             }
             var envConfig = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadEnvData());
             var config = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadConfigData(configFilePath));

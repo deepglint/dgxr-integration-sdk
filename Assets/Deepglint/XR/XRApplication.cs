@@ -12,9 +12,10 @@ using UnityEngine;
 namespace Deepglint.XR
 {
 #if UNITY_EDITOR
-    public class XRApplication : EditorWindow, IPreprocessBuildWithReport
+    public class XRApplication : EditorWindow, IPostprocessBuildWithReport
     {
         private static XRApplicationSettings _settings;
+        private static object _lock = new object();
 
         [MenuItem("DGXR/XRApplication Settings")]
         public static void ShowWindow()
@@ -24,17 +25,22 @@ namespace Deepglint.XR
 
         private static void InitXRApplicationSettings()
         {
-            _settings = Resources.Load<XRApplicationSettings>("XRApplicationSettings");
-            if (_settings == null)
+            lock (_lock)
             {
-                _settings = CreateInstance<XRApplicationSettings>();
-                _settings.name = Application.productName;
-                _settings.id = Toolkit.Utils.MD5.Hash(_settings.name).Substring(0,8);
-                _settings.version = Application.version;
-                _settings.playerSetting.minPlayerCount = 1;
-                _settings.playerSetting.maxPlayerCount = 6; 
-                AssetDatabase.CreateAsset(_settings, "Assets/Resources/XRApplicationSettings.asset");
+                _settings = Resources.Load<XRApplicationSettings>("XRApplicationSettings");
+                if (_settings == null)
+                {
+                    _settings = CreateInstance<XRApplicationSettings>();
+                    _settings.name = Application.productName;
+                    _settings.id = Toolkit.Utils.MD5.Hash(_settings.name).Substring(0,8);
+                    _settings.version = Application.version;
+                    _settings.playerSetting.minPlayerCount = 1;
+                    _settings.playerSetting.maxPlayerCount = 6; 
+                    AssetDatabase.CreateAsset(_settings, "Assets/Resources/XRApplicationSettings.asset");
+                    AssetDatabase.SaveAssets();
+                } 
             }
+            
             try
             {
                 AssetDatabase.SaveAssets();
@@ -107,14 +113,34 @@ namespace Deepglint.XR
         }
 
         public int callbackOrder => 0;
-
-        public void OnPreprocessBuild(BuildReport report)
+        public void OnPostprocessBuild(BuildReport report)
         {
-            string filePath = "Assets/StreamingAssets/application.json";
+            // 获取构建输出路径
+            string buildPath = Directory.GetParent(report.summary.outputPath)?.FullName ?? string.Empty;
+            // 确定构建平台，并获取 _Data 文件夹路径
+            string dataFolderPath = string.Empty;
+            if (report.summary.platform == BuildTarget.StandaloneWindows || report.summary.platform == BuildTarget.StandaloneWindows64)
+            {
+                dataFolderPath = Path.Combine(buildPath, Path.GetFileNameWithoutExtension(report.summary.outputPath) + "_Data");
+            }
+            else if (report.summary.platform == BuildTarget.StandaloneOSX)
+            {
+                dataFolderPath = Path.Combine(buildPath, "Contents", "Resources", "Data");
+            }
+            else if (report.summary.platform == BuildTarget.StandaloneLinux64)
+            {
+                dataFolderPath = Path.Combine(buildPath, Path.GetFileNameWithoutExtension(report.summary.outputPath) + "_Data");
+            }
+            else
+            {
+                Debug.LogWarning("Unsupported build platform for this script.");
+                return;
+            }
+
+            string filePath = Path.Combine(dataFolderPath, "StreamingAssets", "application.json");
+            Debug.Log($"write application content to {filePath}");
             _settings.name = Application.productName;
             _settings.version = Application.version;
-            EditorUtility.SetDirty(_settings);
-            AssetDatabase.SaveAssets();
             string content = JsonConvert.SerializeObject(_settings);
             File.WriteAllText(filePath, content);
         }
