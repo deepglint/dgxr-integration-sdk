@@ -12,6 +12,7 @@ namespace Deepglint.XR.Toolkit.PipeClient
 #if !UNITY_EDITOR
         private void Start()
         {
+            AppExit.OnAppExit -= OnAppExit;
             AppExit.OnAppExit += OnAppExit;
         }
 
