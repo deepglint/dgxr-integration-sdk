@@ -12,11 +12,11 @@ namespace Deepglint.XR.Toolkit.PipeClient
 #if !UNITY_EDITOR
         private void Start()
         {
-            AppExit.OnAppExit += OnApplicationQuit;
+            AppExit.OnAppExit += OnAppExit;
         }
 
     
-        private void OnApplicationQuit()
+        private void OnAppExit()
         {
             Thread clientThread = new Thread(() =>
             {
