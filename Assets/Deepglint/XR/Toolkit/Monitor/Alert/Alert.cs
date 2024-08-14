@@ -1,5 +1,4 @@
-﻿using Deepglint.XR.Ros;
-using Deepglint.XR.Toolkit.Utils;
+﻿using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,17 +6,15 @@ namespace Deepglint.XR.Toolkit.Monitor.Alert
 {
     internal class Alert : MonoBehaviour
     {
-        private ROS2UnityManager _ros2UnityManager;
-        private GameObject _frontCanvas;
-        private GameObject _alertPrefab;
-        private GameObject _playerOutNumber;
-        private Text _playerOutNumberText;
-        private GameObject _serviceInterrupt;
-        private GameObject _loseFocus;
+        private static GameObject _frontCanvas;
+        private static GameObject _alertPrefab;
+        private static GameObject _playerOutNumber;
+        private static Text _playerOutNumberText;
+        private static GameObject _serviceInterrupt;
+        private static GameObject _loseFocus;
 
-        private void Start()
+        public static void Create()
         {
-            _ros2UnityManager = GameObject.Find("XRManager/Connect/RosConnect").GetComponent<ROS2UnityManager>();
             _frontCanvas = GameObject.Find("ToolkitCanvas/Front");
             _alertPrefab = Instantiate(Resources.Load<GameObject>("Alert"), _frontCanvas.transform, false);
             _alertPrefab.GetComponent<RectTransform>().localPosition = Vector3.zero;

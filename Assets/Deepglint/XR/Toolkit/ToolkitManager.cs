@@ -1,6 +1,8 @@
-using System;
 using Deepglint.XR.EventSystem.InputModules;
 using Deepglint.XR.Toolkit.DebugTool;
+using Deepglint.XR.Toolkit.Monitor.Alert;
+using Deepglint.XR.Toolkit.SharedComponents.CameraRoi;
+using Deepglint.XR.Toolkit.SharedComponents.GameExitButton;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 
@@ -14,29 +16,33 @@ namespace Deepglint.XR.Toolkit
         private VersionCode _versionCode;
         private GameObject _inGameDebugConsole;
 
+        private GameObject _toolKitCanvas;
+
         private void Awake()
         {
             if (GameObject.Find("_prefabName") == null)
             {
-                GameObject prefab = Instantiate(Resources.Load<GameObject>(IngameDebugConsolePrefabName));
+                GameObject prefab = Instantiate(Resources.Load<GameObject>(IngameDebugConsolePrefabName), XRManager.XRDontDestroy.transform, false);
                 prefab.name = IngameDebugConsolePrefabName;
-                DontDestroyOnLoad(prefab);
             }
         }
 
 
         private void InitToolkitCanvas()
         {
-            var toolkitCanvas = GameObject.Find("ToolkitCanvas");
-            if (toolkitCanvas is null)
+            _toolKitCanvas = GameObject.Find("ToolkitCanvas");
+            if (_toolKitCanvas is null)
             {
                 var prefab = Resources.Load<GameObject>("ToolkitCanvas");
-                var newToolkitCanvas = Instantiate(prefab, this.transform.parent, false);
-                newToolkitCanvas.name = prefab.name;
-                var canvas = newToolkitCanvas.GetComponent<Canvas>();
-                canvas.renderMode = RenderMode.WorldSpace;
-                canvas.worldCamera = DGXR.Space.Bottom.UICamera;
+                _toolKitCanvas = Instantiate(prefab, XRManager.XRDontDestroy.transform, false);
+                _toolKitCanvas.name = prefab.name;
+                GameExitButton.Create();
+                CameraRoi.Create();
+                Alert.Create();
             }
+            var bottomCanvas = _toolKitCanvas.FindChildGameObject("Bottom").GetComponent<Canvas>();
+            bottomCanvas.renderMode = RenderMode.WorldSpace;
+            bottomCanvas.worldCamera = DGXR.Space.Bottom.UICamera;
         }
 
         private void Start()
