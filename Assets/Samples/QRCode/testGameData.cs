@@ -1,8 +1,9 @@
 using System;
-using Scene.Common;
+using Deepglint.XR;
+using Deepglint.XR.Toolkit.Game;
 using UnityEngine;
 
-namespace Deepglint.XR.Toolkit.Game
+namespace  Samples.QRCode
 {
     public class TestGameData : MonoBehaviour, RankConsumer
     {
