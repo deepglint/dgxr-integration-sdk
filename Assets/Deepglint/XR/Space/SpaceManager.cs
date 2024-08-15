@@ -373,7 +373,26 @@ namespace Deepglint.XR.Space
                         .GetComponent<Camera>();
                 }
 
-                var screenScale = screenObject.transform.localScale;
+                Vector2 size = new Vector2();
+                switch (screen.TargetScreen)
+                {
+                    case TargetScreen.Front:
+                        size = new Vector2(length, height);
+                        break;
+                    case TargetScreen.Back:
+                        size = new Vector2(length, height);
+                        break;
+                    case TargetScreen.Left:
+                        size = new Vector2(width, height);
+                        break;
+                    case TargetScreen.Right:
+                        size = new Vector2(width, height);
+                        break;
+                    case TargetScreen.Bottom:
+                        size = new Vector2(length, width);
+                        break;
+                }
+
                 var dis = new ScreenInfo(screen)
                 {
                     Resolution = new Resolution
@@ -384,7 +403,7 @@ namespace Deepglint.XR.Space
                     ScreenCanvas = uiRoot.transform.Find(screen.TargetScreen.ToString()).gameObject,
                     SpaceCamera = spaceCamera,
                     UICamera = uiCamera,
-                    Size = new Vector2(screenScale.x * spaceScale, screenScale.y * spaceScale),
+                    Size = size,
                     ScreenObject = screenObject
                 };
                 if (isCave)

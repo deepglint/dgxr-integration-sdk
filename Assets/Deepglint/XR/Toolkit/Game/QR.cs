@@ -4,7 +4,7 @@ using Deepglint.XR.Toolkit.Game;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scene.Common
+namespace Deepglint.XR.Toolkit.Game
 {
     public class QR : MonoBehaviour
     {

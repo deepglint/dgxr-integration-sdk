@@ -281,15 +281,12 @@ namespace Deepglint.XR.Space
             float xRatio = screen.Resolution.width / screen.Size.x;
             float yRatio = screen.Resolution.height / screen.Size.y;
 
-            if (screen.TargetScreen == TargetScreen.Bottom)
-            {
-                yRatio = screen.Resolution.width / screen.Size.x;
-            }
-            else
+            if (screen.TargetScreen != TargetScreen.Bottom)
             {
                 // 真实空间z轴起点在空间地面中心，而不是空间的几何中心，几何中心在空中，不好对齐和使用
                 spacePosition.y -= screen.Size.y / 2;
             }
+            
 
             int x = Mathf.RoundToInt(spacePosition.x * xRatio);
             int y = Mathf.RoundToInt(spacePosition.y * yRatio);
