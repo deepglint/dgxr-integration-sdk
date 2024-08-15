@@ -19,10 +19,10 @@ namespace Deepglint.XR.Toolkit.Utils
 
         private void OnApplicationQuit()
         {
+            Debug.Log("OnApplicationQuit");
             OnAppExit?.Invoke();
 #if !UNITY_EDITOR
-            TimerManager.DoOnce(300, () => System.Diagnostics.Process.GetCurrentProcess().Kill());
-
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
 #endif
         }
 

@@ -10,16 +10,12 @@ namespace Deepglint.XR.Toolkit.PipeClient
     public class PipeClient : MonoBehaviour
     {
 #if !UNITY_EDITOR
+        private ManualResetEvent _messageSentEvent = new ManualResetEvent(false);
+
         private void Start()
         {
             AppExit.OnAppExit += OnAppExit;
         }
-
-        private void OnDestroy()
-        {
-            AppExit.OnAppExit -= OnAppExit;
-        }
-
 
         private void OnAppExit()
         {
@@ -28,7 +24,8 @@ namespace Deepglint.XR.Toolkit.PipeClient
                 try
                 {
                     using (NamedPipeClientStream pipeClient =
- new NamedPipeClientStream(".", $"meta-starter{EnvironmentSuffix.GetEnvironment()}", PipeDirection.Out))
+                           new NamedPipeClientStream(".", $"meta-starter{EnvironmentSuffix.GetEnvironment()}",
+                               PipeDirection.Out))
                     {
                         pipeClient.Connect();
                         Debug.Log($"Pipe client meta-starter{EnvironmentSuffix.GetEnvironment()} connected");
@@ -39,15 +36,20 @@ namespace Deepglint.XR.Toolkit.PipeClient
                             writer.WriteLine("ApplicationClosed");
                         }
                     }
+                    _messageSentEvent.Set();
                 }
                 catch (Exception e)
                 {
                     Debug.LogError($"SendPipeMessage Exception: {e.Message}");
+                    _messageSentEvent.Set();    
                 }
             });
 
             clientThread.Start();
+            _messageSentEvent.WaitOne(500);
+            _messageSentEvent.Dispose();
         }
+
 #endif
     }
 }
