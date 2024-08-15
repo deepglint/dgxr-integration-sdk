@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using Deepglint.XR.Toolkit.Manager;
+using UnityEngine;
 
 namespace Deepglint.XR.Toolkit.Utils
 {
-    public class GameExit : MonoBehaviour
+    public class AppExit : MonoBehaviour
     {
         private KeyCode _keyCode = KeyCode.Escape;
+        public static Action OnAppExit;
 
         private void Update()
         {
@@ -13,13 +16,15 @@ namespace Deepglint.XR.Toolkit.Utils
                 Quit();
             }
         }
-        
-#if !UNITY_EDITOR
+
         private void OnApplicationQuit()
         {
-             System.Diagnostics.Process.GetCurrentProcess().Kill();
-        }
+            OnAppExit?.Invoke();
+#if !UNITY_EDITOR
+            TimerManager.DoOnce(300, () => System.Diagnostics.Process.GetCurrentProcess().Kill());
+
 #endif
+        }
 
         public static void Quit()
         {
@@ -29,6 +34,7 @@ namespace Deepglint.XR.Toolkit.Utils
             Application.Quit();
 #endif
         }
+
         public void SetKeyCode(KeyCode keyCode)
         {
             _keyCode = keyCode;
