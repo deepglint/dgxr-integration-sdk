@@ -1,3 +1,5 @@
+using System;
+using System;
 using Deepglint.XR.Config;
 using Deepglint.XR.Inputs;
 using Deepglint.XR.Log;
@@ -14,10 +16,13 @@ namespace Deepglint.XR
     [DefaultExecutionOrder(-100)]
     public class XRManager : MonoBehaviour
     {
+        const string XrDontDestroyName = "DGXR_DontDestroy";
         public bool isFilterZero;
+        public static GameObject XRDontDestroy;
 
         public void Awake()
         {
+            InitXrConstantNode();
             // 获取当前的 Input System 设置
             var inputSystemSettings = InputSystem.settings;
             // 修改 maxEventBytesPerUpdate 属性为0 移除限制
@@ -65,6 +70,21 @@ namespace Deepglint.XR
                 Source.Source.DataFrom = SourceType.WS;
                 ws.SetActive(true);
             }
+        }
+
+        private void InitXrConstantNode()
+        {
+            XRDontDestroy = GameObject.Find(XrDontDestroyName);
+            if (XRDontDestroy is null)
+            {
+                XRDontDestroy = new GameObject(XrDontDestroyName);
+                DontDestroyOnLoad(XRDontDestroy);
+            }
+        }
+        
+        private void Update()
+        {
+            XRDontDestroy.transform.SetPositionAndRotation(transform.position, transform.rotation);
         }
 
         public void Start()

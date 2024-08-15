@@ -7,23 +7,23 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
 {
     internal class GameExitButton : MonoBehaviour
     {
-        private bool _isExiting;
-        private float _duration = 5f;
-        private float _countdownTimer;
+        private static bool _isExiting;
+        private static float _duration = 5f;
+        private static float _countdownTimer;
 
-        private RawImage _buttonImg;
-        private Text _timeText;
-        private GameObject _exitText;
+        private static RawImage _buttonImg;
+        private static Text _timeText;
+        private static GameObject _exitText;
 
-        private GameObject _bottomCanvas;
-        private GameObject _frontCanvas;
-        private GameObject _gameExitButtonPrefab;
-        private GameObject _gameExitingPrefab;
-        private Text _gameExitingText;
-        private GameExitButtonPointerListener _pointerListener;
-        private AudioSource _audio;
+        private static GameObject _bottomCanvas;
+        private static GameObject _frontCanvas;
+        private static GameObject _gameExitButtonPrefab;
+        private static GameObject _gameExitingPrefab;
+        private static Text _gameExitingText;
+        private static GameExitButtonPointerListener _pointerListener;
+        private static AudioSource _audio;
 
-        public void Start()
+        public static void Create()
         {
             _bottomCanvas = GameObject.Find("ToolkitCanvas/Bottom");
             _frontCanvas = GameObject.Find("ToolkitCanvas/Front");
@@ -49,7 +49,8 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             _countdownTimer = 0;
             SetAlpha(0.5f);
         }
-        private void SetButtonRect()
+
+        private static void SetButtonRect()
         {
             float padding = 20;
             float x;
@@ -59,7 +60,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             RectTransform rectTransform = _gameExitButtonPrefab.GetComponent<RectTransform>();
             radius = rectTransform.sizeDelta.x / 2;
             x = -960 + radius + padding;
-            
+
             if (DGXR.Space.Roi.x > x + radius + padding)
             {
                 y = DGXR.Space.Roi.y + radius + padding;
@@ -118,12 +119,12 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
         }
 
 
-        private void ExecuteCallback()
+        private static void ExecuteCallback()
         {
             GameExit.Quit();
         }
 
-        public void OnEnter()
+        public static void OnEnter()
         {
             if (_isExiting) return;
 
@@ -132,7 +133,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             SetAlpha(1);
         }
 
-        public void OnExit()
+        public static void OnExit()
         {
             if (!_isExiting) return;
 
@@ -141,7 +142,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             SetAlpha(0.5f);
         }
 
-        private void SetAlpha(float alpha)
+        private static void SetAlpha(float alpha)
         {
             var imgColor = _buttonImg.color;
             imgColor.a = alpha;
