@@ -1,4 +1,12 @@
+DG Unity Integration SDK is a software development kit developed by Deepglint based on the Unity engine. The SDK encapsulates a series of functions, covering rendering, tracking, input, interaction, mixed reality, platform services, and more.
+
 DG Unity Integration SDK为 Deepglint 基于 Unity 引擎研发的软件开发工具包。SDK 封装了一系列功能，涉及渲染、追踪、输入、交互、混合现实、平台服务等。
+
+[![dgxr-integration-sdk](https://img.youtube.com/vi/x69_Z1tR-p8/0.jpg)](https://www.youtube.com/watch?v=x69_Z1tR-p8)
+
+
+# Contact
+<a href="mailto:xinyuchen@deepglint.com">xinyuchen@deepglint.com</a>
 
 # DG Integration 文件夹说明
 
