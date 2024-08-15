@@ -299,7 +299,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 240965758}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 754f501c582648fc8ca0fa7484380308, type: 3}
   m_Name: 
@@ -335,7 +335,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 240965758}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c80e2401b25943bab1b4974f6491950b, type: 3}
   m_Name: 
@@ -368,6 +368,23 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 8736505977054623469, guid: 78aeaed33c7644dd29dbcc9ff8081cff, type: 3}
   joinUI: {fileID: 0}
+--- !u!1 &1235031262 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 244439037946830548, guid: 7d7e241a0de3c43d5b528d0a56cc3c67, type: 3}
+  m_PrefabInstance: {fileID: 1446488715}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1235031266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235031262}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0f2be60f59648e7b9e1cc280eb7cf64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1446488715
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -524,6 +541,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4784967940889920478, guid: 7d7e241a0de3c43d5b528d0a56cc3c67, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6622973051401778137, guid: 7d7e241a0de3c43d5b528d0a56cc3c67, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -599,7 +620,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 244439037946830548, guid: 7d7e241a0de3c43d5b528d0a56cc3c67, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1235031266}
   m_SourcePrefab: {fileID: 100100000, guid: 7d7e241a0de3c43d5b528d0a56cc3c67, type: 3}
 --- !u!1 &2019988033
 GameObject:
@@ -612,6 +636,7 @@ GameObject:
   - component: {fileID: 2019988035}
   - component: {fileID: 2019988034}
   - component: {fileID: 2019988036}
+  - component: {fileID: 2019988037}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -719,6 +744,14 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!81 &2019988037
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019988033}
+  m_Enabled: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
