@@ -81,10 +81,14 @@ namespace Deepglint.XR.Source
             roi.width = roi.width <= 0 ? 1 : roi.width;
             roi.height = roi.height <= 0 ? 1 : roi.height;
             
-            if (!roi.Contains(position) && DistanceToRect(roi, position) > _maxDistanceFromRoi)
+            if (!roi.Contains(position))
             {
-                result = true;
-                Debug.Log($"{BodyId} is far from ROI");
+                var distance = DistanceToRect(roi, position);
+                if (distance > _maxDistanceFromRoi)
+                {
+                    result = true;
+                    Debug.Log($"{BodyId} is far from ROI");
+                }
             }
 
             return result;
@@ -92,10 +96,12 @@ namespace Deepglint.XR.Source
         
         private float DistanceToRect(Rect rect, Vector2 point)
         {
-            return Mathf.Min(Mathf.Abs(rect.xMin - point.x), 
-                Mathf.Abs(point.x - rect.xMax), 
-                Mathf.Abs(rect.yMin - point.y), 
-                Mathf.Abs(point.y - rect.yMax));
+            float clampedX = Mathf.Clamp(point.x, rect.xMin, rect.xMax);
+            float clampedY = Mathf.Clamp(point.y, rect.yMin, rect.yMax);
+            float dx = point.x - clampedX;
+            float dy = point.y - clampedY;
+
+            return Mathf.Sqrt(dx * dx + dy * dy);
         }
     }
     
