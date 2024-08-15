@@ -8,22 +8,21 @@ namespace Deepglint.XR.Toolkit.Utils
         public static string GetEnvironment()
         {
             string version = Application.version;
-            
-            var environmentSuffixes = new Dictionary<string, string>
+            if (version.EndsWith("_test"))
             {
-                { "_test", "_test" },
-                { "_dev", "_dev" }
-            };
-
-            foreach (var suffix in environmentSuffixes.Keys)
-            {
-                if (version.EndsWith(suffix))
-                {
-                    return environmentSuffixes[suffix];
-                }
+                return "_test";
             }
 
-            return version.StartsWith("v") ? "" : null;
+            if (version.EndsWith("_dev"))
+            {
+                return "_dev";
+            }
+            
+            if (version.StartsWith("v"))
+            {
+                return "";
+            }
+            return null;
         }
     }
 }
