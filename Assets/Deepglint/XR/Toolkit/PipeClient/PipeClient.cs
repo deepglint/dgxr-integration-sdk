@@ -9,6 +9,10 @@ namespace Deepglint.XR.Toolkit.PipeClient
 {
     public class PipeClient : MonoBehaviour
     {
+        public enum PipeEvent
+        {
+            ApplicationClosed
+        } 
 #if !UNITY_EDITOR
         private ManualResetEvent _messageSentEvent = new ManualResetEvent(false);
 
@@ -33,7 +37,7 @@ namespace Deepglint.XR.Toolkit.PipeClient
                         using (StreamWriter writer = new StreamWriter(pipeClient))
                         {
                             writer.AutoFlush = true;
-                            writer.WriteLine("ApplicationClosed");
+                            writer.WriteLine(PipeEvent.ApplicationClosed);
                         }
                     }
                     _messageSentEvent.Set();
