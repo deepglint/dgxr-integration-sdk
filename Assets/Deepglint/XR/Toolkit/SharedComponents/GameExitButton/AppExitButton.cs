@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
 {
-    internal class GameExitButton : MonoBehaviour
+    internal class AppExitButton : MonoBehaviour
     {
         private static bool _isExiting;
         private static float _duration = 5f;
@@ -20,7 +20,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
         private static GameObject _gameExitButtonPrefab;
         private static GameObject _gameExitingPrefab;
         private static Text _gameExitingText;
-        private static GameExitButtonPointerListener _pointerListener;
+        private static AppExitButtonPointerListener _pointerListener;
         private static AudioSource _audio;
 
         public static void Create()
@@ -32,7 +32,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             _gameExitingPrefab =
                 Instantiate(Resources.Load<GameObject>("GameExiting"), _frontCanvas.transform, false);
             _gameExitingText = _gameExitingPrefab.FindChildGameObject("GameExitingText").GetComponent<Text>();
-            _pointerListener = _gameExitButtonPrefab.GetComponent<GameExitButtonPointerListener>();
+            _pointerListener = _gameExitButtonPrefab.GetComponent<AppExitButtonPointerListener>();
             _pointerListener.OnEnter += OnEnter;
             _pointerListener.OnExit += OnExit;
             _buttonImg = _gameExitButtonPrefab.FindChildGameObject("GameExitButton_inner").GetComponent<RawImage>();
@@ -121,7 +121,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
 
         private static void ExecuteCallback()
         {
-            GameExit.Quit();
+            AppExit.Quit();
         }
 
         public static void OnEnter()
