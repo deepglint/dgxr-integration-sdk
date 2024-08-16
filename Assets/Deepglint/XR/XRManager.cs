@@ -19,6 +19,7 @@ namespace Deepglint.XR
         const string XrDontDestroyName = "DGXR_DontDestroy";
         public bool isFilterZero;
         public static GameObject XRDontDestroy;
+        public GameObject Connect;
 
         public void Awake()
         {
@@ -56,20 +57,13 @@ namespace Deepglint.XR
                 Cursor.visible = false;
             }
 #endif
-            
-            GameLogger.Init(DGXR.Config.Log);
-            if (UseRos())
+            var _connect = GameObject.Find("Connect");
+            if (_connect is null)
             {
-                var ros = Extends.FindChildGameObject(gameObject,"RosConnect" );
-                Source.Source.DataFrom = SourceType.ROS;
-                ros.SetActive(true);
+                _connect = Instantiate(Connect, XRDontDestroy.transform, false);
+                _connect.name = Connect.name;
             }
-            else
-            {
-                var ws = Extends.FindChildGameObject(gameObject,"WsConnect" );
-                Source.Source.DataFrom = SourceType.WS;
-                ws.SetActive(true);
-            }
+
         }
 
         private void InitXrConstantNode()
@@ -93,19 +87,6 @@ namespace Deepglint.XR
             DGXR.IsFilterZero = isFilterZero;
         }
 
-        private bool UseRos()
-        {
-            if (!Application.isEditor && !DGXR.SystemName.Contains("Mac"))
-            {
-                return true;
-            }
-
-            return false;
-        }
-        
-        public void OnDestroy()
-        {
-            GameLogger.Cleanup();
-        }
+       
     }
 }

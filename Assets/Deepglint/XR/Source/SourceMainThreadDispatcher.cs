@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Deepglint.XR.Log;
+using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 
 namespace Deepglint.XR.Source
@@ -7,6 +9,38 @@ namespace Deepglint.XR.Source
     public class SourceMainThreadDispatcher : MonoBehaviour
     {
         private static readonly Queue<Action> ExecuteRosMsgEventMainThreadQueue = new();
+        private static GameObject _connectObject; 
+        private void Awake()
+        {
+            if (UseRos())
+            {
+                var ros = Extends.FindChildGameObject(gameObject,"RosConnect" );
+                Source.DataFrom = SourceType.ROS;
+                ros.SetActive(true);
+            }
+            else
+            {
+                var ws = Extends.FindChildGameObject(gameObject,"WsConnect" );
+                Source.DataFrom = SourceType.WS;
+                ws.SetActive(true);
+            }
+            GameLogger.Init(DGXR.Config.Log);
+        }
+        
+        private bool UseRos()
+        {
+            if (!Application.isEditor && !DGXR.SystemName.Contains("Mac"))
+            {
+                return true;
+            }
+
+            return false;
+        }
+        
+        private void Start()
+        {
+            gameObject.transform.parent = XRManager.XRDontDestroy.transform;
+        }
 
         private void OnDisable()
         {
@@ -18,6 +52,7 @@ namespace Deepglint.XR.Source
                     ExecuteRosMsgEventMainThreadQueue.Dequeue().Invoke();
                 }
             }
+            GameLogger.Cleanup();
         }
         
         private void Update()
