@@ -51,7 +51,7 @@ namespace Deepglint.XR.Toolkit.PipeClient
             });
 
             clientThread.Start();
-            _messageSentEvent.WaitOne(500);
+            _messageSentEvent.WaitOne(5000);
             _messageSentEvent.Dispose();
             clientThread.Abort();
         }
