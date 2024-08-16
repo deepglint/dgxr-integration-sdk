@@ -12,8 +12,9 @@ namespace Deepglint.XR.Toolkit.PipeClient
         public enum PipeEvent
         {
             ApplicationClosed
-        } 
-#if !UNITY_EDITOR
+        }
+
+#if !UNITY_EDITOR && UNITY_STANDALONE_WIN
         private ManualResetEvent _messageSentEvent = new ManualResetEvent(false);
 
         private void Start()
@@ -52,6 +53,7 @@ namespace Deepglint.XR.Toolkit.PipeClient
             clientThread.Start();
             _messageSentEvent.WaitOne(500);
             _messageSentEvent.Dispose();
+            clientThread.Abort();
         }
 
 #endif
