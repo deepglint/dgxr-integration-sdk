@@ -84,12 +84,12 @@ namespace Deepglint.XR.Ros
             "Ros2");
 
         private readonly Dictionary<String, Source.SourceData> _oldData = new Dictionary<string, Source.SourceData>();
-        
+
         public void DealMsg(std_msgs.msg.String msg)
         {
             DealMsgData(msg.Data);
         }
-        
+
         /// <summary>
         /// 人体骨骼消息处理
         /// </summary>
@@ -110,6 +110,7 @@ namespace Deepglint.XR.Ros
 
                 if (!DGXR.SystemName.Contains("Mac"))
                 {
+                    Debug.LogError(_record.GetHashCode());
                     ThreadPool.QueueUserWorkItem(_record.SaveMsgData, msg);
                 }
 
@@ -118,8 +119,9 @@ namespace Deepglint.XR.Ros
                     string bodyId = val.Key;
                     if (PseudoOfflineFilter.ChangeLog.TryGetValue(val.Key, out var personFeature))
                     {
-                        bodyId =  personFeature.BodyId;
+                        bodyId = personFeature.BodyId;
                     }
+
                     humans.Add(bodyId);
                     var actions = new Dictionary<ActionType, float>();
                     if (val.Value is { RecActions: not null })
@@ -187,7 +189,8 @@ namespace Deepglint.XR.Ros
                                 case Joint.LeftShoulder:
                                     if (isZero)
                                     {
-                                        joints.LeftShoulder.LocalPosition = sourceData.Joints.LeftShoulder.LocalPosition;
+                                        joints.LeftShoulder.LocalPosition =
+                                            sourceData.Joints.LeftShoulder.LocalPosition;
                                         continue;
                                     }
 
@@ -196,7 +199,8 @@ namespace Deepglint.XR.Ros
                                 case Joint.RightShoulder:
                                     if (isZero)
                                     {
-                                        joints.RightShoulder.LocalPosition = sourceData.Joints.RightShoulder.LocalPosition;
+                                        joints.RightShoulder.LocalPosition =
+                                            sourceData.Joints.RightShoulder.LocalPosition;
                                         continue;
                                     }
 
@@ -334,6 +338,7 @@ namespace Deepglint.XR.Ros
                                         joints.HeadTop.LocalPosition = sourceData.Joints.HeadTop.LocalPosition;
                                         continue;
                                     }
+
                                     joints.HeadTop.LocalPosition = UnifyCoordinate(pose);
                                     break;
                                 case Joint.LeftHand:
@@ -359,6 +364,7 @@ namespace Deepglint.XR.Ros
                             }
                         }
                     }
+
                     var body = new SourceData
                     {
                         FrameId = frameId,
@@ -373,14 +379,14 @@ namespace Deepglint.XR.Ros
                     }
                 }
             }
-            
+
             foreach (var human in Source.Source.Data)
             {
                 if (!humans.Contains(human.BodyId))
                 {
                     SourceMainThreadDispatcher.Enqueue(() =>
                     {
-                        Source.Source.DelData(human.BodyId); 
+                        Source.Source.DelData(human.BodyId);
                         Source.Source.TriggerMetaPostDataLost(human.BodyId);
                     });
                 }
@@ -397,17 +403,19 @@ namespace Deepglint.XR.Ros
                         data.Remove(key);
                         Source.Source.DelData(key);
                         data[sourceData.BodyId] = sourceData;
-                    } 
+                    }
+
                     Source.Source.SetData(sourceData);
                     Source.Source.TriggerMetaPoseDataReceived(sourceData);
                 });
                 Source.Source.TriggerRealTimePoseReceived(data[key]);
             }
+
             SourceMainThreadDispatcher.Enqueue(() =>
             {
-                Source.Source.TriggerMetaPoseFrameDataReceived(frameId,data.Values.ToList());
-            }); 
-            Source.Source.TriggerRealTimePoseFrameReceived(frameId,data.Values.ToList());
+                Source.Source.TriggerMetaPoseFrameDataReceived(frameId, data.Values.ToList());
+            });
+            Source.Source.TriggerRealTimePoseFrameReceived(frameId, data.Values.ToList());
         }
 
         /// <summary>
@@ -425,26 +433,26 @@ namespace Deepglint.XR.Ros
 
             return (false, new SourceData());
         }
-        
+
         /// <summary>
         /// 坐标标准化处理
         /// </summary>
         /// <param name="pose">人体骨骼点</param>
         private Vector3 UnifyCoordinate(List<float> poseList)
         {
-            Vector3 pose =Vector3.zero;
+            Vector3 pose = Vector3.zero;
             if (DGXR.Space != null)
             {
                 var size = DGXR.Space.Size;
                 poseList[0] = (size.x / DGXR.Space.RealSize.x) *
-                    poseList[0];
+                              poseList[0];
                 poseList[1] = (size.z / DGXR.Space.RealSize.z) *
-                              poseList[1]; 
+                              poseList[1];
                 poseList[2] = (size.y / DGXR.Space.RealSize.y) *
-                              poseList[2];  
+                              poseList[2];
                 pose = new Vector3(poseList[0], poseList[2], poseList[1]);
             }
-           
+
             switch (DGXR.Config.Space.XDirection, DGXR.Config.Space.ZDirection)
             {
                 case ("left", "up"):
