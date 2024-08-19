@@ -89,7 +89,9 @@ namespace Deepglint.XR.Interaction
             float currentDistance = Vector3.Distance(rightWrist, leftShoulder);
             try
             {
-                if (rightWrist.y < dgXRDevice.HumanBody.RightHip.position.y.ReadValue() || !IsHandInFrontOfBody(dgXRDevice))
+                if (rightWrist.y > dgXRDevice.HumanBody.HeadTop.position.y.ReadValue() || 
+                    rightWrist.y < dgXRDevice.HumanBody.RightHip.position.y.ReadValue() || 
+                    !IsHandInFrontOfBody(dgXRDevice))
                 {
                     // Debug.Log("SlideRightArmToLeft action miss by wrong direction");
                     return false;

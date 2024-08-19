@@ -161,6 +161,9 @@ namespace Deepglint.XR.Inputs
                     case ActionType.Jump:
                         xrDevice.Jump.WriteValueIntoEvent(action.Value, eventPtr);
                         break;
+                    case ActionType.Applaud:
+                        xrDevice.Applaud.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
                 }
             }
         }

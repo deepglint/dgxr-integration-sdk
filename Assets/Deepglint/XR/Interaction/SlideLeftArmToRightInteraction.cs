@@ -85,7 +85,9 @@ namespace Deepglint.XR.Interaction
             float currentDistance = Vector3.Distance(leftWrist, rightShoulder);
             try
             {
-                if (leftWrist.y < dgXRDevice.HumanBody.LeftHip.position.y.ReadValue() || !IsHandInFrontOfBody(dgXRDevice))
+                if (leftWrist.y > dgXRDevice.HumanBody.HeadTop.position.y.ReadValue() || 
+                    leftWrist.y < dgXRDevice.HumanBody.LeftHip.position.y.ReadValue() ||
+                    !IsHandInFrontOfBody(dgXRDevice))
                 {
                     return false;
                 }

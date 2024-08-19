@@ -438,6 +438,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a4fc1c1d-57b1-46bd-94bb-4653b70fa886
     m_ActionName: Player/RaiseLeftHand[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: ApplaudControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 79fde9a7-b06b-47ca-8d2a-915381418d59
+    m_ActionName: Player/Applaud[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody,/DGXRHumanController18/HumanBody,/DGXRHumanController19/HumanBody,/DGXRHumanController20/HumanBody,/DGXRHumanController21/HumanBody,/DGXRHumanController22/HumanBody,/DGXRHumanController23/HumanBody,/DGXRHumanController24/HumanBody,/DGXRHumanController25/HumanBody,/DGXRHumanController26/HumanBody,/DGXRHumanController27/HumanBody,/DGXRHumanController28/HumanBody,/DGXRHumanController29/HumanBody,/DGXRHumanController30/HumanBody,/DGXRHumanController31/HumanBody,/DGXRHumanController32/HumanBody,/DGXRHumanController33/HumanBody]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

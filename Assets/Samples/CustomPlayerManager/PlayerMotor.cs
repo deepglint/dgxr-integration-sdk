@@ -66,6 +66,14 @@ namespace Samples.CustomPlayerManager
                 jump();
             }
         }
+        
+        public void ApplaudControl(InputAction.CallbackContext value)
+        {
+            if(value.performed)
+            {
+                Debug.Log("Applaud action performed");
+            }
+        }
     
         public void SlideRightArmToLeftControl(InputAction.CallbackContext value)
         {
