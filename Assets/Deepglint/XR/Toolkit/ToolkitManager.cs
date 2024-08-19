@@ -36,7 +36,7 @@ namespace Deepglint.XR.Toolkit
                 var prefab = Resources.Load<GameObject>("ToolkitCanvas");
                 _toolKitCanvas = Instantiate(prefab, XRManager.XRDontDestroy.transform, false);
                 _toolKitCanvas.name = prefab.name;
-                GameExitButton.Create();
+                AppExitButton.Create();
                 CameraRoi.Create();
                 Alert.Create();
             }
