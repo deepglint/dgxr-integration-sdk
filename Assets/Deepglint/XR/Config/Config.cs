@@ -199,13 +199,22 @@ namespace Deepglint.XR.Config
             } else if (Application.version.EndsWith("_test"))
             {
                 environmentVariable = "META_STARTER_TEST_HOME";
-            }
+            } 
             string metaStarterHome = System.Environment.GetEnvironmentVariable(environmentVariable, System.EnvironmentVariableTarget.User);
             if (!string.IsNullOrEmpty(metaStarterHome))
             {
                 configFilePath = Path.Combine(metaStarterHome, "config.json");
-                Debug.Log($"read config from environment: {configFilePath}");
             }
+
+            if (Application.version.Equals("0.1.0"))
+            {
+                string metaStarterDevHome = System.Environment.GetEnvironmentVariable("META_STARTER_DEV_HOME", System.EnvironmentVariableTarget.User);
+                if (!string.IsNullOrEmpty(metaStarterDevHome))
+                {
+                    configFilePath = Path.Combine(metaStarterDevHome, "config.json");
+                }
+            }
+            Debug.Log($"read config from environment: {configFilePath}");
             var envConfig = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadEnvData());
             var config = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadConfigData(configFilePath));
             config.Space = envConfig.Space;
