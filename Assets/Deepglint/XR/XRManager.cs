@@ -1,5 +1,4 @@
 using System;
-using System;
 using Deepglint.XR.Config;
 using Deepglint.XR.Inputs;
 using Deepglint.XR.Log;
@@ -16,7 +15,7 @@ namespace Deepglint.XR
     [DefaultExecutionOrder(-100)]
     public class XRManager : MonoBehaviour
     {
-        const string XrDontDestroyName = "DGXR_DontDestroy";
+        const string XrDontDestroyName = "XRManager_DontDestroy";
         public bool isFilterZero;
         public static GameObject XRDontDestroy;
         public GameObject Connect;
