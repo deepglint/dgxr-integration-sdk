@@ -48,7 +48,7 @@ namespace Deepglint.XR.Interaction
         
         private bool IsCheerUpHappening(DGXRHumanController dgXRDevice)
         {
-            if (dgXRDevice.Applaud.ReadValue() > Confidence)
+            if (dgXRDevice.CheerUp.ReadValue() > Confidence)
             {
                 return true;
             }

@@ -70,7 +70,7 @@ namespace Deepglint.XR.Inputs.Devices
         public float jump;
         
         [InputControl( layout = "Axis")]
-        public float applaud;
+        public float cheerUp;
         
         [InputControl(name = nameof(DGXRHumanController.GripButton), usage = "GripButton", layout = "Button", 
             bit = (uint)DGXRControllerButton.GripButton, alias = "gripPressed")]
@@ -102,7 +102,7 @@ namespace Deepglint.XR.Inputs.Devices
         public AxisControl HighKneeRun { get; private set; }
         public AxisControl DeepSquat { get; private set; }
         public AxisControl Jump { get; private set; }
-        public AxisControl Applaud { get; private set; }
+        public AxisControl CheerUp { get; private set; }
         public ButtonControl GripButton { get; private set; }
         public ButtonControl TriggerButton { get; private set; }
         
@@ -125,7 +125,7 @@ namespace Deepglint.XR.Inputs.Devices
             HighKneeRun = GetChildControl<AxisControl>(nameof(HighKneeRun));
             DeepSquat = GetChildControl<AxisControl>(nameof(DeepSquat));
             Jump = GetChildControl<AxisControl>(nameof(Jump));
-            Applaud = GetChildControl<AxisControl>(nameof(Applaud));
+            CheerUp = GetChildControl<AxisControl>(nameof(CheerUp));
             
             base.FinishSetup();
         }
