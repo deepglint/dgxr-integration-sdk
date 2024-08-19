@@ -105,7 +105,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Applaud",
+                    "name": "CheerUp",
                     "type": "Value",
                     "id": "79fde9a7-b06b-47ca-8d2a-915381418d59",
                     "expectedControlType": "HumanBody",
@@ -306,10 +306,10 @@
                     "name": "",
                     "id": "90beffca-842b-4362-b8c1-a9fa458c3eed",
                     "path": "<DGXRHumanController>/HumanBody",
-                    "interactions": "Applaud",
+                    "interactions": "CheerUp",
                     "processors": "",
                     "groups": "",
-                    "action": "Applaud",
+                    "action": "CheerUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

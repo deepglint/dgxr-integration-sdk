@@ -5,34 +5,34 @@ using UnityEngine.InputSystem;
 namespace Deepglint.XR.Interaction
 {
     /// <summary>
-    /// A Interaction to judge if applaud action is performed
+    /// A Interaction to judge if cheer-up action is performed
     /// depending on the DGXRController.applaud control value.
     /// </summary>
-    public class ApplaudInteraction : MetaverseInteraction, IInputInteraction
+    public class CheerUpInteraction : MetaverseInteraction, IInputInteraction
     {
         public void Process(ref InputInteractionContext context)
         {
             if (context.control.device is DGXRHumanController dgXRDevice)
             {
-                if (IsApplaudHappening(dgXRDevice))
+                if (IsCheerUpHappening(dgXRDevice))
                 {
                     switch (context.phase)
                     {
                         case InputActionPhase.Waiting:
-                            if (IsApplaudStart(dgXRDevice))
+                            if (IsCheerUpStart(dgXRDevice))
                             {
                                 context.Started();
                             }
                             break;
                         case InputActionPhase.Started:
-                            if (IsApplaudHit(dgXRDevice))
+                            if (IsCheerUpHit(dgXRDevice))
                             {
-                                // Debug.Log($"Applaud action performed on device {dgXRDevice.deviceId}");
+                                // Debug.Log($"CheerUp action performed on device {dgXRDevice.deviceId}");
                                 context.PerformedAndStayPerformed();
                             }
                             break;
                         case InputActionPhase.Performed:
-                            if (!IsApplaudHit(dgXRDevice))
+                            if (!IsCheerUpHit(dgXRDevice))
                             {
                                 context.Canceled();
                             }
@@ -46,7 +46,7 @@ namespace Deepglint.XR.Interaction
             }
         }
         
-        private bool IsApplaudHappening(DGXRHumanController dgXRDevice)
+        private bool IsCheerUpHappening(DGXRHumanController dgXRDevice)
         {
             if (dgXRDevice.Applaud.ReadValue() > Confidence)
             {
@@ -56,7 +56,7 @@ namespace Deepglint.XR.Interaction
             return false;
         }
 
-        private bool IsApplaudStart(DGXRHumanController device)
+        private bool IsCheerUpStart(DGXRHumanController device)
         {
             return device.HumanBody.LeftWrist.position.y.ReadValue() > 
                    device.HumanBody.LeftShoulder.position.y.ReadValue() && 
@@ -64,7 +64,7 @@ namespace Deepglint.XR.Interaction
                    device.HumanBody.RightShoulder.position.y.ReadValue(); 
         }
 
-        private bool IsApplaudHit(DGXRHumanController device)
+        private bool IsCheerUpHit(DGXRHumanController device)
         {
             return device.HumanBody.LeftWrist.position.y.ReadValue() > 
                    device.HumanBody.HeadTop.position.y.ReadValue() && 

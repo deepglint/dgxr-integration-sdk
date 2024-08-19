@@ -67,11 +67,11 @@ namespace Samples.CustomPlayerManager
             }
         }
         
-        public void ApplaudControl(InputAction.CallbackContext value)
+        public void CheerUpControl(InputAction.CallbackContext value)
         {
             if(value.performed)
             {
-                Debug.Log("Applaud action performed");
+                Debug.Log("CheerUp action performed");
             }
         }
     

@@ -28,7 +28,7 @@ namespace Deepglint.XR.Interaction
             InputSystem.RegisterInteraction<HighKneeRunInteraction>("HighKneeRun");
             InputSystem.RegisterInteraction<DeepSquatInteraction>("DeepSquat");
             InputSystem.RegisterInteraction<JumpInteraction>("Jump");
-            InputSystem.RegisterInteraction<ApplaudInteraction>("Applaud");
+            InputSystem.RegisterInteraction<CheerUpInteraction>("CheerUp");
         }
 
         public static void RegisterInteraction<T>(string name = null)

@@ -442,7 +442,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4550654615593993650}
         m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
-        m_MethodName: ApplaudControl
+        m_MethodName: CheerUpControl
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
