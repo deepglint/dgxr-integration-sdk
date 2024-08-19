@@ -18,7 +18,7 @@ namespace Deepglint.XR.Interaction
         private int _missCount = 0;
 
         public float StartArmAngle = 120;
-        public float PerformArmAngle = 66;
+        public float PerformArmAngle = 76;
         
         public void Process(ref InputInteractionContext context)
         {
@@ -84,15 +84,16 @@ namespace Deepglint.XR.Interaction
             Vector3 rightWrist = dgXRDevice.HumanBody.RightWrist.position.ReadValue();
             Vector3 rightShoulder = dgXRDevice.HumanBody.RightShoulder.position.ReadValue();
             Vector3 leftShoulder = dgXRDevice.HumanBody.LeftShoulder.position.ReadValue();
-            Vector3 nose = dgXRDevice.HumanBody.Nose.position.ReadValue();
             
             float currentAngle = Vector3.Angle(rightWrist - rightShoulder, leftShoulder - rightShoulder);
             float currentDistance = Vector3.Distance(rightWrist, leftShoulder);
             try
             {
-                if (rightWrist.y > nose.y || rightWrist.y < dgXRDevice.HumanBody.RightHip.position.y.ReadValue())
+                if (rightWrist.y > dgXRDevice.HumanBody.HeadTop.position.y.ReadValue() || 
+                    rightWrist.y < dgXRDevice.HumanBody.RightHip.position.y.ReadValue() || 
+                    !IsHandInFrontOfBody(dgXRDevice))
                 {
-                    // Debug.Log("SlideRightArmToLeft action miss by upper than nose");
+                    // Debug.Log("SlideRightArmToLeft action miss by wrong direction");
                     return false;
                 }
                 if (currentDistance > _distance + _distanceOffset) 
@@ -115,6 +116,18 @@ namespace Deepglint.XR.Interaction
 
             _missCount = 0;
             return true;
+        }
+
+        private bool IsHandInFrontOfBody(DGXRHumanController dgXRDevice)
+        {
+            Vector3 rightHip = dgXRDevice.HumanBody.RightHip.position.ReadValue();
+            Vector3 rightShoulder = dgXRDevice.HumanBody.RightShoulder.position.ReadValue();
+            Vector3 leftShoulder = dgXRDevice.HumanBody.LeftShoulder.position.ReadValue();
+            Vector3 rightWrist = dgXRDevice.HumanBody.RightWrist.position.ReadValue();
+            Vector3 planeNormal = -Vector3.Cross(rightHip - rightShoulder, leftShoulder - rightShoulder).normalized;
+        
+            float distance = Vector3.Dot(planeNormal, rightWrist - rightShoulder);
+            return Mathf.Sign(distance) > 0;
         }
 
         public void Reset()

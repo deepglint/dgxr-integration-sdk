@@ -103,6 +103,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "CheerUp",
+                    "type": "Value",
+                    "id": "79fde9a7-b06b-47ca-8d2a-915381418d59",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -290,6 +299,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "RaiseLeftHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "90beffca-842b-4362-b8c1-a9fa458c3eed",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "CheerUp",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CheerUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -53,7 +53,7 @@ namespace Deepglint.XR.Source
         ButterflySwim = 21, //蝶泳  
         FreestyleSwim = 22, //自由泳   
         KeepRaisingHand = 23, //持续举手   
-        Applaud = 24, //拍掌   
+        CheerUp = 24, // 欢呼   
         Jump = 25, //起跳   
         DeepSquat = 26, //下蹲   
         RaiseOnHand = 10000, //举单手

@@ -66,6 +66,14 @@ namespace Samples.CustomPlayerManager
                 jump();
             }
         }
+        
+        public void CheerUpControl(InputAction.CallbackContext value)
+        {
+            if(value.performed)
+            {
+                Debug.Log("CheerUp action performed");
+            }
+        }
     
         public void SlideRightArmToLeftControl(InputAction.CallbackContext value)
         {
