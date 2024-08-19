@@ -6,7 +6,7 @@ namespace Deepglint.XR.Interaction
 {
     /// <summary>
     /// A Interaction to judge if cheer-up action is performed
-    /// depending on the DGXRController.applaud control value.
+    /// depending on the DGXRController.cheerUp control value.
     /// </summary>
     public class CheerUpInteraction : MetaverseInteraction, IInputInteraction
     {
