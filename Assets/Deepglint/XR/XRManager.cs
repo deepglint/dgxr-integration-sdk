@@ -24,6 +24,7 @@ namespace Deepglint.XR
         public void Awake()
         {
             InitXrConstantNode();
+            
             // 获取当前的 Input System 设置
             var inputSystemSettings = InputSystem.settings;
             // 修改 maxEventBytesPerUpdate 属性为0 移除限制
@@ -75,6 +76,13 @@ namespace Deepglint.XR
                 DontDestroyOnLoad(XRDontDestroy);
             }
         }
+
+        private void InitToolkitCanvas()
+        {
+            var prefab = Resources.Load<GameObject>("Toolkit");
+            var instance = Instantiate(prefab, XRManager.XRDontDestroy.transform, false);
+            instance.name = prefab.name;
+        }
         
         private void Update()
         {
@@ -85,6 +93,7 @@ namespace Deepglint.XR
         {
             DGXR.Space = XRSpace.Instance;
             DGXR.IsFilterZero = isFilterZero;
+            InitToolkitCanvas();
         }
 
        

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
 {
-    internal class GameExitButtonPointerListener : MonoBehaviour,
+    internal class AppExitButtonPointerListener : MonoBehaviour,
         IPointerEnterHandler,
         IPointerExitHandler
     {
