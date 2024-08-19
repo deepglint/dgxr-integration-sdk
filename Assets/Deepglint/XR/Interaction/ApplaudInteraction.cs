@@ -27,7 +27,7 @@ namespace Deepglint.XR.Interaction
                         case InputActionPhase.Started:
                             if (IsApplaudHit(dgXRDevice))
                             {
-                                Debug.Log($"Applaud action performed on device {dgXRDevice.deviceId}");
+                                // Debug.Log($"Applaud action performed on device {dgXRDevice.deviceId}");
                                 context.PerformedAndStayPerformed();
                             }
                             break;
