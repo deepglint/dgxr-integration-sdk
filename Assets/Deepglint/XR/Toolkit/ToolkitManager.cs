@@ -1,8 +1,5 @@
 using Deepglint.XR.EventSystem.InputModules;
 using Deepglint.XR.Toolkit.DebugTool;
-using Deepglint.XR.Toolkit.Monitor.Alert;
-using Deepglint.XR.Toolkit.SharedComponents.CameraRoi;
-using Deepglint.XR.Toolkit.SharedComponents.GameExitButton;
 using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 
@@ -18,36 +15,29 @@ namespace Deepglint.XR.Toolkit
 
         private GameObject _toolKitCanvas;
 
-        private void Awake()
-        {
-            if (GameObject.Find("_prefabName") == null)
-            {
-                GameObject prefab = Instantiate(Resources.Load<GameObject>(IngameDebugConsolePrefabName), XRManager.XRDontDestroy.transform, false);
-                prefab.name = IngameDebugConsolePrefabName;
-            }
-        }
+     
 
-
-        private void InitToolkitCanvas()
+        private void UpdateToolkitCanvas()
         {
             _toolKitCanvas = GameObject.Find("ToolkitCanvas");
-            if (_toolKitCanvas is null)
-            {
-                var prefab = Resources.Load<GameObject>("ToolkitCanvas");
-                _toolKitCanvas = Instantiate(prefab, XRManager.XRDontDestroy.transform, false);
-                _toolKitCanvas.name = prefab.name;
-                AppExitButton.Create();
-                CameraRoi.Create();
-                Alert.Create();
-            }
             var bottomCanvas = _toolKitCanvas.FindChildGameObject("Bottom").GetComponent<Canvas>();
             bottomCanvas.renderMode = RenderMode.WorldSpace;
             bottomCanvas.worldCamera = DGXR.Space.Bottom.UICamera;
+            UpdateMouseEvent();
         }
+
+        private void UpdateMouseEvent()
+        {
+            HumanControlFootPointerInputModule inputModule = GameObject.Find("UIRoot")
+                ?.FindChildGameObject("EventSystem")?.GetComponent<HumanControlFootPointerInputModule>();
+            if (inputModule != null) inputModule.enableMouseEvent = DGXR.Config.Debug;
+        }
+
 
         private void Start()
         {
-            InitToolkitCanvas();
+            UpdateToolkitCanvas();
+            XRManager.OnXrConstantNodeInit += UpdateToolkitCanvas;
             GameObject uiBackGround = GameObject.Find("UIRoot")?.FindChildGameObject("UI_BackGround");
             if (uiBackGround != null)
             {
@@ -65,9 +55,7 @@ namespace Deepglint.XR.Toolkit
                 _inGameDebugConsole.SetActive(openDebug);
             }
 
-            HumanControlFootPointerInputModule inputModule = GameObject.Find("UIRoot")
-                ?.FindChildGameObject("EventSystem")?.GetComponent<HumanControlFootPointerInputModule>();
-            if (inputModule != null) inputModule.enableMouseEvent = openDebug;
+            UpdateMouseEvent();
         }
     }
 }

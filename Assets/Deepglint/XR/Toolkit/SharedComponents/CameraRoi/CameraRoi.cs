@@ -6,15 +6,15 @@ namespace Deepglint.XR.Toolkit.SharedComponents.CameraRoi
 {
     internal class CameraRoi : MonoBehaviour
     {
-        private static RectTransform _lineTop;
-        private static RectTransform _lineBottom;
-        private static RectTransform _lineLeft;
-        private static RectTransform _lineRight;
+        private RectTransform _lineTop;
+        private RectTransform _lineBottom;
+        private RectTransform _lineLeft;
+        private RectTransform _lineRight;
 
-        private static GameObject _bottomCanvas;
-        private static GameObject _cameraRoiPrefab;
+        private GameObject _bottomCanvas;
+        private GameObject _cameraRoiPrefab;
 
-        public static void Create()
+        public void Start()
         {
             if (GameObject.Find("ToolkitCanvas/Bottom/CameraRoi") is null)
             {

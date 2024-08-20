@@ -7,23 +7,23 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
 {
     internal class AppExitButton : MonoBehaviour
     {
-        private static bool _isExiting;
-        private static float _duration = 5f;
-        private static float _countdownTimer;
+        private bool _isExiting;
+        private float _duration = 5f;
+        private float _countdownTimer;
 
-        private static RawImage _buttonImg;
-        private static Text _timeText;
-        private static GameObject _exitText;
+        private RawImage _buttonImg;
+        private Text _timeText;
+        private GameObject _exitText;
 
-        private static GameObject _bottomCanvas;
-        private static GameObject _frontCanvas;
-        private static GameObject _gameExitButtonPrefab;
-        private static GameObject _gameExitingPrefab;
-        private static Text _gameExitingText;
-        private static AppExitButtonPointerListener _pointerListener;
-        private static AudioSource _audio;
+        private GameObject _bottomCanvas;
+        private GameObject _frontCanvas;
+        private GameObject _gameExitButtonPrefab;
+        private GameObject _gameExitingPrefab;
+        private Text _gameExitingText;
+        private AppExitButtonPointerListener _pointerListener;
+        private AudioSource _audio;
 
-        public static void Create()
+        public void Start()
         {
             _bottomCanvas = GameObject.Find("ToolkitCanvas/Bottom");
             _frontCanvas = GameObject.Find("ToolkitCanvas/Front");
@@ -50,7 +50,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             SetAlpha(0.5f);
         }
 
-        private static void SetButtonRect()
+        private void SetButtonRect()
         {
             float padding = 20;
             float x;
@@ -119,12 +119,12 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
         }
 
 
-        private static void ExecuteCallback()
+        private void ExecuteCallback()
         {
             AppExit.Quit();
         }
 
-        public static void OnEnter()
+        public void OnEnter()
         {
             if (_isExiting) return;
 
@@ -133,7 +133,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             SetAlpha(1);
         }
 
-        public static void OnExit()
+        public void OnExit()
         {
             if (!_isExiting) return;
 
@@ -142,7 +142,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             SetAlpha(0.5f);
         }
 
-        private static void SetAlpha(float alpha)
+        private void SetAlpha(float alpha)
         {
             var imgColor = _buttonImg.color;
             imgColor.a = alpha;

@@ -6,14 +6,14 @@ namespace Deepglint.XR.Toolkit.Monitor.Alert
 {
     internal class Alert : MonoBehaviour
     {
-        private static GameObject _frontCanvas;
-        private static GameObject _alertPrefab;
-        private static GameObject _playerOutNumber;
-        private static Text _playerOutNumberText;
-        private static GameObject _serviceInterrupt;
-        private static GameObject _loseFocus;
+        private GameObject _frontCanvas;
+        private GameObject _alertPrefab;
+        private GameObject _playerOutNumber;
+        private Text _playerOutNumberText;
+        private GameObject _serviceInterrupt;
+        private GameObject _loseFocus;
 
-        public static void Create()
+        public void Start()
         {
             _frontCanvas = GameObject.Find("ToolkitCanvas/Front");
             _alertPrefab = Instantiate(Resources.Load<GameObject>("Alert"), _frontCanvas.transform, false);

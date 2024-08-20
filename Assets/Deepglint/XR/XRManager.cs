@@ -1,5 +1,4 @@
 using System;
-using System;
 using Deepglint.XR.Config;
 using Deepglint.XR.Inputs;
 using Deepglint.XR.Log;
@@ -16,21 +15,22 @@ namespace Deepglint.XR
     [DefaultExecutionOrder(-100)]
     public class XRManager : MonoBehaviour
     {
-        const string XrDontDestroyName = "DGXR_DontDestroy";
+        const string XrDontDestroyName = "XRManager_DontDestroy";
         public bool isFilterZero;
         public static GameObject XRDontDestroy;
+        public static Action OnXrConstantNodeInit;
 
         public void Awake()
         {
-            InitXrConstantNode();
-            
             // 获取当前的 Input System 设置
             var inputSystemSettings = InputSystem.settings;
             // 修改 maxEventBytesPerUpdate 属性为0 移除限制
             inputSystemSettings.maxEventBytesPerUpdate = 0;
             // 应用修改后的设置
+
             InputSystem.settings = inputSystemSettings;
-            
+            DGXR.Space = XRSpace.Instance;
+            DGXR.IsFilterZero = isFilterZero;
             DGXR.UniqueID = SystemInfo.deviceUniqueIdentifier;
             DGXR.AppName = Application.productName;
             DGXR.AppVersion = Application.version;
@@ -49,57 +49,54 @@ namespace Deepglint.XR
                 Debug.LogError("load XRApplicationSettings failed");
 #endif
             }
-            
-            
+
+
 #if !UNITY_EDITOR
             if (DGXR.Config.Space.ScreenMode is ScreenStyle.Default)
             {
                 Cursor.visible = false;
             }
 #endif
-            
+
             GameLogger.Init(DGXR.Config.Log);
             if (UseRos())
             {
-                var ros = Extends.FindChildGameObject(gameObject,"RosConnect" );
+                var ros = Extends.FindChildGameObject(gameObject, "RosConnect");
                 Source.Source.DataFrom = SourceType.ROS;
                 ros.SetActive(true);
             }
             else
             {
-                var ws = Extends.FindChildGameObject(gameObject,"WsConnect" );
+                var ws = Extends.FindChildGameObject(gameObject, "WsConnect");
                 Source.Source.DataFrom = SourceType.WS;
                 ws.SetActive(true);
             }
         }
+
+        private void Start()
+        {
+            InitXrConstantNode();
+        }
+
 
         private void InitXrConstantNode()
         {
             XRDontDestroy = GameObject.Find(XrDontDestroyName);
             if (XRDontDestroy is null)
             {
-                XRDontDestroy = new GameObject(XrDontDestroyName);
+                XRDontDestroy = Instantiate(Resources.Load<GameObject>($"Prefabs/{XrDontDestroyName}"), null, false);
+                XRDontDestroy.name = XrDontDestroyName;
                 DontDestroyOnLoad(XRDontDestroy);
+            }
+            else
+            {
+                OnXrConstantNodeInit?.Invoke();
             }
         }
 
-        private void InitToolkitCanvas()
-        {
-            var prefab = Resources.Load<GameObject>("Toolkit");
-            var instance = Instantiate(prefab, XRManager.XRDontDestroy.transform, false);
-            instance.name = prefab.name;
-        }
-        
         private void Update()
         {
             XRDontDestroy.transform.SetPositionAndRotation(transform.position, transform.rotation);
-        }
-
-        public void Start()
-        {
-            DGXR.Space = XRSpace.Instance;
-            DGXR.IsFilterZero = isFilterZero;
-            InitToolkitCanvas();
         }
 
         private bool UseRos()
@@ -111,7 +108,7 @@ namespace Deepglint.XR
 
             return false;
         }
-        
+
         public void OnDestroy()
         {
             GameLogger.Cleanup();

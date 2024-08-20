@@ -114,7 +114,7 @@ DGXR Unity Integration SDK 是 deepglint 官方基于 Unity XR 提供的开发�
 
 ### 第二步：拖入 XRManager 预制体
 
-预制体位于 Packages/DGXR Interaction SDK/Prefabs文件夹下
+预制体位于 Packages/DGXR Interaction SDK文件夹下
 
 1. 预制体拖入后，会自动在坐标原点创建 灵境空间的场景（项目启动后会自动隐藏）
 2. 移动要展示的场景与空间重合，调整场景大小，便于与实际空间物品比例相同(也可以修改 XRManager 的 space scale来调整灵境空间大小)。

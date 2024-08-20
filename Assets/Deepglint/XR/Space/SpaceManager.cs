@@ -83,6 +83,8 @@ namespace Deepglint.XR.Space
             _screenWidth = 1920;
             _screenHeight = 1200;
 #endif
+            
+            InstantiateXR();
         }
 
         private void OnValidate()
@@ -113,7 +115,7 @@ namespace Deepglint.XR.Space
             _frontBottomTex.Create();
             _backBottomTex.Create();
 #endif
-            InstantiateXR();
+           
             var numberScreens = DGXR.Config.Space.Screens.Count;
             _screenEdges = new Dictionary<int, GameObject[]>();
             foreach (var screen in DGXR.Config.Space.Screens)
