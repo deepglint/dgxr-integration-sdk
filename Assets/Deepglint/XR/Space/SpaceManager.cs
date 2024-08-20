@@ -83,7 +83,7 @@ namespace Deepglint.XR.Space
             _screenWidth = 1920;
             _screenHeight = 1200;
 #endif
-            
+            InitRenderTexture();
             InstantiateXR();
         }
 
@@ -96,7 +96,7 @@ namespace Deepglint.XR.Space
             }
         }
 
-        void Start()
+        void InitRenderTexture()
         {
             if (!DGXR.SystemName.Contains("Mac") && DGXR.Config.Space.ScreenMode == ScreenStyle.Default)
             {
@@ -115,8 +115,10 @@ namespace Deepglint.XR.Space
             _frontBottomTex.Create();
             _backBottomTex.Create();
 #endif
-           
-            var numberScreens = DGXR.Config.Space.Screens.Count;
+        }
+
+        private void Start()
+        {
             _screenEdges = new Dictionary<int, GameObject[]>();
             foreach (var screen in DGXR.Config.Space.Screens)
             {
