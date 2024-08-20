@@ -7,7 +7,7 @@ namespace Deepglint.XR.Toolkit.Utils
     public class Record
     {
         private readonly string _path;
-        private int _currentHouse=-1;
+        private int _currentHouse = -1;
         private string _marker;
         private StreamWriter _writer;
 
@@ -21,16 +21,14 @@ namespace Deepglint.XR.Toolkit.Utils
             {
                 _path = Path.Combine(Application.persistentDataPath, "records");
             }
-            _marker = marker;
-            if (!DGXR.SystemName.Contains("Mac"))
-            {
-                if (!Directory.Exists(_path))
-                {
-                    Directory.CreateDirectory(_path);
-                }
 
-                CheckOldFile();
+            _marker = marker;
+            if (!Directory.Exists(_path))
+            {
+                Directory.CreateDirectory(_path);
             }
+
+            CheckOldFile();
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
@@ -38,7 +36,8 @@ namespace Deepglint.XR.Toolkit.Utils
         {
             string msg = (string)data;
             DateTime currentTime = DateTime.Now;
-            currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, currentTime.Second);
+            currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour,
+                currentTime.Minute, currentTime.Second);
             string timestamp = currentTime.ToString("yyyyMMddHHmmss");
             string filePath = Path.Combine(_path, $"{DGXR.AppName}_{DGXR.AppVersion}_{timestamp}_{_marker}.txt");
             if (_currentHouse == -1)
@@ -47,18 +46,21 @@ namespace Deepglint.XR.Toolkit.Utils
                 _writer = new StreamWriter(filePath, true);
                 _currentHouse = currentTime.Hour;
             }
-            
-            if (_currentHouse!=currentTime.Hour)
+
+            if (_currentHouse != currentTime.Hour)
             {
-                currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, _currentHouse,currentTime.Minute, currentTime.Second);
+                currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, _currentHouse,
+                    currentTime.Minute, currentTime.Second);
                 string oldTimestamp = currentTime.ToString("yyyyMMddHHmmss");
-                string oldFilePath = Path.Combine(_path,  $"{DGXR.AppName}_{DGXR.AppVersion}_{oldTimestamp}_{_marker}.txt");
+                string oldFilePath =
+                    Path.Combine(_path, $"{DGXR.AppName}_{DGXR.AppVersion}_{oldTimestamp}_{_marker}.txt");
                 CheckFile(oldFilePath);
                 _writer.Close();
                 _writer = new StreamWriter(oldFilePath, true);
                 _currentHouse = currentTime.Hour;
             }
-            _writer.WriteLine(msg); 
+
+            _writer.WriteLine(msg);
         }
 
         private void CheckFile(string path)
@@ -82,7 +84,7 @@ namespace Deepglint.XR.Toolkit.Utils
                 {
                     File.Delete(file);
                 }
-            } 
+            }
         }
     }
 }
