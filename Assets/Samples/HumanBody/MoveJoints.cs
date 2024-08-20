@@ -57,6 +57,7 @@ namespace Samples.HumanBody
         // Update is called once per frame
         void Update()
         {
+            
             if (Source.Data.Count == 0)
             {
                 return;
