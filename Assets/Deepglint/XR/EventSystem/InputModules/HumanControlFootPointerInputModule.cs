@@ -364,11 +364,13 @@ namespace Deepglint.XR.EventSystem.InputModules
             {
                 created = GetPointerData(device.deviceId, out data, true);
                 currentFootPos = WorldToBottomScreenPosition(device.HumanBody.RightFoot.position.value);
+                data.worldPosition = device.HumanBody.RightFoot.position.value;
             }
             else
             {
                 created = GetPointerData(-device.deviceId, out data, true);
                 currentFootPos = WorldToBottomScreenPosition(device.HumanBody.LeftFoot.position.value);
+                data.worldPosition = device.HumanBody.LeftFoot.position.value;
             }
             data.Reset();
 

@@ -12,6 +12,7 @@ namespace Samples.HumanControlInputModule
         IPointerExitHandler, 
         IPointerDownHandler, 
         IPointerUpHandler,
+        IPointerMoveHandler,
         IPointerClickHandler
     {
         private TMP_Dropdown _dropdown;
@@ -122,6 +123,18 @@ namespace Samples.HumanControlInputModule
             Debug.LogFormat(
                 eventData.pointerId > 0 ? "human {0} right foot click at {1}" : "human {0} with left foot click {1}",
                 eventData.pointerId, name);
+        }
+
+        public void OnPointerMove(PointerEventData eventData)
+        {
+            if (eventData.pointerId > 0)
+            {
+                Debug.LogWarning($"right foot position {eventData.worldPosition}");
+            }
+            else
+            {
+                Debug.LogWarning($"left foot position {eventData.worldPosition}");
+            }
         }
     }
 }
