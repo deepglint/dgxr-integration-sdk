@@ -27,7 +27,6 @@ namespace Deepglint.XR
             // 修改 maxEventBytesPerUpdate 属性为0 移除限制
             inputSystemSettings.maxEventBytesPerUpdate = 0;
             // 应用修改后的设置
-
             InputSystem.settings = inputSystemSettings;
             DGXR.Space = XRSpace.Instance;
             DGXR.IsFilterZero = isFilterZero;
@@ -57,20 +56,6 @@ namespace Deepglint.XR
                 Cursor.visible = false;
             }
 #endif
-
-            GameLogger.Init(DGXR.Config.Log);
-            if (UseRos())
-            {
-                var ros = Extends.FindChildGameObject(gameObject, "RosConnect");
-                Source.Source.DataFrom = SourceType.ROS;
-                ros.SetActive(true);
-            }
-            else
-            {
-                var ws = Extends.FindChildGameObject(gameObject, "WsConnect");
-                Source.Source.DataFrom = SourceType.WS;
-                ws.SetActive(true);
-            }
         }
 
         private void Start()
@@ -86,6 +71,7 @@ namespace Deepglint.XR
             {
                 XRDontDestroy = Instantiate(Resources.Load<GameObject>($"Prefabs/{XrDontDestroyName}"), null, false);
                 XRDontDestroy.name = XrDontDestroyName;
+                GameLogger.Init(DGXR.Config.Log);
                 DontDestroyOnLoad(XRDontDestroy);
             }
             else
@@ -99,17 +85,7 @@ namespace Deepglint.XR
             XRDontDestroy.transform.SetPositionAndRotation(transform.position, transform.rotation);
         }
 
-        private bool UseRos()
-        {
-            if (!Application.isEditor && !DGXR.SystemName.Contains("Mac"))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public void OnDestroy()
+        private void OnApplicationQuit()
         {
             GameLogger.Cleanup();
         }
