@@ -17,12 +17,27 @@ namespace Deepglint.XR.Toolkit
 
      
 
-        private void UpdateToolkitCanvas()
+        private void InitToolkit()
         {
             _toolKitCanvas = GameObject.Find("ToolkitCanvas");
             var bottomCanvas = _toolKitCanvas.FindChildGameObject("Bottom").GetComponent<Canvas>();
             bottomCanvas.renderMode = RenderMode.WorldSpace;
             bottomCanvas.worldCamera = DGXR.Space.Bottom.UICamera;
+            GameObject uiBackGround = GameObject.Find("UIRoot")?.FindChildGameObject("UI_BackGround");
+            if (uiBackGround != null)
+            {
+                uiBackGround.SetActive(false);
+            }
+            _fps = transform.GetComponent<FPS>();
+            _versionCode = transform.GetComponent<VersionCode>();
+            _inGameDebugConsole = GameObject.Find(IngameDebugConsolePrefabName);
+            bool openDebug = DGXR.Config.Debug;
+            _fps.enabled = openDebug;
+            _versionCode.enabled = openDebug;
+            if (_inGameDebugConsole != null)
+            {
+                _inGameDebugConsole.SetActive(openDebug);
+            }
             UpdateMouseEvent();
         }
 
@@ -36,26 +51,8 @@ namespace Deepglint.XR.Toolkit
 
         private void Start()
         {
-            UpdateToolkitCanvas();
-            XRManager.OnXrConstantNodeInit += UpdateToolkitCanvas;
-            GameObject uiBackGround = GameObject.Find("UIRoot")?.FindChildGameObject("UI_BackGround");
-            if (uiBackGround != null)
-            {
-                uiBackGround.SetActive(false);
-            }
-
-            _fps = transform.GetComponent<FPS>();
-            _versionCode = transform.GetComponent<VersionCode>();
-            _inGameDebugConsole = GameObject.Find(IngameDebugConsolePrefabName);
-            bool openDebug = DGXR.Config.Debug;
-            _fps.enabled = openDebug;
-            _versionCode.enabled = openDebug;
-            if (_inGameDebugConsole != null)
-            {
-                _inGameDebugConsole.SetActive(openDebug);
-            }
-
-            UpdateMouseEvent();
+            InitToolkit();
+            XRManager.OnXrConstantNodeInit += InitToolkit;
         }
     }
 }
