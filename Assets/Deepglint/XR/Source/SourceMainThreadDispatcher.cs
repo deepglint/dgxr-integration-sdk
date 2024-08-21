@@ -38,7 +38,7 @@ namespace Deepglint.XR.Source
             }
         }
 
-    private bool UseRos()
+        private bool UseRos()
         {
             if (!Application.isEditor && !DGXR.SystemName.Contains("Mac"))
             {
@@ -47,7 +47,7 @@ namespace Deepglint.XR.Source
 
             return false;
         }
-        
+
         private void Update()
         {
             lock (ExecuteRosMsgEventMainThreadQueue)
@@ -58,14 +58,15 @@ namespace Deepglint.XR.Source
                 }
             }
         }
-        
+
         public static void Enqueue(Action action)
         {
             // TODO 无论开启不开启后台执行，都不推送骨骼
-            if(!Application.isFocused)
+            if (!Application.isFocused)
             {
                 return;
             }
+
             lock (ExecuteRosMsgEventMainThreadQueue)
             {
                 ExecuteRosMsgEventMainThreadQueue.Enqueue(action);
