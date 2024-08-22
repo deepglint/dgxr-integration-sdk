@@ -14,14 +14,17 @@ namespace Deepglint.XR.Interaction
         private float _distance = 10;
         private readonly float _distanceOffset = 0.05f;
         private readonly float _angleOffset = 0.5f;
-        private Vector3 _startShoulder = Vector3.zero;
         private int _missCount = 0;
-
-        public float StartArmAngle = 120;
-        public float PerformArmAngle = 76;
+        private float _startArmAngle = 0;
+        private float StartArmAngleThreshold = 40;
+        public float SlideArmAngleThreshold = 40;
         
         public void Process(ref InputInteractionContext context)
         {
+            if (StartArmAngleThreshold < SlideArmAngleThreshold)
+            {
+                StartArmAngleThreshold = SlideArmAngleThreshold;
+            }
             if (context.control.device is DGXRHumanController dgXRDevice)
             {
                 if (IsSlideRightArmToLeftHappening(dgXRDevice))
@@ -33,19 +36,16 @@ namespace Deepglint.XR.Interaction
                             var distance = Vector3.Distance(dgXRDevice.HumanBody.RightWrist.position.ReadValue(),
                                 dgXRDevice.HumanBody.RightShoulder.position.ReadValue());
                             // Debug.LogFormat("arm angle: {0}, distance {1}", _armAngle, distance);
-                            if (_armAngle >= StartArmAngle  && distance < _distance)
+                            if (_armAngle >= StartArmAngleThreshold  && distance < _distance)
                             {
                                 // Debug.Log("SlideRightArmToLeft action started");
                                 context.Started();
-                                _startShoulder = dgXRDevice.HumanBody.LeftShoulder.position.ReadValue() -
-                                                 dgXRDevice.HumanBody.RightShoulder.position.ReadValue();
+                                _startArmAngle = _armAngle;
                             }
                             break;
                         case InputActionPhase.Started:
-                            float shoulderAngle = Vector3.Angle(dgXRDevice.HumanBody.LeftShoulder.position.ReadValue() -
-                                                              dgXRDevice.HumanBody.RightShoulder.position.ReadValue(), _startShoulder);
                             // Debug.LogFormat("arm angle: {0}, shoulder angle {1}", _armAngle, shoulderAngle);
-                            if (_armAngle - shoulderAngle * 0.5f <= PerformArmAngle)
+                            if (_armAngle <= _startArmAngle - SlideArmAngleThreshold)
                             {
                                 // Debug.Log($"SlideRightArmToLeft action performed on device {dgXRDevice.deviceId}");
                                 context.PerformedAndStayPerformed();
@@ -60,6 +60,7 @@ namespace Deepglint.XR.Interaction
                     if (_missCount >= 3 &&
                         (context.phase == InputActionPhase.Performed || context.phase == InputActionPhase.Started))
                     {
+                        _startArmAngle = 0;
                         // Debug.Log("SlideRightArmToLeft action canceled");
                         context.Canceled();
                     }
@@ -135,6 +136,7 @@ namespace Deepglint.XR.Interaction
             _missCount = 0;
             _distance = 10;
             _armAngle = 180;
+            _startArmAngle = 0;
         }
     }
 }
