@@ -7,7 +7,8 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
 {
     internal class AppExitButtonPointerListener : MonoBehaviour,
         IPointerDownHandler,
-        IPointerUpHandler
+        IPointerUpHandler,
+        IPointerExitHandler
     {
         public Action OnEnter;
         public Action OnExit;
@@ -19,9 +20,6 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             if (_playerIds.Contains(playerId)) return;
             _playerIds.Add(playerId);
             OnEnter?.Invoke();
-            Debug.LogFormat(
-                eventData.pointerId > 0 ? "human {0} right foot down at {1}" : "human {0} with left foot down {1}",
-                eventData.pointerId, name);
         }
 
         public void OnPointerUp(PointerEventData eventData)
@@ -33,15 +31,23 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             {
                 OnExit?.Invoke();
             }
-            Debug.LogFormat(
-                eventData.pointerId > 0 ? "human {0} right foot up from {1}" : "human {0} with left foot up from {1}",
-                eventData.pointerId, name);
         }
 
         public void OnDestroy()
         {
             OnEnter = null;
             OnExit = null;
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            string playerId = eventData.pointerId.ToString();
+            if (!_playerIds.Contains(playerId)) return;
+            _playerIds.Remove(playerId);
+            if (_playerIds.Count <= 0)
+            {
+                OnExit?.Invoke();
+            }
         }
     }
 }

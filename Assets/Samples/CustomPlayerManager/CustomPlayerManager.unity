@@ -609,6 +609,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7104479281754385416, guid: 7d7e241a0de3c43d5b528d0a56cc3c67, type: 3}
+      propertyPath: footTouchThreshold
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 8935320070538980628, guid: 7d7e241a0de3c43d5b528d0a56cc3c67, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

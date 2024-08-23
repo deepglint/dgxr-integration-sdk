@@ -32,7 +32,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             _gameExitingPrefab =
                 Instantiate(Resources.Load<GameObject>("GameExiting"), _frontCanvas.transform, false);
             _gameExitingText = _gameExitingPrefab.FindChildGameObject("GameExitingText").GetComponent<Text>();
-            _pointerListener = _gameExitButtonPrefab.GetComponent<AppExitButtonPointerListener>();
+            _pointerListener = _gameExitButtonPrefab.GetComponentInChildren<AppExitButtonPointerListener>();
             _pointerListener.OnEnter += OnEnter;
             _pointerListener.OnExit += OnExit;
             _buttonImg = _gameExitButtonPrefab.FindChildGameObject("GameExitButton_inner").GetComponent<RawImage>();
