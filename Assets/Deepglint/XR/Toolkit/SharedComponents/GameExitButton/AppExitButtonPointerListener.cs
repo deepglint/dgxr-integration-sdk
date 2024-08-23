@@ -3,26 +3,28 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
-
 namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
 {
     internal class AppExitButtonPointerListener : MonoBehaviour,
-        IPointerEnterHandler,
-        IPointerExitHandler
+        IPointerDownHandler,
+        IPointerUpHandler
     {
         public Action OnEnter;
         public Action OnExit;
         private readonly List<string> _playerIds = new();
 
-        public void OnPointerEnter(PointerEventData eventData)
+        public void OnPointerDown(PointerEventData eventData)
         {
             string playerId = eventData.pointerId.ToString();
             if (_playerIds.Contains(playerId)) return;
             _playerIds.Add(playerId);
             OnEnter?.Invoke();
+            Debug.LogFormat(
+                eventData.pointerId > 0 ? "human {0} right foot down at {1}" : "human {0} with left foot down {1}",
+                eventData.pointerId, name);
         }
 
-        public void OnPointerExit(PointerEventData eventData)
+        public void OnPointerUp(PointerEventData eventData)
         {
             string playerId = eventData.pointerId.ToString();
             if (!_playerIds.Contains(playerId)) return;
@@ -31,6 +33,9 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             {
                 OnExit?.Invoke();
             }
+            Debug.LogFormat(
+                eventData.pointerId > 0 ? "human {0} right foot up from {1}" : "human {0} with left foot up from {1}",
+                eventData.pointerId, name);
         }
 
         public void OnDestroy()
