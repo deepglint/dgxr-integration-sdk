@@ -482,7 +482,7 @@ namespace Deepglint.XR.EventSystem.InputModules
             /// </summary>
             public bool PressedThisFrame()
             {
-                if (ButtonData.eligibleForClick == false)
+                if (ButtonData.eligibleForClick == false || ButtonData.pointerCurrentRaycast.gameObject != ButtonData.rawPointerPress)
                 {
                     return ButtonState == PointerEventData.FramePressState.Pressed || ButtonState == PointerEventData.FramePressState.PressedAndReleased;
                 }
