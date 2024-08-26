@@ -219,14 +219,14 @@ namespace Deepglint.XR.Player
                     }
 
                     EventTrigger.Entry entry = new EventTrigger.Entry();
-                    entry.eventID = EventTriggerType.PointerEnter;
+                    entry.eventID = EventTriggerType.PointerDown;
                     entry.callback.AddListener((eventData) =>
                     {
                         OnJoinUIEventTriggered((PointerEventData)eventData);
                     });
 
                     trigger.triggers.Add(entry);
-                    Debug.Log($"Add OnPointerEnter listener to {joinUI.name}");
+                    Debug.Log($"Add OnPointerDown listener to {joinUI.name}");
                     
                     break;
             }
@@ -257,7 +257,7 @@ namespace Deepglint.XR.Player
                         // 查找并移除 PointerEnter 监听器
                         for (int i = trigger.triggers.Count - 1; i >= 0; i--)
                         {
-                            if (trigger.triggers[i].eventID == EventTriggerType.PointerEnter)
+                            if (trigger.triggers[i].eventID == EventTriggerType.PointerDown)
                             {
                                 trigger.triggers.RemoveAt(i);
                             }

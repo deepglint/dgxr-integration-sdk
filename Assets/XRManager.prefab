@@ -1796,7 +1796,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SendPointerHoverToParent: 1
   enableMouseEvent: 0
-  footTouchThreshold: 0.03
+  footTouchThreshold: 0.04
 --- !u!114 &8771042820154380366
 MonoBehaviour:
   m_ObjectHideFlags: 0
