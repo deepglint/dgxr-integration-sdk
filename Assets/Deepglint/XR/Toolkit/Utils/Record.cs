@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Deepglint.XR.Toolkit.Utils
@@ -10,6 +11,7 @@ namespace Deepglint.XR.Toolkit.Utils
         private int _currentHouse = -1;
         private string _marker;
         private StreamWriter _writer;
+        private readonly object _lock = new object();
 
         public Record(string path, string marker)
         {
@@ -32,35 +34,35 @@ namespace Deepglint.XR.Toolkit.Utils
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
-        public void SaveMsgData(object data)
+        public async Task SaveMsgData(string msg)
         {
-            string msg = (string)data;
-            DateTime currentTime = DateTime.Now;
-            currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour,
-                currentTime.Minute, currentTime.Second);
-            string timestamp = currentTime.ToString("yyyyMMddHHmmss");
-            string filePath = Path.Combine(_path, $"{DGXR.AppName}_{DGXR.AppVersion}_{timestamp}_{_marker}.txt");
-            if (_currentHouse == -1)
+            lock (_lock)
             {
-                CheckFile(filePath);
-                _writer = new StreamWriter(filePath, true);
-                _currentHouse = currentTime.Hour;
-            }
-
-            if (_currentHouse != currentTime.Hour)
-            {
-                currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, _currentHouse,
+                DateTime currentTime = DateTime.Now;
+                currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour,
                     currentTime.Minute, currentTime.Second);
-                string oldTimestamp = currentTime.ToString("yyyyMMddHHmmss");
-                string oldFilePath =
-                    Path.Combine(_path, $"{DGXR.AppName}_{DGXR.AppVersion}_{oldTimestamp}_{_marker}.txt");
-                CheckFile(oldFilePath);
-                _writer.Close();
-                _writer = new StreamWriter(oldFilePath, true);
-                _currentHouse = currentTime.Hour;
-            }
+                string timestamp = currentTime.ToString("yyyyMMddHHmmss");
+                string filePath = Path.Combine(_path, $"{DGXR.AppName}_{DGXR.AppVersion}_{timestamp}_{_marker}.txt");
+                if (_currentHouse == -1)
+                {
+                    CheckFile(filePath);
+                    _writer = new StreamWriter(filePath, true);
+                    _currentHouse = currentTime.Minute;
+                }
 
-            _writer.WriteLine(msg);
+                if (_currentHouse != currentTime.Minute)
+                {
+                    currentTime =  DateTime.Now;
+                    string oldTimestamp = currentTime.ToString("yyyyMMddHHmmss");
+                    string newFilePath =
+                        Path.Combine(_path, $"{DGXR.AppName}_{DGXR.AppVersion}_{oldTimestamp}_{_marker}.txt");
+                    CheckFile(newFilePath);
+                    _writer.Close();
+                    _writer = new StreamWriter(newFilePath, true);
+                    _currentHouse = currentTime.Minute;
+                }
+                _writer.WriteLine(msg);
+            }
         }
 
         private void CheckFile(string path)

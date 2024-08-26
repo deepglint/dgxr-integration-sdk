@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
+using System.Threading.Tasks;
 using Deepglint.XR.Source;
 using Deepglint.XR.Toolkit.Utils;
 using Newtonsoft.Json;
@@ -110,7 +111,7 @@ namespace Deepglint.XR.Ros
 
                 if (!DGXR.SystemName.Contains("Mac"))
                 {
-                    ThreadPool.QueueUserWorkItem(_record.SaveMsgData, msg);
+                    Task.Run(() => _record.SaveMsgData(msg)); 
                 }
 
                 foreach (var val in result.ThreeDim)
