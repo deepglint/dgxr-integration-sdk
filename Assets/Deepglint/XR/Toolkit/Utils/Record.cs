@@ -47,10 +47,10 @@ namespace Deepglint.XR.Toolkit.Utils
                 {
                     CheckFile(filePath);
                     _writer = new StreamWriter(filePath, true);
-                    _currentHouse = currentTime.Minute;
+                    _currentHouse = currentTime.Hour;
                 }
 
-                if (_currentHouse != currentTime.Minute)
+                if (_currentHouse != currentTime.Hour)
                 {
                     currentTime =  DateTime.Now;
                     string oldTimestamp = currentTime.ToString("yyyyMMddHHmmss");
@@ -59,7 +59,7 @@ namespace Deepglint.XR.Toolkit.Utils
                     CheckFile(newFilePath);
                     _writer.Close();
                     _writer = new StreamWriter(newFilePath, true);
-                    _currentHouse = currentTime.Minute;
+                    _currentHouse = currentTime.Hour;
                 }
                 _writer.WriteLine(msg);
             }
