@@ -43,8 +43,12 @@ namespace Deepglint.XR.Toolkit.Utils
             string filePath = Path.Combine(_path, $"{DGXR.AppName}_{DGXR.AppVersion}_{timestamp}_{_marker}.txt");
             if (_currentHouse == -1)
             {
-                CheckFile(filePath);
-                _writer = new StreamWriter(filePath, true);
+                lock (_lock)
+                {
+                    CheckFile(filePath);
+                    _writer = new StreamWriter(filePath, true);
+                }
+
                 _currentHouse = currentTime.Hour;
             }
 
