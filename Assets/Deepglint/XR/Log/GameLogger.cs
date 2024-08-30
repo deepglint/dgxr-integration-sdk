@@ -46,7 +46,7 @@ namespace Deepglint.XR.Log
 
         public static void CreateLogFile()
         {
-            var t = DateTime.Now.ToString("yyyyMMddhhmmss");
+            var t = DateTime.Now.ToString("yyyyMMddHHmmss");
 
             if (!string.IsNullOrEmpty(DGXR.Config.Log.SavePath))
             {
