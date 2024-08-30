@@ -1,5 +1,4 @@
-﻿using Deepglint.XR.Toolkit.DebugTool;
-using Deepglint.XR.Toolkit.Utils;
+﻿using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
