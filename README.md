@@ -374,7 +374,8 @@ if (DGXR.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
 ```
 
 >注意事项：
-> - EventSystem上的Pointer事件都是通过发送射线的机制，检测到碰撞的物体进行交互的，因此在使用EventSystem上的HumanControlFootPointerInputModule时注意物体之间的遮挡关系，可通过调节射线照射的UI元素的layer层或者把不需要检测的元素的RaycastTarget属性反选掉以避免元素之间的遮挡关系导致事件无法触发。
+> 1. EventSystem上的Pointer事件都是通过发送射线的机制，检测到碰撞的物体进行交互的，因此在使用EventSystem上的HumanControlFootPointerInputModule时注意物体之间的遮挡关系，可通过调节射线照射的UI元素的layer层或者把不需要检测的元素的RaycastTarget属性反选掉以避免元素之间的遮挡关系导致事件无法触发。
+> 2. 默认情况下整个UI元素都是射线的可交互区，可通过RaycastPadding属性调整可交互区的大小，以免造成交互事件的误触。
 
 ### 动作判定
 
