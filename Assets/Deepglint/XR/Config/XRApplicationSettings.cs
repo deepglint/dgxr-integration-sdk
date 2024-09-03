@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -10,10 +11,28 @@ namespace Deepglint.XR.Config
         [JsonProperty("maxPlayerCount")] public int maxPlayerCount;
     }
 
+    public class ExitButtonConfig
+    {
+        // 是否显示
+        public bool Enable;
+        // 按钮文案
+        public string ButtonText;
+        // 触发中提示文案
+        public string ExitingInfo;
+        // 达到触发时间的回调
+        public Action OnExit;
+    }
+
     [System.Serializable]
     public class Toolkit
     {
-        public bool enableExitButton = true;
+        public ExitButtonConfig ExitButtonConfig = new ExitButtonConfig()
+        {
+            Enable = true,
+            ButtonText = "退出",
+            ExitingInfo = "退出应用",
+            OnExit = null,
+        };
         public bool enableLoseFocusTip = true;
     }
 
