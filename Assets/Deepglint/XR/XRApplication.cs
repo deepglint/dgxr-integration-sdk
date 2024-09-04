@@ -98,8 +98,8 @@ namespace Deepglint.XR
                 _settings.playerSetting.minPlayerCount = _settings.playerSetting.minPlayerCount;
             }
 
-            _settings.toolkit.enableExitButton =
-                EditorGUILayout.Toggle("EnableExitButton", _settings.toolkit.enableExitButton);
+            _settings.toolkit.ExitButtonConfig.Enable =
+                EditorGUILayout.Toggle("EnableExitButton", _settings.toolkit.ExitButtonConfig.Enable);
             _settings.toolkit.enableLoseFocusTip =
                 EditorGUILayout.Toggle("EnableLoseFocusTip", _settings.toolkit.enableLoseFocusTip);
             if (EditorGUI.EndChangeCheck())

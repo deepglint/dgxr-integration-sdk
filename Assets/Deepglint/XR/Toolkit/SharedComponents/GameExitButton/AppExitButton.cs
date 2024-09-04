@@ -1,4 +1,5 @@
-﻿using Deepglint.XR.Toolkit.Utils;
+using System;
+using Deepglint.XR.Toolkit.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -48,7 +49,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
             _countdownTimer = 0;
             SetAlpha(0.5f);
         }
-
+        
         private void SetButtonRect()
         {
             float padding = 20;
@@ -74,10 +75,11 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
 
         private void Update()
         {
-            if (DGXR.ApplicationSettings.toolkit.enableExitButton)
+            _exitText.GetComponent<Text>().text = DGXR.ApplicationSettings.toolkit.ExitButtonConfig.ButtonText;
+            if (DGXR.ApplicationSettings.toolkit.ExitButtonConfig.Enable)
             {
-                if (!_gameExitButtonPrefab.activeSelf) return;
-
+                _gameExitingPrefab.SetActive(true);
+                _gameExitButtonPrefab.SetActive(true);
                 if (_isExiting)
                 {
                     int previousSecond = Mathf.FloorToInt(_countdownTimer);
@@ -86,7 +88,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
 
                     if (currentSecond != previousSecond)
                     {
-                        _gameExitingText.text = $"{currentSecond}秒后退出应用";
+                        _gameExitingText.text = $"{currentSecond}秒后{DGXR.ApplicationSettings.toolkit.ExitButtonConfig.ExitingInfo}";
                         _gameExitingPrefab.SetActive(true);
                         _timeText.text = currentSecond.ToString();
                         _timeText.gameObject.SetActive(true);
@@ -96,11 +98,20 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
 
                     if (_countdownTimer <= 1)
                     {
-                        _gameExitingText.text = "退出应用中";
+                        _gameExitingText.text = $"{DGXR.ApplicationSettings.toolkit.ExitButtonConfig.ExitingInfo}中";
                         _timeText.text = "";
                         _timeText.gameObject.SetActive(false);
                         _exitText.SetActive(true);
-                        ExecuteCallback();
+                        if (DGXR.ApplicationSettings.toolkit.ExitButtonConfig.OnExit is null)
+                        {
+                            AppExit.Quit();
+                        }
+                        else
+                        {
+                            DGXR.ApplicationSettings.toolkit.ExitButtonConfig.OnExit.Invoke();
+                        }
+
+                        OnExit();
                     }
                 }
                 else
@@ -116,13 +127,7 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
                 _gameExitButtonPrefab.SetActive(false);
             }
         }
-
-
-        private void ExecuteCallback()
-        {
-            AppExit.Quit();
-        }
-
+        
         public void OnEnter()
         {
             if (_isExiting) return;

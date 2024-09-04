@@ -75,14 +75,14 @@ DGXR Unity Integration SDK 是 deepglint 官方基于 Unity XR 提供的开发�
 ![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/init-sdk-001.jpg)
 ![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/init-sdk-002.jpg)
 
-| 配置项          | 功能说明                                                    |
-|:--------------|:--------------------------------------------------------|
-| Application Type | 描述应用的类型（如：益智、棋牌、影视等）                     |
-| Minimum Player Count | 应用支持的最小玩家数                                  |
-| Maxmum Player Count   | 应用支持的最大玩家数                                 |
-| Description     | 应用描述信息                                               |
-| EnableExitButton |  是否为应用启用默认退出按钮                                  |
-| EnableLoseFocuseTip  | 是否为应用启用失焦提示                                  |
+| 配置项          | 功能说明                                                                                                        |
+|:--------------|:------------------------------------------------------------------------------------------------------------|
+| Application Type | 描述应用的类型（如：益智、棋牌、影视等）                                                                                        |
+| Minimum Player Count | 应用支持的最小玩家数                                                                                                  |
+| Maxmum Player Count   | 应用支持的最大玩家数                                                                                                  |
+| Description     | 应用描述信息                                                                                                      |
+| ExitButtonConfig | 退出按钮相关配置：<br/>Enable：是否显示退出按钮 <br/>OnExit：达到触发时间的回调<br/>ExitingInfo：触发中的提示文案<br/>ButtonText：按钮文案            |
+| EnableLoseFocuseTip  | 是否为应用启用失焦提示                                                                                                 |
 
 
 ## 创建一个 XR 场景
