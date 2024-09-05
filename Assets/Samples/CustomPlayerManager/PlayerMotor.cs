@@ -1,6 +1,7 @@
 using Deepglint.XR.EventSystem;
 using Deepglint.XR.EventSystem.EventData;
 using Deepglint.XR.Inputs.Controls;
+using Deepglint.XR.Log;
 using Deepglint.XR.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,6 +22,8 @@ namespace Samples.CustomPlayerManager
         private int _deepSquatCount = 0;
         private int _slideRightArmToLeftCount = 0;
         private int _slideLeftArmToRightCount = 0;
+        
+        private static Logger _sampleLogger = new Logger(new PrefixedLogger(Debug.unityLogger.logHandler, "Player-Samples"));
 
         private void Awake()
         {
@@ -62,7 +65,7 @@ namespace Samples.CustomPlayerManager
         {
             if(value.performed)
             {
-                Debug.Log("Jump action performed");
+                _sampleLogger.Log("Jump action performed");
                 jump();
             }
         }
@@ -71,7 +74,7 @@ namespace Samples.CustomPlayerManager
         {
             if(value.performed)
             {
-                Debug.Log("CheerUp action performed");
+                _sampleLogger.Log("CheerUp action performed");
             }
         }
     
@@ -80,7 +83,7 @@ namespace Samples.CustomPlayerManager
             if(value.performed)
             {
                 _slideRightArmToLeftCount++;
-                Debug.LogFormat("SlideRightArmToLeftCount count: {0}", _slideRightArmToLeftCount);
+                _sampleLogger.Log($"SlideRightArmToLeftCount count: {_slideRightArmToLeftCount}");
             }
         }
     
@@ -89,7 +92,7 @@ namespace Samples.CustomPlayerManager
             if(value.performed)
             {
                 _slideLeftArmToRightCount++;
-                Debug.LogFormat("SlideLeftArmToRightCount count: {0}", _slideLeftArmToRightCount);
+                _sampleLogger.Log($"SlideLeftArmToRightCount count: {_slideLeftArmToRightCount}");
             }
         }
     
@@ -98,7 +101,7 @@ namespace Samples.CustomPlayerManager
             if(value.performed)
             {
                 _freeSwimCount++;
-                Debug.LogFormat("free-swim count: {0}", _freeSwimCount);
+                _sampleLogger.Log($"free-swim count: {_freeSwimCount}");
             }
         }
     
@@ -107,7 +110,7 @@ namespace Samples.CustomPlayerManager
             if(value.performed)
             {
                 _butterflySwimCount++;
-                Debug.LogFormat("butterfly-swim count: {0}", _butterflySwimCount);
+                _sampleLogger.Log($"butterfly-swim count: {_butterflySwimCount}");
             }
         }
     
@@ -116,7 +119,7 @@ namespace Samples.CustomPlayerManager
             if(value.performed)
             {
                 _highKneeRunSwimCount++;
-                Debug.LogFormat("high-knee-run count: {0}", _highKneeRunSwimCount);
+                _sampleLogger.Log("high-knee-run count: {0}", _highKneeRunSwimCount);
             }
         }
     
@@ -125,7 +128,7 @@ namespace Samples.CustomPlayerManager
             if(value.performed)
             {
                 _deepSquatCount++;
-                Debug.LogFormat("deep-squat count: {0}", _deepSquatCount);
+                _sampleLogger.Log("deep-squat count: {0}", _deepSquatCount);
             }
         }
 
@@ -133,14 +136,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                Debug.Log("raise both hand");
-                GameObject torch = GameObject.Find("torch");
-                if (torch != null && torch.transform.parent == null)
-                {
-                    Player player = gameObject.GetComponent<Player>();
-                    Debug.LogFormat("{0} get torch", player.Character.Name);
-                    torch.transform.parent = gameObject.transform;
-                }
+                _sampleLogger.Log("raise both hand");
             }
         }
         
@@ -148,7 +144,7 @@ namespace Samples.CustomPlayerManager
         {
             if(value.performed)
             {
-                Debug.Log("Raise-Single-Hand action performed");
+                _sampleLogger.Log("Raise-Single-Hand action performed");
             }
         }
 
@@ -156,7 +152,7 @@ namespace Samples.CustomPlayerManager
         {
             if(value.performed)
             {
-                Debug.Log("Raise-Right-Hand action performed");
+                _sampleLogger.Log("Raise-Right-Hand action performed");
             }
         }
         
@@ -164,7 +160,7 @@ namespace Samples.CustomPlayerManager
         {
             if(value.performed)
             {
-                Debug.Log("Raise-Left-Hand action performed");
+                _sampleLogger.Log("Raise-Left-Hand action performed");
             }
         }
     
@@ -173,7 +169,7 @@ namespace Samples.CustomPlayerManager
             bool data = value.isPressed;
             if(data)
             {
-                Debug.Log("jump, " + _isOnGround);
+                _sampleLogger.Log("jump, " + _isOnGround);
                 if (_isOnGround)
                 {
                     //瞬移效果
@@ -192,7 +188,7 @@ namespace Samples.CustomPlayerManager
                 // 实现跳跃效果
                 if (_rb == null)
                 {
-                    Debug.Log("rb is null");
+                    _sampleLogger.Log("rb is null");
                 }
                 _rb.AddForce(Vector3.up * jumpSpeed);
                 // 此时物体不在地面上
@@ -205,7 +201,7 @@ namespace Samples.CustomPlayerManager
             Player player = eventData.Player.GetComponent<Player>();
             if (player != null)
             {
-                Debug.LogFormat("high-five action with {0}", player.Character.Name);
+                _sampleLogger.Log($"high-five action with {player.Character.Name}");
             }
         }
     }
