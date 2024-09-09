@@ -65,7 +65,7 @@ namespace Deepglint.XR.Source
 
             if (magnitudeA == 0 || magnitudeB == 0)
             {
-                Debug.LogError("向量的模不能为零");
+                DGXR.Logger.LogError("OfflineFilter", "向量的模不能为零");
                 return -1f;
             }
 
@@ -87,7 +87,7 @@ namespace Deepglint.XR.Source
                 if (distance > _maxDistanceFromRoi)
                 {
                     result = true;
-                    Debug.Log($"{BodyId} is far from ROI");
+                    DGXR.Logger.Log($"{BodyId} is far from ROI");
                 }
             }
 
@@ -133,7 +133,7 @@ namespace Deepglint.XR.Source
             if (!_messageReceived)
             {
                 Source.IsOnline = false;
-                Debug.Log("No message received. Status: Offline");
+                DGXR.Logger.Log("No message received. Status: Offline");
             }
             else
             {
@@ -168,12 +168,12 @@ namespace Deepglint.XR.Source
         {
             if (Features.TryRemove(bodyId, out PersonFeature value))
             {
-                Debug.LogWarning($"add {bodyId} to offline cache");
+                DGXR.Logger.LogWarning("OfflineFilter",$"add {bodyId} to offline cache");
                 value.Time = DateTime.Now;
                 OfflineFeatures[bodyId] = value; 
                 if (Newbee.Remove(bodyId))
                 {
-                    Debug.Log($"remove {bodyId} from newbee cache"); 
+                    DGXR.Logger.Log($"remove {bodyId} from newbee cache"); 
                 }
             } 
         }
@@ -181,7 +181,7 @@ namespace Deepglint.XR.Source
         private void OnEnable()
         {
             EnableFilter = true;
-            Debug.Log("enable pseudo-offline-filter");
+            DGXR.Logger.Log("enable pseudo-offline-filter");
             Source.OnMetaPoseDataLost += OnMetaPoseDataLost;
             Source.OnMetaPoseDataReceived += OnMetaPoseDataReceived;
             Source.OnMetaPoseFrameDataReceived += OnMetaPoseFrameDataReceived;
@@ -190,7 +190,7 @@ namespace Deepglint.XR.Source
         private void OnDisable()
         {
             EnableFilter = false;
-            Debug.Log("disable pseudo-offline-filter");
+            DGXR.Logger.Log("disable pseudo-offline-filter");
             Source.OnMetaPoseDataLost -= OnMetaPoseDataLost;
             Source.OnMetaPoseDataReceived -= OnMetaPoseDataReceived;
             Source.OnMetaPoseFrameDataReceived -= OnMetaPoseFrameDataReceived;
@@ -201,7 +201,7 @@ namespace Deepglint.XR.Source
                 if (OfflineFeatures.TryRemove(key, out _))
                 {
                     OnPersonOffline?.Invoke(key);
-                    Debug.Log($"remove {key} from offline cache");
+                    DGXR.Logger.Log($"remove {key} from offline cache");
                 }
             }
         }
@@ -234,7 +234,7 @@ namespace Deepglint.XR.Source
                         if (OfflineFeatures.TryRemove(key, out _))
                         {
                             TriggerPersonOffline(key); 
-                            Debug.Log($"remove {key} from offline cache, cause out of frame gap");
+                            DGXR.Logger.Log($"remove {key} from offline cache, cause out of frame gap");
                         } 
                     }
                 }
@@ -248,7 +248,7 @@ namespace Deepglint.XR.Source
                     if (Mathf.Abs(currentFrameId - value.FrameId) > NewbeeFrameGap)
                     {
                         Newbee.Remove(key);
-                        Debug.Log($"remove {key} from newbee cache, cause out of frame gap"); 
+                        DGXR.Logger.Log($"remove {key} from newbee cache, cause out of frame gap"); 
                     }
                 }
             }
@@ -278,7 +278,7 @@ namespace Deepglint.XR.Source
                     result = OfflineFeatures.TryRemove(data.BodyId, out _);
                     if (result)
                     {
-                        Debug.Log($"person {data.BodyId} reconnected, remove it from offline cache");
+                        DGXR.Logger.Log($"person {data.BodyId} reconnected, remove it from offline cache");
                     }
                 } else if (!Source.Data.Contains(data.BodyId))
                 {
@@ -294,36 +294,36 @@ namespace Deepglint.XR.Source
                     } 
                     if (changeFeature != null)
                     {
-                        Debug.LogWarning($"change body from {feature.BodyId} to {changeFeature.BodyId}");
+                        DGXR.Logger.LogWarning("OfflineFilter",$"change body from {feature.BodyId} to {changeFeature.BodyId}");
                         result = OfflineFeatures.TryRemove(changeFeature.BodyId, out _);
                         if (result)
                         {
                             OnPersonOffline?.Invoke(feature.BodyId);
-                            Debug.Log($"remove {feature.BodyId} in case of zombie device remained");
+                            DGXR.Logger.Log($"remove {feature.BodyId} in case of zombie device remained");
                             ChangeLog[feature.BodyId] = changeFeature;
                             data.BodyId = changeFeature.BodyId;
-                            Debug.Log($"remove {changeFeature.BodyId} from offline cache");
+                            DGXR.Logger.Log($"remove {changeFeature.BodyId} from offline cache");
                         }
                     }
                     else
                     {
                         Newbee[data.BodyId] = feature;
-                        Debug.Log($"add {data.BodyId} to newbee cache"); 
+                        DGXR.Logger.Log($"add {data.BodyId} to newbee cache"); 
                     }
                 } else if (Newbee.ContainsKey(data.BodyId))
                 {
                     PersonFeature changeFeature = GetMostSimilarOfflineFeature(feature);
                     if (changeFeature != null)
                     {
-                        Debug.LogWarning($"change body from {feature.BodyId} to {changeFeature.BodyId}");
+                        DGXR.Logger.LogWarning("OfflineFilter",$"change body from {feature.BodyId} to {changeFeature.BodyId}");
                         result = OfflineFeatures.TryRemove(changeFeature.BodyId, out _);
                         if (result)
                         {
                             OnPersonOffline?.Invoke(feature.BodyId);
-                            Debug.Log($"remove {feature.BodyId} in case of zombie device remained");
+                            DGXR.Logger.Log($"remove {feature.BodyId} in case of zombie device remained");
                             ChangeLog[feature.BodyId] = changeFeature;
                             data.BodyId = changeFeature.BodyId;
-                            Debug.Log($"remove {changeFeature.BodyId} from offline cache");
+                            DGXR.Logger.Log($"remove {changeFeature.BodyId} from offline cache");
                         }
                     }  
                 }
@@ -345,7 +345,7 @@ namespace Deepglint.XR.Source
                     float similarity = pf.Similarity(item.Value);
                     if (DGXR.Config.Debug)
                     {
-                        Debug.Log($"person {pf.BodyId} similarity with {item.Value.BodyId} is {similarity} and distance is {distance}");
+                        DGXR.Logger.Log($"person {pf.BodyId} similarity with {item.Value.BodyId} is {similarity} and distance is {distance}");
                     }
                     if (useThreshold)
                     {
@@ -368,7 +368,7 @@ namespace Deepglint.XR.Source
                     }
                 } else if (DGXR.Config.Debug)
                 {
-                    Debug.Log($"person {pf.BodyId} missed offline person {item.Value.BodyId} because of too big frame gap");
+                    DGXR.Logger.Log($"person {pf.BodyId} missed offline person {item.Value.BodyId} because of too big frame gap");
                 }
             }
 

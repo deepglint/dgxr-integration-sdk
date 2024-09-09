@@ -45,7 +45,7 @@ namespace Deepglint.XR
             else
             {
 #if !UNITY_EDITOR
-                Debug.LogError("load XRApplicationSettings failed");
+                DGXR.Logger.LogError("XRManager", "load XRApplicationSettings failed");
 #endif
             }
 

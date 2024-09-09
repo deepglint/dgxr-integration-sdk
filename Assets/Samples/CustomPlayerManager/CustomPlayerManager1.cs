@@ -1,3 +1,4 @@
+using Deepglint.XR;
 using Deepglint.XR.Inputs;
 using Deepglint.XR.Inputs.Devices;
 using Deepglint.XR.Player;
@@ -30,14 +31,14 @@ namespace Samples.CustomPlayerManager
                         Vector3 position = dgXRDevice.HumanPose.Position.ReadValue();
                         if (Vector2.Distance(_character.Roi.Anchor, new Vector2(position.x, position.z)) > _character.Roi.Radius)
                         {
-                            Debug.LogFormat("device {0} stepped out from {1}'s roi", device.deviceId, _character.Name);
+                            DGXR.Logger.Log($"device {device.deviceId} stepped out from {_character.Name}'s roi");
                             _character.Player.UnPairDeviceManually(device);
-                            Debug.LogFormat("unpair device {0} from character {1} manually", device.deviceId, _character.Name);
+                            DGXR.Logger.Log($"unpair device {device.deviceId} from character {_character.Name} manually");
                         }
                     }
                     else
                     {
-                        Debug.LogFormat("device {0} is not dgxr device", device.deviceId);
+                        DGXR.Logger.Log($"device {device.deviceId} is not dgxr device");
                     }
                 }
 
@@ -53,10 +54,10 @@ namespace Samples.CustomPlayerManager
                             Vector3 position = device.HumanPose.Position.ReadValue();
                             if (Vector2.Distance(_character.Roi.Anchor, new Vector2(position.x, position.z)) < _character.Roi.Radius)
                             {
-                                Debug.LogFormat("device {0} steeped into {1}'s roi", device.deviceId, _character.Name);
+                                DGXR.Logger.Log($"device {device.deviceId} steeped into {_character.Name}'s roi");
                                 if (_character.Player.PairDeviceManually(device))
                                 {
-                                    Debug.LogFormat("pair device {0} to character {1} manually ", device.deviceId, _character.Name);
+                                    DGXR.Logger.Log($"pair device {device.deviceId} to character {_character.Name} manually ");
                                     break;
                                 }
                             }
@@ -89,13 +90,13 @@ namespace Samples.CustomPlayerManager
                         Vector3 position = dgXRDevice.HumanPose.Position.ReadValue();
                         if (Vector2.Distance(Roi.Anchor,new Vector2(position.x, position.z)) <= Roi.Radius)
                         {
-                            Debug.LogFormat("character {0} is bindable", Name);
+                            DGXR.Logger.Log("character {Name} is bindable");
                             return this;
                         }
                     }
                 }
 
-                Debug.LogFormat("character {0} is not bindable", Name);
+                DGXR.Logger.Log("character {Name} is not bindable");
                 return null;
             }
         }

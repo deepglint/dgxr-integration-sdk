@@ -251,7 +251,7 @@ namespace Deepglint.XR.Source
         /// <param name="key">人员 id</param>
         public static void TriggerMetaPostDataLost(string key)
         {
-            Debug.Log($"trigger {key} meta pose data lost");
+            DGXR.Logger.Log($"trigger {key} meta pose data lost");
             OnMetaPoseDataLost?.Invoke(key);
         }
 

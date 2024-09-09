@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Deepglint.XR;
 using Deepglint.XR.Inputs.Devices;
 using Deepglint.XR.Player;
 using UnityEngine;
@@ -49,12 +50,12 @@ namespace Samples.CustomPlayerManager
                         Vector3 position = dgXRDevice.HumanPose.Position.ReadValue();
                         if (Vector2.Distance(Roi.Anchor,new Vector2(position.x, position.z)) < Roi.Radius)
                         {
-                            Debug.LogFormat("character {0} is bindable", Name);
+                            DGXR.Logger.Log($"character {Name} is bindable");
                             return this;
                         }
                     }
                 }
-                Debug.LogFormat("character {0} is not bindable", Name);
+                DGXR.Logger.Log($"character {Name} is not bindable");
                 return null;
             }
         }

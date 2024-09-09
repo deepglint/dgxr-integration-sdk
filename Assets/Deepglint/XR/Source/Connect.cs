@@ -37,18 +37,18 @@ public class Connection : MonoBehaviour
 
         _webSocket.OnOpen += () =>
         {
-            Debug.Log($"Connection {_wsUrl} open!");
+            DGXR.Logger.Log($"Connection {_wsUrl} open!");
             _success = true;
         };
         _webSocket.OnError += (e) =>
         {
-            Debug.Log("Error! " + e);
+            DGXR.Logger.Log("Error! " + e);
             _success = false;
             StartReconnect();
         };
         _webSocket.OnClose += (_) =>
         {
-            Debug.Log($"Connection {_wsUrl} close!");
+            DGXR.Logger.Log($"Connection {_wsUrl} close!");
             _success = false;
             StartReconnect();
         };
@@ -65,7 +65,7 @@ public class Connection : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.LogError($"WebSocket connection failed: {ex.Message}");
+            DGXR.Logger.LogError("Connect",$"WebSocket connection failed: {ex.Message}");
             StartReconnect();
         }
     }
@@ -84,7 +84,7 @@ public class Connection : MonoBehaviour
     {
         while (!cancellationToken.IsCancellationRequested)
         {
-            Debug.Log("Attempting to reconnect...");
+            DGXR.Logger.Log("Attempting to reconnect...");
             await Task.Delay(5000, cancellationToken);
 
             if (_webSocket != null)
@@ -113,7 +113,7 @@ public class Connection : MonoBehaviour
                 type = "std_msgs/String"
             });
             _webSocket.SendText(subscribeMsg);
-            Debug.Log("Subscribed to /metapose/pose3d");
+            DGXR.Logger.Log("Subscribed to /metapose/pose3d");
             _success = false; // Only subscribe once after successful connection
         }
 

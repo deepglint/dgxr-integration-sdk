@@ -48,7 +48,6 @@ namespace Samples.Cave
 
             public override Character OnTryToJoin(InputDevice device)
             {
-                Debug.Log("Join!!");
                 if (!IsBindable())
                 {
                     foreach (var playerPairedDevice in Player.PairedDevices)

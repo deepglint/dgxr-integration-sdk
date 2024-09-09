@@ -41,7 +41,7 @@ namespace  Samples.QRCode
 
         public void OnDataReceived(RankInfo info)
         {
-            Debug.Log($"id:{info.Id}");
+            DGXR.Logger.Log($"id:{info.Id}");
             if (info.Data == null)
             {
                 return;
@@ -49,10 +49,10 @@ namespace  Samples.QRCode
 
             foreach (var sc in info.Data)
             {
-                Debug.Log($"score:{sc.Score},time:{sc.Time},mode:{sc.Mode}");
+                DGXR.Logger.Log($"score:{sc.Score},time:{sc.Time},mode:{sc.Mode}");
                 foreach (var player in sc.Player)
                 {
-                    Debug.Log($"{player.Id},{player.Url},{player.Name}");
+                    DGXR.Logger.Log($"{player.Id},{player.Url},{player.Name}");
                 }
             }
         }

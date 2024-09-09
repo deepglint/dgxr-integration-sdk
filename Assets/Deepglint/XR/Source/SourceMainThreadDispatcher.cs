@@ -12,7 +12,7 @@ namespace Deepglint.XR.Source
 
         private void OnDisable()
         {
-            Debug.Log($"SourceMainThreadDispatcher was disable, start to clean the queue");
+            DGXR.Logger.Log($"SourceMainThreadDispatcher was disable, start to clean the queue");
             lock (ExecuteRosMsgEventMainThreadQueue)
             {
                 while (ExecuteRosMsgEventMainThreadQueue.Count > 0)

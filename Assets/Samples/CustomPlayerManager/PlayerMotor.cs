@@ -1,7 +1,7 @@
+using Deepglint.XR;
 using Deepglint.XR.EventSystem;
 using Deepglint.XR.EventSystem.EventData;
 using Deepglint.XR.Inputs.Controls;
-using Deepglint.XR.Log;
 using Deepglint.XR.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,8 +23,6 @@ namespace Samples.CustomPlayerManager
         private int _slideRightArmToLeftCount = 0;
         private int _slideLeftArmToRightCount = 0;
         
-        private static Logger _sampleLogger = new Logger(new PrefixedLogger(Debug.unityLogger.logHandler, "Player-Samples"));
-
         private void Awake()
         {
             _rb = GetComponent<Rigidbody>(); 
@@ -65,7 +63,7 @@ namespace Samples.CustomPlayerManager
         {
             if(value.performed)
             {
-                _sampleLogger.Log("Jump action performed");
+                DGXR.Logger.Log("Jump action performed");
                 jump();
             }
         }
@@ -74,7 +72,7 @@ namespace Samples.CustomPlayerManager
         {
             if(value.performed)
             {
-                _sampleLogger.Log("CheerUp action performed");
+                DGXR.Logger.Log("CheerUp action performed");
             }
         }
     
@@ -83,7 +81,7 @@ namespace Samples.CustomPlayerManager
             if(value.performed)
             {
                 _slideRightArmToLeftCount++;
-                _sampleLogger.Log($"SlideRightArmToLeftCount count: {_slideRightArmToLeftCount}");
+                DGXR.Logger.Log($"SlideRightArmToLeftCount count: {_slideRightArmToLeftCount}");
             }
         }
     
@@ -92,7 +90,7 @@ namespace Samples.CustomPlayerManager
             if(value.performed)
             {
                 _slideLeftArmToRightCount++;
-                _sampleLogger.Log($"SlideLeftArmToRightCount count: {_slideLeftArmToRightCount}");
+                DGXR.Logger.Log($"SlideLeftArmToRightCount count: {_slideLeftArmToRightCount}");
             }
         }
     
@@ -101,7 +99,7 @@ namespace Samples.CustomPlayerManager
             if(value.performed)
             {
                 _freeSwimCount++;
-                _sampleLogger.Log($"free-swim count: {_freeSwimCount}");
+                DGXR.Logger.Log($"free-swim count: {_freeSwimCount}");
             }
         }
     
@@ -110,7 +108,7 @@ namespace Samples.CustomPlayerManager
             if(value.performed)
             {
                 _butterflySwimCount++;
-                _sampleLogger.Log($"butterfly-swim count: {_butterflySwimCount}");
+                DGXR.Logger.Log($"butterfly-swim count: {_butterflySwimCount}");
             }
         }
     
@@ -119,7 +117,7 @@ namespace Samples.CustomPlayerManager
             if(value.performed)
             {
                 _highKneeRunSwimCount++;
-                _sampleLogger.Log("high-knee-run count: {0}", _highKneeRunSwimCount);
+                DGXR.Logger.Log("high-knee-run count: {0}", _highKneeRunSwimCount);
             }
         }
     
@@ -128,7 +126,7 @@ namespace Samples.CustomPlayerManager
             if(value.performed)
             {
                 _deepSquatCount++;
-                _sampleLogger.Log("deep-squat count: {0}", _deepSquatCount);
+                DGXR.Logger.Log("deep-squat count: {0}", _deepSquatCount);
             }
         }
 
@@ -136,7 +134,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                _sampleLogger.Log("raise both hand");
+                DGXR.Logger.Log("raise both hand");
             }
         }
         
@@ -144,7 +142,7 @@ namespace Samples.CustomPlayerManager
         {
             if(value.performed)
             {
-                _sampleLogger.Log("Raise-Single-Hand action performed");
+                DGXR.Logger.Log("Raise-Single-Hand action performed");
             }
         }
 
@@ -152,7 +150,7 @@ namespace Samples.CustomPlayerManager
         {
             if(value.performed)
             {
-                _sampleLogger.Log("Raise-Right-Hand action performed");
+                DGXR.Logger.Log("Raise-Right-Hand action performed");
             }
         }
         
@@ -160,7 +158,7 @@ namespace Samples.CustomPlayerManager
         {
             if(value.performed)
             {
-                _sampleLogger.Log("Raise-Left-Hand action performed");
+                DGXR.Logger.Log("Raise-Left-Hand action performed");
             }
         }
     
@@ -169,7 +167,7 @@ namespace Samples.CustomPlayerManager
             bool data = value.isPressed;
             if(data)
             {
-                _sampleLogger.Log("jump, " + _isOnGround);
+                DGXR.Logger.Log("jump, " + _isOnGround);
                 if (_isOnGround)
                 {
                     //瞬移效果
@@ -188,7 +186,7 @@ namespace Samples.CustomPlayerManager
                 // 实现跳跃效果
                 if (_rb == null)
                 {
-                    _sampleLogger.Log("rb is null");
+                    DGXR.Logger.Log("rb is null");
                 }
                 _rb.AddForce(Vector3.up * jumpSpeed);
                 // 此时物体不在地面上
@@ -201,7 +199,7 @@ namespace Samples.CustomPlayerManager
             Player player = eventData.Player.GetComponent<Player>();
             if (player != null)
             {
-                _sampleLogger.Log($"high-five action with {player.Character.Name}");
+                DGXR.Logger.Log($"high-five action with {player.Character.Name}");
             }
         }
     }

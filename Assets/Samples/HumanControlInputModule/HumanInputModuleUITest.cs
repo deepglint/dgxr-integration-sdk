@@ -28,11 +28,11 @@ namespace Samples.HumanControlInputModule
             {
                 // 添加 PhysicsRaycaster 组件
                 DGXR.Space.Bottom.SpaceCamera.gameObject.AddComponent<PhysicsRaycaster>();
-                Debug.Log("PhysicsRaycaster has been added to the bottom camera.");
+                DGXR.Logger.Log("PhysicsRaycaster has been added to the bottom camera.");
             }
             else
             {
-                Debug.Log("Bottom camera already has a PhysicsRaycaster.");
+                DGXR.Logger.Log("Bottom camera already has a PhysicsRaycaster.");
             }
             
             _renderer = GetComponent<Renderer>();
@@ -46,7 +46,7 @@ namespace Samples.HumanControlInputModule
             {
                 _dropdown.onValueChanged.AddListener((Int32 value) =>
                 {
-                    Debug.LogFormat("dropdown select: {0}", _dropdown.options[value].text); 
+                    DGXR.Logger.Log($"dropdown select: {_dropdown.options[value].text}"); 
                 });
             }
             
@@ -57,9 +57,9 @@ namespace Samples.HumanControlInputModule
                 _slider.maxValue = 100;
                 _slider.onValueChanged.AddListener((float value) =>
                 {
-                    Debug.LogFormat("slider value: {0}", value);
+                    DGXR.Logger.Log($"slider value: {value}");
                 });
-                Debug.Log("slider ready");
+                DGXR.Logger.Log("slider ready");
             }
             
             _toggle = GetComponent<Toggle>();
@@ -67,7 +67,7 @@ namespace Samples.HumanControlInputModule
             {
                 _toggle.onValueChanged.AddListener((bool isOn) =>
                 {
-                    Debug.LogFormat("{0} is {1}", _toggle.name, isOn);
+                    DGXR.Logger.Log($"{_toggle.name} is {isOn}");
                 }); 
             }
         }
@@ -75,9 +75,9 @@ namespace Samples.HumanControlInputModule
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            Debug.LogFormat(
-                eventData.pointerId > 0 ? "human {0} right foot enter {1}" : "human {0} with left foot enter {1}",
-                eventData.pointerId, name);
+            DGXR.Logger.Log(
+                eventData.pointerId > 0 ? $"human {eventData.pointerId} right foot enter {name}" : 
+                    $"human {eventData.pointerId} with left foot enter {name}");
             if (_renderer != null)
             {
                 _renderer.material.color = Color.yellow;
@@ -86,9 +86,9 @@ namespace Samples.HumanControlInputModule
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            Debug.LogFormat(
-                eventData.pointerId > 0 ? "human {0} right foot exit {1}" : "human {0} with left foot exit {1}",
-                eventData.pointerId, name);
+            DGXR.Logger.Log(
+                eventData.pointerId > 0 ? $"human {eventData.pointerId} right foot exit {name}" : 
+                    $"human {eventData.pointerId} with left foot exit {name}");
             if (_renderer != null)
             {
                 _renderer.material.color = _originalColor;
@@ -97,9 +97,9 @@ namespace Samples.HumanControlInputModule
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            Debug.LogFormat(
-                eventData.pointerId > 0 ? "human {0} right foot down at {1}" : "human {0} with left foot down {1}",
-                eventData.pointerId, name);
+            DGXR.Logger.Log(
+                eventData.pointerId > 0 ? $"human {eventData.pointerId} right foot down at {name}" : 
+                    $"human {eventData.pointerId} with left foot down at {name}");
             if (_renderer != null)
             {
                 _renderer.material.color = Color.red;
@@ -108,9 +108,9 @@ namespace Samples.HumanControlInputModule
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            Debug.LogFormat(
-                eventData.pointerId > 0 ? "human {0} right foot up from {1}" : "human {0} with left foot up from {1}",
-                eventData.pointerId, name);
+            DGXR.Logger.Log(
+                eventData.pointerId > 0 ? $"human {eventData.pointerId} right foot up from {name}" : 
+                    $"human {eventData.pointerId} with left foot up from {name}"); 
             if (_renderer != null)
             {
                 _renderer.material.color = Color.yellow;
@@ -119,9 +119,9 @@ namespace Samples.HumanControlInputModule
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Debug.LogFormat(
-                eventData.pointerId > 0 ? "human {0} right foot click at {1}" : "human {0} with left foot click {1}",
-                eventData.pointerId, name);
+            DGXR.Logger.Log(
+                eventData.pointerId > 0 ? $"human {eventData.pointerId} right foot click at {name}" : 
+                    $"human {eventData.pointerId} with left foot click at {name}"); 
         }
     }
 }
