@@ -6,7 +6,7 @@ namespace Deepglint.XR.Toolkit.DebugTool
     internal class VersionCode : MonoBehaviour
     {
         // CI发布时赋值
-        public const string SdkVersionCode = "";
+        public const string SdkVersionCode = "v2.9.0";
 
         private void OnGUI()
         {
