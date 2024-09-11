@@ -40,19 +40,19 @@ namespace Deepglint.XR.Toolkit.Monitor
 
                         if (sourceContent == targetContent)
                         {
-                            Debug.Log("File already exists at " + targetPath +
+                            DGXR.Logger.Log("File already exists at " + targetPath +
                                       " and contents are identical, skipping copy.");
                             shouldCopy = false;
                         }
                         else
                         {
-                            Debug.Log(
+                            DGXR.Logger.Log(
                                 "File already exists at " + targetPath + " but contents differ, copying new file.");
                         }
                     }
                     catch (Exception ex)
                     {
-                        Debug.LogError("Failed to read files for comparison: " + ex.Message);
+                        DGXR.Logger.LogException(ex);
                     }
                 }
 
@@ -61,18 +61,18 @@ namespace Deepglint.XR.Toolkit.Monitor
                     try
                     {
                         File.Copy(sourcePath, targetPath, true);
-                        Debug.Log("File copied successfully to " + targetPath);
+                        DGXR.Logger.Log("File copied successfully to " + targetPath);
                         AssetDatabase.Refresh();
                     }
                     catch (Exception ex)
                     {
-                        Debug.LogError("Failed to copy file: " + ex.Message);
+                        DGXR.Logger.LogException(ex);
                     }
                 }
             }
             else
             {
-                Debug.Log("Source file not found at " + sourcePath);
+                DGXR.Logger.Log("Source file not found at " + sourcePath);
             }
         }
     }

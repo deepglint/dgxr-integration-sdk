@@ -20,7 +20,7 @@ namespace Deepglint.XR.Toolkit.Utils
                     if (child.name == childName)
                         return child.gameObject;
 
-                Debug.LogWarning($"{obj.name}里找不到名为{childName}的子对象");
+                DGXR.Logger.LogWarning("Extends",$"{obj.name}里找不到名为{childName}的子对象");
                 return null;
             }
 

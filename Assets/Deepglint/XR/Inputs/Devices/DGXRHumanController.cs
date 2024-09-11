@@ -67,10 +67,22 @@ namespace Deepglint.XR.Inputs.Devices
         public float deepSquat;
         
         [InputControl( layout = "Axis")]
+        public float squatRange;
+        
+        [InputControl( layout = "Axis")]
         public float jump;
         
         [InputControl( layout = "Axis")]
+        public float jumpRange;
+        
+        [InputControl( layout = "Axis")]
         public float cheerUp;
+        
+        [InputControl( layout = "Axis")]
+        public float SlideRightArmToLeftRange;
+        
+        [InputControl( layout = "Axis")]
+        public float SlideLeftArmToRightRange;
         
         [InputControl(name = nameof(DGXRHumanController.GripButton), usage = "GripButton", layout = "Button", 
             bit = (uint)DGXRControllerButton.GripButton, alias = "gripPressed")]
@@ -101,11 +113,16 @@ namespace Deepglint.XR.Inputs.Devices
         public AxisControl ButterflySwim { get; private set; }
         public AxisControl HighKneeRun { get; private set; }
         public AxisControl DeepSquat { get; private set; }
+        public AxisControl SquatRange { get; private set; }
         public AxisControl Jump { get; private set; }
+        public AxisControl JumpRange { get; private set; }
         public AxisControl CheerUp { get; private set; }
         public ButtonControl GripButton { get; private set; }
         public ButtonControl TriggerButton { get; private set; }
-        
+
+        public AxisControl SlideRightArmToLeftRange { get; private set; }
+        public AxisControl SlideLeftArmToRightRange { get; private set; }
+
         /// <summary>
         /// stick 锚定的世界坐标
         /// </summary>
@@ -124,11 +141,17 @@ namespace Deepglint.XR.Inputs.Devices
             FreeSwim = GetChildControl<AxisControl>(nameof(FreeSwim));
             HighKneeRun = GetChildControl<AxisControl>(nameof(HighKneeRun));
             DeepSquat = GetChildControl<AxisControl>(nameof(DeepSquat));
+            SquatRange = GetChildControl<AxisControl>(nameof(SquatRange));
             Jump = GetChildControl<AxisControl>(nameof(Jump));
+            JumpRange = GetChildControl<AxisControl>(nameof(JumpRange));
             CheerUp = GetChildControl<AxisControl>(nameof(CheerUp));
+            SlideRightArmToLeftRange = GetChildControl<AxisControl>(nameof(SlideRightArmToLeftRange));
+            SlideLeftArmToRightRange = GetChildControl<AxisControl>(nameof(SlideLeftArmToRightRange));
             
             base.FinishSetup();
         }
+        
+        
 
         public GameObject GetPairedPlayer()
         {

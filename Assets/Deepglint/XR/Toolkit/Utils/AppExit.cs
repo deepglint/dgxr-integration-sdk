@@ -19,7 +19,6 @@ namespace Deepglint.XR.Toolkit.Utils
 
         private void OnApplicationQuit()
         {
-            Debug.Log("OnApplicationQuit");
             OnAppExit?.Invoke();
 #if !UNITY_EDITOR
             System.Diagnostics.Process.GetCurrentProcess().Kill();

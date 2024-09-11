@@ -153,18 +153,18 @@ namespace Deepglint.XR.Toolkit.Game
 
             _webSocket.OnOpen += () =>
             {
-                Debug.Log($"Connection {_wsUrl} open!");
+                DGXR.Logger.Log($"Connection {_wsUrl} open!");
                 _success = true;
             };
             _webSocket.OnError += (e) =>
             {
-                Debug.Log("Error! " + e);
+                DGXR.Logger.Log("Error! " + e);
                 _success = false;
                 StartReconnect();
             };
             _webSocket.OnClose += (_) =>
             {
-                Debug.Log($"Connection {_wsUrl} close!");
+                DGXR.Logger.Log($"Connection {_wsUrl} close!");
                 _success = false;
                 StartReconnect();
             };
@@ -181,7 +181,7 @@ namespace Deepglint.XR.Toolkit.Game
             }
             catch (Exception ex)
             {
-                Debug.LogError($"WebSocket connection failed: {ex.Message}");
+                DGXR.Logger.LogError("DataManager",$"WebSocket connection failed: {ex.Message}");
                 StartReconnect();
             }
         }
@@ -200,7 +200,7 @@ namespace Deepglint.XR.Toolkit.Game
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                Debug.Log("Attempting to reconnect...");
+                DGXR.Logger.Log("Attempting to reconnect...");
                 await Task.Delay(5000, cancellationToken);
 
                 if (_webSocket != null)
@@ -238,13 +238,13 @@ namespace Deepglint.XR.Toolkit.Game
             var req = rank.GetRankInfoReq();
             if (req is null)
             {
-                Debug.LogError("Subscribe functions can only be used if the GetRankInfoReq method is implemented");
+                DGXR.Logger.LogError("DataManager","Subscribe functions can only be used if the GetRankInfoReq method is implemented");
                 return;
             }
 
             string url =
                 $"{DGXR.Config.Space.ServerEndpoint}/meta/rank?id={req.GameId}&mode={(int)req.GameMode}&count={req.Count}&order={(int)req.Order}";
-            Debug.Log($"subscribe url: {url}");
+            DGXR.Logger.Log($"subscribe url: {url}");
             if (_coroutine.TryGetValue(req.GetHashCode(), out var cor))
             {
                 StopCoroutine(cor);
@@ -289,7 +289,7 @@ namespace Deepglint.XR.Toolkit.Game
 
                 if (request.isHttpError || request.isNetworkError)
                 {
-                    Debug.LogError(request.error);
+                    DGXR.Logger.LogError("DataManager", request.error);
                 }
                 else
                 {
@@ -301,7 +301,7 @@ namespace Deepglint.XR.Toolkit.Game
                     }
                     catch (Exception ex)
                     {
-                        Debug.LogError($"JSON deserialization error: {ex.Message}");
+                        DGXR.Logger.LogError("DataManager",$"JSON deserialization error: {ex.Message}");
                         continue;
                     }
 

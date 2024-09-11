@@ -161,21 +161,21 @@ internal class ROS2ForUnity
         string ros2FromRos4UMetadata = GetMetadataValue(ros2ForUnityMetadata, "/ros2_for_unity/ros2");
 
         if (ros2FromRos4UMetadata != ros2FromRos2csMetadata) {
-            Debug.LogError(
+            DGXR.Logger.LogError("ROS",
                 "ROS2 versions in 'ros2cs' and 'ros2-for-unity' metadata files are not the same. " +
                 "This is caused by mixing versions/builds. Plugin might not work correctly."
             );
         }
 
         if(!IsStandalone() && ros2SourcedCodename != ros2FromRos2csMetadata) {
-            Debug.LogError(
+            DGXR.Logger.LogError("ROS",
                 "ROS2 version in 'ros2cs' metadata doesn't match currently sourced version. " +
                 "This is caused by mixing versions/builds. Plugin might not work correctly."
             );
         }
 
         if (IsStandalone() && !string.IsNullOrEmpty(ros2SourcedCodename)) {
-            Debug.LogError(
+            DGXR.Logger.LogError("ROS",
                 "You should not source ROS2 in 'ros2-for-unity' standalone build. " +
                 "Plugin might not work correctly."
             );
@@ -199,7 +199,7 @@ internal class ROS2ForUnity
         {
             string errMessage = "No ROS environment sourced. You need to source your ROS2 " + supportedVersionsString
               + " environment before launching Unity (ROS_DISTRO env variable not found)";
-            Debug.LogError(errMessage);
+            DGXR.Logger.LogError("ROS", errMessage);
 #if UNITY_EDITOR
             EditorApplication.isPlaying = false;
             throw new System.InvalidOperationException(errMessage);
@@ -213,7 +213,7 @@ internal class ROS2ForUnity
         {
             string errMessage = "Currently sourced ROS version differs from supported one. Sourced: " + ros2Codename
               + ", supported: " + supportedVersionsString + ".";
-            Debug.LogError(errMessage);
+            DGXR.Logger.LogError("ROS", errMessage);
 #if UNITY_EDITOR
             EditorApplication.isPlaying = false;
             throw new System.NotSupportedException(errMessage);
@@ -222,7 +222,7 @@ internal class ROS2ForUnity
             Application.Quit(ROS_BAD_VERSION_CODE);
 #endif
         } else if (ros2Codename.Equals("rolling") ) {
-            Debug.LogWarning("You are using ROS2 rolling version. Bleeding edge version might not work correctly.");
+            DGXR.Logger.LogWarning("ROS", "You are using ROS2 rolling version. Bleeding edge version might not work correctly.");
         }
     }
 
@@ -241,8 +241,8 @@ internal class ROS2ForUnity
     {
         Ros2csLogger.setCallback(LogLevel.ERROR, Debug.LogError);
         Ros2csLogger.setCallback(LogLevel.WARNING, Debug.LogWarning);
-        Ros2csLogger.setCallback(LogLevel.INFO, Debug.Log);
-        Ros2csLogger.setCallback(LogLevel.DEBUG, Debug.Log);
+        Ros2csLogger.setCallback(LogLevel.INFO, DGXR.Logger.Log);
+        Ros2csLogger.setCallback(LogLevel.DEBUG, DGXR.Logger.Log);
         Ros2csLogger.LogLevel = LogLevel.WARNING;
     }
 
@@ -260,7 +260,7 @@ internal class ROS2ForUnity
         }
         catch (System.IO.FileNotFoundException)
         {
-            Debug.LogError("Could not find metadata files.");
+            DGXR.Logger.LogError("ROS", "Could not find metadata files.");
 #if UNITY_EDITOR
             var errMessage = "Could not find metadata files.";
             EditorApplication.isPlaying = false;
@@ -294,7 +294,7 @@ internal class ROS2ForUnity
 
         string rmwImpl = Ros2cs.GetRMWImplementation();
 
-        Debug.Log("ROS2 version: " + currentRos2Version + ". Build type: " + standalone + ". RMW: " + rmwImpl);
+        DGXR.Logger.Log("ROS2 version: " + currentRos2Version + ". Build type: " + standalone + ". RMW: " + rmwImpl);
 
 #if UNITY_EDITOR
         EditorApplication.playModeStateChanged += this.EditorPlayStateChanged;
@@ -328,7 +328,7 @@ internal class ROS2ForUnity
     {
         if (isInitialized)
         {
-            Debug.Log("Shutting down Ros2 For Unity");
+            DGXR.Logger.Log("Shutting down Ros2 For Unity");
             Ros2cs.Shutdown();
             isInitialized = false;
         }

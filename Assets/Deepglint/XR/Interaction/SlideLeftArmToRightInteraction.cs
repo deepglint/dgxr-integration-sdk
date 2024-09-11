@@ -18,6 +18,7 @@ namespace Deepglint.XR.Interaction
         private float _startArmAngle = 0;
         private float StartArmAngleThreshold = 40;
         public float SlideArmAngleThreshold = 40;
+        private float _slideRange = 0f;
         
         public void Process(ref InputInteractionContext context)
         {
@@ -44,10 +45,14 @@ namespace Deepglint.XR.Interaction
                         case InputActionPhase.Started:
                             if (_armAngle <= _startArmAngle - SlideArmAngleThreshold)
                             {
+                                InputSystem.QueueDeltaStateEvent(dgXRDevice.SlideLeftArmToRightRange, GetSlideRange());
                                 context.PerformedAndStayPerformed();
                                 // Debug.Log($"SlideLeftArmToRight action performed on device {dgXRDevice.deviceId}");
                             }
 
+                            break;
+                        case InputActionPhase.Performed:
+                            InputSystem.QueueDeltaStateEvent(dgXRDevice.SlideLeftArmToRightRange, GetSlideRange());
                             break;
                     }
                 }
@@ -58,10 +63,17 @@ namespace Deepglint.XR.Interaction
                         (context.phase == InputActionPhase.Performed || context.phase == InputActionPhase.Started))
                     {
                         _startArmAngle = 0;
+                        _slideRange = 0;
                         context.Canceled();
+                        InputSystem.QueueDeltaStateEvent(dgXRDevice.SlideLeftArmToRightRange, 0f);
                     }
                 }
             }
+        }
+        
+        private float GetSlideRange()
+        {
+            return Mathf.Clamp((_startArmAngle-_armAngle-SlideArmAngleThreshold)*1.6f / (_startArmAngle-SlideArmAngleThreshold), 0f, 1f);
         }
 
         /// <summary>
@@ -106,7 +118,6 @@ namespace Deepglint.XR.Interaction
             {
                 _distance = currentDistance; 
                 _armAngle = currentAngle;
-                var dis = Vector3.Distance(dgXRDevice.HumanBody.LeftWrist.position.ReadValue(), dgXRDevice.HumanBody.LeftShoulder.position.ReadValue());
                 //Debug.LogFormat("distance: {0}, angle: {1}, rd: {2}", _distance, _armAngle, dis);
             }
             

@@ -355,7 +355,7 @@ namespace Deepglint.XR.Toolkit.Manager
                 return length;
             }
 
-            Debug.LogError("AudioManager " + audioListName + " 音频列表不存在");
+            DGXR.Logger.LogError("AudioManager", "AudioManager " + audioListName + " 音频列表不存在");
             return 0;
         }
 

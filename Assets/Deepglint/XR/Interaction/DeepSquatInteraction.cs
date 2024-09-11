@@ -11,7 +11,11 @@ namespace Deepglint.XR.Interaction
     /// </summary>
     public class DeepSquatInteraction : MetaverseInteraction, IInputInteraction
     {
-        private float _cancelKneeAngle = 150;
+        private float _startKneeAngle = 160;
+        private float _head = 2f;
+        private float _startHeight = 1f;
+        private readonly float _heightOffset = 0.01f;
+        
         public void Process(ref InputInteractionContext context)
         {
             if (context.control.device is DGXRHumanController dgXRDevice)
@@ -21,60 +25,71 @@ namespace Deepglint.XR.Interaction
                     switch (context.phase)
                     {
                         case InputActionPhase.Waiting:
-                            if (IsDeepSquatActionStart(dgXRDevice))
+                            if (GetKneeAngle(dgXRDevice) <= _startKneeAngle)
                             {
-                                // Debug.Log("deep-squat start");
                                 context.Started();
+                                _startHeight = (dgXRDevice.HumanBody.LeftHip.position.y.ReadValue() +
+                                                dgXRDevice.HumanBody.RightHip.position.y.ReadValue()) / 2;
                             }
                             break;
                         case InputActionPhase.Started:
                             if (IsDeepSquatActionPerformed(dgXRDevice))
                             {
                                 // Debug.Log($"DeepSquat action performed on device {dgXRDevice.deviceId}");
+                                InputSystem.QueueDeltaStateEvent(dgXRDevice.SquatRange, GetSquatRange(dgXRDevice));
                                 context.PerformedAndStayPerformed();
                             }
                             break;
                         case InputActionPhase.Performed:
-                            if (IsDeepSquatActionCanceled(dgXRDevice))
-                            {
-                                context.Canceled();
-                            }
+                            InputSystem.QueueDeltaStateEvent(dgXRDevice.SquatRange, GetSquatRange(dgXRDevice));
                             break;
                     }
                 }
                 else
                 {
-                    CheckMissCancel(ref context);
+                    if (CheckMissCancel(ref context))
+                    {
+                        InputSystem.QueueDeltaStateEvent(dgXRDevice.SquatRange, 0f);
+                    }
                 }
             }
         }
 
         private bool IsDeepSquatHappening(DGXRHumanController dgXRDevice)
         {
-            if (dgXRDevice.DeepSquat.ReadValue() > Confidence)
+            float height = dgXRDevice.HumanBody.HeadTop.position.y.ReadValue();
+            try
             {
-                // Debug.Log("Deep-Squat action is happening");
-                return true;
+                if (dgXRDevice.DeepSquat.ReadValue() <= Confidence)
+                {
+                    // Debug.Log("Deep-Squat action is happening");
+                    return false;
+                }
+                if (height > _head + _heightOffset)
+                {
+                    //Debug.Log($"missed by angle: {angle}, {_kneeAngle}, {_angleOffset}");
+                    return false;
+                }
             }
+            finally
+            {
+                _head = height;
+            }
+            
 
-            return false;
-        }
-
-        private bool IsDeepSquatActionStart(DGXRHumanController device)
-        {
-            float legLength = Vector3.Distance(device.HumanBody.LeftHip.position.ReadValue(),
-                device.HumanBody.LeftKnee.position.ReadValue());
-            return Math.Abs(device.HumanBody.LeftHip.position.y.ReadValue() -
-                    device.HumanBody.LeftKnee.position.y.ReadValue()) <= legLength * 0.5f;
+            return true;
         }
 
         private bool IsDeepSquatActionPerformed(DGXRHumanController device)
         {
-            return device.HumanBody.RightHip.position.y.ReadValue() -
-                            device.HumanBody.RightKnee.position.y.ReadValue() <= 0f;
+            float legLength = Vector3.Distance(device.HumanBody.LeftHip.position.ReadValue(),
+                device.HumanBody.LeftKnee.position.ReadValue());
+            bool heightPerformed = Math.Abs(device.HumanBody.LeftHip.position.y.ReadValue() -
+                     device.HumanBody.LeftKnee.position.y.ReadValue()) <= legLength * 0.5f;
+            return heightPerformed || device.DeepSquat.ReadValue() >= 0.5f;
         }
 
-        private bool IsDeepSquatActionCanceled(DGXRHumanController device)
+        private float GetKneeAngle(DGXRHumanController device)
         {
             Vector3 rightHip = device.HumanBody.RightHip.position.ReadValue();
             Vector3 rightKnee = device.HumanBody.RightKnee.position.ReadValue();
@@ -84,7 +99,16 @@ namespace Deepglint.XR.Interaction
                 rightHip - rightKnee); 
             float leftAngle = Vector3.Angle(device.HumanBody.LeftAnkle.position.ReadValue() - leftKnee,
                 leftHip - leftKnee);
-            return rightAngle >= _cancelKneeAngle && leftAngle >= _cancelKneeAngle;
+            return (rightAngle + leftAngle)/2; 
+        }
+
+        private float GetSquatRange(DGXRHumanController device)
+        {
+            float height = (device.HumanBody.LeftHip.position.y.ReadValue() +
+                            device.HumanBody.RightHip.position.y.ReadValue()) / 2;
+            float value = Mathf.Clamp((_startHeight - height) * 1.5f / _startHeight, 0f, 1f);
+            // Debug.Log($"deep squat: {value}");
+            return value;
         }
 
         public new void Reset()

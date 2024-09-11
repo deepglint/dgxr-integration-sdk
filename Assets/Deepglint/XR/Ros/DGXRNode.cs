@@ -46,7 +46,7 @@ namespace Deepglint.XR.Ros
                 {
                     string sanitizedName = DGXR.ApplicationSettings.id;
                     ros2Node = ros2Unity.CreateNode("unity_"+sanitizedName);
-                    Debug.Log("ros2 node name: "+sanitizedName);
+                    DGXR.Logger.Log("ros2 node name: "+sanitizedName);
                     QualityOfServiceProfile qualityOfServiceProfille = new QualityOfServiceProfile();
                     qualityOfServiceProfille.SetReliability(ReliabilityPolicy.QOS_POLICY_RELIABILITY_BEST_EFFORT);
                     ros2Node.CreateSubscription<std_msgs.msg.String>("/metapose/pose3d", new Ros2PoseAdapter().DealMsg,

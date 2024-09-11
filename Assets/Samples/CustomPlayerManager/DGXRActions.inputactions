@@ -112,6 +112,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "JumpRange",
+                    "type": "Value",
+                    "id": "608f1fad-9553-45b8-a54a-e566c7691515",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -174,7 +183,7 @@
                     "name": "",
                     "id": "9b985366-7d23-456d-8204-20ae73763c9a",
                     "path": "<DGXRHumanController>/HumanBody",
-                    "interactions": "RaiseBothHand",
+                    "interactions": "RaiseRightHand",
                     "processors": "",
                     "groups": "",
                     "action": "Join",
@@ -310,6 +319,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "CheerUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2f206fc7-3fe0-4234-aa10-bdf37141d0f2",
+                    "path": "<DGXRHumanController>/jumpRange",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "JumpRange",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

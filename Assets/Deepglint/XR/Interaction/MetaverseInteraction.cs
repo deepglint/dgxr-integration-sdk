@@ -13,7 +13,7 @@ namespace Deepglint.XR.Interaction
         public int MissThreshold = 5;
         public int HitThreshold = 3;
 
-        protected void CheckMissCancel(ref InputInteractionContext context)
+        protected bool CheckMissCancel(ref InputInteractionContext context)
         {
             MissCount++;
             if (context.phase == InputActionPhase.Performed || context.phase == InputActionPhase.Started)
@@ -21,8 +21,11 @@ namespace Deepglint.XR.Interaction
                 if (MissCount >= MissThreshold)
                 {
                     context.Canceled();
+                    return true;
                 }
             }
+
+            return false;
         }
 
         public void Reset()

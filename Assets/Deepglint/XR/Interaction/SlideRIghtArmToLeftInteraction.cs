@@ -18,6 +18,7 @@ namespace Deepglint.XR.Interaction
         private float _startArmAngle = 0;
         private float StartArmAngleThreshold = 40;
         public float SlideArmAngleThreshold = 40;
+        private float _slideRange = 0f;
         
         public void Process(ref InputInteractionContext context)
         {
@@ -47,10 +48,13 @@ namespace Deepglint.XR.Interaction
                             // Debug.LogFormat("arm angle: {0}, shoulder angle {1}", _armAngle, shoulderAngle);
                             if (_armAngle <= _startArmAngle - SlideArmAngleThreshold)
                             {
-                                // Debug.Log($"SlideRightArmToLeft action performed on device {dgXRDevice.deviceId}");
+                                InputSystem.QueueDeltaStateEvent(dgXRDevice.SlideRightArmToLeftRange, GetSlideRange());
                                 context.PerformedAndStayPerformed();
                             }
 
+                            break;
+                        case InputActionPhase.Performed:
+                            InputSystem.QueueDeltaStateEvent(dgXRDevice.SlideRightArmToLeftRange, GetSlideRange());
                             break;
                     }
                 }
@@ -60,12 +64,19 @@ namespace Deepglint.XR.Interaction
                     if (_missCount >= 3 &&
                         (context.phase == InputActionPhase.Performed || context.phase == InputActionPhase.Started))
                     {
-                        _startArmAngle = 0;
                         // Debug.Log("SlideRightArmToLeft action canceled");
                         context.Canceled();
+                        _startArmAngle = 0;
+                        _slideRange = 0;
+                        InputSystem.QueueDeltaStateEvent(dgXRDevice.SlideRightArmToLeftRange, 0f);
                     }
                 }
             }
+        }
+        
+        private float GetSlideRange()
+        {
+            return Mathf.Clamp((_startArmAngle-_armAngle-SlideArmAngleThreshold)*1.6f / (_startArmAngle-SlideArmAngleThreshold), 0f, 1f);
         }
 
         /// <summary>

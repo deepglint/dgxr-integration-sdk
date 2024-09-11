@@ -13,7 +13,7 @@ namespace Deepglint.XR.Player
             _playerInput = GetComponent<PlayerInput>();
             if (_playerInput == null)
             {
-                Debug.LogError("PlayerInput component not found");
+                DGXR.Logger.LogError("PlayerManager", "PlayerInput component not found");
             }
         }
 

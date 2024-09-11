@@ -60,7 +60,7 @@ namespace Deepglint.XR.Player
             if (m_PlayerInput != null)
             {
                 // m_PlayerInput.user.UnpairDevices();
-                Debug.Log($"player {m_PlayerInput.user.id} was destoryed");
+                DGXR.Logger.Log($"player {m_PlayerInput.user.id} was destoryed");
             }
         }
     }

@@ -10,6 +10,9 @@ namespace Deepglint.XR.Interaction
     /// </summary>
     public class JumpInteraction : MetaverseInteraction, IInputInteraction
     {
+        private float _startHeight = 0f;
+        private float _head = 0f;
+        private float _heightOffset = 0.01f;
         public void Process(ref InputInteractionContext context)
         {
             if (context.control.device is DGXRHumanController dgXRDevice)
@@ -21,35 +24,54 @@ namespace Deepglint.XR.Interaction
                         case InputActionPhase.Waiting:
                             // Debug.Log("jump start");
                             context.Started();
+                            _startHeight = dgXRDevice.HumanBody.HeadTop.position.y.ReadValue();
                             break;
                         case InputActionPhase.Started:
                             if (IsJumpActionPerformed())
                             {
                                 // Debug.Log($"Jump action performed on device {dgXRDevice.deviceId}");
+                                InputSystem.QueueDeltaStateEvent(dgXRDevice.JumpRange, dgXRDevice.HumanBody.HeadTop.position.y.ReadValue() - _startHeight);
                                 context.PerformedAndStayPerformed();
                             }
+                            break;
+                        case InputActionPhase.Performed:
+                            float value = dgXRDevice.HumanBody.HeadTop.position.y.ReadValue() - _startHeight;
+                            InputSystem.QueueDeltaStateEvent(dgXRDevice.JumpRange, value);
                             break;
                     }
                 }
                 else
                 {
-                    CheckMissCancel(ref context);
+                    if (CheckMissCancel(ref context))
+                    {
+                        InputSystem.QueueDeltaStateEvent(dgXRDevice.JumpRange, 0f);
+                    }
                 }
             }
         }
 
         private bool IsJumpActionHappening(DGXRHumanController dgXRDevice)
         {
-            if (dgXRDevice.Jump.ReadValue() > Confidence)
+            float height = dgXRDevice.HumanBody.HeadTop.position.y.ReadValue();
+            try
             {
-                // Debug.Log("jump action is happening");
-                HitCount++;
-                // Debug.LogFormat("hit {0}, miss {1}, confidence: {2}", HitCount, MissCount, dgXRDevice.Jump.ReadValue());
-                return true;
-            }
-            // Debug.LogFormat("hit {0}, miss {1}, confidence: {2}", HitCount, MissCount, dgXRDevice.Jump.ReadValue());
+                if (dgXRDevice.Jump.ReadValue() <= Confidence)
+                {
+                    return false;
+                }
 
-            return false;
+                if (height < _head - _heightOffset)
+                {
+                    return false;
+                }
+            }
+            finally
+            {
+                _head = height;
+            }
+
+            HitCount++;
+            return true;
         }
 
         private bool IsJumpActionPerformed()

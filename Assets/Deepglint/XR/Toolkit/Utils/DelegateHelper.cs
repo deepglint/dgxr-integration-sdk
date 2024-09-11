@@ -22,11 +22,11 @@ namespace Deepglint.XR.Toolkit.Utils
                 }
                 catch (Exception exception)
                 {
-                    Debug.LogException(exception);
+                    DGXR.Logger.LogException(exception);
                     if (context != null)
-                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks of '{context}'");
+                        DGXR.Logger.LogError("DelegateHelper",$"{exception.GetType().Name} while executing '{callbackName}' callbacks of '{context}'");
                     else
-                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks");
+                        DGXR.Logger.LogError("DelegateHelper",$"{exception.GetType().Name} while executing '{callbackName}' callbacks");
                 }
             }
             callbacks.UnlockForChanges();
@@ -47,11 +47,11 @@ namespace Deepglint.XR.Toolkit.Utils
                 }
                 catch (Exception exception)
                 {
-                    Debug.LogException(exception);
+                    DGXR.Logger.LogException(exception);
                     if (context != null)
-                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks of '{context}'");
+                        DGXR.Logger.LogError("DelegateHelper",$"{exception.GetType().Name} while executing '{callbackName}' callbacks of '{context}'");
                     else
-                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks");
+                        DGXR.Logger.LogError("DelegateHelper",$"{exception.GetType().Name} while executing '{callbackName}' callbacks");
                 }
             }
             callbacks.UnlockForChanges();
@@ -72,11 +72,11 @@ namespace Deepglint.XR.Toolkit.Utils
                 }
                 catch (Exception exception)
                 {
-                    Debug.LogException(exception);
+                    DGXR.Logger.LogException(exception);
                     if (context != null)
-                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks of '{context}'");
+                        DGXR.Logger.LogError("DelegateHelper",$"{exception.GetType().Name} while executing '{callbackName}' callbacks of '{context}'");
                     else
-                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks");
+                        DGXR.Logger.LogError("DelegateHelper",$"{exception.GetType().Name} while executing '{callbackName}' callbacks");
                 }
             }
             callbacks.UnlockForChanges();
@@ -103,11 +103,11 @@ namespace Deepglint.XR.Toolkit.Utils
                 }
                 catch (Exception exception)
                 {
-                    Debug.LogException(exception);
+                    DGXR.Logger.LogException(exception);
                     if (context != null)
-                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks of '{context}'");
+                        DGXR.Logger.LogError("DelegateHelper",$"{exception.GetType().Name} while executing '{callbackName}' callbacks of '{context}'");
                     else
-                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks");
+                        DGXR.Logger.LogError("DelegateHelper",$"{exception.GetType().Name} while executing '{callbackName}' callbacks");
                 }
             }
             callbacks.UnlockForChanges();
@@ -140,11 +140,11 @@ namespace Deepglint.XR.Toolkit.Utils
                 }
                 catch (Exception exception)
                 {
-                    Debug.LogException(exception);
+                    DGXR.Logger.LogException(exception);
                     if (context != null)
-                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks of '{context}'");
+                        DGXR.Logger.LogError("DelegateHelper",$"{exception.GetType().Name} while executing '{callbackName}' callbacks of '{context}'");
                     else
-                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks");
+                        DGXR.Logger.LogError("DelegateHelper",$"{exception.GetType().Name} while executing '{callbackName}' callbacks");
                 }
             }
             callbacks.UnlockForChanges();
@@ -180,11 +180,11 @@ namespace Deepglint.XR.Toolkit.Utils
                 }
                 catch (Exception exception)
                 {
-                    Debug.LogException(exception);
+                    DGXR.Logger.LogException(exception);
                     if (context != null)
-                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks of '{context}'");
+                        DGXR.Logger.LogError("DelegateHelper",$"{exception.GetType().Name} while executing '{callbackName}' callbacks of '{context}'");
                     else
-                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks");
+                        DGXR.Logger.LogError("DelegateHelper",$"{exception.GetType().Name} while executing '{callbackName}' callbacks");
                 }
             }
             callbacks.UnlockForChanges();
@@ -221,11 +221,11 @@ namespace Deepglint.XR.Toolkit.Utils
                 }
                 catch (Exception exception)
                 {
-                    Debug.LogException(exception);
+                    DGXR.Logger.LogException(exception);
                     if (context != null)
-                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks of '{context}'");
+                        DGXR.Logger.LogError("DelegateHelper",$"{exception.GetType().Name} while executing '{callbackName}' callbacks of '{context}'");
                     else
-                        Debug.LogError($"{exception.GetType().Name} while executing '{callbackName}' callbacks");
+                        DGXR.Logger.LogError("DelegateHelper",$"{exception.GetType().Name} while executing '{callbackName}' callbacks");
                 }
             }
             callbacks.UnlockForChanges();

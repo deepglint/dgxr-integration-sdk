@@ -105,7 +105,7 @@ namespace Deepglint.XR.Ros
             {
                 if (result == null)
                 {
-                    Debug.LogError("991 result is null");
+                    DGXR.Logger.LogError("ROS", "991 result is null");
                     return;
                 }
 

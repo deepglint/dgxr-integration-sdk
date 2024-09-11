@@ -33,7 +33,7 @@ namespace Deepglint.XR.Toolkit.PipeClient
                                PipeDirection.Out))
                     {
                         pipeClient.Connect();
-                        Debug.Log($"Pipe client meta-starter{EnvironmentSuffix.GetEnvironment()} connected");
+                        DGXR.Logger.Log($"Pipe client meta-starter{EnvironmentSuffix.GetEnvironment()} connected");
 
                         using (StreamWriter writer = new StreamWriter(pipeClient))
                         {
@@ -45,7 +45,7 @@ namespace Deepglint.XR.Toolkit.PipeClient
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"SendPipeMessage Exception: {e.Message}");
+                    DGXR.Logger.LogError("PipeClient", $"SendPipeMessage Exception: {e.Message}");
                     _messageSentEvent.Set();    
                 }
             });

@@ -283,8 +283,12 @@ public class Demo : MonoBehaviour
 | FreeSwim      | 自由泳动作                                                   |
 | ButterflySwim | 蝶泳动作                                                    |
 | HighKneeRun   | 高抬腿动作                                                   |
-| DeepSquat     | 深蹲动作                                                    |
+| DeepSquat     | 深蹲动作置信度                                                    |
+| SquatRange    | 下蹲幅度[0，1] (float类型，取值越大代表的下蹲幅度也越大， 属于持续性动作，动作幅度在动作的perform到cancel阶段之间是不断变化的)          |
 | Jump          | 跳跃动作                                                    |
+| JumpRange     | 跳跃幅度，单位：米，取值越大代表跳跃的幅度也越大，属于持续性动作，动作幅度在动作的perform到cancel阶段之间是不断变化的                     |
+| SlideRightArmToLeftRange  | 右手向左划动的幅度，[0，1] (float类型，取值越大代表的划动幅度也越大，属于持续性动作，动作幅度在动作的perform到cancel阶段之间是不断变化的)  |
+| SlideLeftArmToRightRange  | 左手向右划动的幅度，[0，1] (float类型，取值越大代表的划动幅度也越大，属于持续性动作，动作幅度在动作的perform到cancel阶段之间是不断变化的)  |
 
 DeviceManager 类管理了空间中所有的设备，可以通过DeviceManager监听设备的上下线、获取在场活跃设备数量和列表。
 示例代码如下：
@@ -402,6 +406,70 @@ if (DGXR.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
 2. 配置ActionMap, 并设置数据类型![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/Action002.jpg)
 3. 选择设备类型和Interaction ![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/Action003.jpg)
 4. 交互控制逻辑请参考文档中玩家绑定模块，或者直接导入`Deepglint.XR.Interaction` Samples中的PlayerManager 示例程序（或[PlayerInput](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/api/UnityEngine.InputSystem.PlayerInput.html)）
+
+带有动作幅度的交互对接方法：
+1. 在action 进入cancel阶段时，读取动作幅度
+```
+public void DeepSquatControl(InputAction.CallbackContext value)
+{
+    if(value.performed)
+    {
+        if (value.canceled)
+        {
+            DGXRHumanController device = (DGXRHumanController)value.control.device;
+            float squatValue = device.SquatRange.ReadValue();
+            if (squatValue > 0)
+            {
+                DGXR.Logger.Log($"cancel Squat action with value: {squatValue}");
+            }
+        }
+    }
+}
+```
+2. 在action 处于perform期间，读取动作幅度
+```
+public void SlideLeftArmToRightControl(InputAction.CallbackContext value)
+{
+    if(value.performed)
+    {
+        _slideLeftArmToRightCount++;
+        DGXRHumanController device = (DGXRHumanController)value.control.device;
+        DGXR.Logger.Log($"SlideLeftArmToRight performed count: {_slideLeftArmToRightCount}, value: {device.SlideLeftArmToRightRange.ReadValue()}");
+        slideRightCoroutine = StartCoroutine(ReadSlideLeftArmToRightValue(device));
+    } else if (value.canceled)
+    {
+        if (slideRightCoroutine != null)
+        {
+            StopCoroutine(slideRightCoroutine);
+            slideRightCoroutine = null;
+            DGXR.Logger.Log($"SlideLeftArmToRight canceled with value: {_slideLeftArmToRightRange}");
+            _slideLeftArmToRightRange = 0f;
+        }
+    }
+}
+
+private IEnumerator ReadSlideLeftArmToRightValue(DGXRHumanController device)
+{
+    while (true)
+    {
+        if (device.enabled)
+        {
+            _slideLeftArmToRightRange = device.SlideLeftArmToRightRange.ReadValue();
+        }
+        yield return null;
+    }
+}
+```
+3. 通过定义组合action 读取动作幅度
+![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/range-action1.png)
+![](https://static-1253924368.cos.ap-beijing.myqcloud.com/nebula/doc/images/range-action2.png)
+```
+public void JumpRangeControl(InputAction.CallbackContext value)
+{
+    float j = value.ReadValue<float>();
+    DGXR.Logger.Log($"jumpRange: {j}, {value.phase.ToString()}");
+}
+```
 
 ### 玩家绑定及设备接入
 
