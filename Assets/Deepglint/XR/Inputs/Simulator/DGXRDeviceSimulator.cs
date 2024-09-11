@@ -52,8 +52,6 @@ public class DGXRDeviceSimulator : InputDevice, IInputUpdateCallbackReceiver
             interfaceName = "DGXRDeviceSimulator",
             product = "DGXRDeviceSimulator"
         });
-        
-        Debug.Log("device: " + device.deviceId + " was created");
     }
     
     [MenuItem("Tools/DGXR Device Simulator/Remove Device")]
@@ -63,7 +61,6 @@ public class DGXRDeviceSimulator : InputDevice, IInputUpdateCallbackReceiver
         if (simulatorDevice != null)
         {
             InputSystem.RemoveDevice(simulatorDevice);
-            Debug.Log("device: " + simulatorDevice.deviceId + " was removed");
         }
     }
     #endif

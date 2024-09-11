@@ -22,8 +22,7 @@ namespace Deepglint.XR.EventSystem.InputModules
         /// <summary>
         /// Determine whether the foot is on the bottom screen based on the height above the ground.
         /// </summary>
-        [SerializeField]
-        private float footTouchThreshold = 0.03f;
+        private float _footTouchThreshold = 0.06f;
 
         private const float DoubleClickTime = 0.3f;
         
@@ -119,8 +118,6 @@ namespace Deepglint.XR.EventSystem.InputModules
                 // didnt find a press handler... search for a click handler
                 if (newPressed == null)
                     newPressed = newClick;
-
-                // Debug.Log("Pressed: " + newPressed);
 
                 float time = Time.unscaledTime;
 
@@ -440,15 +437,13 @@ namespace Deepglint.XR.EventSystem.InputModules
             switch (buttonId)
             {
                 case HumanPointerEventData.InputButton.LeftFoot:
-                    touched = device.HumanBody.LeftFoot.position.y.value < footTouchThreshold;
+                    touched = device.HumanBody.LeftFoot.position.y.value < _footTouchThreshold;
                     break;
                 case HumanPointerEventData.InputButton.RightFoot:
-                    touched = device.HumanBody.RightFoot.position.y.value < footTouchThreshold;
+                    touched = device.HumanBody.RightFoot.position.y.value < _footTouchThreshold;
                     break;
             }
             
-            //Debug.Log(touched);
-
             return touched;
         }
 

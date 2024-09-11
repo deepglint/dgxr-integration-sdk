@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace Deepglint.XR.Inputs
 {
@@ -14,6 +15,8 @@ namespace Deepglint.XR.Inputs
         private RectTransform _rectTransform;
         private Dictionary<int, RectTransform> _leftFoots;
         private Dictionary<int, RectTransform> _rightFoots;
+        private Dictionary<int, Text> _leftText;
+        private Dictionary<int, Text> _rightText;
         
         private void OnDeviceLost(InputDevice device)
         {
@@ -23,12 +26,14 @@ namespace Deepglint.XR.Inputs
                 {
                     Destroy(_leftFoots[device.deviceId].gameObject);
                     _leftFoots.Remove(device.deviceId);
+                    _leftText.Remove(device.deviceId);
                 }
 
                 if (_rightFoots.ContainsKey(device.deviceId))
                 {
                     Destroy(_rightFoots[device.deviceId].gameObject);
                     _rightFoots.Remove(device.deviceId);
+                    _rightText.Remove(device.deviceId);
                 }
             }
         }
@@ -48,6 +53,8 @@ namespace Deepglint.XR.Inputs
             _rectTransform = gameObject.GetComponent<RectTransform>();
             _leftFoots = new Dictionary<int, RectTransform>();
             _rightFoots = new Dictionary<int, RectTransform>();
+            _leftText = new Dictionary<int, Text>();
+            _rightText = new Dictionary<int, Text>();
         }
 
         public void Update()
@@ -56,6 +63,7 @@ namespace Deepglint.XR.Inputs
             {
                 foreach (var device in DeviceManager.AllActiveXRHumanDevices)
                 {
+                    Text leftText;
                     RectTransform leftFootRectTransform;
                     if (!_leftFoots.ContainsKey(device.deviceId))
                     {
@@ -64,15 +72,20 @@ namespace Deepglint.XR.Inputs
                         leftFoot.SetActive(true);
                         leftFootRectTransform = leftFoot.GetComponent<RectTransform>();
                         _leftFoots[device.deviceId] = leftFootRectTransform;
+                        leftText = leftFoot.GetComponentInChildren<Text>();
+                        _leftText[device.deviceId] = leftText;
                     }
                     else
                     {
                         leftFootRectTransform = _leftFoots[device.deviceId];
+                        leftText = _leftText[device.deviceId];
                     }
 
                     var leftFootPosition = device.HumanBody.LeftFoot.position.value;
                     leftFootRectTransform.anchoredPosition = DGXR.Space.Bottom.SpaceToPixelOnScreen(leftFootPosition);
-                
+                    leftText.text = $"{leftFootPosition}";
+
+                    Text rightText;
                     RectTransform rightFootRectTransform;
                     if (!_rightFoots.ContainsKey(device.deviceId))
                     {
@@ -81,15 +94,19 @@ namespace Deepglint.XR.Inputs
                         rightFoot.SetActive(true);
                         rightFootRectTransform = rightFoot.GetComponent<RectTransform>();
                         _rightFoots[device.deviceId] = rightFootRectTransform;
+                        rightText = rightFoot.GetComponentInChildren<Text>();
+                        _rightText[device.deviceId] = rightText;
                     }
                     else
                     {
                         rightFootRectTransform = _rightFoots[device.deviceId];
+                        rightText = _rightText[device.deviceId];
                     }
 
                     var rightFootPosition = device.HumanBody.RightFoot.position.value;
                     rightFootRectTransform.anchoredPosition = DGXR.Space.Bottom.SpaceToPixelOnScreen(rightFootPosition);
-                
+                    rightText.text = $"{rightFootPosition}"; 
+                    
                     Vector3 eulerRotation = device.HumanPose.Rotation.value.eulerAngles;
                     Vector3 localEulerAngles = new Vector3(0, 0, -eulerRotation.y);
                     leftFootRectTransform.localEulerAngles = localEulerAngles;

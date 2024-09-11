@@ -17,11 +17,11 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
         {
             if (eventData.pointerId > 0)
             {
-                Debug.Log($"human {eventData.pointerId} right foot with position: {eventData.position}, world position: {eventData.worldPosition} entered into exit-button");
+                DGXR.Logger.Log($"human {eventData.pointerId} right foot with position: {eventData.position}, world position: {eventData.worldPosition} entered into exit-button");
             }
             else
             {
-                Debug.Log($"human {eventData.pointerId} left foot with position: {eventData.position}, world position: {eventData.worldPosition} entered into exit-button");
+                DGXR.Logger.Log($"human {eventData.pointerId} left foot with position: {eventData.position}, world position: {eventData.worldPosition} entered into exit-button");
             }
             string playerId = eventData.pointerId.ToString();
             if (_playerIds.Contains(playerId)) return;
@@ -33,11 +33,11 @@ namespace Deepglint.XR.Toolkit.SharedComponents.GameExitButton
         {
             if (eventData.pointerId > 0)
             {
-                Debug.Log($"human {eventData.pointerId} right foot with position: {eventData.position}, world position: {eventData.worldPosition} exited from exit-button");
+                DGXR.Logger.Log($"human {eventData.pointerId} right foot with position: {eventData.position}, world position: {eventData.worldPosition} exited from exit-button");
             }
             else
             {
-                Debug.Log($"human {eventData.pointerId} left foot with position: {eventData.position}, world position: {eventData.worldPosition} exited from exit-button");
+                DGXR.Logger.Log($"human {eventData.pointerId} left foot with position: {eventData.position}, world position: {eventData.worldPosition} exited from exit-button");
             }
             string playerId = eventData.pointerId.ToString();
             if (!_playerIds.Contains(playerId)) return;

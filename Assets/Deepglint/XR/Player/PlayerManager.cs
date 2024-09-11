@@ -147,7 +147,7 @@ namespace Deepglint.XR.Player
             }
             else
             {
-                Debug.LogWarning("Multiple PlayerManagers in the game. There should only be one PlayerManager", this);
+                DGXR.Logger.LogWarning("Multiple PlayerManagers in the game. There should only be one PlayerManager", this);
                 return;
             }
             if (_playerInputManager == null)
@@ -166,7 +166,7 @@ namespace Deepglint.XR.Player
             //     playerPrefab = Resources.Load<GameObject>("Perfabs/Player");
             //     if (playerPrefab == null)
             //     {
-            //         Debug.LogError("Player perfab not found");
+            //         DGXR.Logger.LogError("Player perfab not found");
             //     }
             // }
         }
@@ -209,7 +209,7 @@ namespace Deepglint.XR.Player
                 case PlayerJoinBehaviour.JoinFromUI:
                     if (joinUI == null)
                     {
-                        Debug.LogError("joinUI should not be null");
+                        DGXR.Logger.LogError("PlayerManager", "joinUI should not be null");
                         break;
                     }
                     EventTrigger trigger = joinUI.GetComponent<EventTrigger>();
@@ -226,7 +226,7 @@ namespace Deepglint.XR.Player
                     });
 
                     trigger.triggers.Add(entry);
-                    Debug.Log($"Add OnPointerDown listener to {joinUI.name}");
+                    DGXR.Logger.Log($"Add OnPointerDown listener to {joinUI.name}");
                     
                     break;
             }
@@ -387,11 +387,11 @@ namespace Deepglint.XR.Player
                 {
                     if (PairDeviceToCharacter(character, device))
                     {
-                        Debug.Log($"succeed to bind device {device.deviceId} to player {character.Name}");
+                        DGXR.Logger.Log($"succeed to bind device {device.deviceId} to player {character.Name}");
                     }
                     else
                     {
-                        Debug.Log($"failed to bind device {device.deviceId} to player {character.Name}");
+                        DGXR.Logger.Log($"failed to bind device {device.deviceId} to player {character.Name}");
                     }
                 }
             }
@@ -408,7 +408,7 @@ namespace Deepglint.XR.Player
                     if (obj != null)
                     {
                         _characters.Add(playerInput.user.id, (ICharacter)obj);
-                        Debug.Log($"player {playerInput.user.id} which paired to {device.deviceId} joined with ICharacter succeed");
+                        DGXR.Logger.Log($"player {playerInput.user.id} which paired to {device.deviceId} joined with ICharacter succeed");
                     }
                     else
                     {
@@ -475,7 +475,7 @@ namespace Deepglint.XR.Player
                 // 玩家主动离场
                 _characters.Remove(pi.user.id);
                 iCharacter.OnPlayerLeft();
-                Debug.Log($"player {pi.user.id} was destroyed");
+                DGXR.Logger.Log($"player {pi.user.id} was destroyed");
             }
         }
 
@@ -496,7 +496,7 @@ namespace Deepglint.XR.Player
                 character.m_Player = player;
                 player.m_Character = character;
                 player.m_PlayerInput = playerInput;
-                Debug.Log($"player {playerInput.user.id} joined with character {character.Name}");
+                DGXR.Logger.Log($"player {playerInput.user.id} joined with character {character.Name}");
                 return true;
             }
 
@@ -515,7 +515,7 @@ namespace Deepglint.XR.Player
         {
             if (playerPrefab == null)
             {
-                Debug.LogError("playerPrefab must be set in order to be able to join new players", this);
+                DGXR.Logger.LogError("playerPrefab must be set in order to be able to join new players", this);
                 return false;
             }
 
@@ -529,7 +529,7 @@ namespace Deepglint.XR.Player
         private void OnPlayerJoined(PlayerInput playerInput)
         {
             ArrayHelper.AppendWithCapacity<PlayerInput>(ref _allActivePlayers, ref _allActivePlayersCount, playerInput);
-            Debug.Log("Player joined: " + playerInput.playerIndex);
+            DGXR.Logger.Log("Player joined: " + playerInput.playerIndex);
         }
 
         /// <summary>
@@ -543,7 +543,7 @@ namespace Deepglint.XR.Player
             {
                 ArrayHelper.EraseAtWithCapacity(_allActivePlayers, ref _allActivePlayersCount, index);
             }
-            Debug.Log($"Player {playerInput.playerIndex} left, and current paired device count is {playerInput.devices.Count}");
+            DGXR.Logger.Log($"Player {playerInput.playerIndex} left, and current paired device count is {playerInput.devices.Count}");
         }
 
         /// <summary>
@@ -564,7 +564,7 @@ namespace Deepglint.XR.Player
                         _characters.Remove(pi.user.id);
                         iCharacter.OnPlayerLeft();
                         Destroy(pi.gameObject);
-                        Debug.Log($"player {pi.user.id} was destroyed passively"); 
+                        DGXR.Logger.Log($"player {pi.user.id} was destroyed passively"); 
                     }
                     
                 }
@@ -578,7 +578,7 @@ namespace Deepglint.XR.Player
         /// <param name="device"></param>
         private static void OnDeviceRegained(PlayerInput pi, InputDevice device)
         {
-            Debug.Log($"device {device.deviceId} was regained");
+            DGXR.Logger.Log($"device {device.deviceId} was regained");
         }
 
         /// <summary>
@@ -588,11 +588,11 @@ namespace Deepglint.XR.Player
         /// <param name="device"></param>
         private static void OnDevicePaired(PlayerInput pi, InputDevice device)
         {
-            Debug.Log($"device {device.deviceId} was paired to player {pi.user.id}");
+            DGXR.Logger.Log($"device {device.deviceId} was paired to player {pi.user.id}");
             // double check: it is forbidden to pair more than one main device to on player;
             if (pi.devices.Count > 1)
             {
-                Debug.Log($"unpair device {device.deviceId} from player {pi.user.id}, cause over size");
+                DGXR.Logger.Log($"unpair device {device.deviceId} from player {pi.user.id}, cause over size");
                 pi.user.UnpairDevice(device);
             } 
         }

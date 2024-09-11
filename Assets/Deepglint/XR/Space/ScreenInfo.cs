@@ -98,7 +98,7 @@ namespace Deepglint.XR.Space
         {
             if (SpaceCamera == null || camera == null)
             {
-                Debug.LogError("SpaceCamera or the camera to be added is null.");
+                DGXR.Logger.LogError("ScreenInfo","SpaceCamera or the camera to be added is null.");
                 return;
             }
 
@@ -106,13 +106,13 @@ namespace Deepglint.XR.Space
 
             if (spaceCameraData == null)
             {
-                Debug.LogError("SpaceCamera does not have UniversalAdditionalCameraData component.");
+                DGXR.Logger.LogError("ScreenInfo","SpaceCamera does not have UniversalAdditionalCameraData component.");
                 return;
             }
 
             if (camera.GetUniversalAdditionalCameraData() == null)
             {
-                Debug.LogError("The camera to be added does not have UniversalAdditionalCameraData component.");
+                DGXR.Logger.LogError("ScreenInfo","The camera to be added does not have UniversalAdditionalCameraData component.");
                 return;
             }
 
@@ -123,7 +123,7 @@ namespace Deepglint.XR.Space
             }
             else
             {
-                Debug.LogWarning("Camera is already in the stack.");
+                DGXR.Logger.LogWarning("ScreenInfo","Camera is already in the stack.");
             }
         }
 
@@ -135,14 +135,14 @@ namespace Deepglint.XR.Space
         {
             if (SpaceCamera == null || camera == null)
             {
-                Debug.LogError("SpaceCamera or the camera to be removed is null.");
+                DGXR.Logger.LogError("ScreenInfo","SpaceCamera or the camera to be removed is null.");
                 return;
             }
 
             UniversalAdditionalCameraData spaceCameraData = SpaceCamera.GetUniversalAdditionalCameraData();
             if (spaceCameraData == null)
             {
-                Debug.LogError("SpaceCamera does not have UniversalAdditionalCameraData component.");
+                DGXR.Logger.LogError("ScreenInfo","SpaceCamera does not have UniversalAdditionalCameraData component.");
                 return;
             }
 
@@ -152,7 +152,7 @@ namespace Deepglint.XR.Space
             }
             else
             {
-                Debug.LogWarning("Camera is not in the stack.");
+                DGXR.Logger.LogWarning("ScreenInfo","Camera is not in the stack.");
             }
         }
 

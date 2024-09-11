@@ -1,5 +1,6 @@
 using System;
 using Deepglint.XR.Config;
+using Deepglint.XR.Log;
 using Deepglint.XR.Ros;
 using UnityEngine;
 using Deepglint.XR.Space;
@@ -25,6 +26,8 @@ namespace Deepglint.XR
         public static bool IsFilterZero;
         public static XRSpace Space;
         public static Vector3 CavePosition;
+        public static Logger Logger = new Logger(new PrefixedLogger(Debug.unityLogger.logHandler, "DGXR"));
+        
         public const string PackageName = "com.deepglint.xr";
         
         /// <summary>

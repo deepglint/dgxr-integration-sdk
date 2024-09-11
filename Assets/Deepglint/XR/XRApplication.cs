@@ -49,7 +49,7 @@ namespace Deepglint.XR
             }
             catch (Exception e)
             {
-                Debug.LogWarning(e);
+                DGXR.Logger.LogWarning("XRApplication", e);
             }
         }
         
@@ -108,7 +108,7 @@ namespace Deepglint.XR
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
                 DGXR.Settings = _settings;
-                Debug.Log("XRApplication Settings Saved");
+                DGXR.Logger.Log("XRApplication Settings Saved");
             }
         }
 
@@ -133,12 +133,12 @@ namespace Deepglint.XR
             }
             else
             {
-                Debug.LogWarning("Unsupported build platform for this script.");
+                DGXR.Logger.LogWarning("XRApplication", "Unsupported build platform for this script.");
                 return;
             }
 
             string filePath = Path.Combine(dataFolderPath, "StreamingAssets", "application.json");
-            Debug.Log($"write application content to {filePath}");
+            DGXR.Logger.Log($"write application content to {filePath}");
             _settings.name = Application.productName;
             _settings.version = Application.version;
             string content = JsonConvert.SerializeObject(_settings);

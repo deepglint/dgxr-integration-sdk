@@ -170,7 +170,6 @@ namespace Deepglint.XR.EventSystem.InputModules
                     {
                         string[] persons = item.Key.Split("_");
                         // trigger high-five event
-                        // Debug.Log("trigger high-five event");
                         DGXRHumanController xrDevice1 = DeviceManager.GetActiveDeviceBySerial(persons[0]) as DGXRHumanController;
                         DGXRHumanController xrDevice2 = DeviceManager.GetActiveDeviceBySerial(persons[1]) as DGXRHumanController;
                         if (xrDevice1 != null && xrDevice2 != null)

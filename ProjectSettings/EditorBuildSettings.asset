@@ -11,10 +11,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Samples/HumanBody/Body.unity
     guid: 6b5b82807df2b459c9c64c204fe0cec7
-  - enabled: 1
+  - enabled: 0
     path: Assets/Samples/UI/UI.unity
     guid: 2e09ed69e24c82547af5fcd2c58041b3
-  - enabled: 1
+  - enabled: 0
     path: Assets/Samples/UI/UI 1.unity
     guid: 0ad29ed7bfdf6f14391110b8ee5d3fcd
   m_configObjects: {}

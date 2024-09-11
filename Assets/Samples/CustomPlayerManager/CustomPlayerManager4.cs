@@ -22,7 +22,7 @@ namespace Samples.CustomPlayerManager
         {
             if (_circlePrefab == null)
             {
-                Debug.LogError("_circlePrefab not set");
+                DGXR.Logger.LogError("Demo", "_circlePrefab not set");
             }
         }
 
@@ -102,26 +102,26 @@ namespace Samples.CustomPlayerManager
                     Destroy(_player);
                     _player = null; 
                 }
-                Debug.LogFormat("character {0} is out of circle", Name);
+                DGXR.Logger.Log($"character {Name} is out of circle");
             }
 
             public ICharacter OnPlayerJoin(GameObject player, InputDevice device)
             {
                 if (_player == null)
                 {
-                    Debug.LogFormat("character {0} is bindable", Name);
+                    DGXR.Logger.Log($"character {Name} is bindable");
                     _player = player;
                     return this;
                 }
                 
-                Debug.LogFormat("character {0} is not bindable", Name);
+                DGXR.Logger.Log($"character {Name} is not bindable");
                 return null;
             }
 
             public void OnPlayerLeft()
             {
                 // pass left triggered by PlayerManager when device is lost.
-                Debug.LogFormat("player {0} is left", Name);
+                DGXR.Logger.Log($"player {Name} is left");
                 _player = null;
             }
         }

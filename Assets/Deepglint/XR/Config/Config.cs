@@ -144,7 +144,7 @@ namespace Deepglint.XR.Config
                 }
                 else
                 {
-                    Debug.LogError("env.json does not exist in StreamingAssets folder.");
+                    DGXR.Logger.LogError("Config", "env.json does not exist in StreamingAssets folder.");
                     Application.Quit();
                 }
             }
@@ -172,14 +172,14 @@ namespace Deepglint.XR.Config
                     return data;
                 } else
                 {
-                    Debug.LogError("config.json does not exist in StreamingAssets folder.");
+                    DGXR.Logger.LogError("Config", "config.json does not exist in StreamingAssets folder.");
                     Application.Quit();
                 }
             }
 
             if (!File.Exists(configFilePath))
             {
-                Debug.LogError($"config.json does not exist in {configFilePath}");
+                DGXR.Logger.LogError("Config", $"config.json does not exist in {configFilePath}");
                 Application.Quit(); 
             }
             streamReader = File.OpenText(configFilePath);
@@ -214,7 +214,7 @@ namespace Deepglint.XR.Config
                     configFilePath = Path.Combine(metaStarterDevHome, "config.json");
                 }
             }
-            Debug.Log($"read config from environment: {configFilePath}");
+            DGXR.Logger.Log($"read config from environment: {configFilePath}");
             var envConfig = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadEnvData());
             var config = JsonConvert.DeserializeObject<ConfigData.ConfigInfo>(ReadConfigData(configFilePath));
             config.Space = envConfig.Space;
