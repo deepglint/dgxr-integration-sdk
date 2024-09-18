@@ -67,7 +67,8 @@ namespace Deepglint.XR.Config
         [System.Serializable]
         public class ScreenConfig
         {
-            [JsonProperty("display")] public TargetScreen TargetScreen { get; set; }
+            [JsonProperty("display")] public TargetScreen Screen { get; set; }
+            [JsonProperty("targetDisplay")] public TargetScreen TargetScreen { get; set; }
 
             [JsonProperty("render")] public RenderInfo[] Render { get; set; }
 

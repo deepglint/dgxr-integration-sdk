@@ -333,7 +333,7 @@ namespace Deepglint.XR.Space
             {
                 var position = new Vector3(screen.Position.x, screen.Position.y, screen.Position.z);
                 var rotation = Quaternion.Euler(screen.Rotation.x, screen.Rotation.y, screen.Rotation.z);
-                if (screen.TargetScreen == TargetScreen.Bottom)
+                if (screen.Screen == TargetScreen.Bottom)
                 {
                     _buttonRotation = screen.Rotation.z;
                     rotation = Quaternion.Euler(screen.Rotation.x, screen.Rotation.y, 0);
@@ -342,8 +342,8 @@ namespace Deepglint.XR.Space
                 var scale = new Vector3(screen.Scale.x, screen.Scale.y, screen.Scale.z);
 
 
-                Transform quad = space.Find(screen.TargetScreen.ToString());
-                var uiCamera = Extends.FindChildGameObject(uiCameraGroup, screen.TargetScreen.ToString())
+                Transform quad = space.Find(screen.Screen.ToString());
+                var uiCamera = Extends.FindChildGameObject(uiCameraGroup, screen.Screen.ToString())
                     .GetComponent<Camera>();
                 uiCamera.gameObject.SetActive(true);
 
@@ -355,7 +355,7 @@ namespace Deepglint.XR.Space
                     displayQuad.transform.localPosition = position;
                     displayQuad.transform.localRotation = rotation;
                     displayQuad.transform.localScale = scale;
-                    displayQuad.name = screen.TargetScreen.ToString();
+                    displayQuad.name = screen.Screen.ToString();
                     spaceCamera = Instantiate(userViewCameraPrefab, space.transform.position,
                         displayQuad.transform.rotation, displayQuad.transform);
 
@@ -375,10 +375,11 @@ namespace Deepglint.XR.Space
 
                     spaceCamera = Extends.FindChildGameObject(screenObject, "UserViewCamera")
                         .GetComponent<Camera>();
+                    spaceCamera.targetDisplay = (int)screen.TargetScreen;
                 }
 
                 Vector2 size = new Vector2();
-                switch (screen.TargetScreen)
+                switch (screen.Screen)
                 {
                     case TargetScreen.Front:
                         size = new Vector2(length, height);
@@ -402,9 +403,9 @@ namespace Deepglint.XR.Space
                     Resolution = new Resolution
                     {
                         width = _screenWidth,
-                        height = screen.TargetScreen == TargetScreen.Bottom ? _screenWidth : _screenHeight
+                        height = screen.Screen == TargetScreen.Bottom ? _screenWidth : _screenHeight
                     },
-                    ScreenCanvas = uiRoot.transform.Find(screen.TargetScreen.ToString()).gameObject,
+                    ScreenCanvas = uiRoot.transform.Find(screen.Screen.ToString()).gameObject,
                     SpaceCamera = spaceCamera,
                     UICamera = uiCamera,
                     Size = size,
@@ -447,7 +448,7 @@ namespace Deepglint.XR.Space
                     }
                 }
 #endif
-                XRSpace.AddScreen(screen.TargetScreen, dis);
+                XRSpace.AddScreen(screen.Screen, dis);
             }
         }
     }
