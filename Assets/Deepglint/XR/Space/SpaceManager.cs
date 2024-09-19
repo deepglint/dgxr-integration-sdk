@@ -35,11 +35,10 @@ namespace Deepglint.XR.Space
         private GameObject[] _screens;
         [FormerlySerializedAs("SpaceScale")] public float spaceScale = 1;
 
-        private Vector3 _eyePosition = new Vector3(0, 1.6f, 0);
 
         private readonly int _caveLayer = 31;
         private Dictionary<int, GameObject[]> _screenEdges;
-        private Vector3 _head = new Vector3(0, 1.6f, 0);
+        public Vector3   eyePosition = new Vector3(0, 1.6f, 0);
         private Vector3 _headLockPosition;
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -146,10 +145,11 @@ namespace Deepglint.XR.Space
         {
             Transform space = GameObject.Find("XRSpace").transform;
             XRSpace.Instance.Origin = space.transform.position;
-            if (isCave)
-            {
-                SetHead();
-            }
+            SetHead();
+            // if (isCave)
+            // {
+            //    
+            // }
         }
 
 #if !UNITY_EDITOR
@@ -240,16 +240,16 @@ namespace Deepglint.XR.Space
         {
             if (DGXR.CavePosition.x != 0 || DGXR.CavePosition.y != 0 || DGXR.CavePosition.z != 0)
             {
-                _head = DGXR.CavePosition;
+                eyePosition = DGXR.CavePosition;
             }
 
             var space = GameObject.Find("XRSpace");
+          
             Vector3 position = space.transform.position;
-
             foreach (var userCamera in DGXR.Config.Space.Screens)
             {
                 var cam = DGXR.Space[userCamera.TargetScreen];
-                cam.SpaceCamera.transform.position = _head+position;
+                cam.SpaceCamera.transform.position = eyePosition+position;
             }
         }
 
