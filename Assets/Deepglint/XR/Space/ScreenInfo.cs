@@ -48,7 +48,7 @@ namespace Deepglint.XR.Space
         /// <param name="config">屏幕配置</param>
         internal ScreenInfo(Config.Config.ScreenConfig config)
         {
-            TargetScreen = config.TargetScreen;
+            TargetScreen = config.Screen;
             Render = config.Render;
             Position = config.Position;
             Rotation = config.Rotation;
