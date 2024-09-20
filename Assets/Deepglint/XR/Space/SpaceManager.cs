@@ -18,6 +18,7 @@ namespace Deepglint.XR.Space
     [DefaultExecutionOrder(-99)]
     public class SpaceManager : MonoBehaviour
     {
+        public int position = 0;
         [FormerlySerializedAs("DisplayImagePrefab")]
         public GameObject displayImagePrefab;
 
@@ -67,6 +68,10 @@ namespace Deepglint.XR.Space
 #endif
         private void Awake()
         {
+            if (position != DGXR.Config.Space.Position)
+            {
+                gameObject.SetActive(false);
+            }
 #if !UNITY_EDITOR
             if (!DGXR.SystemName.Contains("Mac"))
             {
@@ -124,11 +129,11 @@ namespace Deepglint.XR.Space
                 GameObject[] games = new GameObject[4];
                 for (int corner = 0; corner < 4; corner++)
                 {
-                    var sc = DGXR.Space[screen.TargetScreen];
+                    var sc = DGXR.Space[screen.Screen];
                     games[corner] = sc.ScreenObject.transform.GetChild(corner).gameObject;
                 }
 
-                _screenEdges.Add((int)screen.TargetScreen, games);
+                _screenEdges.Add((int)screen.Screen, games);
             }
 #if !UNITY_EDITOR
             RenderPipelineManager.endFrameRendering += HandleSplitScreen;
@@ -143,13 +148,22 @@ namespace Deepglint.XR.Space
 #endif
         void Update()
         {
+           
             Transform space = GameObject.Find("XRSpace").transform;
+            foreach (var s in DGXR.Config.Space.Screens)
+            {
+                if (!s.Enable)
+                {
+                    var cam = space.Find(s.Screen.ToString()).Find("UserViewCamera");
+                    cam.gameObject.SetActive(false);
+                    // Destroy(cam.gameObject);
+                    //     .GetComponent<Camera>();
+                    // cam.cullingMask = 0;
+                    // Destroy(cam);
+                }
+            }
             XRSpace.Instance.Origin = space.transform.position;
             SetHead();
-            // if (isCave)
-            // {
-            //    
-            // }
         }
 
 #if !UNITY_EDITOR
@@ -296,7 +310,11 @@ namespace Deepglint.XR.Space
         private void InstantiateXR()
         {
             Transform space = GameObject.Find("XRSpace").transform;
-
+            
+            // foreach (Transform child in space.transform)
+            // {
+            //   
+            // }
             if (isCave)
             {
                 foreach (Transform child in space.transform)
@@ -307,10 +325,10 @@ namespace Deepglint.XR.Space
 
             XRSpace.Instance.Origin = Vector3.zero + space.transform.position;
             GameObject uiCameraGroup = GameObject.Find("2DCameraGroup");
-            foreach (Transform child in uiCameraGroup.transform)
-            {
-                child.gameObject.SetActive(false);
-            }
+            // foreach (Transform child in uiCameraGroup.transform)
+            // {
+            //     child.gameObject.SetActive(false);
+            // }
 
             var uiRoot = GameObject.Find("UIRoot");
             XRSpace.Instance.gameObject = space.gameObject;
@@ -343,6 +361,9 @@ namespace Deepglint.XR.Space
 
 
                 Transform quad = space.Find(screen.Screen.ToString());
+                // quad.gameObject.SetActive(true);
+                // var cam = quad.Find("UserViewCamera").GetComponent<Camera>();
+                // cam.cullingMask = -1;
                 var uiCamera = Extends.FindChildGameObject(uiCameraGroup, screen.Screen.ToString())
                     .GetComponent<Camera>();
                 uiCamera.gameObject.SetActive(true);

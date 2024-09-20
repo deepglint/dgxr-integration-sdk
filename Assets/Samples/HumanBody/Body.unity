@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XRManager
       objectReference: {fileID: 0}
+    - target: {fileID: 244933712503501597, guid: 7d7e241a0de3c43d5b528d0a56cc3c67, type: 3}
+      propertyPath: orthographic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 607231863425968516, guid: 7d7e241a0de3c43d5b528d0a56cc3c67, type: 3}
       propertyPath: m_Materials.Array.size
       value: 2
