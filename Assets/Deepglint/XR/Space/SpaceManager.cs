@@ -130,6 +130,7 @@ namespace Deepglint.XR.Space
 
                 _screenEdges.Add((int)screen.TargetScreen, games);
             }
+            SetHead();
 #if !UNITY_EDITOR
             RenderPipelineManager.endFrameRendering += HandleSplitScreen;
 #endif
@@ -145,11 +146,10 @@ namespace Deepglint.XR.Space
         {
             Transform space = GameObject.Find("XRSpace").transform;
             XRSpace.Instance.Origin = space.transform.position;
-            SetHead();
-            // if (isCave)
-            // {
-            //    
-            // }
+            if (isCave)
+            {
+                SetHead();
+            }
         }
 
 #if !UNITY_EDITOR
