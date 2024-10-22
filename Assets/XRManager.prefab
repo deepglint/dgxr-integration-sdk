@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc4e3a4b6ba034481bfcd392f84643d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   displayImagePrefab: {fileID: 153969597885996290, guid: 40bd8c06629c64ed58c578d837f603d2, type: 3}
   screenPrefab: {fileID: 7038691051360226002, guid: 06396d2cee4a448a7a749543841d56c4, type: 3}
   shader: {fileID: 4800000, guid: 5a791830fa5c8db47acf9dce4ce37e28, type: 3}

@@ -383,7 +383,7 @@ namespace Deepglint.XR.EventSystem.InputModules
             }
 
             // data.displayIndex = Global.Space.Bottom.UICamera.targetDisplay;
-            data.displayIndex = (int)DGXR.Space.Bottom.TargetScreen;
+            data.displayIndex = (int)DGXR.Space.BottomRightByBottom.TargetScreen;
             eventSystem.RaycastAll(data, m_RaycastResultCache);
             data.pointerCurrentRaycast = FindFirstRaycast(m_RaycastResultCache);
             m_RaycastResultCache.Clear();
@@ -398,9 +398,9 @@ namespace Deepglint.XR.EventSystem.InputModules
         /// <returns></returns>
         private Vector2 WorldToBottomScreenPosition(Vector3 position)
         {
-            float x = Mathf.Clamp(position.x / DGXR.Space.Bottom.Size.x + 0.5f, 0f, 1f);
-            float y = Mathf.Clamp(position.z / DGXR.Space.Bottom.Size.y + 0.5f, 0f, 1f);
-            return new Vector2(x * DGXR.Space.Bottom.Resolution.width, y * DGXR.Space.Bottom.Resolution.height);
+            float x = Mathf.Clamp(position.x / DGXR.Space.BottomRightByBottom.Size.x + 0.5f, 0f, 1f);
+            float y = Mathf.Clamp(position.z / DGXR.Space.BottomRightByBottom.Size.y + 0.5f, 0f, 1f);
+            return new Vector2(x * DGXR.Space.BottomRightByBottom.Resolution.width, y * DGXR.Space.BottomRightByBottom.Resolution.height);
         }
 
         /// <summary>

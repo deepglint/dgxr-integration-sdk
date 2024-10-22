@@ -51,15 +51,28 @@ namespace Deepglint.XR.Space
             Instance._screenDic.Remove(target);
         }
 
-        public ScreenInfo Front => _screenDic[TargetScreen.Front];
+        public ScreenInfo LeftByFront => _screenDic[TargetScreen.LeftByFront];
+        public ScreenInfo MidLeftByFront => _screenDic[TargetScreen.MidLeftByFront];
+        public ScreenInfo MidRightByFront => _screenDic[TargetScreen.MidRightByFront];
+        public ScreenInfo RightByFront => _screenDic[TargetScreen.RightByFront];
 
-        public ScreenInfo Left => _screenDic[TargetScreen.Left];
+        public ScreenInfo TopByRight => _screenDic[TargetScreen.TopByRight];
+        public ScreenInfo BottomByRight => _screenDic[TargetScreen.BottomByRight];
 
-        public ScreenInfo Right => _screenDic[TargetScreen.Right];
+        public ScreenInfo TopByLeft => _screenDic[TargetScreen.TopByLeft];
+        public ScreenInfo BottomByLeft => _screenDic[TargetScreen.BottomByLeft];
 
-        public ScreenInfo Back => _screenDic[TargetScreen.Back];
+        public ScreenInfo LeftByBack => _screenDic[TargetScreen.LeftByBack];
+        public ScreenInfo MidLeftByBack => _screenDic[TargetScreen.MidLeftByBack];
+        public ScreenInfo MidRightByBack => _screenDic[TargetScreen.MidRightByBack];
+        public ScreenInfo RightByBack => _screenDic[TargetScreen.RightByBack];
 
-        public ScreenInfo Bottom => _screenDic[TargetScreen.Bottom];
+        public ScreenInfo TopLeftByBottom => _screenDic[TargetScreen.TopLeftByBottom];
+        public ScreenInfo TopMidByBottom => _screenDic[TargetScreen.TopMidByBottom];
+        public ScreenInfo TopRightByBottom => _screenDic[TargetScreen.TopRightByBottom];
+        public ScreenInfo BottomLeftByBottom => _screenDic[TargetScreen.BottomLeftByBottom];
+        public ScreenInfo BottomMidByBottom => _screenDic[TargetScreen.BottomMidByBottom];
+        public ScreenInfo BottomRightByBottom => _screenDic[TargetScreen.BottomRightByBottom];
 
         public ScreenInfo this[TargetScreen screen] => _screenDic[screen];
 

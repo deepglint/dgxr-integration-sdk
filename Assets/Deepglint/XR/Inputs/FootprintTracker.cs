@@ -82,7 +82,7 @@ namespace Deepglint.XR.Inputs
                     }
 
                     var leftFootPosition = device.HumanBody.LeftFoot.position.value;
-                    leftFootRectTransform.anchoredPosition = DGXR.Space.Bottom.SpaceToPixelOnScreen(leftFootPosition);
+                    leftFootRectTransform.anchoredPosition = DGXR.Space.BottomRightByBottom.SpaceToPixelOnScreen(leftFootPosition);
                     leftText.text = $"{leftFootPosition}";
 
                     Text rightText;
@@ -104,7 +104,7 @@ namespace Deepglint.XR.Inputs
                     }
 
                     var rightFootPosition = device.HumanBody.RightFoot.position.value;
-                    rightFootRectTransform.anchoredPosition = DGXR.Space.Bottom.SpaceToPixelOnScreen(rightFootPosition);
+                    rightFootRectTransform.anchoredPosition = DGXR.Space.BottomRightByBottom.SpaceToPixelOnScreen(rightFootPosition);
                     rightText.text = $"{rightFootPosition}"; 
                     
                     Vector3 eulerRotation = device.HumanPose.Rotation.value.eulerAngles;

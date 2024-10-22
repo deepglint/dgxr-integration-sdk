@@ -22,7 +22,7 @@ namespace Deepglint.XR.Toolkit
             _toolKitCanvas = GameObject.Find("ToolkitCanvas");
             var bottomCanvas = _toolKitCanvas.FindChildGameObject("Bottom").GetComponent<Canvas>();
             bottomCanvas.renderMode = RenderMode.WorldSpace;
-            bottomCanvas.worldCamera = DGXR.Space.Bottom.UICamera;
+            bottomCanvas.worldCamera = DGXR.Space.BottomRightByBottom.UICamera;
             GameObject uiBackGround = GameObject.Find("UIRoot")?.FindChildGameObject("UI_BackGround");
             if (uiBackGround != null)
             {

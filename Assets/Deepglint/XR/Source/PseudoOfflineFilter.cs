@@ -28,7 +28,7 @@ namespace Deepglint.XR.Source
                 Vector3.Distance(data.Joints.LeftHip.LocalPosition, data.Joints.LeftKnee.LocalPosition),
                 Vector3.Distance(data.Joints.RightHip.LocalPosition, data.Joints.RightKnee.LocalPosition),
             };
-            _maxDistanceFromRoi = 0.5f / DGXR.Space.Bottom.Size.y * DGXR.Space.Bottom.Resolution.height;
+            _maxDistanceFromRoi = 0.5f / DGXR.Space.BottomRightByBottom.Size.y * DGXR.Space.BottomRightByBottom.Resolution.height;
         }
 
         // 计算与目标特征之间的平均绝对误差
@@ -76,7 +76,7 @@ namespace Deepglint.XR.Source
         public bool IsFarFromRoi()
         {
             bool result = false;
-            var position = DGXR.Space.Bottom.SpaceToPixelOnScreen(HeadTop);
+            var position = DGXR.Space.BottomRightByBottom.SpaceToPixelOnScreen(HeadTop);
             Rect roi = DGXR.Space.Roi;
             roi.width = roi.width <= 0 ? 1 : roi.width;
             roi.height = roi.height <= 0 ? 1 : roi.height;

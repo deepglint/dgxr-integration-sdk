@@ -12,29 +12,42 @@ namespace Deepglint.XR.Space
     public enum TargetScreen
     {
         /// <summary>
-        /// 前屏幕，
+        /// 左前屏幕，
         /// </summary>
-        Front,
+        LeftByFront,
+        MidLeftByFront,
+        MidRightByFront,
+        RightByFront,
         
         /// <summary>
         /// 右侧屏幕
         /// </summary>
-        Right,
+        TopByRight,
+        BottomByRight,
         
         /// <summary>
         /// 后侧屏幕
         /// </summary>
-        Back,
+        RightByBack,
+        MidRightByBack,
+        MidLeftByBack,
+        LeftByBack,
         
         /// <summary>
         /// 左侧屏幕
         /// </summary>
-        Left,
+        BottomByLeft,
+        TopByLeft,
         
         /// <summary>
         /// 地面屏幕，地面屏幕
         /// </summary>
-        Bottom,
+        TopLeftByBottom,
+        TopMidByBottom,
+        TopRightByBottom,
+        BottomLeftByBottom,
+        BottomMidByBottom,
+        BottomRightByBottom
     }
 
     /// <summary>
@@ -172,10 +185,10 @@ namespace Deepglint.XR.Space
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
-        public float DistanceToScreen(Vector3 point)
-        {
-            return DistanceToScreen(point, this);
-        }
+        // public float DistanceToScreen(Vector3 point)
+        // {
+        //     return DistanceToScreen(point, this);
+        // }
 
         /// <summary>
         /// 将实体空间投影到当前屏幕的坐标换算为当前这块屏幕在分辨率下坐标，返回的坐标原点为屏幕中心
@@ -221,15 +234,24 @@ namespace Deepglint.XR.Space
 
         public static Vector2 ProjectionVector3(Vector3 point, TargetScreen screen)
         {
-            var res = screen switch
+            Vector2 res;
+            if (screen is TargetScreen.LeftByFront or TargetScreen.MidLeftByFront or TargetScreen.RightByFront)
             {
-                TargetScreen.Front => new Vector2(point.x, point.y),
-                TargetScreen.Back => new Vector2(-point.x, point.y),
-                TargetScreen.Left => new Vector2(point.z, point.y),
-                TargetScreen.Right => new Vector2(-point.z, point.y),
-                TargetScreen.Bottom => new Vector2(point.x, point.z),
-                _ => throw new ArgumentOutOfRangeException(nameof(screen), screen, null)
-            };
+                res = new Vector2(point.x, point.y);
+            }else if (screen is TargetScreen.TopByRight or TargetScreen.BottomByRight)
+            {
+                res = new Vector2(-point.z, point.y);
+            }else if (screen is TargetScreen.LeftByBack or TargetScreen.MidLeftByBack or TargetScreen.RightByBack)
+            {
+                res = new Vector2(-point.x, point.y);
+            }else if (screen is TargetScreen.BottomByLeft or TargetScreen.BottomByLeft)
+            {
+                res = new Vector2(point.z, point.y);
+            }
+            else
+            {
+                res = new Vector2(point.x, point.z);
+            }
             return res;
         }
 
@@ -241,22 +263,22 @@ namespace Deepglint.XR.Space
         /// <param name="screen">屏幕</param>
         /// <returns>物理距离</returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static float DistanceToScreen(Vector3 point, ScreenInfo screen)
-        {
-            int zRange = screen.Resolution.height / 2;
-            int xRange = screen.Resolution.width / 2;
-
-            float res = screen.TargetScreen switch
-            {
-                TargetScreen.Front => zRange - point.z,
-                TargetScreen.Back => zRange + point.z,
-                TargetScreen.Left => xRange - point.x,
-                TargetScreen.Right => xRange + point.x,
-                TargetScreen.Bottom => point.y,
-                _ => throw new ArgumentOutOfRangeException(nameof(screen), screen, null)
-            };
-            return res;
-        }
+        // public static float DistanceToScreen(Vector3 point, ScreenInfo screen)
+        // {
+        //     int zRange = screen.Resolution.height / 2;
+        //     int xRange = screen.Resolution.width / 2;
+        //
+        //     float res = screen.TargetScreen switch
+        //     {
+        //         TargetScreen.Front => zRange - point.z,
+        //         TargetScreen.Back => zRange + point.z,
+        //         TargetScreen.Left => xRange - point.x,
+        //         TargetScreen.Right => xRange + point.x,
+        //         TargetScreen.Bottom => point.y,
+        //         _ => throw new ArgumentOutOfRangeException(nameof(screen), screen, null)
+        //     };
+        //     return res;
+        // }
 
         /// <summary>
         /// 将空间坐标投影到对应屏幕上，然后计算屏幕上的像素坐标，像素坐标原点为屏幕中心
@@ -280,14 +302,14 @@ namespace Deepglint.XR.Space
         {
             float xRatio = screen.Resolution.width / screen.Size.x;
             float yRatio = screen.Resolution.height / screen.Size.y;
-
-            if (screen.TargetScreen != TargetScreen.Bottom)
-            {
-                // 真实空间z轴起点在空间地面中心，而不是空间的几何中心，几何中心在空中，不好对齐和使用
-                spacePosition.y -= screen.Size.y / 2;
-            }
             
-
+            // if (screen.TargetScreen != TargetScreen.Bottom)
+            // {
+            //     // 真实空间z轴起点在空间地面中心，而不是空间的几何中心，几何中心在空中，不好对齐和使用
+            //     spacePosition.y -= screen.Size.y / 2;
+            // }
+            
+            
             int x = Mathf.RoundToInt(spacePosition.x * xRatio);
             int y = Mathf.RoundToInt(spacePosition.y * yRatio);
 
@@ -307,12 +329,12 @@ namespace Deepglint.XR.Space
             int baseline = screen.Resolution.width / 2;
             return screen.TargetScreen switch
             {
-                TargetScreen.Front => new Vector2(position.x, baseline - position.y),
-                TargetScreen.Left => new Vector2(position.y - baseline, -position.x),
-                TargetScreen.Right => new Vector2(baseline - position.y, -position.x),
-                TargetScreen.Back => new Vector2(-position.x, position.y - baseline),
-                TargetScreen.Bottom => position,
-                _ => throw new ArgumentOutOfRangeException()
+                // TargetScreen.Front => new Vector2(position.x, baseline - position.y),
+                // TargetScreen.Left => new Vector2(position.y - baseline, -position.x),
+                // TargetScreen.Right => new Vector2(baseline - position.y, -position.x),
+                // TargetScreen.Back => new Vector2(-position.x, position.y - baseline),
+                // TargetScreen.Bottom => position,
+                // _ => throw new ArgumentOutOfRangeException()
             };
         }
         

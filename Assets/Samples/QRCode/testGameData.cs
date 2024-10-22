@@ -23,7 +23,7 @@ namespace  Samples.QRCode
 
             GameObject instance = Instantiate(QRObj);
             var qr = instance.GetComponent<QR>();
-            qr.SetQRInfo(info, DGXR.Space.Front, new Vector2(100, 100), new Vector2(500, 500), 1);
+            qr.SetQRInfo(info, DGXR.Space.MidLeftByFront, new Vector2(100, 100), new Vector2(500, 500), 1);
 
             GameDataManager.Instance.Subscribe(this);
         }

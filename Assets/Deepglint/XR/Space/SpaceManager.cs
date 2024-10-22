@@ -18,7 +18,8 @@ namespace Deepglint.XR.Space
     [DefaultExecutionOrder(-99)]
     public class SpaceManager : MonoBehaviour
     {
-        public int position = 0;
+        public int id = 0;
+
         [FormerlySerializedAs("DisplayImagePrefab")]
         public GameObject displayImagePrefab;
 
@@ -39,8 +40,9 @@ namespace Deepglint.XR.Space
 
         private readonly int _caveLayer = 31;
         private Dictionary<int, GameObject[]> _screenEdges;
-        public Vector3   eyePosition = new Vector3(0, 1.6f, 0);
+        public Vector3 eyePosition = new Vector3(0, 1.6f, 0);
         private Vector3 _headLockPosition;
+        // private List<Config.Config.ScreenConfig> _screen;
 
         [DllImport("user32.dll", SetLastError = true)]
         private static extern int GetSystemMetrics(int nIndex);
@@ -51,28 +53,33 @@ namespace Deepglint.XR.Space
         private int _screenWidth; // 屏幕宽度
         private int _screenHeight; // 屏幕高度
 
-        private Dictionary<int, RawImage> _displayImages;
-
+        private Dictionary<int, RenderImage> _displayImages;
+        
         private readonly RefreshRate _refreshRate = new RefreshRate
         {
             numerator = 30,
             denominator = 1
         };
 
-#if !UNITY_EDITOR
-        private RenderTexture _renderTexture;
-        private RenderTexture _uiRenderTexture;
-        private RenderTexture _frontBottomTex;
-        private RenderTexture _backBottomTex;
-        private Material _cropMaterial;
+        public struct RenderImage
+        {
+            public RenderTexture RenderTexture;
+            public RenderTexture FrontBottomTex;
+            public RenderTexture BackBottomTex;
+            public Dictionary<int,RawImage> DisplayImages;
+            public Material CropMaterial;
+        }
+
+#if UNITY_EDITOR
+        // private RenderTexture _renderTexture;
+        // private RenderTexture _uiRenderTexture;
+        // private RenderTexture _frontBottomTex;
+        // private RenderTexture _backBottomTex;
+        
 #endif
         private void Awake()
         {
-            if (position != DGXR.Config.Space.Position)
-            {
-                gameObject.SetActive(false);
-            }
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
             if (!DGXR.SystemName.Contains("Mac"))
             {
                 _screenWidth = GetSystemMetrics(SM_CXSCREEN);
@@ -111,13 +118,13 @@ namespace Deepglint.XR.Space
 
                 Screen.SetResolution(_screenWidth, _screenHeight, true);
             }
-#if !UNITY_EDITOR
-            _uiRenderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
-            _frontBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
-            _backBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
-            _cropMaterial = new Material(shader);
-            _frontBottomTex.Create();
-            _backBottomTex.Create();
+#if UNITY_EDITOR
+            // _uiRenderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
+            // _frontBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
+            // _backBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
+            // _cropMaterial = new Material(shader);
+            // _frontBottomTex.Create();
+            // _backBottomTex.Create();
 #endif
         }
 
@@ -135,12 +142,14 @@ namespace Deepglint.XR.Space
 
                 _screenEdges.Add((int)screen.Screen, games);
             }
-#if !UNITY_EDITOR
+
+            SetHead();
+#if UNITY_EDITOR
             RenderPipelineManager.endFrameRendering += HandleSplitScreen;
 #endif
         }
 
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
         private void OnApplicationQuit()
         {
             RenderPipelineManager.endFrameRendering -= HandleSplitScreen;
@@ -148,7 +157,6 @@ namespace Deepglint.XR.Space
 #endif
         void Update()
         {
-           
             Transform space = GameObject.Find("XRSpace").transform;
             foreach (var s in DGXR.Config.Space.Screens)
             {
@@ -162,11 +170,15 @@ namespace Deepglint.XR.Space
                     // Destroy(cam);
                 }
             }
+
             XRSpace.Instance.Origin = space.transform.position;
-            SetHead();
+            if (isCave)
+            {
+                SetHead();
+            }
         }
 
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
         private void ProcessRendersCoroutine()
         {
             foreach (var screen in DGXR.Config.Space.Screens)
@@ -175,16 +187,16 @@ namespace Deepglint.XR.Space
                 {
                     foreach (var render in screen.Render)
                     {
-                        ProcessSingleRender(render);
+                        ProcessSingleRender(_displayImages[(int)screen.Screen],render);
                     }
                 }
             }
         }
 
-        private void ProcessSingleRender(Config.Config.RenderInfo render)
+        private void ProcessSingleRender(RenderImage screen,Config.Config.RenderInfo render)
         {
             Rect rect = new Rect(render.Rect[0], render.Rect[1], render.Rect[2], render.Rect[3]);
-            ClippedRenderTexture(_renderTexture, rect, render.Display);
+            ClippedRenderTexture(screen, rect, render.Display);
             foreach (var tarDisplay in render.TarDisplay)
             {
                 if (!_displayImages.TryGetValue(tarDisplay, out var dis))
@@ -192,14 +204,12 @@ namespace Deepglint.XR.Space
                     return;
                 }
 
-                if (render.Display == 4)
+                screen.DisplayImages[tarDisplay].texture = render.Display switch
                 {
-                    _displayImages[tarDisplay].texture = _frontBottomTex;
-                }
-                else if (render.Display == 5)
-                {
-                    _displayImages[tarDisplay].texture = _backBottomTex;
-                }
+                    4 => screen.FrontBottomTex,
+                    5 => screen.BackBottomTex,
+                    _ => screen.DisplayImages[tarDisplay].texture
+                };
             }
         }
 
@@ -211,21 +221,22 @@ namespace Deepglint.XR.Space
             }
         }
 
-        private void ClippedRenderTexture(RenderTexture sourceTexture, Rect rect, int display)
+        private void ClippedRenderTexture(RenderImage image, Rect rect, int display)
         {
-            _cropMaterial.SetTexture("_MainTex", sourceTexture);
-            _cropMaterial.SetFloat("_OffsetX", rect.x / sourceTexture.width);
-            _cropMaterial.SetFloat("_OffsetY", rect.y / sourceTexture.height);
-            _cropMaterial.SetFloat("_ScaleX", rect.width / sourceTexture.width);
-            _cropMaterial.SetFloat("_ScaleY", rect.height / sourceTexture.height);
-            _cropMaterial.SetFloat("_Rotation", _buttonRotation * Mathf.Deg2Rad);
+            RenderTexture sourceTexture = image.RenderTexture;
+            image.CropMaterial.SetTexture("_MainTex", sourceTexture);
+            image.CropMaterial.SetFloat("_OffsetX", rect.x / sourceTexture.width);
+            image.CropMaterial.SetFloat("_OffsetY", rect.y / sourceTexture.height);
+            image.CropMaterial.SetFloat("_ScaleX", rect.width / sourceTexture.width);
+            image.CropMaterial.SetFloat("_ScaleY", rect.height / sourceTexture.height);
+            image.CropMaterial.SetFloat("_Rotation", _buttonRotation * Mathf.Deg2Rad);
             if (display == 4)
             {
-                Graphics.Blit(sourceTexture, _frontBottomTex, _cropMaterial);
+                Graphics.Blit(sourceTexture, image.FrontBottomTex,image.CropMaterial);
             }
             else if (display == 5)
             {
-                Graphics.Blit(sourceTexture, _backBottomTex, _cropMaterial);
+                Graphics.Blit(sourceTexture, image.BackBottomTex,image.CropMaterial);
             }
 
             RenderTexture.active = null;
@@ -239,7 +250,7 @@ namespace Deepglint.XR.Space
             SetHeadPosition();
             foreach (var screen in DGXR.Config.Space.Screens)
             {
-                var tarDisplay = DGXR.Space[screen.TargetScreen];
+                var tarDisplay = DGXR.Space[screen.Screen];
                 if (tarDisplay != null && tarDisplay.SpaceCamera != null)
                 {
                     SetHeadFovAndOrientationScreen((int)screen.TargetScreen, tarDisplay.SpaceCamera, _screenEdges);
@@ -258,12 +269,13 @@ namespace Deepglint.XR.Space
             }
 
             var space = GameObject.Find("XRSpace");
-          
+
             Vector3 position = space.transform.position;
             foreach (var userCamera in DGXR.Config.Space.Screens)
             {
-                var cam = DGXR.Space[userCamera.TargetScreen];
-                cam.SpaceCamera.transform.position = eyePosition+position;
+                var cam = DGXR.Space[userCamera.Screen];
+                Debug.LogError($"set {userCamera.Screen.ToString() }eye{ eyePosition }");
+                cam.SpaceCamera.transform.position = eyePosition + position;
             }
         }
 
@@ -299,7 +311,7 @@ namespace Deepglint.XR.Space
 
         public void OnDestroy()
         {
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
             RenderPipelineManager.endFrameRendering -= HandleSplitScreen;
 #endif
         }
@@ -309,38 +321,24 @@ namespace Deepglint.XR.Space
         /// </summary> 
         private void InstantiateXR()
         {
-            Transform space = GameObject.Find("XRSpace").transform;
-            
-            // foreach (Transform child in space.transform)
-            // {
-            //   
-            // }
-            if (isCave)
-            {
-                foreach (Transform child in space.transform)
-                {
-                    Destroy(child.gameObject);
-                }
-            }
+            Transform space = gameObject.FindChildGameObject("XRSpace").transform;
 
             XRSpace.Instance.Origin = Vector3.zero + space.transform.position;
+            // TODO UI相机和 UIROOT待更新、先完成 3D 部分
             GameObject uiCameraGroup = GameObject.Find("2DCameraGroup");
-            // foreach (Transform child in uiCameraGroup.transform)
-            // {
-            //     child.gameObject.SetActive(false);
-            // }
-
             var uiRoot = GameObject.Find("UIRoot");
+
             XRSpace.Instance.gameObject = space.gameObject;
 
+            // TODO 配置文件待实地考察测量
             XRSpace.Instance.RealSize = new Vector3(DGXR.Config.Space.Length, DGXR.Config.Space.Height,
                 DGXR.Config.Space.Width);
-            
-            var length = spaceScale * (isCave ? DGXR.Space.RealSize.x : 5f);
-            var width = spaceScale * (isCave ? DGXR.Space.RealSize.z : 5f);
+
+            var length = spaceScale * (isCave ? DGXR.Space.RealSize.x : 15f);
+            var width = spaceScale * (isCave ? DGXR.Space.RealSize.z : 10f);
             var height = spaceScale * (isCave ? DGXR.Space.RealSize.y : 3.125f);
             XRSpace.Instance.Size = new Vector3(length, height, width);
-            
+
             if (DGXR.Config.Space.Roi.Length == 4)
             {
                 XRSpace.Instance.Roi = new Rect(DGXR.Config.Space.Roi[0], DGXR.Config.Space.Roi[1],
@@ -349,101 +347,104 @@ namespace Deepglint.XR.Space
 
             foreach (var screen in DGXR.Config.Space.Screens)
             {
-                var position = new Vector3(screen.Position.x, screen.Position.y, screen.Position.z);
-                var rotation = Quaternion.Euler(screen.Rotation.x, screen.Rotation.y, screen.Rotation.z);
-                if (screen.Screen == TargetScreen.Bottom)
-                {
-                    _buttonRotation = screen.Rotation.z;
-                    rotation = Quaternion.Euler(screen.Rotation.x, screen.Rotation.y, 0);
-                }
+                // var position = new Vector3(screen.Position.x, screen.Position.y, screen.Position.z);
+                // var rotation = Quaternion.Euler(screen.Rotation.x, screen.Rotation.y, screen.Rotation.z);
+                // if (screen.Screen == TargetScreen.Bottom)
+                // {
+                //     _buttonRotation = screen.Rotation.z;
+                //     rotation = Quaternion.Euler(screen.Rotation.x, screen.Rotation.y, 0);
+                // }
 
-                var scale = new Vector3(screen.Scale.x, screen.Scale.y, screen.Scale.z);
-
+                // var scale = new Vector3(screen.Scale.x, screen.Scale.y, screen.Scale.z);
 
                 Transform quad = space.Find(screen.Screen.ToString());
-                // quad.gameObject.SetActive(true);
-                // var cam = quad.Find("UserViewCamera").GetComponent<Camera>();
-                // cam.cullingMask = -1;
-                var uiCamera = Extends.FindChildGameObject(uiCameraGroup, screen.Screen.ToString())
-                    .GetComponent<Camera>();
-                uiCamera.gameObject.SetActive(true);
+                // TODO UI相机待实现
+                // var uiCamera = Extends.FindChildGameObject(uiCameraGroup, screen.Screen.ToString())
+                //     .GetComponent<Camera>();
+                // uiCamera.gameObject.SetActive(true);
 
                 Camera spaceCamera;
                 GameObject screenObject;
-                if (isCave)
+
+                screenObject = quad.gameObject;
+                MeshRenderer meshRenderer = quad.GetComponent<MeshRenderer>();
+                if (meshRenderer != null)
                 {
-                    var displayQuad = Instantiate(screenPrefab, space.transform);
-                    displayQuad.transform.localPosition = position;
-                    displayQuad.transform.localRotation = rotation;
-                    displayQuad.transform.localScale = scale;
-                    displayQuad.name = screen.Screen.ToString();
-                    spaceCamera = Instantiate(userViewCameraPrefab, space.transform.position,
-                        displayQuad.transform.rotation, displayQuad.transform);
-
-                    spaceCamera.gameObject.layer = _caveLayer;
-                    spaceCamera.targetDisplay = (int)screen.TargetScreen;
-
-                    screenObject = displayQuad;
-                }
-                else
-                {
-                    screenObject = quad.gameObject;
-                    MeshRenderer meshRenderer = quad.GetComponent<MeshRenderer>();
-                    if (meshRenderer != null)
-                    {
-                        meshRenderer.enabled = false;
-                    }
-
-                    spaceCamera = Extends.FindChildGameObject(screenObject, "UserViewCamera")
-                        .GetComponent<Camera>();
-                    spaceCamera.targetDisplay = (int)screen.TargetScreen;
+                    meshRenderer.enabled = false;
                 }
 
-                Vector2 size = new Vector2();
-                switch (screen.Screen)
+                spaceCamera = Extends.FindChildGameObject(screenObject, "UserViewCamera")
+                    .GetComponent<Camera>();
+                spaceCamera.targetDisplay = (int)screen.TargetScreen;
+                if (!screen.Enable)
                 {
-                    case TargetScreen.Front:
-                        size = new Vector2(length, height);
-                        break;
-                    case TargetScreen.Back:
-                        size = new Vector2(length, height);
-                        break;
-                    case TargetScreen.Left:
-                        size = new Vector2(width, height);
-                        break;
-                    case TargetScreen.Right:
-                        size = new Vector2(width, height);
-                        break;
-                    case TargetScreen.Bottom:
-                        size = new Vector2(length, width);
-                        break;
+                    // spaceCamera.clearFlags = CameraClearFlags.Depth;
+                    // spaceCamera.cullingMask = 0;
+                    spaceCamera.enabled = false;
                 }
-
+                // Vector2 size = new Vector2();
+                // switch (screen.Screen)
+                // {
+                //     case TargetScreen.Front:
+                //         size = new Vector2(length, height);
+                //         break;
+                //     case TargetScreen.Back:
+                //         size = new Vector2(length, height);
+                //         break;
+                //     case TargetScreen.Left:
+                //         size = new Vector2(width, height);
+                //         break;
+                //     case TargetScreen.Right:
+                //         size = new Vector2(width, height);
+                //         break;
+                //     case TargetScreen.Bottom:
+                //         size = new Vector2(length, width);
+                //         break;
+                // }
+            
+               Debug.LogError(screen.TargetScreen+"-"+screen.Enable); 
                 var dis = new ScreenInfo(screen)
                 {
                     Resolution = new Resolution
                     {
                         width = _screenWidth,
-                        height = screen.Screen == TargetScreen.Bottom ? _screenWidth : _screenHeight
+                        height = (screen.Screen is TargetScreen.TopLeftByBottom or TargetScreen.TopMidByBottom or TargetScreen.TopRightByBottom or TargetScreen.BottomLeftByBottom or TargetScreen.BottomMidByBottom or TargetScreen.BottomRightByBottom )? _screenWidth : _screenHeight
                     },
-                    ScreenCanvas = uiRoot.transform.Find(screen.Screen.ToString()).gameObject,
+                   
                     SpaceCamera = spaceCamera,
-                    UICamera = uiCamera,
-                    Size = size,
+                    // TODO UI 相机待实现
+                    // UICamera = uiCamera,
+                    // Size = size,
                     ScreenObject = screenObject
                 };
-                if (isCave)
-                {
-                    dis.AddCameraToStack(uiCamera);
-                }
-#if !UNITY_EDITOR
+                // ScreenCanvas = uiRoot.transform.Find(screen.Screen.ToString()).gameObject,
+                // if (isCave)
+                // {
+                //     dis.AddCameraToStack(uiCamera);
+                // }
+#if UNITY_EDITOR
                 if (screen.Render.Length > 0 && DGXR.Config.Space.ScreenMode == ScreenStyle.Default)
                 {
-                    uiCamera.targetTexture = _uiRenderTexture;
-                    _renderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
-                    spaceCamera.targetTexture = _renderTexture;
+                    _displayImages ??= new Dictionary<int, RenderImage>();
+                    
+                    var _frontBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
+                    var _backBottomTex = new RenderTexture(_screenWidth, _screenHeight, 24);
+                    var _cropMaterial = new Material(shader);
+                    _frontBottomTex.Create();
+                    _backBottomTex.Create();
+                    var renderImage = new RenderImage
+                    {
+                        FrontBottomTex = _frontBottomTex,
+                        BackBottomTex = _backBottomTex,
+                        CropMaterial = _cropMaterial
+                    };
+                    //根据 render 中配置决定渲染大小，设置_screenWidth
+                    // uiCamera.targetTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
+                    var renderTexture = new RenderTexture(_screenWidth, _screenWidth, 24);
+                    spaceCamera.targetTexture = renderTexture;
                     spaceCamera.Render();
-                    RenderTexture.active = _renderTexture;
+                    RenderTexture.active = renderTexture;
+                    renderImage.RenderTexture = renderTexture;
                     foreach (var render in screen.Render)
                     {
                         foreach (var tarDisplay in render.TarDisplay)
@@ -460,13 +461,16 @@ namespace Deepglint.XR.Space
                             }
 
                             RawImage[] drawImage = displayImage.GetComponentsInChildren<RawImage>();
-                            _displayImages ??= new Dictionary<int, RawImage>();
+                           
                             if (drawImage.Length > 0)
                             {
-                                _displayImages[tarDisplay] = drawImage[0];
+                                renderImage.DisplayImages ??= new Dictionary<int, RawImage>();
+                                renderImage.DisplayImages[tarDisplay] = drawImage[0];
                             }
                         }
                     }
+
+                    _displayImages[(int)screen.Screen] = renderImage;
                 }
 #endif
                 XRSpace.AddScreen(screen.Screen, dis);

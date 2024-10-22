@@ -72,18 +72,18 @@ namespace Deepglint.XR.Toolkit.DebugTool
                     case ScreenStyle.Default:
                         return;
                     case ScreenStyle.Normal:
-                        _screenRects.Add(TargetScreen.Front, new Rect(midX, topY, ratioWidth, ratioHeight));
-                        _screenRects.Add(TargetScreen.Right, new Rect(rightX, topY, ratioWidth, ratioHeight));
-                        _screenRects.Add(TargetScreen.Back, new Rect(rightX, midY, ratioWidth, ratioHeight));
-                        _screenRects.Add(TargetScreen.Left, new Rect(leftX, topY, ratioWidth, ratioHeight));
-                        _screenRects.Add(TargetScreen.Bottom, new Rect(midX, bottomY, ratioWidth, ratioBottomHeight));
+                        // _screenRects.Add(TargetScreen.Front, new Rect(midX, topY, ratioWidth, ratioHeight));
+                        // _screenRects.Add(TargetScreen.Right, new Rect(rightX, topY, ratioWidth, ratioHeight));
+                        // _screenRects.Add(TargetScreen.Back, new Rect(rightX, midY, ratioWidth, ratioHeight));
+                        // _screenRects.Add(TargetScreen.Left, new Rect(leftX, topY, ratioWidth, ratioHeight));
+                        // _screenRects.Add(TargetScreen.Bottom, new Rect(midX, bottomY, ratioWidth, ratioBottomHeight));
                         break;
                     case ScreenStyle.Main:
-                        _screenRects.Add(TargetScreen.Front, new Rect(0, 0, 2 * ratioWidth, 2 * ratioHeight));
-                        _screenRects.Add(TargetScreen.Right, new Rect(leftX, topY, ratioWidth, ratioHeight));
-                        _screenRects.Add(TargetScreen.Back, new Rect(midX, topY, ratioWidth, ratioHeight));
-                        _screenRects.Add(TargetScreen.Left, new Rect(rightX, topY, ratioWidth, ratioHeight));
-                        _screenRects.Add(TargetScreen.Bottom, new Rect(rightX, bottomY, ratioWidth, ratioBottomHeight));
+                        // _screenRects.Add(TargetScreen.Front, new Rect(0, 0, 2 * ratioWidth, 2 * ratioHeight));
+                        // _screenRects.Add(TargetScreen.Right, new Rect(leftX, topY, ratioWidth, ratioHeight));
+                        // _screenRects.Add(TargetScreen.Back, new Rect(midX, topY, ratioWidth, ratioHeight));
+                        // _screenRects.Add(TargetScreen.Left, new Rect(rightX, topY, ratioWidth, ratioHeight));
+                        // _screenRects.Add(TargetScreen.Bottom, new Rect(rightX, bottomY, ratioWidth, ratioBottomHeight));
                         break;
                     default:
                         return;

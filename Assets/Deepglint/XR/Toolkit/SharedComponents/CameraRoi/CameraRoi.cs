@@ -30,8 +30,8 @@ namespace Deepglint.XR.Toolkit.SharedComponents.CameraRoi
 
 
             var rect = DGXR.Space.Roi;
-            int width = DGXR.Space.Bottom.Resolution.width / 2;
-            int height = DGXR.Space.Bottom.Resolution.height / 2;
+            int width = DGXR.Space.BottomRightByBottom.Resolution.width / 2;
+            int height = DGXR.Space.BottomRightByBottom.Resolution.height / 2;
 
             _lineLeft.localPosition = new Vector3(rect.x, rect.y + rect.height / 2, 0);
             _lineLeft.gameObject.FindChildGameObject("imgLine").GetComponent<RectTransform>().sizeDelta =

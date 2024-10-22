@@ -61,8 +61,7 @@ namespace Deepglint.XR.Config
                 [JsonProperty("height")] public float Height { get; set; }
                 [JsonProperty("roi")] public float[] Roi { get; set; }
                 
-                [JsonProperty("position")] public int Position { get; set; } 
-                [JsonProperty("screens")] public List<ScreenConfig> Screens { get; set; }
+                [JsonProperty("screens")] public List<ScreenConfig> Screens { get; set; } 
             }
         }
 
