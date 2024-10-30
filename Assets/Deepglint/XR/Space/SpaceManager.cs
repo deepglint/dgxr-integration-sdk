@@ -408,7 +408,7 @@ namespace Deepglint.XR.Space
                     Resolution = new Resolution
                     {
                         width = _screenWidth,
-                        height = (screen.Screen is TargetScreen.TopLeftByBottom or TargetScreen.TopMidByBottom or TargetScreen.TopRightByBottom or TargetScreen.BottomLeftByBottom or TargetScreen.BottomMidByBottom or TargetScreen.BottomRightByBottom )? _screenWidth : _screenHeight
+                        height = (screen.Screen is TargetScreen.Left1ByBottom or TargetScreen.Mid1ByBottom or TargetScreen.Right1ByBottom or TargetScreen.Left3ByBottom or TargetScreen.Mid3ByBottom or TargetScreen.Right3ByBottom )? _screenWidth : _screenHeight
                     },
                    
                     SpaceCamera = spaceCamera,

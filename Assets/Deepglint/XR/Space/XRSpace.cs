@@ -67,12 +67,12 @@ namespace Deepglint.XR.Space
         public ScreenInfo MidRightByBack => _screenDic[TargetScreen.MidRightByBack];
         public ScreenInfo RightByBack => _screenDic[TargetScreen.RightByBack];
 
-        public ScreenInfo TopLeftByBottom => _screenDic[TargetScreen.TopLeftByBottom];
-        public ScreenInfo TopMidByBottom => _screenDic[TargetScreen.TopMidByBottom];
-        public ScreenInfo TopRightByBottom => _screenDic[TargetScreen.TopRightByBottom];
-        public ScreenInfo BottomLeftByBottom => _screenDic[TargetScreen.BottomLeftByBottom];
-        public ScreenInfo BottomMidByBottom => _screenDic[TargetScreen.BottomMidByBottom];
-        public ScreenInfo BottomRightByBottom => _screenDic[TargetScreen.BottomRightByBottom];
+        public ScreenInfo TopLeftByBottom => _screenDic[TargetScreen.Left1ByBottom];
+        public ScreenInfo TopMidByBottom => _screenDic[TargetScreen.Mid1ByBottom];
+        public ScreenInfo TopRightByBottom => _screenDic[TargetScreen.Right1ByBottom];
+        public ScreenInfo BottomLeftByBottom => _screenDic[TargetScreen.Left3ByBottom];
+        public ScreenInfo BottomMidByBottom => _screenDic[TargetScreen.Mid3ByBottom];
+        public ScreenInfo BottomRightByBottom => _screenDic[TargetScreen.Right3ByBottom];
 
         public ScreenInfo this[TargetScreen screen] => _screenDic[screen];
 

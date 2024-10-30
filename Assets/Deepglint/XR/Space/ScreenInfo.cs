@@ -42,12 +42,15 @@ namespace Deepglint.XR.Space
         /// <summary>
         /// 地面屏幕，地面屏幕
         /// </summary>
-        TopLeftByBottom,
-        TopMidByBottom,
-        TopRightByBottom,
-        BottomLeftByBottom,
-        BottomMidByBottom,
-        BottomRightByBottom
+        Left1ByBottom,
+        Left2ByBottom,
+        Left3ByBottom,
+        Mid1ByBottom,
+        Mid2ByBottom,
+        Mid3ByBottom,
+        Right1ByBottom,
+        Right2ByBottom,
+        Right3ByBottom
     }
 
     /// <summary>
