@@ -40,10 +40,10 @@ namespace Deepglint.XR.Source
 
         private bool UseRos()
         {
-            if (!Application.isEditor && !DGXR.SystemName.Contains("Mac"))
-            {
-                return true;
-            }
+            // if (!Application.isEditor && !DGXR.SystemName.Contains("Mac"))
+            // {
+            //     return true;
+            // }
 
             return false;
         }
