@@ -346,22 +346,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4550654615593993650}
         m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
-        m_MethodName: JumpControl
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 67f72c51-f486-4c69-965a-be078b2cefdf
-    m_ActionName: Player/Jump[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody,/DGXRHumanController18/HumanBody,/DGXRHumanController20/HumanBody,/DGXRHumanController19/HumanBody,/DGXRHumanController21/HumanBody,/DGXRHumanController22/HumanBody,/DGXRHumanController23/HumanBody,/DGXRHumanController24/HumanBody,/DGXRHumanController25/HumanBody,/DGXRHumanController26/HumanBody,/DGXRHumanController27/HumanBody,/DGXRHumanController28/HumanBody,/DGXRHumanController29/HumanBody,/DGXRHumanController30/HumanBody,/DGXRHumanController31/HumanBody,/DGXRHumanController32/HumanBody,/DGXRHumanController33/HumanBody,/DGXRHumanController34/HumanBody,/DGXRHumanController35/HumanBody,/DGXRHumanController36/HumanBody,/DGXRHumanController37/HumanBody,/DGXRHumanController38/HumanBody,/DGXRHumanController39/HumanBody,/DGXRHumanController40/HumanBody,/DGXRHumanController42/HumanBody,/DGXRHumanController43/HumanBody,/DGXRHumanController41/HumanBody,/DGXRHumanController44/HumanBody,/DGXRHumanController45/HumanBody,/DGXRHumanController46/HumanBody,/DGXRHumanController47/HumanBody,/DGXRHumanController48/HumanBody,/DGXRHumanController49/HumanBody,/DGXRHumanController50/HumanBody,/DGXRHumanController51/HumanBody,/DGXRHumanController52/HumanBody,/DGXRHumanController53/HumanBody,/DGXRHumanController54/HumanBody,/DGXRHumanController55/HumanBody,/DGXRHumanController56/HumanBody,/DGXRHumanController57/HumanBody,/DGXRHumanController58/HumanBody,/DGXRHumanController59/HumanBody,/DGXRHumanController60/HumanBody,/DGXRHumanController61/HumanBody,/DGXRHumanController62/HumanBody,/DGXRHumanController63/HumanBody,/DGXRHumanController64/HumanBody,/DGXRHumanController65/HumanBody,/DGXRHumanController66/HumanBody,/DGXRHumanController67/HumanBody,/DGXRHumanController68/HumanBody,/DGXRHumanController69/HumanBody,/DGXRHumanController70/HumanBody,/DGXRHumanController71/HumanBody,/DGXRHumanController72/HumanBody,/DGXRHumanController73/HumanBody,/DGXRHumanController74/HumanBody,/DGXRHumanController75/HumanBody,/DGXRHumanController76/HumanBody,/DGXRHumanController77/HumanBody,/DGXRHumanController78/HumanBody,/DGXRHumanController79/HumanBody,/DGXRHumanController80/HumanBody,/DGXRHumanController81/HumanBody,/DGXRHumanController82/HumanBody,/DGXRHumanController83/HumanBody,/DGXRHumanController84/HumanBody,/DGXRHumanController85/HumanBody,/DGXRHumanController86/HumanBody,/DGXRHumanController87/HumanBody,/DGXRHumanController88/HumanBody,/DGXRHumanController89/HumanBody,/DGXRHumanController90/HumanBody,/DGXRHumanController91/HumanBody,/DGXRHumanController92/HumanBody,/DGXRHumanController93/HumanBody,/DGXRHumanController94/HumanBody]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4550654615593993650}
-        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
         m_MethodName: RaiseBothHandControl
         m_Mode: 0
         m_Arguments:
@@ -390,22 +374,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3917e623-d021-489d-b180-589fc93472aa
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4550654615593993650}
-        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
-        m_MethodName: DeepSquatControl
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 537814b8-cacd-4070-a387-7dc0e5d06e92
-    m_ActionName: Player/DeepSquat[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4550654615593993650}
@@ -442,22 +410,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4550654615593993650}
         m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
-        m_MethodName: CheerUpControl
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 79fde9a7-b06b-47ca-8d2a-915381418d59
-    m_ActionName: Player/Applaud[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody,/DGXRHumanController18/HumanBody,/DGXRHumanController19/HumanBody,/DGXRHumanController20/HumanBody,/DGXRHumanController21/HumanBody,/DGXRHumanController22/HumanBody,/DGXRHumanController23/HumanBody,/DGXRHumanController24/HumanBody,/DGXRHumanController25/HumanBody,/DGXRHumanController26/HumanBody,/DGXRHumanController27/HumanBody,/DGXRHumanController28/HumanBody,/DGXRHumanController29/HumanBody,/DGXRHumanController30/HumanBody,/DGXRHumanController31/HumanBody,/DGXRHumanController32/HumanBody,/DGXRHumanController33/HumanBody]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4550654615593993650}
-        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
         m_MethodName: JumpRangeControl
         m_Mode: 0
         m_Arguments:
@@ -470,6 +422,370 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 608f1fad-9553-45b8-a54a-e566c7691515
     m_ActionName: Player/JumpRange[/DGXRHumanController/jumpRange,/DGXRHumanController1/jumpRange,/DGXRHumanController2/jumpRange,/DGXRHumanController3/jumpRange,/DGXRHumanController4/jumpRange,/DGXRHumanController5/jumpRange,/DGXRHumanController6/jumpRange,/DGXRHumanController7/jumpRange,/DGXRHumanController8/jumpRange,/DGXRHumanController9/jumpRange,/DGXRHumanController10/jumpRange,/DGXRHumanController11/jumpRange,/DGXRHumanController12/jumpRange,/DGXRHumanController13/jumpRange,/DGXRHumanController14/jumpRange,/DGXRHumanController15/jumpRange,/DGXRHumanController16/jumpRange,/DGXRHumanController17/jumpRange,/DGXRHumanController18/jumpRange,/DGXRHumanController19/jumpRange,/DGXRHumanController20/jumpRange,/DGXRHumanController21/jumpRange,/DGXRHumanController22/jumpRange,/DGXRHumanController23/jumpRange,/DGXRHumanController24/jumpRange,/DGXRHumanController26/jumpRange,/DGXRHumanController25/jumpRange,/DGXRHumanController27/jumpRange,/DGXRHumanController28/jumpRange,/DGXRHumanController29/jumpRange,/DGXRHumanController30/jumpRange,/DGXRHumanController31/jumpRange,/DGXRHumanController32/jumpRange,/DGXRHumanController33/jumpRange,/DGXRHumanController34/jumpRange,/DGXRHumanController35/jumpRange,/DGXRHumanController36/jumpRange,/DGXRHumanController37/jumpRange,/DGXRHumanController38/jumpRange,/DGXRHumanController39/jumpRange,/DGXRHumanController40/jumpRange,/DGXRHumanController41/jumpRange,/DGXRHumanController42/jumpRange,/DGXRHumanController43/jumpRange,/DGXRHumanController44/jumpRange,/DGXRHumanController45/jumpRange,/DGXRHumanController46/jumpRange,/DGXRHumanController47/jumpRange,/DGXRHumanController48/jumpRange,/DGXRHumanController49/jumpRange,/DGXRHumanController50/jumpRange,/DGXRHumanController51/jumpRange,/DGXRHumanController52/jumpRange,/DGXRHumanController53/jumpRange,/DGXRHumanController54/jumpRange,/DGXRHumanController55/jumpRange,/DGXRHumanController56/jumpRange,/DGXRHumanController57/jumpRange,/DGXRHumanController58/jumpRange,/DGXRHumanController59/jumpRange,/DGXRHumanController60/jumpRange,/DGXRHumanController61/jumpRange,/DGXRHumanController62/jumpRange,/DGXRHumanController63/jumpRange,/DGXRHumanController64/jumpRange,/DGXRHumanController65/jumpRange,/DGXRHumanController66/jumpRange,/DGXRHumanController67/jumpRange,/DGXRHumanController68/jumpRange,/DGXRHumanController69/jumpRange,/DGXRHumanController70/jumpRange,/DGXRHumanController71/jumpRange,/DGXRHumanController72/jumpRange,/DGXRHumanController73/jumpRange,/DGXRHumanController74/jumpRange,/DGXRHumanController75/jumpRange,/DGXRHumanController76/jumpRange,/DGXRHumanController77/jumpRange,/DGXRHumanController78/jumpRange,/DGXRHumanController79/jumpRange,/DGXRHumanController80/jumpRange,/DGXRHumanController81/jumpRange,/DGXRHumanController82/jumpRange]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: RightHandDrawCircleControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e1c3c8b8-5c53-4ec7-be55-2b65aa014fbb
+    m_ActionName: Player/RightHandDrawCircle[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: LeftHandDrawCircleControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a4758e62-0115-4835-a5b4-ca3927b241ce
+    m_ActionName: Player/LeftHandDrawCircle[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: HandBevelCutControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 43cf190e-08b1-43f7-9274-f5ea3aad7948
+    m_ActionName: Player/HandBevelCut[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: HandParryControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e266d136-98df-4961-89b7-e8d478198305
+    m_ActionName: Player/HandParry[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: HandStraightCutControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a0ac832e-fea1-4438-bdff-e94919693ac0
+    m_ActionName: Player/HandStraightCut[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: HandTransversalControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3ca4296b-eb3b-4561-aebb-d6cdbc9a379c
+    m_ActionName: Player/HandTransversal[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 423fda21-fdb6-42d6-85b0-8376bb7e1c9c
+    m_ActionName: Player/StraightPunch[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: ReadyStraightPunchControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4a355ce8-95eb-4f74-ad47-e08c18359f8d
+    m_ActionName: Player/ReadyStraightPunch[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: UppercutControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1d0de35c-e709-42da-9719-ac336773d948
+    m_ActionName: Player/Uppercut[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: KickControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: adea3647-6cd4-42f4-b3b0-ece96c4be73f
+    m_ActionName: Player/Kick[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: ThrowOneHandInFistsControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8366f099-c9fa-4618-935f-746af2937e3e
+    m_ActionName: Player/ThrowOneHandInFists[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: ReadyThrowOneHandInFistsControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 45e18955-e664-4902-bd44-3d462af265ca
+    m_ActionName: Player/ReadyThrowOneHandInFists[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: ReadyThrowBothHandInFistsControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a743ef20-451a-49b3-b8f5-98a16fe2f777
+    m_ActionName: Player/ReadyThrowBothHandInFists[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: CombineHandsStraightControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d2397e88-5611-455f-a118-209b1c7ebf53
+    m_ActionName: Player/CombineHandsStraight[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: SlowRunControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 90339ea5-315e-43bd-af90-9703201eb712
+    m_ActionName: Player/SlowRun[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: HighKneeRunControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0da98d55-8911-4ef5-ac14-4d6cba51b6e9
+    m_ActionName: Player/HighKneeRun[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: ButterflySwimControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c656bb9b-5cb7-47ce-b2a8-2f21890855a3
+    m_ActionName: Player/ButterflySwim[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: FreeSwimControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fabede70-665b-4a79-8bb9-5b6f42078e45
+    m_ActionName: Player/FreeSwim[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: KeepRaisingHandControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 771ca953-a045-4ce0-9297-fa43133a1e70
+    m_ActionName: Player/KeepRaisingHand[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: CheerUpControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 62ef9a7b-9ff3-402d-93ea-e07e876355e9
+    m_ActionName: Player/CheerUp[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1ce260e4-576e-423f-9450-71a859ed688d
+    m_ActionName: Player/Jump[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 13683d52-f342-4bb1-b295-d0d709686574
+    m_ActionName: Player/DeepSquat[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: ArmFlatControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4ec47337-0279-4429-8c92-19f363e5e343
+    m_ActionName: Player/ArmFlat[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: ArmFlatIsLControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 099ee94f-0164-4e5d-8cb9-3738b167e076
+    m_ActionName: Player/ArmFlatIsL[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4550654615593993650}
+        m_TargetAssemblyTypeName: Samples.CustomPlayerManager.PlayerMotor, Deepglint.XR
+        m_MethodName: ArmVerticalIsLControl
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 643e76ec-0648-45b1-b533-1f5791778cf9
+    m_ActionName: Player/ArmVerticalIsL[/DGXRHumanController/HumanBody,/DGXRHumanController1/HumanBody,/DGXRHumanController2/HumanBody,/DGXRHumanController3/HumanBody,/DGXRHumanController4/HumanBody,/DGXRHumanController5/HumanBody,/DGXRHumanController6/HumanBody,/DGXRHumanController7/HumanBody,/DGXRHumanController8/HumanBody,/DGXRHumanController9/HumanBody,/DGXRHumanController10/HumanBody,/DGXRHumanController11/HumanBody,/DGXRHumanController12/HumanBody,/DGXRHumanController13/HumanBody,/DGXRHumanController14/HumanBody,/DGXRHumanController15/HumanBody,/DGXRHumanController16/HumanBody,/DGXRHumanController17/HumanBody]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

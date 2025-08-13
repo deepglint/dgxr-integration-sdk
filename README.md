@@ -385,20 +385,40 @@ if (DGXR.Space.Bottom.SpaceCamera.GetComponent<PhysicsRaycaster>() == null)
 
 `Deepglint.XR.Interaction`模块基于InputSystem的ActionMap机制，提供了包含算法识别、规则判定等多种丰富的动作判定功能，目前`Deepglint.XR.Interaction`支持的动作集有：
 
-| 动作                  | 数据类型      | 功能说明   |
-|:--------------------|:----------|:-------|
-| RaiseLeftHand       | HumanBody | 举左手    |
-| RaiseRightHand      | HumanBody | 举右手    |
-| RaiseSingleHand     | HumanBody | 举单手    |
-| RaiseBothHand       | HumanBody | 举双手    |
-| RaiseHand           | HumanBody | 举手     |
-| SlideLeftArmToRight | HumanBody | 左手向右翻页 |
-| SlideRightArmToLeft | HumanBody | 右手向左翻页 |
-| ButterflySwim       | Axis      | 蝶泳     |
-| DeepSquat           | Axis      | 深蹲     |
-| FreeSwim            | Axis      | 自由泳    |
-| HighKneeRun         | Axis      | 高抬腿    | 
-| Jump                | Axis      | 跳跃     |
+| 动作                      | 数据类型  | 功能说明         |
+| :------------------------ | :-------- | :--------------- |
+| RaiseLeftHand             | HumanBody | 举左手           |
+| RaiseRightHand            | HumanBody | 举右手           |
+| RaiseSingleHand           | HumanBody | 举单手           |
+| RaiseBothHand             | HumanBody | 举双手           |
+| RaiseHand                 | HumanBody | 举手             |
+| SlideLeftArmToRight       | HumanBody | 左手向右翻页     |
+| SlideRightArmToLeft       | HumanBody | 右手向左翻页     |
+| ButterflySwim             | Axis      | 蝶泳             |
+| DeepSquat                 | Axis      | 深蹲             |
+| FreeSwim                  | Axis      | 自由泳           |
+| HighKneeRun               | Axis      | 高抬腿           |
+| Jump                      | Axis      | 跳跃             |
+| CheerUp                   | Axis      | 拍掌             |
+| RightHandDrawCircle       | Axis      | 左手画圈         |
+| LeftHandDrawCircle        | Axis      | 右手画圈         |
+| HandBevelCut              | Axis      | 手斜切           |
+| HandParry                 | Axis      | 手挡开           |
+| HandStraightCut           | Axis      | 手直切           |
+| HandTransversal           | Axis      | 手横切           |
+| StraightPunch             | Axis      | 直拳             |
+| ReadyStraightPunch        | Axis      | 蓄力直拳         |
+| Uppercut                  | Axis      | 上勾拳           |
+| Kick                      | Axis      | 踢腿             |
+| ThrowOneHandInFists       | Axis      | 单手握拳投掷     |
+| ReadyThrowOneHandInFists  | Axis      | 蓄力单手握拳投掷 |
+| ReadyThrowBothHandInFists | Axis      | 蓄力双手握拳投掷 |
+| CombineHandsStraight      | Axis      | 双手伸直合并     |
+| SlowRun                   | Axis      | 慢跑             |
+| KeepRaisingHand           | Axis      | 持续举手         |
+| ArmFlat                   | Axis      | 手臂平展         |
+| ArmFlatIsL                | Axis      | 手臂平展为 L     |
+| ArmVerticalIsL            | Axis      | 手臂垂直为 L     |
 
 #### 动作交互对接流程 
 
