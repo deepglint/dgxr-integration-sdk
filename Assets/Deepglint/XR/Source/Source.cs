@@ -43,24 +43,31 @@ namespace Deepglint.XR.Source
 
     public enum ActionType
     {
-        RightHandDrawCircle = 1, //左手画圈
-        LeftHandDrawCircle = 2, //右手画圈 
-        Kick = 10, //踢腿
-        CombineHandsStraight = 17, //双手伸直合并
-        ThrowBoulder = 18, //举手投掷巨物 
-        SlowRun = 19, //慢跑
-        FastRun = 20, //快跑  
-        ButterflySwim = 21, //蝶泳  
-        FreestyleSwim = 22, //自由泳   
-        KeepRaisingHand = 23, //持续举手   
-        CheerUp = 24, // 欢呼   
-        Jump = 25, //起跳   
-        DeepSquat = 26, //下蹲   
-        RaiseOnHand = 10000, //举单手
-        RaiseBothHand = 10001, //举双手
-        ArmFlat = 10002, //手臂平展 
-        ArmFlatIsL = 10003, //手臂平展为 L 
-        ArmVerticalIsL = 10004, //手臂垂直为 L 
+        RightHandDrawCircle = 1, // 左手画圈
+        LeftHandDrawCircle = 2, // 右手画圈
+        HandBevelCut = 3, // 手斜切
+        HandParry = 4, // 手挡开
+        HandStraightCut = 5, // 手直切
+        HandTransversal = 6, // 手横切
+        StraightPunch = 7, // 直拳
+        ReadyStraightPunch = 8, // 蓄力直拳
+        Uppercut = 9, // 上勾拳
+        Kick = 10, // 踢腿
+        ThrowOneHandInFists = 11, // 单手握拳投掷
+        ReadyThrowOneHandInFists = 12, // 蓄力单手握拳投掷
+        ReadyThrowBothHandInFists = 13, // 蓄力双手握拳投掷
+        CombineHandsStraight = 17, // 双手伸直合并
+        SlowRun = 19, // 慢跑
+        HighKneeRun = 20, // 快跑
+        ButterflySwim = 21, // 蝶泳
+        FreeSwim = 22, // 自由泳
+        KeepRaisingHand = 23, // 持续举手
+        CheerUp = 24, // 拍掌
+        Jump = 25, // 起跳
+        DeepSquat = 26, // 下蹲
+        ArmFlat = 10002, // 手臂平展
+        ArmFlatIsL = 10003, // 手臂平展为L
+        ArmVerticalIsL = 10004, // 手臂垂直为L 
     }
 
     public struct JointInfo

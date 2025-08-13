@@ -15,19 +15,19 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "RaiseRightHand",
+                    "name": "Join",
                     "type": "Value",
-                    "id": "4cb50855-c11f-48d0-9f55-8e7682a14e62",
-                    "expectedControlType": "HumanBody",
+                    "id": "a1dd88d5-f972-4ad9-859c-210c9820d52d",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Join",
+                    "name": "Move",
                     "type": "Value",
-                    "id": "a1dd88d5-f972-4ad9-859c-210c9820d52d",
-                    "expectedControlType": "",
+                    "id": "3917e623-d021-489d-b180-589fc93472aa",
+                    "expectedControlType": "Stick",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -51,9 +51,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Jump",
+                    "name": "RaiseRightHand",
                     "type": "Value",
-                    "id": "67f72c51-f486-4c69-965a-be078b2cefdf",
+                    "id": "4cb50855-c11f-48d0-9f55-8e7682a14e62",
                     "expectedControlType": "HumanBody",
                     "processors": "",
                     "interactions": "",
@@ -63,24 +63,6 @@
                     "name": "RaiseBothHand",
                     "type": "Value",
                     "id": "f4ad58cf-c6f9-4be1-9d7f-1e3e0a691957",
-                    "expectedControlType": "HumanBody",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Move",
-                    "type": "Value",
-                    "id": "3917e623-d021-489d-b180-589fc93472aa",
-                    "expectedControlType": "Stick",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "DeepSquat",
-                    "type": "Value",
-                    "id": "537814b8-cacd-4070-a387-7dc0e5d06e92",
                     "expectedControlType": "HumanBody",
                     "processors": "",
                     "interactions": "",
@@ -105,19 +87,235 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "CheerUp",
+                    "name": "JumpRange",
                     "type": "Value",
-                    "id": "79fde9a7-b06b-47ca-8d2a-915381418d59",
+                    "id": "608f1fad-9553-45b8-a54a-e566c7691515",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RightHandDrawCircle",
+                    "type": "Value",
+                    "id": "e1c3c8b8-5c53-4ec7-be55-2b65aa014fbb",
                     "expectedControlType": "HumanBody",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
-                    "name": "JumpRange",
+                    "name": "LeftHandDrawCircle",
                     "type": "Value",
-                    "id": "608f1fad-9553-45b8-a54a-e566c7691515",
-                    "expectedControlType": "Axis",
+                    "id": "a4758e62-0115-4835-a5b4-ca3927b241ce",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HandBevelCut",
+                    "type": "Value",
+                    "id": "43cf190e-08b1-43f7-9274-f5ea3aad7948",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HandParry",
+                    "type": "Value",
+                    "id": "e266d136-98df-4961-89b7-e8d478198305",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HandStraightCut",
+                    "type": "Value",
+                    "id": "a0ac832e-fea1-4438-bdff-e94919693ac0",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HandTransversal",
+                    "type": "Value",
+                    "id": "3ca4296b-eb3b-4561-aebb-d6cdbc9a379c",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "StraightPunch",
+                    "type": "Value",
+                    "id": "423fda21-fdb6-42d6-85b0-8376bb7e1c9c",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ReadyStraightPunch",
+                    "type": "Value",
+                    "id": "4a355ce8-95eb-4f74-ad47-e08c18359f8d",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Uppercut",
+                    "type": "Value",
+                    "id": "1d0de35c-e709-42da-9719-ac336773d948",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Kick",
+                    "type": "Value",
+                    "id": "adea3647-6cd4-42f4-b3b0-ece96c4be73f",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ThrowOneHandInFists",
+                    "type": "Value",
+                    "id": "8366f099-c9fa-4618-935f-746af2937e3e",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ReadyThrowOneHandInFists",
+                    "type": "Value",
+                    "id": "45e18955-e664-4902-bd44-3d462af265ca",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ReadyThrowBothHandInFists",
+                    "type": "Value",
+                    "id": "a743ef20-451a-49b3-b8f5-98a16fe2f777",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "CombineHandsStraight",
+                    "type": "Value",
+                    "id": "d2397e88-5611-455f-a118-209b1c7ebf53",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SlowRun",
+                    "type": "Value",
+                    "id": "90339ea5-315e-43bd-af90-9703201eb712",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HighKneeRun",
+                    "type": "Value",
+                    "id": "0da98d55-8911-4ef5-ac14-4d6cba51b6e9",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ButterflySwim",
+                    "type": "Value",
+                    "id": "c656bb9b-5cb7-47ce-b2a8-2f21890855a3",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "FreeSwim",
+                    "type": "Value",
+                    "id": "fabede70-665b-4a79-8bb9-5b6f42078e45",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "KeepRaisingHand",
+                    "type": "Value",
+                    "id": "771ca953-a045-4ce0-9297-fa43133a1e70",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "CheerUp",
+                    "type": "Value",
+                    "id": "62ef9a7b-9ff3-402d-93ea-e07e876355e9",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Jump",
+                    "type": "Value",
+                    "id": "1ce260e4-576e-423f-9450-71a859ed688d",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "DeepSquat",
+                    "type": "Value",
+                    "id": "13683d52-f342-4bb1-b295-d0d709686574",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ArmFlat",
+                    "type": "Value",
+                    "id": "4ec47337-0279-4429-8c92-19f363e5e343",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ArmFlatIsL",
+                    "type": "Value",
+                    "id": "099ee94f-0164-4e5d-8cb9-3738b167e076",
+                    "expectedControlType": "HumanBody",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ArmVerticalIsL",
+                    "type": "Value",
+                    "id": "643e76ec-0648-45b1-b533-1f5791778cf9",
+                    "expectedControlType": "HumanBody",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -132,17 +330,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pose",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "de994201-1856-47e0-a0ba-0a6a6548774e",
-                    "path": "<DGXRHumanController>/HumanBody",
-                    "interactions": "RaiseRightHand",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RaiseRightHand",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -170,12 +357,56 @@
                 },
                 {
                     "name": "",
-                    "id": "9778e48b-1e89-4e98-b448-fc2d5bfa8a76",
+                    "id": "e0913ca4-447f-49a7-a542-e7fd1b7bd3d0",
                     "path": "<DGXRHumanController>/HumanBody",
-                    "interactions": "Jump",
+                    "interactions": "RaiseBothHand",
                     "processors": "",
                     "groups": "",
-                    "action": "Jump",
+                    "action": "RaiseBothHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9299500b-10e6-4d89-834f-3a327a862f34",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "RightHandDrawCircle",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightHandDrawCircle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9b98fc35-fddd-4ae2-82cc-ed92ace12899",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "RaiseSingleHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RaiseSingleHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e8d69c7-d065-49ac-8cdc-24f62a7fa9d9",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "RaiseLeftHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RaiseLeftHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2f206fc7-3fe0-4234-aa10-bdf37141d0f2",
+                    "path": "<DGXRHumanController>/jumpRange",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "JumpRange",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -198,17 +429,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Join",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e0913ca4-447f-49a7-a542-e7fd1b7bd3d0",
-                    "path": "<DGXRHumanController>/HumanBody",
-                    "interactions": "RaiseBothHand",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RaiseBothHand",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -280,40 +500,216 @@
                 },
                 {
                     "name": "",
-                    "id": "d5ee4166-b979-4e9b-9bc8-7fe79b0413c7",
+                    "id": "de994201-1856-47e0-a0ba-0a6a6548774e",
                     "path": "<DGXRHumanController>/HumanBody",
-                    "interactions": "DeepSquat",
+                    "interactions": "RaiseRightHand",
                     "processors": "",
                     "groups": "",
-                    "action": "DeepSquat",
+                    "action": "RaiseRightHand",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "9b98fc35-fddd-4ae2-82cc-ed92ace12899",
+                    "id": "fb5ee6ad-e9b3-4de0-a187-84cbb3deb15f",
                     "path": "<DGXRHumanController>/HumanBody",
-                    "interactions": "RaiseSingleHand",
+                    "interactions": "LeftHandDrawCircle",
                     "processors": "",
                     "groups": "",
-                    "action": "RaiseSingleHand",
+                    "action": "LeftHandDrawCircle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "6e8d69c7-d065-49ac-8cdc-24f62a7fa9d9",
+                    "id": "e8789b06-e564-4e3f-b1fe-3bcb549ec226",
                     "path": "<DGXRHumanController>/HumanBody",
-                    "interactions": "RaiseLeftHand",
+                    "interactions": "HandBevelCut",
                     "processors": "",
                     "groups": "",
-                    "action": "RaiseLeftHand",
+                    "action": "HandBevelCut",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "90beffca-842b-4362-b8c1-a9fa458c3eed",
+                    "id": "6e52d427-4ea8-40d5-9221-42b0ef0d29be",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "HandParry",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HandParry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e87f6026-b1aa-4146-8353-9fe60ce9db29",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "HandStraightCut",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HandStraightCut",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "01dd81b4-4a94-4aa6-beb0-0d6077670ab0",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "HandTransversal",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HandTransversal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5c29f687-9fb7-415c-bb56-70d71722544a",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "StraightPunch",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StraightPunch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6a91456b-145e-495f-9390-8e144bba7e91",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "ReadyStraightPunch",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReadyStraightPunch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a14dbc2e-89ce-47f7-b348-827c87c84101",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "Uppercut",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Uppercut",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a14baf51-4098-4793-bc2a-08876b33e731",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "Kick",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Kick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "32113805-542c-4f23-bb98-2fc3f4c50aaa",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "ThrowOneHandInFists",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ThrowOneHandInFists",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4f45fcf7-ead2-4d73-8ef6-ab96049d5f53",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "ReadyThrowOneHandInFists",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReadyThrowOneHandInFists",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1046da01-07c6-472f-8084-2d17b133b301",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "ReadyThrowBothHandInFists",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReadyThrowBothHandInFists",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9f0d36de-1bdf-412f-a420-2b8a69fa8677",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "CombineHandsStraight",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CombineHandsStraight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c9e7480e-6052-40a5-839c-2bf8ed8411c7",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "SlowRun",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SlowRun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f0c21e0b-6173-4d39-ab96-a9f0d38ca8ba",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "HighKneeRun",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HighKneeRun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "314fe1a1-ac91-4e28-960c-2fa10ce434ec",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "ButterflySwim",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ButterflySwim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3a8a6d5d-40e7-449f-bfe1-34243cee79f0",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "FreeSwim",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FreeSwim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d725df3d-466d-4240-9485-4804a0715c8c",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "KeepRaisingHand",
+                    "processors": "",
+                    "groups": "",
+                    "action": "KeepRaisingHand",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "583b0a51-3751-4460-b3d5-73e7bb5840b6",
                     "path": "<DGXRHumanController>/HumanBody",
                     "interactions": "CheerUp",
                     "processors": "",
@@ -324,12 +720,56 @@
                 },
                 {
                     "name": "",
-                    "id": "2f206fc7-3fe0-4234-aa10-bdf37141d0f2",
-                    "path": "<DGXRHumanController>/jumpRange",
-                    "interactions": "",
+                    "id": "b51f521a-aaaf-4a2e-b7a3-6e28f9b47d31",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "Jump",
                     "processors": "",
                     "groups": "",
-                    "action": "JumpRange",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eb50d472-c1e0-4467-b769-a039dd3af7c9",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "DeepSquat",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DeepSquat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b7dc675a-a4cc-4f28-afe2-f8bb10c002a4",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "ArmFlat",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ArmFlat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5eb969ea-486e-44f1-89c5-2c8364314127",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "ArmFlatIsL",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ArmFlatIsL",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "902c21a6-5d62-4f5d-877a-39edecb765f7",
+                    "path": "<DGXRHumanController>/HumanBody",
+                    "interactions": "ArmVerticalIsL",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ArmVerticalIsL",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

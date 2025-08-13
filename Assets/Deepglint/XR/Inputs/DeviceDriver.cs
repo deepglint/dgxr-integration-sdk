@@ -17,7 +17,7 @@ namespace Deepglint.XR.Inputs
             Source.Source.OnMetaPoseDataLost += OnMetaPoseDataLost;
             PseudoOfflineFilter.OnPersonOffline += OnPersonOffline;
         }
-        
+
         private void OnDisable()
         {
             Source.Source.OnMetaPoseDataReceived -= OnMetaPoseDataReceived;
@@ -31,19 +31,20 @@ namespace Deepglint.XR.Inputs
             {
                 return;
             }
+
             DeviceManager.RemoveDevice(key);
         }
 
         private void OnPersonOffline(string key)
         {
-            DeviceManager.RemoveDevice(key); 
+            DeviceManager.RemoveDevice(key);
         }
-        
+
         private void OnMetaPoseDataReceived(SourceData data)
         {
             HandleMetaPoseData(data);
         }
-        
+
         private void HandleMetaPoseData(SourceData data)
         {
             var device = DeviceManager.AddOrActiveDevice(data.BodyId, nameof(DGXRHumanController));
@@ -59,7 +60,7 @@ namespace Deepglint.XR.Inputs
                 }
             }
         }
-        
+
         private Quaternion GetQuaternion(JointData data)
         {
             Vector3 hip = new Vector3(
@@ -67,14 +68,16 @@ namespace Deepglint.XR.Inputs
                 (data.LeftHip.LocalPosition.y + data.RightHip.LocalPosition.y) * 0.5f,
                 (data.LeftHip.LocalPosition.z + data.RightHip.LocalPosition.z) * 0.5f
             );
-            Vector3 forward = -Vector3.Cross(data.LeftShoulder.LocalPosition - hip, data.RightShoulder.LocalPosition - hip).normalized;
+            Vector3 forward = -Vector3
+                .Cross(data.LeftShoulder.LocalPosition - hip, data.RightShoulder.LocalPosition - hip).normalized;
             return Quaternion.LookRotation(forward);
         }
-        
+
         private void HandleJointsData(JointData data, DGXRHumanController xrDevice, InputEventPtr eventPtr)
         {
             xrDevice.HumanPose.IsTracked.WriteValueIntoEvent(1.0f, eventPtr);
-            xrDevice.HumanPose.TrackingState.WriteValueIntoEvent((int)(InputTrackingState.Position | InputTrackingState.Rotation), eventPtr);
+            xrDevice.HumanPose.TrackingState.WriteValueIntoEvent(
+                (int)(InputTrackingState.Position | InputTrackingState.Rotation), eventPtr);
             Vector3 humanPosition = new Vector3(
                 (data.LeftHip.LocalPosition.x + data.RightHip.LocalPosition.x) * 0.5f,
                 (data.LeftHip.LocalPosition.y + data.RightHip.LocalPosition.y) * 0.5f,
@@ -112,12 +115,12 @@ namespace Deepglint.XR.Inputs
                 (data.LeftTiptoe.LocalPosition.x + data.LeftHeel.LocalPosition.x) * 0.5f,
                 Math.Min(data.LeftTiptoe.LocalPosition.y, data.LeftHeel.LocalPosition.y),
                 (data.LeftTiptoe.LocalPosition.z + data.LeftHeel.LocalPosition.z) * 0.5f
-                ), eventPtr);
+            ), eventPtr);
             xrDevice.HumanBody.RightFoot.position.WriteValueIntoEvent(new Vector3(
                 (data.RightTiptoe.LocalPosition.x + data.RightHeel.LocalPosition.x) * 0.5f,
                 Math.Min(data.RightTiptoe.LocalPosition.y, data.RightHeel.LocalPosition.y),
                 (data.RightTiptoe.LocalPosition.z + data.RightHeel.LocalPosition.z) * 0.5f
-                ), eventPtr);
+            ), eventPtr);
 
             if (xrDevice.Anchor != null)
             {
@@ -135,34 +138,93 @@ namespace Deepglint.XR.Inputs
                 }
             }
         }
-        
-        private void HandleActionsData(Dictionary<ActionType, float> actions, DGXRHumanController xrDevice, InputEventPtr eventPtr)
+
+        private void HandleActionsData(Dictionary<ActionType, float> actions, DGXRHumanController xrDevice,
+            InputEventPtr eventPtr)
         {
             if (!actions.ContainsKey(ActionType.Jump))
             {
                 xrDevice.Jump.WriteValueIntoEvent(0f, eventPtr);
             }
+
             foreach (var action in actions)
             {
                 switch (action.Key)
                 {
-                    case ActionType.FastRun:
+                    case ActionType.RightHandDrawCircle:
+                        xrDevice.RightHandDrawCircle.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.LeftHandDrawCircle:
+                        xrDevice.LeftHandDrawCircle.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.HandBevelCut:
+                        xrDevice.HandBevelCut.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.HandParry:
+                        xrDevice.HandParry.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.HandStraightCut:
+                        xrDevice.HandStraightCut.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.HandTransversal:
+                        xrDevice.HandTransversal.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.StraightPunch:
+                        xrDevice.StraightPunch.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.ReadyStraightPunch:
+                        xrDevice.ReadyStraightPunch.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.Uppercut:
+                        xrDevice.Uppercut.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.Kick:
+                        xrDevice.Kick.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.ThrowOneHandInFists:
+                        xrDevice.ThrowOneHandInFists.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.ReadyThrowOneHandInFists:
+                        xrDevice.ReadyThrowOneHandInFists.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.ReadyThrowBothHandInFists:
+                        xrDevice.ReadyThrowBothHandInFists.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.CombineHandsStraight:
+                        xrDevice.CombineHandsStraight.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.SlowRun:
+                        xrDevice.SlowRun.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.HighKneeRun:
                         xrDevice.HighKneeRun.WriteValueIntoEvent(action.Value, eventPtr);
                         break;
                     case ActionType.ButterflySwim:
                         xrDevice.ButterflySwim.WriteValueIntoEvent(action.Value, eventPtr);
                         break;
-                    case ActionType.FreestyleSwim:
+                    case ActionType.FreeSwim:
                         xrDevice.FreeSwim.WriteValueIntoEvent(action.Value, eventPtr);
                         break;
-                    case ActionType.DeepSquat:
-                        xrDevice.DeepSquat.WriteValueIntoEvent(action.Value, eventPtr);
+                    case ActionType.KeepRaisingHand:
+                        xrDevice.KeepRaisingHand.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.CheerUp:
+                        xrDevice.CheerUp.WriteValueIntoEvent(action.Value, eventPtr);
                         break;
                     case ActionType.Jump:
                         xrDevice.Jump.WriteValueIntoEvent(action.Value, eventPtr);
                         break;
-                    case ActionType.CheerUp:
-                        xrDevice.CheerUp.WriteValueIntoEvent(action.Value, eventPtr);
+                    case ActionType.DeepSquat:
+                        xrDevice.DeepSquat.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.ArmFlat:
+                        xrDevice.ArmFlat.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.ArmFlatIsL:
+                        xrDevice.ArmFlatIsL.WriteValueIntoEvent(action.Value, eventPtr);
+                        break;
+                    case ActionType.ArmVerticalIsL:
+                        xrDevice.ArmVerticalIsL.WriteValueIntoEvent(action.Value, eventPtr);
                         break;
                 }
             }

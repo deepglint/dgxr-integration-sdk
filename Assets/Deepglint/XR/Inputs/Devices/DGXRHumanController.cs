@@ -53,42 +53,53 @@ namespace Deepglint.XR.Inputs.Devices
 
         [InputControl(usage = "Grip", layout = "Axis")]
         public float grip;
-        
-        [InputControl(layout = "Axis")] 
-        public float freeSwim;
-        
-        [InputControl( layout = "Axis")]
-        public float butterflySwim;
 
-        [InputControl(layout = "Axis")] 
-        public float highKneeRun;
+        [InputControl(name = nameof(DGXRHumanController.GripButton), usage = "GripButton", layout = "Button", 
+            bit = (uint)DGXRControllerButton.GripButton, alias = "gripPressed")]
+        [InputControl(name = nameof(DGXRHumanController.TriggerButton), usage = "TriggerButton", layout = "Button", 
+            bit = (uint)DGXRControllerButton.TriggerButton, alias = "triggerPressed")]
+        public ushort buttons;
         
-        [InputControl( layout = "Axis")]
-        public float deepSquat;
-        
+        // 算法
+        [InputControl(layout = "Axis")] public float rightHandDrawCircle;
+        [InputControl(layout = "Axis")] public float leftHandDrawCircle;
+        [InputControl(layout = "Axis")] public float handBevelCut;
+        [InputControl(layout = "Axis")] public float handParry;
+        [InputControl(layout = "Axis")] public float handStraightCut;
+        [InputControl(layout = "Axis")] public float handTransversal;
+        [InputControl(layout = "Axis")] public float straightPunch;
+        [InputControl(layout = "Axis")] public float readyStraightPunch;
+        [InputControl(layout = "Axis")] public float uppercut;
+        [InputControl(layout = "Axis")] public float kick;
+        [InputControl(layout = "Axis")] public float throwOneHandInFists;
+        [InputControl(layout = "Axis")] public float readyThrowOneHandInFists;
+        [InputControl(layout = "Axis")] public float readyThrowBothHandInFists;
+        [InputControl(layout = "Axis")] public float combineHandsStraight;
+        [InputControl(layout = "Axis")] public float slowRun;
+        [InputControl(layout = "Axis")] public float highKneeRun;
+        [InputControl(layout = "Axis")] public float butterflySwim;
+        [InputControl(layout = "Axis")] public float freeSwim;
+        [InputControl(layout = "Axis")] public float keepRaisingHand;
+        [InputControl(layout = "Axis")] public float cheerUp;
+        [InputControl(layout = "Axis")] public float jump;
+        [InputControl(layout = "Axis")] public float deepSquat;
+        [InputControl(layout = "Axis")] public float armFlat;
+        [InputControl(layout = "Axis")] public float armFlatIsL;
+        [InputControl(layout = "Axis")] public float armVerticalIsL;
+       
+        // 扩展
         [InputControl( layout = "Axis")]
         public float squatRange;
         
         [InputControl( layout = "Axis")]
-        public float jump;
-        
-        [InputControl( layout = "Axis")]
         public float jumpRange;
         
-        [InputControl( layout = "Axis")]
-        public float cheerUp;
         
         [InputControl( layout = "Axis")]
         public float SlideRightArmToLeftRange;
         
         [InputControl( layout = "Axis")]
         public float SlideLeftArmToRightRange;
-        
-        [InputControl(name = nameof(DGXRHumanController.GripButton), usage = "GripButton", layout = "Button", 
-            bit = (uint)DGXRControllerButton.GripButton, alias = "gripPressed")]
-        [InputControl(name = nameof(DGXRHumanController.TriggerButton), usage = "TriggerButton", layout = "Button", 
-            bit = (uint)DGXRControllerButton.TriggerButton, alias = "triggerPressed")]
-        public ushort buttons;
     }
     
     [Preserve]
@@ -109,17 +120,38 @@ namespace Deepglint.XR.Inputs.Devices
         public StickControl Stick { get; private set; }
         public AxisControl Trigger { get; private set; }
         public AxisControl Grip { get; private set; }
-        public AxisControl FreeSwim { get; private set; }
-        public AxisControl ButterflySwim { get; private set; }
-        public AxisControl HighKneeRun { get; private set; }
-        public AxisControl DeepSquat { get; private set; }
-        public AxisControl SquatRange { get; private set; }
-        public AxisControl Jump { get; private set; }
-        public AxisControl JumpRange { get; private set; }
-        public AxisControl CheerUp { get; private set; }
         public ButtonControl GripButton { get; private set; }
         public ButtonControl TriggerButton { get; private set; }
-
+        // 算法动作
+        public AxisControl RightHandDrawCircle { get; private set; }
+        public AxisControl LeftHandDrawCircle { get; private set; }
+        public AxisControl HandBevelCut { get; private set; }
+        public AxisControl HandParry { get; private set; }
+        public AxisControl HandStraightCut { get; private set; }
+        public AxisControl HandTransversal { get; private set; }
+        public AxisControl StraightPunch { get; private set; }
+        public AxisControl ReadyStraightPunch { get; private set; }
+        public AxisControl Uppercut { get; private set; }
+        public AxisControl Kick { get; private set; }
+        public AxisControl ThrowOneHandInFists { get; private set; }
+        public AxisControl ReadyThrowOneHandInFists { get; private set; }
+        public AxisControl ReadyThrowBothHandInFists { get; private set; }
+        public AxisControl CombineHandsStraight { get; private set; }
+        public AxisControl SlowRun { get; private set; }
+        public AxisControl HighKneeRun { get; private set; }
+        public AxisControl ButterflySwim { get; private set; }
+        public AxisControl FreeSwim { get; private set; }
+        public AxisControl KeepRaisingHand { get; private set; }
+        public AxisControl CheerUp { get; private set; }
+        public AxisControl Jump { get; private set; }
+        public AxisControl DeepSquat { get; private set; }
+        public AxisControl ArmFlat { get; private set; }
+        public AxisControl ArmFlatIsL { get; private set; }
+        public AxisControl ArmVerticalIsL { get; private set; } 
+        
+        // 扩展动作
+        public AxisControl SquatRange { get; private set; }
+        public AxisControl JumpRange { get; private set; } 
         public AxisControl SlideRightArmToLeftRange { get; private set; }
         public AxisControl SlideLeftArmToRightRange { get; private set; }
 
@@ -137,14 +169,36 @@ namespace Deepglint.XR.Inputs.Devices
             Grip = GetChildControl<AxisControl>(nameof(Grip));
             TriggerButton = GetChildControl<ButtonControl>(nameof(TriggerButton));
             GripButton = GetChildControl<ButtonControl>(nameof(GripButton));
-            ButterflySwim = GetChildControl<AxisControl>(nameof(ButterflySwim));
-            FreeSwim = GetChildControl<AxisControl>(nameof(FreeSwim));
-            HighKneeRun = GetChildControl<AxisControl>(nameof(HighKneeRun));
-            DeepSquat = GetChildControl<AxisControl>(nameof(DeepSquat));
+            // 算法动作
+            RightHandDrawCircle= GetChildControl<AxisControl>(nameof(RightHandDrawCircle));
+            LeftHandDrawCircle= GetChildControl<AxisControl>(nameof(LeftHandDrawCircle));
+            HandBevelCut= GetChildControl<AxisControl>(nameof(HandBevelCut));
+            HandParry= GetChildControl<AxisControl>(nameof(HandParry));
+            HandStraightCut= GetChildControl<AxisControl>(nameof(HandStraightCut));
+            HandTransversal= GetChildControl<AxisControl>(nameof(HandTransversal));
+            StraightPunch= GetChildControl<AxisControl>(nameof(StraightPunch));
+            ReadyStraightPunch= GetChildControl<AxisControl>(nameof(ReadyStraightPunch));
+            Uppercut= GetChildControl<AxisControl>(nameof(Uppercut));
+            Kick= GetChildControl<AxisControl>(nameof(Kick));
+            ThrowOneHandInFists= GetChildControl<AxisControl>(nameof(ThrowOneHandInFists));
+            ReadyThrowOneHandInFists= GetChildControl<AxisControl>(nameof(ReadyThrowOneHandInFists));
+            ReadyThrowBothHandInFists= GetChildControl<AxisControl>(nameof(ReadyThrowBothHandInFists));
+            CombineHandsStraight= GetChildControl<AxisControl>(nameof(CombineHandsStraight));
+            SlowRun= GetChildControl<AxisControl>(nameof(SlowRun));
+            HighKneeRun= GetChildControl<AxisControl>(nameof(HighKneeRun));
+            ButterflySwim= GetChildControl<AxisControl>(nameof(ButterflySwim));
+            FreeSwim= GetChildControl<AxisControl>(nameof(FreeSwim));
+            KeepRaisingHand= GetChildControl<AxisControl>(nameof(KeepRaisingHand));
+            CheerUp= GetChildControl<AxisControl>(nameof(CheerUp));
+            Jump= GetChildControl<AxisControl>(nameof(Jump));
+            DeepSquat= GetChildControl<AxisControl>(nameof(DeepSquat));
+            ArmFlat= GetChildControl<AxisControl>(nameof(ArmFlat));
+            ArmFlatIsL= GetChildControl<AxisControl>(nameof(ArmFlatIsL));
+            ArmVerticalIsL= GetChildControl<AxisControl>(nameof(ArmVerticalIsL));
+            
+            // 扩展动作
             SquatRange = GetChildControl<AxisControl>(nameof(SquatRange));
-            Jump = GetChildControl<AxisControl>(nameof(Jump));
             JumpRange = GetChildControl<AxisControl>(nameof(JumpRange));
-            CheerUp = GetChildControl<AxisControl>(nameof(CheerUp));
             SlideRightArmToLeftRange = GetChildControl<AxisControl>(nameof(SlideRightArmToLeftRange));
             SlideLeftArmToRightRange = GetChildControl<AxisControl>(nameof(SlideLeftArmToRightRange));
             

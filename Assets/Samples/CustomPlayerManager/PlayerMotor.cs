@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using Deepglint.XR;
 using Deepglint.XR.EventSystem;
 using Deepglint.XR.EventSystem.EventData;
@@ -18,9 +20,6 @@ namespace Samples.CustomPlayerManager
         private bool _isOnGround = true;
         private Vector3 _moveDistance;
         private Rigidbody _rb;
-        private int _freeSwimCount = 0;
-        private int _butterflySwimCount = 0;
-        private int _highKneeRunSwimCount = 0;
         private int _deepSquatCount = 0;
         private int _slideRightArmToLeftCount = 0;
         private float _slideRightArmToLeftRange = 0;
@@ -29,9 +28,16 @@ namespace Samples.CustomPlayerManager
         private Coroutine slideLeftCoroutine;
         private Coroutine slideRightCoroutine;
 
+        private Dictionary<string, int> _actionsCount = new Dictionary<string, int>();
+
         private void Awake()
         {
-            _rb = GetComponent<Rigidbody>(); 
+            _rb = GetComponent<Rigidbody>();
+        }
+
+        private void OnDestroy()
+        {
+            _actionsCount.Clear(); 
         }
 
         private void FixedUpdate()
@@ -46,24 +52,24 @@ namespace Samples.CustomPlayerManager
                 _isOnGround = true;
             }
         }
-    
+
         public void MoveControl(InputAction.CallbackContext value)
         {
             Vector2 data = value.ReadValue<Vector2>();
             Vector3 moveDir = new Vector3(data.x * 2, 0, data.y * 2).normalized;
             _moveDistance = moveDir * moveSpeed * Time.deltaTime;
- 
+
             Vector3 targetDir = Vector3.Slerp(transform.forward, moveDir, rotateSpeed * Time.deltaTime);
-            transform.rotation = Quaternion.LookRotation(targetDir); 
+            transform.rotation = Quaternion.LookRotation(targetDir);
         }
-    
+
         public void PoseControl(InputAction.CallbackContext value)
         {
             HumanPoseState humanPose = value.ReadValue<HumanPoseState>();
             transform.position = new Vector3(humanPose.position.x, transform.position.y, humanPose.position.z);
             transform.rotation = humanPose.rotation;
         }
-        
+
         public void JumpRangeControl(InputAction.CallbackContext value)
         {
             float j = value.ReadValue<float>();
@@ -72,11 +78,12 @@ namespace Samples.CustomPlayerManager
 
         public void JumpControl(InputAction.CallbackContext value)
         {
-            if(value.performed)
+            if (value.performed)
             {
                 DGXR.Logger.Log("Jump action performed");
                 jump();
-            } else if (value.canceled)
+            }
+            else if (value.canceled)
             {
                 DGXRHumanController device = (DGXRHumanController)value.control.device;
                 float jumpValue = device.JumpRange.ReadValue();
@@ -86,24 +93,18 @@ namespace Samples.CustomPlayerManager
                 }
             }
         }
-        
-        public void CheerUpControl(InputAction.CallbackContext value)
-        {
-            if(value.performed)
-            {
-                DGXR.Logger.Log("CheerUp action performed");
-            }
-        }
-    
+
         public void SlideRightArmToLeftControl(InputAction.CallbackContext value)
         {
-            if(value.performed)
+            if (value.performed)
             {
                 _slideRightArmToLeftCount++;
                 DGXRHumanController device = (DGXRHumanController)value.control.device;
-                DGXR.Logger.Log($"SlideRightArmToLeft action performed count: {_slideRightArmToLeftCount}, value: {device.SlideRightArmToLeftRange.ReadValue()}");
+                DGXR.Logger.Log(
+                    $"SlideRightArmToLeft action performed count: {_slideRightArmToLeftCount}, value: {device.SlideRightArmToLeftRange.ReadValue()}");
                 slideLeftCoroutine = StartCoroutine(ReadSlideRightArmToLeftValue(device));
-            } else if (value.canceled)
+            }
+            else if (value.canceled)
             {
                 if (slideLeftCoroutine != null)
                 {
@@ -114,16 +115,18 @@ namespace Samples.CustomPlayerManager
                 }
             }
         }
-    
+
         public void SlideLeftArmToRightControl(InputAction.CallbackContext value)
         {
-            if(value.performed)
+            if (value.performed)
             {
                 _slideLeftArmToRightCount++;
                 DGXRHumanController device = (DGXRHumanController)value.control.device;
-                DGXR.Logger.Log($"SlideLeftArmToRight performed count: {_slideLeftArmToRightCount}, value: {device.SlideLeftArmToRightRange.ReadValue()}");
+                DGXR.Logger.Log(
+                    $"SlideLeftArmToRight performed count: {_slideLeftArmToRightCount}, value: {device.SlideLeftArmToRightRange.ReadValue()}");
                 slideRightCoroutine = StartCoroutine(ReadSlideLeftArmToRightValue(device));
-            } else if (value.canceled)
+            }
+            else if (value.canceled)
             {
                 if (slideRightCoroutine != null)
                 {
@@ -134,7 +137,7 @@ namespace Samples.CustomPlayerManager
                 }
             }
         }
-        
+
         private IEnumerator ReadSlideRightArmToLeftValue(DGXRHumanController device)
         {
             while (true)
@@ -143,11 +146,12 @@ namespace Samples.CustomPlayerManager
                 {
                     _slideRightArmToLeftRange = device.SlideRightArmToLeftRange.ReadValue();
                 }
+
                 // 等待下一帧
                 yield return null;
             }
         }
-        
+
         private IEnumerator ReadSlideLeftArmToRightValue(DGXRHumanController device)
         {
             while (true)
@@ -156,45 +160,20 @@ namespace Samples.CustomPlayerManager
                 {
                     _slideLeftArmToRightRange = device.SlideLeftArmToRightRange.ReadValue();
                 }
+
                 // 等待下一帧
                 yield return null;
             }
         }
-    
-        public void FreeSwimControl(InputAction.CallbackContext value)
-        {
-            if(value.performed)
-            {
-                _freeSwimCount++;
-                DGXR.Logger.Log($"free-swim count: {_freeSwimCount}");
-            }
-        }
-    
-        public void ButterflySwimControl(InputAction.CallbackContext value)
-        {
-            if(value.performed)
-            {
-                _butterflySwimCount++;
-                DGXR.Logger.Log($"butterfly-swim count: {_butterflySwimCount}");
-            }
-        }
-    
-        public void HighKneeRunControl(InputAction.CallbackContext value)
-        {
-            if(value.performed)
-            {
-                _highKneeRunSwimCount++;
-                DGXR.Logger.Log("high-knee-run count: {0}", _highKneeRunSwimCount);
-            }
-        }
-    
+
         public void DeepSquatControl(InputAction.CallbackContext value)
         {
-            if(value.performed)
+            if (value.performed)
             {
                 _deepSquatCount++;
                 DGXR.Logger.Log($"deep-squat performed and count: {_deepSquatCount}");
-            } else if (value.canceled)
+            }
+            else if (value.canceled)
             {
                 DGXRHumanController device = (DGXRHumanController)value.control.device;
                 float squatValue = device.SquatRange.ReadValue();
@@ -212,10 +191,10 @@ namespace Samples.CustomPlayerManager
                 DGXR.Logger.Log("raise both hand");
             }
         }
-        
+
         public void RaiseSingleHandControl(InputAction.CallbackContext value)
         {
-            if(value.performed)
+            if (value.performed)
             {
                 DGXR.Logger.Log("Raise-Single-Hand action performed");
             }
@@ -223,31 +202,31 @@ namespace Samples.CustomPlayerManager
 
         public void RaiseRightHandControl(InputAction.CallbackContext value)
         {
-            if(value.performed)
+            if (value.performed)
             {
                 DGXR.Logger.Log("Raise-Right-Hand action performed");
             }
         }
-        
+
         public void RaiseLeftHandControl(InputAction.CallbackContext value)
         {
-            if(value.performed)
+            if (value.performed)
             {
                 DGXR.Logger.Log("Raise-Left-Hand action performed");
             }
         }
-    
+
         void OnJump(InputValue value)
         {
             bool data = value.isPressed;
-            if(data)
+            if (data)
             {
                 DGXR.Logger.Log("jump, " + _isOnGround);
                 if (_isOnGround)
                 {
                     //瞬移效果
                     //transform.Translate(Vector3.up * Time.deltaTime * jumpSpeed);
- 
+
                     // 实现跳跃效果
                     jump();
                 }
@@ -263,6 +242,7 @@ namespace Samples.CustomPlayerManager
                 {
                     DGXR.Logger.Log("rb is null");
                 }
+
                 _rb.AddForce(Vector3.up * jumpSpeed);
                 // 此时物体不在地面上
                 _isOnGround = false;
@@ -275,6 +255,208 @@ namespace Samples.CustomPlayerManager
             if (player != null)
             {
                 DGXR.Logger.Log($"high-five action with {player.Character.Name}");
+            }
+        }
+
+        private int TryAddAction(string key)
+        {
+            if (_actionsCount.ContainsKey(key))
+            {
+                _actionsCount[key]++;
+            }
+            else
+            {
+                _actionsCount.TryAdd(key, 1);
+            }
+
+            return _actionsCount[key];
+        }
+
+        public void RightHandDrawCircleControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("RightHandDrawCircle action performed " + TryAddAction("RightHandDrawCircle"));
+            }
+        }
+
+        public void LeftHandDrawCircleControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("LeftHandDrawCircle action performed " + TryAddAction("LeftHandDrawCircle"));
+            }
+        }
+
+        public void HandBevelCutControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("HandBevelCut action performed " + TryAddAction("HandBevelCut"));
+            }
+        }
+
+        public void HandParryControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("HandParry action performed " + TryAddAction("HandParry"));
+            }
+        }
+
+        public void HandStraightCutControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("HandStraightCut action performed " + TryAddAction("HandStraightCut"));
+            }
+        }
+
+        public void HandTransversalControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("HandTransversal action performed " + TryAddAction("HandTransversal"));
+            }
+        }
+
+        public void StraightPunchControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("StraightPunch action performed " + TryAddAction("StraightPunch"));
+            }
+        }
+
+        public void ReadyStraightPunchControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("ReadyStraightPunch action performed " + TryAddAction("ReadyStraightPunch"));
+            }
+        }
+
+        public void UppercutControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("Uppercut action performed " + TryAddAction("Uppercut"));
+            }
+        }
+
+        public void KickControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("Kick action performed " + TryAddAction("Kick"));
+            }
+        }
+
+        public void ThrowOneHandInFistsControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("ThrowOneHandInFists action performed " + TryAddAction("ThrowOneHandInFists"));
+            }
+        }
+
+        public void ReadyThrowOneHandInFistsControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("ReadyThrowOneHandInFists action performed " +
+                                TryAddAction("ReadyThrowOneHandInFists"));
+            }
+        }
+
+        public void ReadyThrowBothHandInFistsControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("ReadyThrowBothHandInFists action performed " +
+                                TryAddAction("ReadyThrowBothHandInFists"));
+            }
+        }
+
+
+        public void CombineHandsStraightControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("CombineHandsStraight action performed " + TryAddAction("CombineHandsStraight"));
+            }
+        }
+
+        public void SlowRunControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("SlowRun action performed " + TryAddAction("SlowRun"));
+            }
+        }
+
+        public void HighKneeRunControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("HighKneeRun action performed " + TryAddAction("HighKneeRun"));
+            }
+        }
+
+        public void ButterflySwimControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("ButterflySwim action performed " + TryAddAction("ButterflySwim"));
+            }
+        }
+
+        public void FreeSwimControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("FreeSwim action performed " + TryAddAction("FreeSwim"));
+            }
+        }
+
+        public void KeepRaisingHandControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("KeepRaisingHand action performed " + TryAddAction("KeepRaisingHand"));
+            }
+        }
+
+        public void CheerUpControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("CheerUp action performed " + TryAddAction("CheerUp"));
+            }
+        }
+
+
+        public void ArmFlatControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("ArmFlat action performed " + TryAddAction("ArmFlat"));
+            }
+        }
+
+        public void ArmFlatIsLControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("ArmFlatIsL action performed " + TryAddAction("ArmFlatIsL"));
+            }
+        }
+
+        public void ArmVerticalIsLControl(InputAction.CallbackContext value)
+        {
+            if (value.performed)
+            {
+                DGXR.Logger.Log("ArmVerticalIsL action performed " + TryAddAction("ArmVerticalIsL"));
             }
         }
     }
