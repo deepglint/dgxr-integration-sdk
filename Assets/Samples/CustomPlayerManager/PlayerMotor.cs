@@ -37,7 +37,7 @@ namespace Samples.CustomPlayerManager
 
         private void OnDestroy()
         {
-            _actionsCount.Clear(); 
+            _actionsCount.Clear();
         }
 
         private void FixedUpdate()
@@ -268,7 +268,7 @@ namespace Samples.CustomPlayerManager
             {
                 _actionsCount.TryAdd(key, 1);
             }
-
+            
             return _actionsCount[key];
         }
 
@@ -276,7 +276,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("RightHandDrawCircle action performed " + TryAddAction("RightHandDrawCircle"));
+                DGXR.Logger.Log("RightHandDrawCircle-左手画圈 action performed " + TryAddAction("RightHandDrawCircle"));
             }
         }
 
@@ -284,7 +284,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("LeftHandDrawCircle action performed " + TryAddAction("LeftHandDrawCircle"));
+                DGXR.Logger.Log("LeftHandDrawCircle-右手画圈 action performed " + TryAddAction("LeftHandDrawCircle"));
             }
         }
 
@@ -292,7 +292,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("HandBevelCut action performed " + TryAddAction("HandBevelCut"));
+                DGXR.Logger.Log("HandBevelCut-手斜切 action performed " + TryAddAction("HandBevelCut"));
             }
         }
 
@@ -300,7 +300,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("HandParry action performed " + TryAddAction("HandParry"));
+                DGXR.Logger.Log("HandParry-手挡开 action performed " + TryAddAction("HandParry"));
             }
         }
 
@@ -308,7 +308,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("HandStraightCut action performed " + TryAddAction("HandStraightCut"));
+                DGXR.Logger.Log("HandStraightCut-手直切 action performed " + TryAddAction("HandStraightCut"));
             }
         }
 
@@ -316,7 +316,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("HandTransversal action performed " + TryAddAction("HandTransversal"));
+                DGXR.Logger.Log("HandTransversal-手横切 action performed " + TryAddAction("HandTransversal"));
             }
         }
 
@@ -324,7 +324,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("StraightPunch action performed " + TryAddAction("StraightPunch"));
+                DGXR.Logger.Log("StraightPunch-直拳 action performed " + TryAddAction("StraightPunch"));
             }
         }
 
@@ -332,7 +332,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("ReadyStraightPunch action performed " + TryAddAction("ReadyStraightPunch"));
+                DGXR.Logger.Log("ReadyStraightPunch-蓄力直拳 action performed " + TryAddAction("ReadyStraightPunch"));
             }
         }
 
@@ -340,7 +340,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("Uppercut action performed " + TryAddAction("Uppercut"));
+                DGXR.Logger.Log("Uppercut-上勾拳 action performed " + TryAddAction("Uppercut"));
             }
         }
 
@@ -348,7 +348,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("Kick action performed " + TryAddAction("Kick"));
+                DGXR.Logger.Log("Kick-踢腿 action performed " + TryAddAction("Kick"));
             }
         }
 
@@ -356,7 +356,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("ThrowOneHandInFists action performed " + TryAddAction("ThrowOneHandInFists"));
+                DGXR.Logger.Log("ThrowOneHandInFists-单手握拳投掷 action performed " + TryAddAction("ThrowOneHandInFists"));
             }
         }
 
@@ -364,7 +364,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("ReadyThrowOneHandInFists action performed " +
+                DGXR.Logger.Log("ReadyThrowOneHandInFists-蓄力单手握拳投掷 action performed " +
                                 TryAddAction("ReadyThrowOneHandInFists"));
             }
         }
@@ -373,7 +373,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("ReadyThrowBothHandInFists action performed " +
+                DGXR.Logger.Log("ReadyThrowBothHandInFists-蓄力双手握拳投掷 action performed " +
                                 TryAddAction("ReadyThrowBothHandInFists"));
             }
         }
@@ -383,7 +383,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("CombineHandsStraight action performed " + TryAddAction("CombineHandsStraight"));
+                DGXR.Logger.Log("CombineHandsStraight-双手伸直合并 action performed " + TryAddAction("CombineHandsStraight"));
             }
         }
 
@@ -391,7 +391,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("SlowRun action performed " + TryAddAction("SlowRun"));
+                DGXR.Logger.Log("SlowRun-慢跑 action performed " + TryAddAction("SlowRun"));
             }
         }
 
@@ -399,7 +399,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("HighKneeRun action performed " + TryAddAction("HighKneeRun"));
+                DGXR.Logger.Log("HighKneeRun-快跑 action performed " + TryAddAction("HighKneeRun"));
             }
         }
 
@@ -407,7 +407,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("ButterflySwim action performed " + TryAddAction("ButterflySwim"));
+                DGXR.Logger.Log("ButterflySwim-蝶泳 action performed " + TryAddAction("ButterflySwim"));
             }
         }
 
@@ -415,7 +415,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("FreeSwim action performed " + TryAddAction("FreeSwim"));
+                DGXR.Logger.Log("FreeSwim-自由泳 action performed " + TryAddAction("FreeSwim"));
             }
         }
 
@@ -423,7 +423,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("KeepRaisingHand action performed " + TryAddAction("KeepRaisingHand"));
+                DGXR.Logger.Log("KeepRaisingHand-持续举手 action performed " + TryAddAction("KeepRaisingHand"));
             }
         }
 
@@ -431,16 +431,15 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("CheerUp action performed " + TryAddAction("CheerUp"));
+                DGXR.Logger.Log("CheerUp-拍掌 action performed " + TryAddAction("CheerUp"));
             }
         }
-
 
         public void ArmFlatControl(InputAction.CallbackContext value)
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("ArmFlat action performed " + TryAddAction("ArmFlat"));
+                DGXR.Logger.Log("ArmFlat-手臂平展 action performed " + TryAddAction("ArmFlat"));
             }
         }
 
@@ -448,7 +447,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("ArmFlatIsL action performed " + TryAddAction("ArmFlatIsL"));
+                DGXR.Logger.Log("ArmFlatIsL-手臂平展为L action performed " + TryAddAction("ArmFlatIsL"));
             }
         }
 
@@ -456,7 +455,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("ArmVerticalIsL action performed " + TryAddAction("ArmVerticalIsL"));
+                DGXR.Logger.Log("ArmVerticalIsL-手臂垂直为L action performed " + TryAddAction("ArmVerticalIsL"));
             }
         }
     }
