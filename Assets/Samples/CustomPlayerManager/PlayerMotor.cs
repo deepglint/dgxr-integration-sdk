@@ -399,7 +399,7 @@ namespace Samples.CustomPlayerManager
         {
             if (value.performed)
             {
-                DGXR.Logger.Log("HighKneeRun-快跑 action performed " + TryAddAction("HighKneeRun"));
+                DGXR.Logger.Log("HighKneeRun-高抬腿 action performed " + TryAddAction("HighKneeRun"));
             }
         }
 

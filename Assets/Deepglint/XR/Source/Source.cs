@@ -58,7 +58,7 @@ namespace Deepglint.XR.Source
         ReadyThrowBothHandInFists = 13, // 蓄力双手握拳投掷
         CombineHandsStraight = 17, // 双手伸直合并
         SlowRun = 19, // 慢跑
-        HighKneeRun = 20, // 快跑
+        HighKneeRun = 20, // 高抬腿
         ButterflySwim = 21, // 蝶泳
         FreeSwim = 22, // 自由泳
         KeepRaisingHand = 23, // 持续举手
