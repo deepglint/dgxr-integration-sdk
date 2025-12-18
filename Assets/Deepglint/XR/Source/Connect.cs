@@ -54,9 +54,19 @@ public class Connection : MonoBehaviour
         };
         _webSocket.OnMessage += (bytes) =>
         {
-            var message = Encoding.UTF8.GetString(bytes);
-            MetaWsPoseData info = JsonConvert.DeserializeObject<MetaWsPoseData>(message);
-            _poseAdapter.DealMsgData(info.Msg.Data);
+            try
+            {
+                var message = Encoding.UTF8.GetString(bytes);
+                MetaWsPoseData info = JsonConvert.DeserializeObject<MetaWsPoseData>(message);
+                if (info?.Msg?.Data != null)
+                {
+                    _poseAdapter.DealMsgData(info.Msg.Data);
+                }
+            }
+            catch (Exception ex)
+            {
+                DGXR.Logger.LogError("Connection", $"Failed to process message: {ex.Message}");
+            }
         };
 
         try
@@ -82,42 +92,91 @@ public class Connection : MonoBehaviour
 
     private async void ReconnectAsync(CancellationToken cancellationToken)
     {
-        while (!cancellationToken.IsCancellationRequested)
+        try
         {
-            DGXR.Logger.Log("Attempting to reconnect...");
-            await Task.Delay(5000, cancellationToken);
-
-            if (_webSocket != null)
+            while (!cancellationToken.IsCancellationRequested)
             {
-                _webSocket.Close();
+                DGXR.Logger.Log("Attempting to reconnect...");
+                try
+                {
+                    await Task.Delay(5000, cancellationToken);
+                }
+                catch (TaskCanceledException)
+                {
+                    break;
+                }
+
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
+
+                if (_webSocket != null)
+                {
+                    try
+                    {
+                        _webSocket.Close();
+                    }
+                    catch (Exception)
+                    {
+                        // Ignore close errors during reconnect
+                    }
+                }
+
+                await ConnectAsync(cancellationToken);
+                
+                try
+                {
+                    await Task.Delay(1000, cancellationToken);
+                }
+                catch (TaskCanceledException)
+                {
+                    break;
+                }
+
+                if (_success)
+                {
+                    break;
+                }
             }
-
-            await ConnectAsync(cancellationToken);
-            await Task.Delay(1000, cancellationToken); // Give some time for connection attempt
-
-            if (_success)
+        }
+        catch (Exception ex)
+        {
+            if (!(ex is TaskCanceledException || ex is OperationCanceledException))
             {
-                break;
+                DGXR.Logger.LogError("Connection", $"Reconnect failed: {ex.Message}");
             }
         }
     }
 
     void Update()
     {
-        if (_success && _webSocket.State == WebSocketState.Open)
+        if (_webSocket == null)
         {
-            string subscribeMsg = JsonConvert.SerializeObject(new
-            {
-                op = "subscribe",
-                topic = "/metapose/pose3d",
-                type = "std_msgs/String"
-            });
-            _webSocket.SendText(subscribeMsg);
-            DGXR.Logger.Log("Subscribed to /metapose/pose3d");
-            _success = false; // Only subscribe once after successful connection
+            return;
         }
+        
+        try
+        {
+            if (_success && _webSocket.State == WebSocketState.Open)
+            {
+                string subscribeMsg = JsonConvert.SerializeObject(new
+                {
+                    op = "subscribe",
+                    topic = "/metapose/pose3d",
+                    type = "std_msgs/String"
+                });
+                _webSocket.SendText(subscribeMsg);
+                DGXR.Logger.Log("Subscribed to /metapose/pose3d");
+                _success = false; // Only subscribe once after successful connection
+            }
 
-        _webSocket.DispatchMessageQueue();
+            _webSocket.DispatchMessageQueue();
+        }
+        catch (Exception ex)
+        {
+            DGXR.Logger.LogError("Connection", $"Update error: {ex.Message}");
+        }
     }
 
     private void OnApplicationQuit()
